@@ -34,6 +34,7 @@ services:
     environment:
       NUXT_SERVER_BACKEND_URL: "http://nginx:80"
       NUXT_CLIENT_BACKEND_URL: "https://${TRAEFIK_DOMAIN}"
+      NODE_ENV: development
     networks:
       - myapp_network
       - web
@@ -45,6 +46,9 @@ services:
         - "traefik.http.routers.${TRAEFIK_FRONTEND_ROUTER_NAME}.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
         - "traefik.http.services.${TRAEFIK_FRONTEND_ROUTER_NAME}.loadbalancer.server.port=3000"
         - "traefik.docker.network=traefik_web"
+    volumes:
+      - ./frontend:/app
+    command: npm run dev  # Lance en mode dev pour hot reload
 
 
   db:
@@ -55,6 +59,13 @@ services:
     networks:
       - myapp_network
 
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - myapp_network
 networks:
   myapp_network:
     driver: overlay
@@ -65,3 +76,4 @@ networks:
 
 volumes:
   db_data:
+  redis_data:
