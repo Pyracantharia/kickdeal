@@ -80,16 +80,39 @@ Une fois que toutes les configurations sont prêtes, vous pouvez déployer votre
     docker build -t kickdeal-frontend:latest ./frontend
     ```
 3.  **Déployez le stack** avec Docker Swarm :
+    La commande de déploiement est une chaîne de plusieurs commandes (un "pipeline") qui prépare la configuration avant de la déployer.
+
     ```bash
-    
-    
-
-
-docker compose -f docker-compose.prod.yml --env-file .env config | grep -v '^name:' | docker stack deploy -c - jeremy
+    docker compose -f docker-compose.prod.yml --env-file .env config | grep -v '^name:' | sed '/published:/ s/"//g' | docker stack deploy -c - kickdeal
     ```
-    *(Note : `prenom` est le nom du stack, vous pouvez choisir ce que vous voulez)*.
+    *(Note : `kickdeal` est le nom du stack, vous pouvez choisir ce que vous voulez)*.
+
+#### Explication détaillée de la commande de déploiement
+
+Cette commande peut paraître complexe, mais chaque partie a un rôle précis pour assurer la compatibilité avec Docker Swarm :
+
+-   `docker compose -f docker-compose.prod.yml --env-file .env config`
+    -   Cette commande lit les fichiers `docker-compose.prod.yml` et `.env`.
+    -   Elle génère une configuration YAML complète en remplaçant toutes les variables (comme `${TRAEFIK_DOMAIN}`) par leurs valeurs.
+    -   Le résultat est envoyé à la commande suivante.
+
+-   `| grep -v '^name:'`
+    -   Le `|` (pipe) envoie la sortie de la commande précédente à `grep`.
+    -   `grep -v '^name:'` supprime toutes les lignes qui commencent par `name:`. C'est nécessaire car cette propriété, parfois ajoutée par `docker compose`, n'est pas valide pour `docker stack deploy`.
+
+-   `| sed '/published:/ s/"//g'`
+    -   Le `|` envoie la configuration filtrée à `sed` (un éditeur de texte en ligne de commande).
+    -   Cette commande recherche les lignes contenant `published:` et y supprime les guillemets (`"`).
+    -   **C'est la correction cruciale pour le bug de Docker Swarm** qui exige que les numéros de port soient des nombres entiers et non des chaînes de caractères. Elle transforme `published: "48124"` en `published: 48124`.
+
+-   `| docker stack deploy -c - kickdeal`
+    -   Le `|` envoie la configuration finale et corrigée à la commande de déploiement.
+    -   `docker stack deploy` déploie les services en mode Swarm.
+    -   L'option `-c -` lui indique de lire la configuration depuis l'entrée standard (le résultat du `sed`).
+    -   `kickdeal` est le nom donné à notre stack.
 
 Votre environnement personnel est maintenant déployé et devrait être accessible à l'adresse que vous avez configurée (ex: `https://mondomaine.site`).
+
 
 
 # backend/docker/nginx/default.conf

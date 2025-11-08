@@ -54,6 +54,30 @@ services:
       - db_data:/var/lib/postgresql/data
     networks:
       - myapp_network
+      
+  wireguard:
+    image: linuxserver/wireguard
+    env_file: .env
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000 
+      - PGID=1000
+      - TZ=Europe/Paris # Votre fuseau horaire
+      - PEERS=1 # psk flemme dutiliser le mode client
+    volumes:
+      - ./wireguard-config:/config # Pour la configuration de WireGuard
+      - /lib/modules:/lib/modules # Nécessaire pour le module kernel
+    ports:
+      - target: 51820
+        published: ${WIREGUARD_EXTERNAL_PORT} # Port externe, lu depuis .env
+        protocol: udp
+        mode: host
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
 
 networks:
   myapp_network:
@@ -65,3 +89,4 @@ networks:
 
 volumes:
   db_data:
+  backups_volume: 

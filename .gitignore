@@ -61,3 +61,14 @@
 **/.env.*
 !**/.env.example
 backend/docker/nginx/default.conf
+
+wireguard-config/wg0.conf
+wireguard-config/extern.conf
+wireguard-config/templates/peer.conf
+wireguard-config/templates/server.conf
+wireguard-config/wg_confs/extern.conf
+wireguard-config/coredns/Corefile
+wireguard-config/wg_confs/wg0.conf
+wireguard-config/server/privatekey-server
+wireguard-config/server/publickey-server
+wireguard-config/.donoteditthisfile
