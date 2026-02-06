@@ -1,17 +1,10 @@
-FROM node:22-alpine
+FROM node:23-alpine
 
 WORKDIR /app
-
-COPY package*.json ./
+COPY package.json ./
+COPY package-lock.json ./
 RUN npm install
-
-# Copier le reste du code de l'application
-COPY . .
-
-# Donner la propriété de tous les fichiers à notre utilisateur
-RUN chown -R node:node /app
-
-# Définition de l'utilisateur
-USER node
+COPY . ./
 EXPOSE 3000
+
 CMD ["npm", "run", "dev"]

@@ -1,25 +1,26 @@
 {
-  "name": "nuxt-app",
-  "type": "module",
+  "name": "frontend",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
   },
   "dependencies": {
-    "@nuxt/eslint": "^1.9.0",
-    "@nuxt/image": "^1.11.0",
-    "@tailwindcss/vite": "^4.1.13",
-    "eslint": "^9.35.0",
-    "nuxt": "^4.1.1",
-    "tailwindcss": "^4.1.13",
-    "vue": "^3.5.21",
-    "vue-router": "^4.5.1"
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
-    "@types/node": "^24.4.0"
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
