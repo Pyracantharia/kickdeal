@@ -61,3 +61,4 @@
 **/.env.*
 !**/.env.example
 backend/docker/nginx/default.conf
+backups/

@@ -55,6 +55,7 @@ services:
     env_file: .env
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./backups:/backups
     networks:
       - myapp_network
 
@@ -68,3 +69,4 @@ networks:
 
 volumes:
   db_data:
+  backups_volume: 
