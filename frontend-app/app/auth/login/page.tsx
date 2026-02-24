@@ -1,4 +1,4 @@
-import LoginCard from '@/features/auth/components/LoginCard'
+import LoginCard from '@/components/auth/Login/LoginCard'
 
 export const metadata = {
   title: 'Connexion KickDeal',

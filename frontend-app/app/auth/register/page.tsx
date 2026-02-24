@@ -1,4 +1,5 @@
-import RegisterForm from '@/components/auth/RegisterForm'
+import RegisterCard from '@/components/auth/Register/RegisterCard'
+import RegisterForm from '@/components/auth/Register/RegisterForm'
 import React from 'react'
 
 function page() {
@@ -7,7 +8,7 @@ function page() {
       <div className="px-6 py-8">
         <h1>Inscription</h1>
       </div>
-      <RegisterForm />
+      <RegisterCard />
     </div>
   )
 }

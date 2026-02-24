@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { RegisterDTO } from '../../features/auth/register.dto'
+import { RegisterDTO } from '../../../features/auth/register.dto'
 import { useRouter } from 'next/navigation'
 import { authManager } from '@/features/auth/auth'
 
@@ -103,14 +103,9 @@ function RegisterForm() {
   }
 
   return (
-    <div className="flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 text-white">
       <div className="w-full max-w-md">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-            Créer un compte
-          </h2>
-        </div>
-
+        
         {successMessage && (
           <div className="rounded-md bg-green-50 p-4">
             <p className="text-sm font-medium text-green-800">{successMessage}</p>
