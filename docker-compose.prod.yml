@@ -1,6 +1,6 @@
 services:
   backend:
-    image: kickdeal-backend:latest
+    image: tperrouas/pyra:kickdeal-backend-02032026
     env_file: .env
     volumes:
       - ./backend:/var/www/html
@@ -32,7 +32,7 @@ services:
         - "traefik.docker.network=traefik_web"
 
   frontend:
-    image: kickdeal-frontend:latest
+    image: tperrouas/pyra:kickdeal-frontend-02032026
     environment:
       NUXT_SERVER_BACKEND_URL: "http://nginx:80"
       NUXT_CLIENT_BACKEND_URL: "https://${TRAEFIK_DOMAIN}"
@@ -49,6 +49,18 @@ services:
         - "traefik.http.services.${TRAEFIK_FRONTEND_ROUTER_NAME}.loadbalancer.server.port=3000"
         - "traefik.docker.network=traefik_web"
 
+  frontend-landing:
+      image: tperrouas/pyra:kickdeal-landing-02032026
+      networks:
+        - myapp_network
+        - web
+      deploy:
+        labels:
+          - "traefik.enable=true"
+          - "traefik.http.routers.${TRAEFIK_LANDING_ROUTER_NAME}.rule=Host(`${TRAEFIK_LANDING_DOMAIN}`)"
+          - "traefik.http.routers.${TRAEFIK_LANDING_ROUTER_NAME}.entrypoints=web"
+          - "traefik.http.services.${TRAEFIK_LANDING_ROUTER_NAME}.loadbalancer.server.port=3000"
+          - "traefik.docker.network=traefik_web"
 
   db:
     image: postgres:15-alpine
