@@ -34,7 +34,7 @@ function LoginCard() {
         </p>
       </div>
 
-      <Card className="w-full">
+      <Card color="purple" className="w-full p-5">
         <LoginForm />
       </Card>
 
