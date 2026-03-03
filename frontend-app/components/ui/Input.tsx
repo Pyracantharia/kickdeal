@@ -28,7 +28,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ${className}`}
         >
           {icon && (
-            <span className="flex-shrink-0 text-gray-400" aria-hidden="true">
+            <span className="shrink-0 text-gray-400" aria-hidden="true">
               {icon}
             </span>
           )}
@@ -45,7 +45,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="flex-shrink-0 text-gray-400 hover:text-gray-300 transition-colors focus:outline-none focus-visible:text-white"
+              className="shrink-0 text-gray-400 hover:text-gray-300 transition-colors focus:outline-none focus-visible:text-white"
               aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
             >
               {showPassword ? (
