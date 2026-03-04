@@ -1,0 +1,27 @@
+FROM php:8.4-fpm-alpine
+
+# Install Nginx et Supervisor
+RUN apk add --no-cache nginx supervisor icu-dev libzip-dev postgresql-dev
+
+RUN docker-php-ext-install intl pdo pdo_pgsql zip
+
+# Config Nginx
+COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
+
+# Config Supervisor (pour lancer PHP-FPM et Nginx ensemble)
+RUN printf "[supervisord]\nnodaemon=true\n\n[program:nginx]\ncommand=nginx -g 'daemon off;'\n\n[program:php-fpm]\ncommand=php-fpm\n" > /etc/supervisord.conf
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+COPY . .
+
+ENV APP_ENV=prod
+
+RUN composer install --no-dev --optimize-autoloader
+
+# Permissions
+RUN chown -R www-data:www-data /var/www/html/var
+
+EXPOSE 80
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
