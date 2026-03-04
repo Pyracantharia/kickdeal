@@ -26,11 +26,11 @@ RUN npm ci --only=production && npm cache clean --force
 
 # Créer un utilisateur non-root
 RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nuxt -u 1001
+RUN adduser -S next -u 1001
 
 # Changer la propriété des fichiers
-RUN chown -R nuxt:nodejs /app
-USER nuxt
+RUN chown -R next:nodejs /app
+USER next
 
 EXPOSE 3000
 

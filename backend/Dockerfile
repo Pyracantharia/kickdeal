@@ -1,30 +1,24 @@
 FROM php:8.4-fpm-alpine
 
-# Arguments pour l'utilisateur (pour éviter les problèmes de permissions)
-ARG UID=1000
-ARG GID=1000
+# Install Nginx et Supervisor
+RUN apk add --no-cache nginx supervisor icu-dev libzip-dev postgresql-dev
 
-# Installation des dépendances système et des extensions PHP nécessaires pour Symfony
-RUN apk add --no-cache \
-    icu-dev \
-    libzip-dev \
-    postgresql-dev # Pour la connexion à PostgreSQL
+RUN docker-php-ext-install intl pdo pdo_pgsql zip
 
-# Installation des extensions PHP
-RUN docker-php-ext-install \
-    intl \
-    pdo pdo_pgsql \
-    zip
+# Config Nginx
+COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
 
-# Installation de Composer
+# Config Supervisor (pour lancer PHP-FPM et Nginx ensemble)
+RUN printf "[supervisord]\nnodaemon=true\n\n[program:nginx]\ncommand=nginx -g 'daemon off;'\n\n[program:php-fpm]\ncommand=php-fpm\n" > /etc/supervisord.conf
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Création d'un utilisateur non-root
-RUN addgroup -g ${GID} app_group && \
-    adduser -u ${UID} -G app_group -s /bin/sh -D app_user
-
-# Définition de l'utilisateur
-USER app_user
-EXPOSE 9000
-# Définition du répertoire de travail
 WORKDIR /var/www/html
+COPY . .
+RUN composer install --no-dev --optimize-autoloader
+
+# Permissions
+RUN chown -R www-data:www-data /var/www/html/var
+
+EXPOSE 80
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

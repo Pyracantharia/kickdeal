@@ -16,8 +16,8 @@
 ## Étape 3: Frontend
 
 - Créer un fichier `.env.local` et suivre le modèle du `.env`
-- mettre l'url du frontend `http://localhost:{port}` dans `NUXT_CLIENT_BACKEND_URL`
-- mettre l'url du frontend `http://nginx:{port interne de nginx}` dans `NUXT_SERVER_BACKEND_URL`
+- mettre l'url du frontend `http://localhost:{port}` dans `NEXT_CLIENT_BACKEND_URL`
+- mettre l'url du frontend `http://nginx:{port interne de nginx}` dans `NEXT_SERVER_BACKEND_URL`
 
 ## Étape 4: Build et lancement du projet
 

@@ -34,8 +34,8 @@ services:
   frontend:
     image: kickdeal-frontend:latest
     environment:
-      NUXT_SERVER_BACKEND_URL: "http://nginx:80"
-      NUXT_CLIENT_BACKEND_URL: "https://${TRAEFIK_DOMAIN}"
+      NEXT_SERVER_BACKEND_URL: "http://nginx:80"
+      NEXT_CLIENT_BACKEND_URL: "https://${TRAEFIK_DOMAIN}"
     networks:
       - myapp_network
       - web

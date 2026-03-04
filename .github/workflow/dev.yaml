@@ -1,0 +1,55 @@
+name: Dev CI/CD Build (GHCR)
+
+on:
+  push:
+    branches: [ "dev" ]
+
+permissions:
+  packages: write
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - context: ./backend
+            image_name: pyra-backend
+            dockerfile: ./backend/Dockerfile
+          - context: ./frontend-app
+            image_name: pyra-app
+            dockerfile: ./frontend-app/Dockerfile.prod
+          - context: ./frontend-landing
+            image_name: pyra-landing
+            dockerfile: ./frontend-landing/Dockerfile
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/${{ matrix.image_name }}
+          tags: |
+            type=raw,value=dev
+            type=sha,format=short
+
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
