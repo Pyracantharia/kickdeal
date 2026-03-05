@@ -20,7 +20,7 @@ const WHY_ITEMS = [
 
 function ManageClubCard() {
   return (
-    <div className="auth-bg min-h-screen w-full flex flex-col items-center py-12 px-4">
+    <div className="auth-bg min-h-screen w-full flex flex-col items-center pt-24 pb-12 px-4">
       <div className="text-center mb-6 w-full max-w-2xl">
         <h1 className="text-4xl font-bold text-white uppercase tracking-widest mb-4">
           Gérer mon club

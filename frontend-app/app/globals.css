@@ -53,3 +53,11 @@ body {
     rgba(155, 93, 229, 0.25) 100%
   );
 }
+
+.navbar-bg {
+  background: linear-gradient(
+    180deg,
+    rgba(8, 12, 25, 0.85) 0%,
+    rgba(8, 12, 25, 0.0) 100%
+  );
+}
