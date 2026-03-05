@@ -1,31 +1,28 @@
 'use client'
-import { useAuth } from '@/context/AuthProvider';
-import { authManager } from '@/features/auth/auth';
-import { useRouter } from 'next/navigation';
+
+import { useAuth } from '@/context/AuthProvider'
+import Navbar, { type NavbarVariant } from '@/components/navbar/Navbar'
+
+// Determines the navbar variant based on user roles.
+// TODO: refine once ROLE_CLUB / ROLE_AGENT are defined on the backend.
+function getVariantFromRoles(roles: string[]): NavbarVariant {
+  if (roles.includes('ROLE_CLUB')) return 'club'
+  if (roles.includes('ROLE_AGENT') || roles.includes('ROLE_MANAGER')) return 'agent'
+  return 'sans-club'
+}
 
 function AppHeader() {
-  const { user, updateUser } = useAuth();
-  const router = useRouter();
+  const { user } = useAuth()
 
-  async function handleLogout(){
-    try{
-      const response = await authManager.logout();
-      if(response.ok) {
-        updateUser(null);
-        router.push('/auth/login');
-      }
-    } catch (error: any) {
-      console.error('Logout error:', error);
-    }
-  }
-  return (
-    <header className='bg-green-200 px-6 py-4 flex items-center justify-between'>
-      <p>Header</p>
-      {user && <>
-        <button onClick={handleLogout} className='bg-red-400 px-6 py-2 rounded-md'>Déconnexion</button>
-      </>}
-    </header>
-  )
+  // Temporary test — remove once backend roles are connected
+  return <Navbar variant="club" clubName="Real Madrid" />
+
+  if (!user) return null
+
+  // const variant = getVariantFromRoles(user.roles)
+  // const clubName = user.firstname
+
+  // return <Navbar variant={variant} clubName={clubName} />
 }
 
 export default AppHeader

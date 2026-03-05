@@ -72,7 +72,7 @@ function ClubJoinedCard() {
   const { club, inviter, yourRole, joinedAt } = result
 
   return (
-    <div className="auth-bg min-h-screen w-full flex flex-col items-center justify-center py-12 px-4">
+    <div className="auth-bg min-h-screen w-full flex flex-col items-center pt-24 pb-12 px-4">
       <div className="w-full max-w-xl flex flex-col items-center gap-6">
         <div className="flex flex-col items-center gap-3 text-center">
           <div className="rounded-full bg-brand-cyan/10 border-2 border-brand-cyan p-4 shadow-lg shadow-brand-cyan/20">
