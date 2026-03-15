@@ -1,13 +1,7 @@
-import React from 'react'
+import ClubDashboardHome from '@/components/dashboard/ClubDashboardHome'
 
-function Dashboard() {
-  return (
-    <>
-      <div>
-        <h1>Bienvenue sur votre dashboard {'nom'}</h1>
-      </div>
-    </>
-  )
+function DashboardPage() {
+  return <ClubDashboardHome />
 }
 
-export default Dashboard
+export default DashboardPage
