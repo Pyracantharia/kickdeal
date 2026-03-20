@@ -2,64 +2,89 @@
 
 namespace App\Entity;
 
+use App\Entity\Contract\ContractNegociation;
+use App\Entity\Traits\TimestampableTrait;
+use App\Enum\PlayerContractStatusEnum;
+use App\Enum\PlayerMarketStatusEnum;
 use App\Repository\PlayerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
+#[ORM\Table(name: '`player`')]
 class Player
 {
+    use TimestampableTrait;
+
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le prénom est requis')]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom est requis')]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $birthDate = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le poste est requis')]
     private ?string $position = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $birth = null;
+    // Value in cents
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $marketValue = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?float $askingPrice = null;
+    #[ORM\Column(length: 20, enumType: PlayerContractStatusEnum::class)]
+    #[Assert\NotBlank(message: 'Le statut du contrat est requis')]
+    private ?PlayerContractStatusEnum $contractStatus = PlayerContractStatusEnum::UNDER_CONTRACT;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $profesionalStatus = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $contractEndDate = null;
+
+    #[ORM\Column(length: 20, enumType: PlayerMarketStatusEnum::class)]
+    #[Assert\NotBlank(message: 'Le statut du contrat est requis')]
+    private ?PlayerMarketStatusEnum $marketStatus = PlayerMarketStatusEnum::NOT_LISTED;
+
+    #[ORM\ManyToOne(inversedBy: 'players')]
+    private ?Team $team = null;
+
+    #[ORM\ManyToOne(inversedBy: 'players')]
+    private ?Club $club = null;
+
+    #[ORM\ManyToOne(inversedBy: 'temporaryPlayers')]
+    private ?Club $temporaryClub = null;
+
+    #[ORM\ManyToOne(inversedBy: 'players')]
+    private ?Agent $agent = null;
+
+    #[ORM\OneToOne(mappedBy: 'player')]
+    private ?Listing $listing = null;
 
     /**
-     * @var Collection<int, Agent>
+     * @var Collection<int, ContractNegociation>
      */
-    #[ORM\ManyToMany(targetEntity: Agent::class, inversedBy: 'players')]
-    private Collection $agent;
-
-    /**
-     * @var Collection<int, Club>
-     */
-    #[ORM\ManyToMany(targetEntity: Club::class, inversedBy: 'players')]
-    private Collection $club;
-
-    /**
-     * @var Collection<int, Stat>
-     */
-    #[ORM\ManyToMany(targetEntity: Stat::class, inversedBy: 'players')]
-    private Collection $stat;
+    #[ORM\OneToMany(targetEntity: ContractNegociation::class, mappedBy: 'player')]
+    private Collection $contractNegociations;
 
     public function __construct()
     {
-        $this->agent = new ArrayCollection();
-        $this->club = new ArrayCollection();
-        $this->stat = new ArrayCollection();
+        $this->contractNegociations = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -88,125 +113,165 @@ class Player
         return $this;
     }
 
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(\DateTimeInterface $birthDate): static
+    {
+        $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
     public function getPosition(): ?string
     {
         return $this->position;
     }
 
-    public function setPosition(?string $position): static
+    public function setPosition(string $position): static
     {
         $this->position = $position;
 
         return $this;
     }
 
-    public function getBirth(): ?\DateTime
+    public function getMarketValue(): ?int
     {
-        return $this->birth;
+        return $this->marketValue;
     }
 
-    public function setBirth(\DateTime $birth): static
+    public function setMarketValue(int $marketValue): static
     {
-        $this->birth = $birth;
+        $this->marketValue = $marketValue;
 
         return $this;
     }
 
-    public function getAskingPrice(): ?float
+    public function getContractStatus(): ?PlayerContractStatusEnum
     {
-        return $this->askingPrice;
+        return $this->contractStatus;
     }
 
-    public function setAskingPrice(?float $askingPrice): static
+    public function setContractStatus(?PlayerContractStatusEnum $contractStatus): static
     {
-        $this->askingPrice = $askingPrice;
+        $this->contractStatus = $contractStatus;
 
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getContractEndDate(): ?\DateTimeInterface
     {
-        return $this->profesionalStatus;
+        return $this->contractEndDate;
     }
 
-    public function setprofesionalStatus(?string $profesionalStatus): static
+    public function setContractEndDate(?\DateTimeInterface $contractEndDate): static
     {
-        $this->profesionalStatus = $profesionalStatus;
+        $this->contractEndDate = $contractEndDate;
 
         return $this;
     }
 
-
-    /**
-     * @return Collection<int, Agent>
-     */
-    public function getAgent(): Collection
+    public function getMarketStatus(): ?PlayerMarketStatusEnum
     {
-        return $this->agent;
+        return $this->marketStatus;
     }
 
-    public function addAgent(Agent $agent): static
+    public function setMarketStatus(?PlayerMarketStatusEnum $marketStatus): static
     {
-        if (!$this->agent->contains($agent)) {
-            $this->agent->add($agent);
-        }
+        $this->marketStatus = $marketStatus;
 
         return $this;
     }
 
-    public function removeAgent(Agent $agent): static
+    public function getTeam(): ?Team
     {
-        $this->agent->removeElement($agent);
+        return $this->team;
+    }
+
+    public function setTeam(?Team $team): static
+    {
+        $this->team = $team;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Club>
-     */
-    public function getClub(): Collection
+    public function getClub(): ?Club
     {
         return $this->club;
     }
 
-    public function addClub(Club $club): static
+    public function setClub(?Club $club): static
     {
-        if (!$this->club->contains($club)) {
-            $this->club->add($club);
-        }
+        $this->club = $club;
 
         return $this;
     }
 
-    public function removeClub(Club $club): static
+    public function getTemporaryClub(): ?Club
     {
-        $this->club->removeElement($club);
+        return $this->temporaryClub;
+    }
+
+    public function setTemporaryClub(?Club $temporaryClub): static
+    {
+        $this->temporaryClub = $temporaryClub;
+
+        return $this;
+    }
+
+    public function getAgent(): ?Agent
+    {
+        return $this->agent;
+    }
+
+    public function setAgent(?Agent $agent): static
+    {
+        $this->agent = $agent;
+
+        return $this;
+    }
+
+    public function getListing(): ?Listing
+    {
+        return $this->listing;
+    }
+
+    public function setListing(?Listing $listing): static
+    {
+        $this->listing = $listing;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Stat>
+     * @return Collection<int, ContractNegociation>
      */
-    public function getStat(): Collection
+    public function getContractNegociations(): Collection
     {
-        return $this->stat;
+        return $this->contractNegociations;
     }
 
-    public function addStat(Stat $stat): static
+    public function addContractNegociation(ContractNegociation $contractNegociation): static
     {
-        if (!$this->stat->contains($stat)) {
-            $this->stat->add($stat);
+        if (!$this->contractNegociations->contains($contractNegociation)) {
+            $this->contractNegociations->add($contractNegociation);
+            $contractNegociation->setPlayer($this);
         }
 
         return $this;
     }
 
-    public function removeStat(Stat $stat): static
+    public function removeContractNegociation(ContractNegociation $contractNegociation): static
     {
-        $this->stat->removeElement($stat);
+        if ($this->contractNegociations->removeElement($contractNegociation)) {
+            // set the owning side to null (unless already changed)
+            if ($contractNegociation->getPlayer() === $this) {
+                $contractNegociation->setPlayer(null);
+            }
+        }
 
         return $this;
     }
-
 }

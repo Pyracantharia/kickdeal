@@ -18,7 +18,7 @@ class Stat
     /**
      * @var Collection<int, Player>
      */
-    #[ORM\ManyToMany(targetEntity: Player::class, mappedBy: 'stat')]
+    #[ORM\ManyToMany(targetEntity: Player::class)]
     private Collection $players;
 
     public function __construct()
@@ -29,32 +29,5 @@ class Stat
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection<int, Player>
-     */
-    public function getPlayers(): Collection
-    {
-        return $this->players;
-    }
-
-    public function addPlayer(Player $player): static
-    {
-        if (!$this->players->contains($player)) {
-            $this->players->add($player);
-            $player->addStat($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlayer(Player $player): static
-    {
-        if ($this->players->removeElement($player)) {
-            $player->removeStat($this);
-        }
-
-        return $this;
     }
 }
