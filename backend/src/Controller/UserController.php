@@ -14,6 +14,7 @@ final class UserController extends AbstractController
     public function index(UserRepository $userRepository): JsonResponse
     {
         $users = $userRepository->findAll();
+
         return $this->json($users, 200);
     }
 
@@ -21,7 +22,7 @@ final class UserController extends AbstractController
     public function show(UserRepository $userRepository, int $id): JsonResponse
     {
         $user = $userRepository->find($id);
-        if(!$user){
+        if (!$user) {
             return $this->json([
                 'message' => 'Utilisateur introuvable',
             ]);

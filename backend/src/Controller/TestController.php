@@ -5,11 +5,9 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\DependencyInjection\Attribute\Value;
 
 final class TestController extends AbstractController
 {
-
     #[Route('/api', name: 'app_test', methods: ['GET'])]
     public function index(): JsonResponse
     {
@@ -20,9 +18,10 @@ final class TestController extends AbstractController
     }
 
     #[Route('/api/param/{id}', methods: ['GET'])]
-    public function testParam(int $id): JsonResponse{
+    public function testParam(int $id): JsonResponse
+    {
         return $this->json([
-            'id' => $id
+            'id' => $id,
         ]);
     }
 }
