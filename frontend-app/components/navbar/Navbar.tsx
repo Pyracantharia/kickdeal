@@ -16,7 +16,7 @@ interface NavbarProps {
 const CLUB_LINKS = [
   { href: '/dashboard', label: 'Accueil' },
   { href: '/notifications', label: 'Notifications' },
-  { href: '/marche', label: 'Marché' },
+  { href: '/market', label: 'Marché' },
   { href: '/joueurs', label: 'Joueurs' },
   { href: '/messages', label: 'Messages' },
 ]
