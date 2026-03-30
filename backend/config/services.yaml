@@ -26,3 +26,7 @@ services:
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
         arguments:
             - '%env(DATABASE_URL)%'
+
+    App\DataFixtures\Faker\Provider\FootballPlayerProvider:
+        arguments: ['@kernel']
+        tags: [ { name: nelmio_alice.faker.provider } ]

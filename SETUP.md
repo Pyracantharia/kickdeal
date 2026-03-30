@@ -6,7 +6,7 @@ Ce document explique comment configurer et lancer un environnement de pré-produ
 
 - Docker et Docker Compose installés sur le serveur.
 - Le serveur est initialisé en tant que manager Docker Swarm (`docker swarm init`).
-- Le stack Traefik est déjà déployé.
+- Le stack Traefik est ddoéjà déployé.
 
 ## Étapes de Configuration
 
@@ -159,3 +159,8 @@ server {
 - `docker-compose.prod.yml` : Pour la production avec Docker Swarm (utilise des images pré-construites)
 
 En production, toutes les images doivent être construites avant le déploiement car Docker Swarm ne supporte pas la directive `build`.
+
+
+### Les fixtures avec Alice
+
+php bin/console doctrine:fixtures:load

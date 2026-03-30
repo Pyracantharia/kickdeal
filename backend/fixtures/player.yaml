@@ -1,0 +1,10 @@
+App\Entity\Player:
+    player_{0..25}:
+        firstName: "<getPlayerFirstName(<getPlayerData(<current()>)>)>"
+        lastName: "<getPlayerLastName(<getPlayerData(<current()>)>)>"
+        birthDate: "<getPlayerBirthDate(<getPlayerData(<current()>)>)>"
+        position: "<getPlayerPosition(<getPlayerData(<current()>)>)>"
+
+        marketValue: 0
+        contractStatus: under_contract
+        marketStatus: not_listed
