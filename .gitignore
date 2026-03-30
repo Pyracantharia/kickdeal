@@ -62,3 +62,4 @@
 !**/.env.example
 backend/docker/nginx/default.conf
 backups/
+backend/data/fixtures/player.json
