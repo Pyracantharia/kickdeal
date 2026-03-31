@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -17,7 +17,7 @@ const CLUB_LINKS = [
   { href: '/dashboard', label: 'Accueil' },
   { href: '/notifications', label: 'Notifications' },
   { href: '/market', label: 'Marché' },
-  { href: '/joueurs', label: 'Joueurs' },
+  { href: '/players', label: 'Joueurs' },
   { href: '/messages', label: 'Messages' },
 ]
 
@@ -96,16 +96,47 @@ function NavLink({ href, label }: { href: string; label: string }) {
 }
 
 function ClubButton({ name }: { name: string }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen])
+
   return (
-    <button className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity shrink-0">
-      <div
-        className={`h-8 w-8 rounded-full ${getAvatarColor(name)} flex items-center justify-center text-white font-bold text-sm`}
+    <div ref={dropdownRef} className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity shrink-0"
       >
-        {name.charAt(0).toUpperCase()}
-      </div>
-      <span className="text-sm font-medium">{name}</span>
-      <ChevronDown className="h-4 w-4 text-gray-400" />
-    </button>
+        <div className={`h-8 w-8 rounded-full ${getAvatarColor(name)} flex items-center justify-center text-white font-bold text-sm`}>
+          {name.charAt(0).toUpperCase()}
+        </div>
+        <span className="text-sm font-medium">{name}</span>
+        <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 top-full mt-2 w-48 rounded-lg border-2 border-brand-cyan/30 bg-[#0d1526] shadow-xl z-50">
+          <Link
+            href="/club/detail"
+            className="block px-4 py-3 text-sm font-medium text-white hover:bg-brand-cyan/10 border-b border-white/10 transition-colors first:rounded-t-lg"
+            onClick={() => setIsOpen(false)}
+          >
+            Mon club
+          </Link>
+        </div>
+      )}
+    </div>
   )
 }
 
