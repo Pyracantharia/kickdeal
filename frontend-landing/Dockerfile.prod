@@ -1,0 +1,22 @@
+FROM node:23-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+FROM node:23-alpine
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S next -u 1001
+RUN chown -R next:nodejs /app
+USER next
+
+EXPOSE 3000
+CMD ["node", "server.js"]

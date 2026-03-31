@@ -23,7 +23,7 @@ jobs:
             dockerfile: ./frontend-app/Dockerfile.prod
           - context: ./frontend-landing
             image_name: pyra-landing
-            dockerfile: ./frontend-landing/Dockerfile
+            dockerfile: ./frontend-landing/Dockerfile.prod
 
     steps:
       - name: Checkout code
