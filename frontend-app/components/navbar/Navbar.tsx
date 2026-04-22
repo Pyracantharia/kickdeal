@@ -4,7 +4,10 @@ import React, { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Menu, X, ArrowLeft, Users2, ChevronDown } from 'lucide-react'
+import { Menu, X, ArrowLeft, Users2, ChevronDown, LogOut } from 'lucide-react'
+import Button from '@/components/ui/Button'
+import { useAuth } from '@/context/AuthProvider'
+import { authManager } from '@/features/auth/auth'
 
 export type NavbarVariant = 'club' | 'agent' | 'sans-club' | 'creation'
 
@@ -154,9 +157,13 @@ function AgentProButton() {
 function MobileMenu({
   links,
   onClose,
+  onLogout,
+  isLoggingOut,
 }: {
   links: { href: string; label: string }[]
   onClose: () => void
+  onLogout: () => void
+  isLoggingOut: boolean
 }) {
   const pathname = usePathname()
   return (
@@ -177,6 +184,18 @@ function MobileMenu({
             {label}
           </Link>
         ))}
+        <div className="px-6 pt-3">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={onLogout}
+            isLoading={isLoggingOut}
+            icon={<LogOut className="h-4 w-4" />}
+            className="w-full px-4 py-2.5"
+          >
+            Déconnexion
+          </Button>
+        </div>
       </div>
     </>
   )
@@ -185,9 +204,27 @@ function MobileMenu({
 
 function Navbar({ variant, clubName = 'Club' }: NavbarProps) {
   const router = useRouter()
+  const { updateUser } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
   const links = getLinksByVariant(variant)
   const hasMobileMenu = variant === 'club' || variant === 'agent'
+  const canLogout = variant !== 'creation'
+
+  async function handleLogout() {
+    if (isLoggingOut) return
+
+    setIsLoggingOut(true)
+
+    try {
+      await authManager.logout()
+    } finally {
+      updateUser(null)
+      setIsMenuOpen(false)
+      router.replace('/auth/login')
+      setIsLoggingOut(false)
+    }
+  }
 
   return (
     <header className="navbar-bg relative z-40 w-full">
@@ -227,9 +264,21 @@ function Navbar({ variant, clubName = 'Club' }: NavbarProps) {
           </div>
         )}
 
-        <div className="ml-auto flex items-center">
+        <div className="ml-auto flex items-center gap-3">
           {variant === 'club' && <ClubButton name={clubName} />}
           {variant === 'agent' && <AgentProButton />}
+          {canLogout && (
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleLogout}
+              isLoading={isLoggingOut}
+              icon={<LogOut className="h-4 w-4" />}
+              className="px-4 py-2"
+            >
+              Déconnexion
+            </Button>
+          )}
         </div>
         </div>
       </div>
@@ -273,7 +322,12 @@ function Navbar({ variant, clubName = 'Club' }: NavbarProps) {
       </div>
 
       {hasMobileMenu && isMenuOpen && (
-        <MobileMenu links={links} onClose={() => setIsMenuOpen(false)} />
+        <MobileMenu
+          links={links}
+          onClose={() => setIsMenuOpen(false)}
+          onLogout={handleLogout}
+          isLoggingOut={isLoggingOut}
+        />
       )}
     </header>
   )

@@ -1,7 +1,7 @@
 export type RegisterDTO = {
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
-  confirmation: string;
+  roles?: string[];
 }

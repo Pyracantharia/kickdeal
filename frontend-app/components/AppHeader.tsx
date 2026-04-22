@@ -14,15 +14,13 @@ function getVariantFromRoles(roles: string[]): NavbarVariant {
 function AppHeader() {
   const { user } = useAuth()
 
-  // Temporary test — remove once backend roles are connected
-  return <Navbar variant="club" clubName="Real Madrid" />
-
   if (!user) return null
 
-  // const variant = getVariantFromRoles(user.roles)
-  // const clubName = user.firstname
+  const variant = user.roles.includes('ROLE_CLUB') && !user.hasClubAccess
+    ? 'sans-club'
+    : getVariantFromRoles(user.roles)
 
-  // return <Navbar variant={variant} clubName={clubName} />
+  return <Navbar variant={variant} clubName={user.clubName ?? 'Mon club'} />
 }
 
 export default AppHeader

@@ -4,15 +4,18 @@ import React, { ReactNode, useContext, useEffect, useState } from 'react'
 import { createContext } from "react";
 
 export interface User {
-  id: number;
-  firstname: string;
-  lastname: string;
+  id: string;
+  firstName: string;
+  lastName: string;
   email: string;
   roles: string[];
+  hasClubAccess: boolean;
+  clubName: string | null;
 }
 
 interface AuthContextType {
   user: User | null;
+  isLoading: boolean;
   updateUser: (user: User | null) => void;
 }
 
@@ -25,6 +28,7 @@ interface AuthProviderProps {
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   
   function updateUser(user: User | null) {
     setUser(user);
@@ -39,13 +43,15 @@ function AuthProvider({ children }: AuthProviderProps) {
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchMe();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, updateUser }}>
+    <AuthContext.Provider value={{ user, isLoading, updateUser }}>
       {children}
     </AuthContext.Provider>
   )

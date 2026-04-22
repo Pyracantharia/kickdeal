@@ -36,11 +36,16 @@ function LoginForm() {
 
       if (!response.ok) {
         const errorData = response.data as unknown as Record<string, string>
-        const serverMessage =
+        const rawServerMessage =
           errorData?.errorMessage ||
           errorData?.message ||
           errorData?.error ||
           'Identifiants invalides'
+
+        const serverMessage =
+          rawServerMessage === 'Invalid credentials.'
+            ? 'Identifiants invalides.'
+            : rawServerMessage
 
         setError('root', { message: serverMessage })
         return
@@ -87,7 +92,7 @@ function LoginForm() {
       />
 
       <div className="flex justify-end">
-        <Link href="/auth/forgot-password" className="text-sm text-brand-purple transition-colors hover:opacity-80 focus:outline-none focus-visible:underline">
+        <Link href="/auth/forgot-password" className="text-sm font-semibold text-brand-purple transition-colors hover:opacity-80 focus:outline-none focus-visible:underline">
           Mot de passe oublié ?
         </Link>
       </div>

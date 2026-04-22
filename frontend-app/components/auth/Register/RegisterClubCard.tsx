@@ -2,6 +2,7 @@ import Card from '@/components/ui/Card'
 import Image from 'next/image'
 import React from 'react'
 import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 import RegisterClubForm from './RegisterClubForm'
 
 function RegisterClubCard() {
@@ -34,15 +35,25 @@ function RegisterClubCard() {
         </p>
       </div>
 
+      <div className="w-full">
+        <Link
+          href="/auth/register"
+          className="inline-flex items-center gap-2 text-sm text-gray-300 transition-colors hover:text-white focus:outline-none focus-visible:underline"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Retour
+        </Link>
+      </div>
+
       <Card color="cyan" className="w-full p-5">
         <RegisterClubForm />
       </Card>
 
-      <p className="text-sm text-gray-400">
+      <p className="text-sm font-semibold text-gray-300">
         Pas encore de compte ?{' '}
         <Link
           href="/auth/register"
-          className="font-medium text-brand-purple transition-colors hover:opacity-80 focus:outline-none focus-visible:underline"
+          className="font-bold text-brand-purple transition-colors hover:opacity-80 focus:outline-none focus-visible:underline"
         >
           Créer un compte
         </Link>

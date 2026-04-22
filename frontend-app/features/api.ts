@@ -4,29 +4,129 @@ interface HttpClientResponse<T>{
   ok: boolean;
 }
 
+type JsonPayload = Record<string, unknown> | null;
+
 class HttpClient {
   private apiUrl: string;
+  private csrfToken: string | null;
+  private csrfTokenPromise: Promise<string> | null;
 
   constructor() {
     this.apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+    this.csrfToken = null;
+    this.csrfTokenPromise = null;
   }
 
-  async post<T, U = unknown>(endpoint: string, data: U): Promise<HttpClientResponse<T>> {
-    const response = await fetch(`${this.apiUrl}${endpoint}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify(data),
-      credentials: "include", 
-    });
+  private async ensureCsrfToken(): Promise<string> {
+    if (this.csrfToken) {
+      return this.csrfToken;
+    }
+
+    if (this.csrfTokenPromise) {
+      return this.csrfTokenPromise;
+    }
+
+    this.csrfTokenPromise = (async () => {
+      const response = await fetch(`${this.apiUrl}/auth/csrf-token`, {
+        headers: {
+          "Accept": "application/json",
+        },
+        credentials: "include",
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        throw new Error("Impossible de récupérer le token CSRF.");
+      }
+
+      const data = await response.json() as { csrfToken?: string };
+
+      if (!data.csrfToken) {
+        throw new Error("Réponse CSRF invalide.");
+      }
+
+      this.csrfToken = data.csrfToken;
+
+      return data.csrfToken;
+    })();
+
+    try {
+      return await this.csrfTokenPromise;
+    } finally {
+      this.csrfTokenPromise = null;
+    }
+  }
+
+  private async getMutatingHeaders(): Promise<Record<string, string>> {
+    const csrfToken = await this.ensureCsrfToken();
 
     return {
-      data: await response.json(),
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "X-CSRF-TOKEN": csrfToken,
+    };
+  }
+
+  private clearCsrfToken(): void {
+    this.csrfToken = null;
+    this.csrfTokenPromise = null;
+  }
+
+  private async parseJson<T>(response: Response): Promise<T> {
+    const text = await response.text();
+
+    if (!text) {
+      return null as T;
+    }
+
+    return JSON.parse(text) as T;
+  }
+
+  private isCsrfError(status: number, data: unknown): boolean {
+    return (
+      status === 403 &&
+      typeof data === "object" &&
+      data !== null &&
+      "errorMessage" in data &&
+      (data as { errorMessage?: unknown }).errorMessage === "Token CSRF invalide."
+    );
+  }
+
+  private async requestWithCsrf<T>(
+    endpoint: string,
+    buildInit: (headers: Record<string, string>) => RequestInit,
+  ): Promise<HttpClientResponse<T>> {
+    const headers = await this.getMutatingHeaders();
+    let response = await fetch(`${this.apiUrl}${endpoint}`, {
+      ...buildInit(headers),
+      credentials: "include",
+    });
+    let data = await this.parseJson<T | JsonPayload>(response);
+
+    if (this.isCsrfError(response.status, data)) {
+      this.clearCsrfToken();
+
+      const retryHeaders = await this.getMutatingHeaders();
+      response = await fetch(`${this.apiUrl}${endpoint}`, {
+        ...buildInit(retryHeaders),
+        credentials: "include",
+      });
+      data = await this.parseJson<T | JsonPayload>(response);
+    }
+
+    return {
+      data: data as T,
       status: response.status,
       ok: response.ok,
     };
+  }
+
+  async post<T, U = unknown>(endpoint: string, data: U): Promise<HttpClientResponse<T>> {
+    return this.requestWithCsrf<T>(endpoint, (headers) => ({
+      method: "POST",
+      headers,
+      body: JSON.stringify(data),
+    }));
   }
 
   async get<T>(endpoint: string): Promise<HttpClientResponse<T>> {
@@ -44,37 +144,27 @@ class HttpClient {
   }
 
   async put<T, U = unknown>(endpoint: string, data: U): Promise<HttpClientResponse<T>> {
-    const response = await fetch(`${this.apiUrl}${endpoint}`, {
+    return this.requestWithCsrf<T>(endpoint, (headers) => ({
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
+      headers,
       body: JSON.stringify(data),
-      credentials: "include", 
-    });
-
-    return {
-      data: await response.json(),
-      status: response.status,
-      ok: response.ok,
-    };
+    }));
   }
 
   async remove<T>(endpoint: string): Promise<HttpClientResponse<T>> {
-    const response = await fetch(`${this.apiUrl}${endpoint}`, {
+    const result = await this.requestWithCsrf<T>(endpoint, (headers) => ({
       method: "DELETE",
       headers: {
         "Accept": "application/json",
+        "X-CSRF-TOKEN": headers["X-CSRF-TOKEN"],
       },
-      credentials: "include", 
-    });
+    }));
 
-    return {
-      data: await response.json(),
-      status: response.status,
-      ok: response.ok,
-    };
+    if (endpoint === "/auth/logout") {
+      this.clearCsrfToken();
+    }
+
+    return result;
   }
 }
 
