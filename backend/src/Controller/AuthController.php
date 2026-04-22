@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -11,6 +12,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
@@ -20,6 +23,21 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/api/auth')]
 final class AuthController extends AbstractController
 {
+    private const string CSRF_TOKEN_ID = 'api_auth';
+
+    #[Route('/csrf-token', name: 'app_csrf_token', methods: ['GET'])]
+    public function csrfToken(CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
+    {
+        $response = $this->json([
+            'csrfToken' => $csrfTokenManager->getToken(self::CSRF_TOKEN_ID)->getValue(),
+        ]);
+
+        $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        $response->headers->set('Pragma', 'no-cache');
+
+        return $response;
+    }
+
     #[Route('/register', name: 'app_register', methods: ['POST'])]
     public function store(
         Request $request,
@@ -27,7 +45,12 @@ final class AuthController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator,
+        CsrfTokenManagerInterface $csrfTokenManager,
     ): JsonResponse {
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
         $newUser = $serializer->deserialize($request->getContent(), User::class, 'json');
 
         $errors = $validator->validate($newUser);
@@ -38,23 +61,39 @@ final class AuthController extends AbstractController
                 $errorsArr[$error->getPropertyPath()] = $error->getMessage();
             }
 
-            return $this->json(['errors' => $errorsArr]);
+            return $this->json(['errors' => $errorsArr], 422);
         }
 
         $hashedPassword = $passwordHasher->hashPassword($newUser, $newUser->getPassword());
         $newUser->setPassword($hashedPassword);
-        $entityManager->persist($newUser);
-        $entityManager->flush();
+        try {
+            $entityManager->persist($newUser);
+            $entityManager->flush();
+        } catch (UniqueConstraintViolationException $exception) {
+            return $this->json([
+                'errors' => [
+                    'email' => 'Utilisateur existant.',
+                ],
+            ], 409);
+        }
 
         return $this->json([
             'message' => 'utilisateur créé avec succès.',
             'user' => $newUser,
-        ]);
+        ], 201, [], ['groups' => 'user:read']);
     }
 
     #[Route('/login', name: 'app_login', methods: ['POST'])]
-    public function login(#[CurrentUser] ?User $user): JsonResponse
+    public function login(
+        Request $request,
+        #[CurrentUser] ?User $user,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse
     {
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
         if (null === $user) {
             return $this->json([
                 'errorMessage' => 'Identifiants invalides.',
@@ -64,7 +103,7 @@ final class AuthController extends AbstractController
         return $this->json([
             'message' => 'Connexion réussie',
             'user' => $user,
-        ]);
+        ], 200, [], ['groups' => 'user:read']);
     }
 
     #[Route('/me', name: 'app_me', methods: ['GET'])]
@@ -74,9 +113,22 @@ final class AuthController extends AbstractController
     }
 
     #[Route('/logout', name: 'app_logout', methods: ['DELETE'])]
-    public function logout(Security $security): JsonResponse
+    public function logout(
+        Request $request,
+        Security $security,
+        #[CurrentUser] ?User $user,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse
     {
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
         $security->logout(false);
+
+        if ($request->hasSession() && $request->getSession()->isStarted()) {
+            $request->getSession()->invalidate();
+        }
 
         return $this->json([
             'message' => 'Déconnexion réussie.',
@@ -89,7 +141,12 @@ final class AuthController extends AbstractController
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer,
+        CsrfTokenManagerInterface $csrfTokenManager,
     ): JsonResponse {
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
         $data = json_decode($request->getContent(), true);
         $email = $data['email'] ?? null;
 
@@ -137,8 +194,18 @@ final class AuthController extends AbstractController
     }
 
     #[Route('/reset-password', name: 'app_reset_password', methods: ['PATCH'])]
-    public function resetPassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): JsonResponse
+    public function resetPassword(
+        Request $request,
+        UserRepository $userRepository,
+        UserPasswordHasherInterface $passwordHasher,
+        EntityManagerInterface $entityManager,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse
     {
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
         $data = json_decode($request->getContent(), true);
         $resetTokenString = $request->query->get('token');
         $newPassword = $data['newPassword'] ?? null;
@@ -184,6 +251,19 @@ final class AuthController extends AbstractController
         return $this->json([
             'message' => 'Mot de passe réinitialisé avec succès.',
         ]);
+    }
+
+    private function validateCsrfToken(Request $request, CsrfTokenManagerInterface $csrfTokenManager): ?JsonResponse
+    {
+        $token = $request->headers->get('X-CSRF-TOKEN');
+
+        if (!$token || !$csrfTokenManager->isTokenValid(new CsrfToken(self::CSRF_TOKEN_ID, $token))) {
+            return $this->json([
+                'errorMessage' => 'Token CSRF invalide.',
+            ], 403);
+        }
+
+        return null;
     }
 
     public function sendResetPasswordEmail(string $email, string $resetLink, MailerInterface $mailer): array

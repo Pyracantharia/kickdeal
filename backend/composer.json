@@ -25,6 +25,7 @@
         "symfony/mailer": "*",
         "symfony/property-access": "*",
         "symfony/property-info": "*",
+        "symfony/rate-limiter": "6.4.*",
         "symfony/runtime": "*",
         "symfony/security-bundle": "*",
         "symfony/security-csrf": "*",

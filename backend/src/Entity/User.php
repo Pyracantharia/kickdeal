@@ -184,6 +184,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
+    #[Groups('user:read')]
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -191,6 +192,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+
+    #[Groups('user:read')]
+    public function getHasClubAccess(): bool
+    {
+        return !$this->teamMemberships->isEmpty();
+    }
+
+    #[Groups('user:read')]
+    public function getClubName(): ?string
+    {
+        foreach ($this->teamMemberships as $teamMembership) {
+            if ($teamMembership->isPrimary()) {
+                return $teamMembership->getTeam()?->getName();
+            }
+        }
+
+        $teamMembership = $this->teamMemberships->first();
+
+        if (false === $teamMembership) {
+            return null;
+        }
+
+        return $teamMembership->getTeam()?->getName();
     }
 
     public function setRoles(array $roles): self

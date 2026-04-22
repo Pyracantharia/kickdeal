@@ -5,12 +5,12 @@ import { RegisterDTO } from "./register.dto";
 
 type LoginResponse = {
   message: string;
-  user: any;
+  user: User;
 }
 
 type RegisterResponse = {
   message: string;
-  user: any;
+  user: User;
 }
 
 
@@ -23,7 +23,8 @@ class AuthManager {
   }
 
   async register(data: RegisterDTO){
-    const response = await httpClient.post<RegisterResponse>("/auth/register", data);
+    const { ...registerData } = data;
+    const response = await httpClient.post<RegisterResponse>("/auth/register", registerData);
     return response;
   }
 

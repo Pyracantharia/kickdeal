@@ -38,11 +38,11 @@ function LoginCard() {
         <LoginForm />
       </Card>
 
-      <p className="text-sm text-gray-400">
+      <p className="text-sm font-semibold text-gray-300">
         Pas encore de compte ?{' '}
         <Link
           href="/auth/register"
-          className="font-medium text-brand-purple transition-colors hover:opacity-80 focus:outline-none focus-visible:underline"
+          className="font-bold text-brand-purple transition-colors hover:opacity-80 focus:outline-none focus-visible:underline"
         >
           Créer un compte
         </Link>
