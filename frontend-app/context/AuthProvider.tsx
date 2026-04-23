@@ -11,6 +11,7 @@ export interface User {
   roles: string[];
   hasClubAccess: boolean;
   clubName: string | null;
+  clubLogoUrl: string | null;
 }
 
 interface AuthContextType {

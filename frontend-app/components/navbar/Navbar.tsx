@@ -14,6 +14,7 @@ export type NavbarVariant = 'club' | 'agent' | 'sans-club' | 'creation'
 interface NavbarProps {
   variant: NavbarVariant
   clubName?: string
+  clubLogoUrl?: string | null
 }
 
 const CLUB_LINKS = [
@@ -98,7 +99,17 @@ function NavLink({ href, label }: { href: string; label: string }) {
   )
 }
 
-function ClubButton({ name }: { name: string }) {
+function ClubButton({
+  name,
+  logoUrl,
+  onLogout,
+  isLoggingOut,
+}: {
+  name: string
+  logoUrl?: string | null
+  onLogout: () => void
+  isLoggingOut: boolean
+}) {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -121,9 +132,21 @@ function ClubButton({ name }: { name: string }) {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity shrink-0"
       >
-        <div className={`h-8 w-8 rounded-full ${getAvatarColor(name)} flex items-center justify-center text-white font-bold text-sm`}>
-          {name.charAt(0).toUpperCase()}
-        </div>
+        {logoUrl ? (
+          <div className="relative h-8 w-8 shrink-0">
+            <Image
+              src={logoUrl}
+              alt={`Logo ${name}`}
+              fill
+              sizes="32px"
+              className="object-contain"
+            />
+          </div>
+        ) : (
+          <div className={`h-8 w-8 rounded-full ${getAvatarColor(name)} flex items-center justify-center text-white font-bold text-sm`}>
+            {name.charAt(0).toUpperCase()}
+          </div>
+        )}
         <span className="text-sm font-medium">{name}</span>
         <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -137,6 +160,17 @@ function ClubButton({ name }: { name: string }) {
           >
             Mon club
           </Link>
+          <button
+            type="button"
+            onClick={() => {
+              setIsOpen(false)
+              onLogout()
+            }}
+            disabled={isLoggingOut}
+            className="w-full px-4 py-3 text-left text-sm font-medium text-white hover:bg-brand-cyan/10 transition-colors disabled:opacity-60"
+          >
+            {isLoggingOut ? 'Déconnexion...' : 'Déconnexion'}
+          </button>
         </div>
       )}
     </div>
@@ -202,7 +236,7 @@ function MobileMenu({
 }
 
 
-function Navbar({ variant, clubName = 'Club' }: NavbarProps) {
+function Navbar({ variant, clubName = 'Club', clubLogoUrl = null }: NavbarProps) {
   const router = useRouter()
   const { updateUser } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -265,9 +299,16 @@ function Navbar({ variant, clubName = 'Club' }: NavbarProps) {
         )}
 
         <div className="ml-auto flex items-center gap-3">
-          {variant === 'club' && <ClubButton name={clubName} />}
+          {variant === 'club' && (
+            <ClubButton
+              name={clubName}
+              logoUrl={clubLogoUrl}
+              onLogout={handleLogout}
+              isLoggingOut={isLoggingOut}
+            />
+          )}
           {variant === 'agent' && <AgentProButton />}
-          {canLogout && (
+          {canLogout && variant !== 'club' && (
             <Button
               type="button"
               variant="secondary"
@@ -309,9 +350,21 @@ function Navbar({ variant, clubName = 'Club' }: NavbarProps) {
 
         <div className="w-10 flex justify-end">
           {variant === 'club' && (
-            <div className={`h-9 w-9 rounded-full ${getAvatarColor(clubName)} flex items-center justify-center text-white font-bold text-sm`}>
-              {clubName.charAt(0).toUpperCase()}
-            </div>
+            clubLogoUrl ? (
+              <div className="relative h-9 w-9">
+                <Image
+                  src={clubLogoUrl}
+                  alt={`Logo ${clubName}`}
+                  fill
+                  sizes="36px"
+                  className="object-contain"
+                />
+              </div>
+            ) : (
+              <div className={`h-9 w-9 rounded-full ${getAvatarColor(clubName)} flex items-center justify-center text-white font-bold text-sm`}>
+                {clubName.charAt(0).toUpperCase()}
+              </div>
+            )
           )}
           {variant === 'agent' && (
             <div className="rounded-full bg-brand-purple/30 p-2 border border-brand-purple/30">

@@ -129,6 +129,17 @@ class HttpClient {
     }));
   }
 
+  async postFormData<T>(endpoint: string, formData: FormData): Promise<HttpClientResponse<T>> {
+    return this.requestWithCsrf<T>(endpoint, (headers) => ({
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "X-CSRF-TOKEN": headers["X-CSRF-TOKEN"],
+      },
+      body: formData,
+    }));
+  }
+
   async get<T>(endpoint: string): Promise<HttpClientResponse<T>> {
     const response = await fetch(`${this.apiUrl}${endpoint}`, {
       headers: {

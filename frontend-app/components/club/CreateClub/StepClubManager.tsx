@@ -1,9 +1,9 @@
 import React from 'react'
 import { ClipboardList, CheckCircle2 } from 'lucide-react'
-import type { Club } from '@/features/club/mockClubs'
+import type { ClubOption } from '@/features/club/types/createClub'
 
 interface StepClubManagerProps {
-  selectedClub: Club
+  selectedClub: ClubOption
   userEmail: string
 }
 
