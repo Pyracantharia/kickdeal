@@ -1,14 +1,15 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { ArrowRightLeft, Mail, FileClock, Dot, Goal } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
 import {
-  MOCK_ACTIVE_DEAL,
   MOCK_GLOBAL_TRANSFER_NEWS,
   getDaysUntilNextTransferWindow,
 } from '@/features/dashboard/mockClubDashboard'
+import { dashboardManager, type DashboardActiveDeal } from '@/features/dashboard/dashboard'
 
 function formatCurrentDate(date: Date): string {
   const rawLabel = date.toLocaleDateString('fr-FR', {
@@ -20,15 +21,81 @@ function formatCurrentDate(date: Date): string {
   return rawLabel.charAt(0).toUpperCase() + rawLabel.slice(1)
 }
 
+function formatEventDate(dateValue: string | null): string {
+  if (!dateValue) {
+    return 'Date indisponible'
+  }
+
+  const date = new Date(dateValue)
+
+  return date.toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
+
 function ClubDashboardHome() {
+  const router = useRouter()
   const [activeNewsIndex, setActiveNewsIndex] = useState(0)
+  const [activeDeal, setActiveDeal] = useState<DashboardActiveDeal | null>(null)
+  const [pendingOffersCount, setPendingOffersCount] = useState(0)
+  const [unreadMessagesCount, setUnreadMessagesCount] = useState(0)
+  const [pendingRenewalsCount, setPendingRenewalsCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const today = useMemo(() => new Date(), [])
   const dateLabel = useMemo(() => formatCurrentDate(today), [today])
   const daysUntilNextWindow = useMemo(() => getDaysUntilNextTransferWindow(today), [today])
-
-  const activeDeal = MOCK_ACTIVE_DEAL
   const activeNews = MOCK_GLOBAL_TRANSFER_NEWS[activeNewsIndex]
+  const activeDealDateLabel = useMemo(
+    () => formatEventDate(activeDeal?.eventDate ?? null),
+    [activeDeal?.eventDate],
+  )
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadDashboard() {
+      try {
+        const response = await dashboardManager.getHome()
+
+        if (!isMounted) {
+          return
+        }
+
+        if (!response.ok) {
+          setErrorMessage('Impossible de charger le tableau de bord pour le moment.')
+          return
+        }
+
+        setActiveDeal(response.data.activeDeal)
+        setPendingOffersCount(response.data.pendingOffersCount ?? 0)
+        setUnreadMessagesCount(response.data.unreadMessagesCount ?? 0)
+        setPendingRenewalsCount(response.data.pendingRenewalsCount ?? 0)
+        setErrorMessage(null)
+      } catch (error) {
+        if (!isMounted) {
+          return
+        }
+
+        console.error('Erreur lors du chargement du dashboard:', error)
+        setErrorMessage('Impossible de charger le tableau de bord pour le moment.')
+      } finally {
+        if (isMounted) {
+          setIsLoading(false)
+        }
+      }
+    }
+
+    loadDashboard()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   return (
     <div className="auth-bg min-h-screen w-full pt-28 pb-10 px-4">
@@ -47,39 +114,68 @@ function ClubDashboardHome() {
 
             <hr className="my-6 border-white/20" />
 
-            <div className="flex items-center gap-2 text-white/90">
-              <Goal className="h-4 w-4" />
-              <span className="font-semibold">{activeDeal.eventLabel}</span>
-              <span className="text-white/80">{activeDeal.eventDateLabel}</span>
-            </div>
-
-            <div className="mt-4 rounded-xl border border-brand-cyan/30 p-4 md:p-5">
-              <div className="flex items-center justify-between gap-3">
-                <ClubBadge name={activeDeal.homeClub} />
-                <ArrowRightLeft className="h-5 w-5 text-white/80 shrink-0" />
-                <ClubBadge name={activeDeal.awayClub} />
-              </div>
-
-              <div className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div>
-                  <p className="text-2xl font-semibold text-white">
-                    Joueur : <span className="font-bold">{activeDeal.playerName}</span>
-                  </p>
-                  <p className="text-2xl font-semibold text-white mt-1">
-                    Statut : <span className="font-bold">{activeDeal.status}</span>
-                  </p>
+            {activeDeal ? (
+              <>
+                <div className="flex items-center gap-2 text-white/90">
+                  <Goal className="h-4 w-4" />
+                  <span className="font-semibold">{activeDeal.eventLabel}</span>
+                  <span className="text-white/80">{activeDealDateLabel}</span>
                 </div>
 
-                <Button variant="secondary" className="md:self-start px-5 py-2 text-base">
-                  Voir le deal
-                </Button>
+                <div className="mt-4 rounded-xl border border-brand-cyan/30 p-4 md:p-5">
+                  <div className="flex items-center justify-between gap-3">
+                    <ClubBadge name={activeDeal.homeClub ?? 'Club inconnu'} />
+                    <ArrowRightLeft className="h-5 w-5 text-white/80 shrink-0" />
+                    <ClubBadge name={activeDeal.awayClub ?? 'Club inconnu'} />
+                  </div>
+
+                  <div className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                      <p className="text-2xl font-semibold text-white">
+                        Joueur : <span className="font-bold">{activeDeal.playerName || 'Inconnu'}</span>
+                      </p>
+                      <p className="text-2xl font-semibold text-white mt-1">
+                        Statut : <span className="font-bold">{activeDeal.status.label}</span>
+                      </p>
+                    </div>
+
+                    <Button
+                      variant="secondary"
+                      className="md:self-start px-5 py-2 text-base"
+                      onClick={() => router.push('/market/transfers')}
+                    >
+                      Voir le deal
+                    </Button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="rounded-xl border border-white/20 bg-white/5 px-4 py-6 text-center">
+                <p className="text-xl font-semibold text-white">
+                  {isLoading ? 'Chargement du deal en cours...' : 'Aucun deal en cours pour le moment.'}
+                </p>
+                <p className="mt-2 text-white/75">
+                  {errorMessage ?? 'Les prochaines discussions apparaîtront ici dès qu’une négociation impliquera votre club.'}
+                </p>
               </div>
-            </div>
+            )}
 
             <div className="mt-4 space-y-3">
-              <InfoRow icon={<ArrowRightLeft className="h-5 w-5" />} label={`${activeDeal.pendingOffersCount} offre(s)`} />
-              <InfoRow icon={<Mail className="h-5 w-5" />} label={`${activeDeal.unreadMessagesCount} message(s) non lu(s)`} />
-              <InfoRow icon={<FileClock className="h-5 w-5" />} label={`${activeDeal.pendingRenewalsCount} renouvellement(s) de contrat en attente`} />
+              <InfoRow
+                icon={<ArrowRightLeft className="h-5 w-5" />}
+                label={`${pendingOffersCount} offre(s)`}
+                onClick={() => router.push('/market/transfers')}
+              />
+              <InfoRow
+                icon={<Mail className="h-5 w-5" />}
+                label={`${unreadMessagesCount} message(s) non lu(s)`}
+                onClick={() => router.push('/notifications')}
+              />
+              <InfoRow
+                icon={<FileClock className="h-5 w-5" />}
+                label={`${pendingRenewalsCount} renouvellement(s) de contrat en attente`}
+                onClick={() => router.push('/negociations')}
+              />
             </div>
           </section>
 
@@ -153,12 +249,24 @@ function ClubBadge({ name }: { name: string }) {
   )
 }
 
-function InfoRow({ icon, label }: { icon: React.ReactNode; label: string }) {
+function InfoRow({
+  icon,
+  label,
+  onClick,
+}: {
+  icon: React.ReactNode
+  label: string
+  onClick: () => void
+}) {
   return (
-    <div className="rounded-xl border border-white/20 px-4 py-3 flex items-center gap-3">
+    <button
+      type="button"
+      onClick={onClick}
+      className="w-full rounded-xl border border-white/20 px-4 py-3 flex items-center gap-3 transition hover:border-white/40 hover:bg-white/5"
+    >
       <span className="text-white/90 shrink-0" aria-hidden="true">{icon}</span>
-      <span className="text-xl font-semibold text-white">{label}</span>
-    </div>
+      <span className="text-left text-xl font-semibold text-white">{label}</span>
+    </button>
   )
 }
 
