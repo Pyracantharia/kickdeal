@@ -218,6 +218,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $teamMembership->getTeam()?->getName();
     }
 
+    #[Groups('user:read')]
+    public function getClubLogoUrl(): ?string
+    {
+        foreach ($this->teamMemberships as $teamMembership) {
+            if ($teamMembership->isPrimary()) {
+                return $teamMembership->getTeam()?->getLogoUrl();
+            }
+        }
+
+        $teamMembership = $this->teamMemberships->first();
+
+        if (false === $teamMembership) {
+            return null;
+        }
+
+        return $teamMembership->getTeam()?->getLogoUrl();
+    }
+
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;

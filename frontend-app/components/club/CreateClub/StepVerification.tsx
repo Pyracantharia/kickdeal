@@ -13,7 +13,7 @@ import {
 import Modal from "@/components/ui/Modal";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import type { VerificationMethod } from "@/features/club/mockClubs";
+import type { VerificationMethod } from "@/features/club/types/createClub";
 
 interface StepVerificationProps {
   verifications: VerificationMethod[];

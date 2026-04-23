@@ -2,12 +2,12 @@
 
 import React, { useMemo, useState } from 'react'
 import { Search, CheckCircle2 } from 'lucide-react'
-import type { Club } from '@/features/club/mockClubs'
+import type { ClubOption } from '@/features/club/types/createClub'
 
 interface StepSelectClubProps {
-  clubs: Club[]
-  selectedClub: Club | null
-  onSelect: (club: Club | null) => void
+  clubs: ClubOption[]
+  selectedClub: ClubOption | null
+  onSelect: (club: ClubOption | null) => void
 }
 
 const AVATAR_COLORS = [
@@ -20,6 +20,14 @@ const AVATAR_COLORS = [
   'bg-pink-600',
   'bg-indigo-600',
 ]
+
+function normalizeSearchText(value: string): string {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+}
 
 function ClubAvatar({ name }: { name: string }) {
   const colorIndex = name.charCodeAt(0) % AVATAR_COLORS.length
@@ -38,12 +46,12 @@ function StepSelectClub({ clubs, selectedClub, onSelect }: StepSelectClubProps) 
 
   const filtered = useMemo(() => {
     if (!query.trim()) return []
-    const q = query.toLowerCase()
+    const q = normalizeSearchText(query)
     return clubs.filter(
       (c) =>
-        c.name.toLowerCase().includes(q) ||
-        c.country.toLowerCase().includes(q) ||
-        c.league.toLowerCase().includes(q),
+        normalizeSearchText(c.name).includes(q) ||
+        normalizeSearchText(c.country).includes(q) ||
+        normalizeSearchText(c.league).includes(q),
     )
   }, [query, clubs])
 
@@ -55,7 +63,7 @@ function StepSelectClub({ clubs, selectedClub, onSelect }: StepSelectClubProps) 
     }
   }
 
-  function handleSelect(club: Club) {
+  function handleSelect(club: ClubOption) {
     onSelect(club)
     setQuery(club.name)
   }

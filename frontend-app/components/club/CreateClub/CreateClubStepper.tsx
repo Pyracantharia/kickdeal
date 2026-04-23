@@ -1,26 +1,72 @@
 'use client'
 
-import React, { useState } from 'react'
-import { ArrowLeft, ArrowRight, Send } from 'lucide-react'
+import React, { useEffect, useMemo, useState } from 'react'
+import { ArrowRight, Send } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import { useAuth } from '@/context/AuthProvider'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import { authManager } from '@/features/auth/auth'
+import { clubManager } from '@/features/club/club'
 import Stepper from './Stepper'
 import StepSelectClub from './StepSelectClub'
 import StepClubManager from './StepClubManager'
 import StepVerification from './StepVerification'
-import { MOCK_CLUBS, type Club, type VerificationMethod } from '@/features/club/mockClubs'
+import type { ClubOption, VerificationMethod } from '@/features/club/types/createClub'
 
 const TOTAL_STEPS = 3
 
 function CreateClubStepper() {
-  const { user } = useAuth()
+  const { user, isLoading, updateUser } = useAuth()
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(1)
-  const [selectedClub, setSelectedClub] = useState<Club | null>(null)
+  const [selectedClub, setSelectedClub] = useState<ClubOption | null>(null)
   const [verifications, setVerifications] = useState<VerificationMethod[]>([])
+  const [clubs, setClubs] = useState<ClubOption[]>([])
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.replace('/auth/login')
+    }
+  }, [isLoading, user, router])
+
+  useEffect(() => {
+    async function loadClubs() {
+      try {
+        const response = await clubManager.searchClubs('')
+        if (response.ok && response.data?.clubs) {
+          setClubs(response.data.clubs)
+          return
+        }
+
+        setErrorMessage('Impossible de charger les clubs pour le moment.')
+      } catch {
+        setClubs([])
+        setErrorMessage('Impossible de charger les clubs pour le moment.')
+      }
+    }
+
+    loadClubs()
+  }, [])
+
+  const selectedEmailVerification = useMemo(
+    () => verifications.find((verification) => verification.type === 'email'),
+    [verifications],
+  )
+
+  const selectedMessageVerification = useMemo(
+    () => verifications.find((verification) => verification.type === 'message'),
+    [verifications],
+  )
+
+  const selectedDocumentVerification = useMemo(
+    () => verifications.find((verification) => verification.type === 'document'),
+    [verifications],
+  )
 
   function canContinue(): boolean {
     if (currentStep === 1) return selectedClub !== null
@@ -29,12 +75,57 @@ function CreateClubStepper() {
     return false
   }
 
-  function handleContinue() {
+  async function handleContinue() {
+    setErrorMessage(null)
+
     if (currentStep < TOTAL_STEPS) {
       setCurrentStep((s) => s + 1)
     } else {
-      // TODO: Connect to backend — submit selectedClub + verifications
-      console.log('Submit request:', { selectedClub, verifications })
+      if (!selectedClub) {
+        setErrorMessage('Veuillez sélectionner un club avant de soumettre la demande.')
+
+        return
+      }
+
+      setIsSubmitting(true)
+
+      try {
+        const response = await clubManager.createClubRequest({
+          teamId: selectedClub.id,
+          clubName: selectedClub.name,
+          league: selectedClub.league,
+          country: selectedClub.country,
+          verificationEmail: selectedEmailVerification?.type === 'email' ? selectedEmailVerification.email : undefined,
+          verificationMessage: selectedMessageVerification?.type === 'message' ? selectedMessageVerification.message : undefined,
+          verificationDocument: selectedDocumentVerification?.type === 'document' ? selectedDocumentVerification.file : undefined,
+        })
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            setErrorMessage('Votre session a expiré. Veuillez vous reconnecter.')
+            router.replace('/auth/login')
+
+            return
+          }
+
+          const apiError = response.data as { errorMessage?: string }
+          setErrorMessage(apiError.errorMessage ?? 'Impossible de soumettre la demande pour le moment.')
+
+          return
+        }
+
+        const meResponse = await authManager.me()
+        if (meResponse.ok) {
+          updateUser(meResponse.data)
+        }
+
+        setSuccessMessage('Demande soumise avec succès. Votre club est maintenant connecté à votre compte.')
+        router.push('/dashboard')
+      } catch {
+        setErrorMessage('Une erreur est survenue. Veuillez réessayer.')
+      } finally {
+        setIsSubmitting(false)
+      }
     }
   }
 
@@ -63,9 +154,21 @@ function CreateClubStepper() {
       </div>
 
       <Card color="cyan" className="w-full max-w-2xl p-6 mb-6">
+        {errorMessage && (
+          <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-center text-sm text-red-400 mb-4" role="alert">
+            {errorMessage}
+          </div>
+        )}
+
+        {successMessage && (
+          <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-center text-sm text-emerald-400 mb-4" role="status">
+            {successMessage}
+          </div>
+        )}
+
         {currentStep === 1 && (
           <StepSelectClub
-            clubs={MOCK_CLUBS}
+            clubs={clubs}
             selectedClub={selectedClub}
             onSelect={setSelectedClub}
           />
@@ -101,7 +204,7 @@ function CreateClubStepper() {
         )}
 
         {currentStep === 3 && (
-          <Button type="button" onClick={handleContinue} disabled={!canContinue()} icon={<Send className="h-4 w-4" />} className="flex-1">
+          <Button type="button" onClick={handleContinue} isLoading={isSubmitting} disabled={!canContinue() || isSubmitting} icon={<Send className="h-4 w-4" />} className="flex-1">
             Soumettre la demande
           </Button>
         )}

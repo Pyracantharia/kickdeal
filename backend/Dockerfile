@@ -5,6 +5,8 @@ RUN apk add --no-cache nginx supervisor icu-dev libzip-dev postgresql-dev
 
 RUN docker-php-ext-install intl pdo pdo_pgsql zip
 
+COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 # Config Nginx
 COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
 

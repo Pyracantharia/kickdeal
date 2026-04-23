@@ -3,6 +3,7 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { authManager } from '@/features/auth/auth'
+import { useAuth } from '@/context/AuthProvider'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -13,6 +14,7 @@ import { RegisterClubFormData, registerClubSchema } from '@/features/auth/schema
 
 function RegisterClubForm() {
   const router = useRouter()
+  const { updateUser } = useAuth()
 
   const {
     register,
@@ -34,17 +36,22 @@ function RegisterClubForm() {
 
   async function onSubmit(data: RegisterClubFormData) {
     try {
-      const { confirmation, jobTitle, professionalContact, ...registerData } = data
-      
       const payload = {
-        ...registerData,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
         roles: ['ROLE_CLUB'],
       }
 
       const response = await authManager.register(payload)
 
       if (!response.ok) {
-        const errorData = response.data as any
+        const errorData = response.data as {
+          errors?: Record<string, string>
+          errorMessage?: string
+          message?: string
+        }
         
         if (errorData.errors) {
           Object.entries(errorData.errors).forEach(([field, message]) => {
@@ -64,8 +71,25 @@ function RegisterClubForm() {
         return
       }
 
+      const loginResponse = await authManager.login({
+        email: payload.email,
+        password: payload.password,
+      })
+
+      if (!loginResponse.ok) {
+        setError('root', {
+          message: "Compte créé, mais connexion automatique impossible. Veuillez vous connecter.",
+        })
+
+        router.push('/auth/login')
+
+        return
+      }
+
+      updateUser(loginResponse.data.user)
+
       router.push('/club')
-    } catch (error) {
+    } catch {
       setError('root', {
         message: 'Une erreur est survenue. Veuillez réessayer.',
       })
@@ -182,7 +206,7 @@ function RegisterClubForm() {
         
         <div>
           <Button type="submit" isLoading={isSubmitting} className='w-full' icon={<ArrowRight className="h-4 w-4" />}>
-            S'inscrire
+            S&apos;inscrire
           </Button>
         </div>
       </form>

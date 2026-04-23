@@ -30,7 +30,7 @@ class TeamMembership
     #[Assert\NotBlank(message: 'Le rôle est requis')]
     private ?MembershipRoleEnum $role = null;
 
-    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    #[ORM\Column(name: 'is_primary', type: Types::BOOLEAN, options: ['default' => false])]
     private bool $primary = false;
 
     #[ORM\ManyToOne(inversedBy: 'teamMemberships')]
