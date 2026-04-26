@@ -1,4 +1,5 @@
 import httpClient from '../api'
+import type { ClubDetail, CreatePlayerPayload, UpdateClubBudgetPayload } from './types/club'
 
 type JoinClubResponse = {
   message: string
@@ -31,7 +32,26 @@ type CreateClubRequestResponse = {
   teamId: string
 }
 
+type ClubMineResponse = {
+  club: ClubDetail
+}
+
+type CreatePlayerResponse = {
+  message: string
+  club: ClubDetail
+}
+
+type UpdateClubBudgetResponse = {
+  message: string
+  club: ClubDetail
+}
+
 class ClubManager {
+  async getMine() {
+    const response = await httpClient.get<ClubMineResponse>('/clubs/mine')
+    return response
+  }
+
   async searchClubs(query: string) {
     const response = await httpClient.get<SearchClubsResponse>(`/clubs/search?query=${encodeURIComponent(query)}`)
     return response
@@ -68,6 +88,16 @@ class ClubManager {
     const response = await httpClient.post<JoinClubResponse>('/club/join', {
       invitationCode,
     })
+    return response
+  }
+
+  async createPlayer(payload: CreatePlayerPayload) {
+    const response = await httpClient.post<CreatePlayerResponse>('/clubs/mine/players', payload)
+    return response
+  }
+
+  async updateBudget(payload: UpdateClubBudgetPayload) {
+    const response = await httpClient.put<UpdateClubBudgetResponse, UpdateClubBudgetPayload>('/clubs/mine/budget', payload)
     return response
   }
 }
