@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, ChevronRight } from 'lucide-react'
 
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
@@ -126,93 +126,90 @@ function PlayerResultCard({ player }: PlayerResultCardProps) {
   return (
     <button
       onClick={handleClick}
-      className="w-full text-left rounded-2xl border-2 border-white/20 bg-gradient-to-r from-brand-cyan/10 to-transparent p-6 hover:border-brand-cyan/50 transition-all cursor-pointer group"
+      className="group w-full cursor-pointer rounded-2xl border-2 border-white/25 bg-[#071722]/85 bg-gradient-to-r from-brand-cyan/20 to-[#071722]/85 p-5 text-left shadow-[0_18px_50px_rgba(0,0,0,0.22)] transition-all hover:border-brand-cyan/60 hover:from-brand-cyan/25 md:p-6"
     >
-      <div className="flex items-center justify-between gap-6">
-        <div className="flex-1">
+      <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center gap-4">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2">
-                <PlayerAvatar player={player} className="h-14 w-14 text-lg" />
-                <div>
-                  <h3 className="text-xl font-bold text-white">
-                    {player.firstName.toUpperCase()}
-                  </h3>
-                  <p className="text-white/70 text-sm">{player.lastName.toUpperCase()}</p>
-                </div>
-              </div>
-              <div className="flex gap-4 mt-3 text-sm ml-14">
-                <div>
-                  <p className="text-white/60 text-xs">Position</p>
-                  <p className="text-brand-cyan font-semibold">{player.position}</p>
-                </div>
-                <div>
-                  <p className="text-white/60 text-xs">Nationalité</p>
-                  <p className="text-white font-semibold">{player.nationality}</p>
-                </div>
-                <div>
-                  <p className="text-white/60 text-xs">Âge</p>
-                  <p className="text-white font-semibold">{player.age} ans</p>
-                </div>
+            <PlayerAvatar player={player} />
+            <div className="min-w-0">
+              <h3 className="text-xl font-bold uppercase text-white">
+                {player.firstName} {player.lastName}
+              </h3>
+              <p className="mt-1 text-sm text-white/70">
+                {player.position} • {player.age} ans • {player.nationality}
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span className="rounded-full border border-brand-cyan/45 bg-brand-cyan/10 px-3 py-1 text-xs font-semibold text-brand-cyan">
+                  {player.transferStatus}
+                </span>
+                {player.marketValue && (
+                  <span className="rounded-full border border-brand-purple/45 bg-brand-purple/10 px-3 py-1 text-xs font-semibold text-white/85">
+                    {player.marketValue}
+                  </span>
+                )}
               </div>
             </div>
           </div>
         </div>
 
-        <div className="text-center">
-          <ClubLogo player={player} className="mx-auto mb-3 h-16 w-16" />
-          <p className="text-white font-bold text-lg mb-1">{player.club}</p>
-          <p className="text-brand-cyan text-sm">{player.league}</p>
-          <p className="text-white/60 text-xs mt-2">Statut: {player.transferStatus}</p>
+        <div className="grid grid-cols-[minmax(0,1fr)_64px] items-center gap-4 border-t border-white/10 pt-4 md:w-[360px] md:grid-cols-[minmax(0,1fr)_64px_20px] md:border-t-0 md:pt-0">
+          <div className="min-w-0 text-left md:text-right">
+            <p className="truncate text-lg font-bold text-white">{player.club}</p>
+            <p className="truncate text-sm text-brand-cyan">{player.league}</p>
+            <p className="mt-1 text-xs text-white/55">{player.country}</p>
+          </div>
+          <ClubLogo player={player} />
+          <ChevronRight className="hidden h-5 w-5 shrink-0 text-brand-cyan opacity-0 transition-opacity group-hover:opacity-100 md:block" />
         </div>
       </div>
     </button>
   )
 }
 
-function PlayerAvatar({ player, className }: { player: Player; className: string }) {
-  if (player.photoUrl) {
-    return <CircleImage
-      src={player.photoUrl}
-      alt={`${player.firstName} ${player.lastName}`}
-      className={`relative overflow-hidden rounded-full border-2 border-white/20 shrink-0 ${className}`}
-      sizes="64px"
-      fallback={
-        <div className={`rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold shrink-0 ${className}`}>
-          {player.firstName.charAt(0)}{player.lastName.charAt(0)}
-        </div>
-      }
-    />
-  }
-
-  return (
-    <div className={`rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold shrink-0 ${className}`}>
+function PlayerAvatar({ player }: { player: Player }) {
+  const fallback = (
+    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan text-lg font-bold text-white">
       {player.firstName.charAt(0)}{player.lastName.charAt(0)}
     </div>
   )
-}
 
-function ClubLogo({ player, className }: { player: Player; className: string }) {
-  if (player.clubLogoUrl) {
-    return <CircleImage
-      src={player.clubLogoUrl}
-      alt={player.club}
-      className={`relative overflow-hidden rounded-full border-2 border-brand-cyan/50 ${className}`}
-      sizes="64px"
-      imageClassName="object-contain p-2"
-      fallback={
-        <div className={`rounded-full bg-white/10 border-2 border-brand-cyan/50 flex items-center justify-center text-white font-bold ${className}`}>
-          {player.club.charAt(0).toUpperCase()}
-        </div>
-      }
-    />
+  if (player.photoUrl) {
+    return (
+      <CircleImage
+        src={player.photoUrl}
+        alt={`${player.firstName} ${player.lastName}`}
+        className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border border-white/20"
+        sizes="56px"
+        fallback={fallback}
+      />
+    )
   }
 
-  return (
-    <div className={`rounded-full bg-white/10 border-2 border-brand-cyan/50 flex items-center justify-center text-white font-bold ${className}`}>
+  return fallback
+}
+
+function ClubLogo({ player }: { player: Player }) {
+  const fallback = (
+    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-white/20 bg-gradient-to-br from-brand-purple/20 to-brand-cyan/20 text-3xl text-white">
       {player.club.charAt(0).toUpperCase()}
     </div>
   )
+
+  if (player.clubLogoUrl) {
+    return (
+      <CircleImage
+        src={player.clubLogoUrl}
+        alt={player.club}
+        className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-white/20"
+        sizes="64px"
+        imageClassName="object-contain p-1.5"
+        fallback={fallback}
+      />
+    )
+  }
+
+  return fallback
 }
 
 export default PlayerSearchResults

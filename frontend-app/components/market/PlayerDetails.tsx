@@ -2,10 +2,9 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, BadgeEuro, Dumbbell, Footprints, Ruler, Shield, UserRound } from 'lucide-react'
 
 import Button from '@/components/ui/Button'
-import Card from '@/components/ui/Card'
 import CircleImage from '@/components/media/CircleImage'
 import type { Player } from '@/features/market/types/player'
 import { buildPlayerFilters, playersManager } from '@/features/players/players'
@@ -76,7 +75,6 @@ function PlayerDetails({ playerId }: PlayerDetailsProps) {
   }
 
   const nationality = nationalities.find((item) => item.label === player.nationality)
-  const clubLogoUrl = player.clubLogoUrl
 
   const handleAddToList = async (showListAfterAdd = false) => {
     setIsAddingToList(true)
@@ -121,136 +119,64 @@ function PlayerDetails({ playerId }: PlayerDetailsProps) {
           Retour aux résultats
         </button>
 
-        <Card color="purple" baseGradient={false} className="bg-gradient-to-b from-brand-purple/20 from-0% to-transparent to-90% p-8 mb-8">
-          <div className="flex flex-col md:flex-row gap-8 items-start">
-            <div className="flex flex-col items-center shrink-0">
-              {player.photoUrl ? (
-                <CircleImage
-                  src={player.photoUrl}
-                  alt={`${player.firstName} ${player.lastName}`}
-                  className="relative mb-4 h-32 w-32 overflow-hidden rounded-full border-4 border-brand-purple"
-                  sizes="128px"
-                  fallback={
-                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold text-5xl border-4 border-brand-purple mb-4">
-                      {player.firstName.charAt(0)}{player.lastName.charAt(0)}
-                    </div>
-                  }
-                />
-              ) : (
-                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold text-5xl border-4 border-brand-purple mb-4">
-                  {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+        <section className="relative mb-8 overflow-hidden rounded-2xl border-2 border-brand-cyan/35 bg-[#071722]/85 bg-gradient-to-br from-brand-cyan/18 via-[#071722]/90 to-brand-purple/18 p-6 shadow-2xl shadow-brand-cyan/10 md:p-8">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-cyan via-brand-purple to-brand-cyan" />
+          <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+              <PlayerPortrait player={player} />
+              <div>
+                <div className="mb-3 flex flex-wrap items-center gap-2">
+                  <span className="rounded-full border border-brand-cyan/45 bg-brand-cyan/10 px-3 py-1 text-xs font-semibold text-brand-cyan">
+                    {player.position}
+                  </span>
+                  <span className="rounded-full border border-brand-purple/45 bg-brand-purple/10 px-3 py-1 text-xs font-semibold text-white/85">
+                    {player.transferStatus}
+                  </span>
                 </div>
-              )}
-              <div className="inline-block bg-brand-cyan text-white px-4 py-1 rounded-full text-sm font-bold">
-                {player.position}
+                <h1 className="text-4xl font-bold uppercase text-white md:text-5xl">
+                  {player.firstName} {player.lastName}
+                </h1>
+                <p className="mt-2 text-lg text-white/65">
+                  {nationality?.flag ? `${nationality.flag} ` : ''}{player.nationality} • {player.age} ans • {player.league}
+                </p>
               </div>
             </div>
 
-            <div className="flex-1">
-              <h1 className="text-4xl font-bold text-white mb-1">
-                {player.firstName}
-              </h1>
-              <p className="text-3xl font-bold text-white/80 mb-6">
-                {player.lastName}
-              </p>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-lg bg-white/5 p-3 border border-white/10">
-                  <p className="text-white/60 text-xs">Âge</p>
-                  <p className="text-white font-semibold text-lg">{player.age}</p>
-                </div>
-                <div className="rounded-lg bg-white/5 p-3 border border-white/10">
-                  <p className="text-white/60 text-xs">Taille</p>
-                  <p className="text-white font-semibold text-lg">{player.height ?? '-'} cm</p>
-                </div>
-                <div className="rounded-lg bg-white/5 p-3 border border-white/10">
-                  <p className="text-white/60 text-xs">Poids et taille</p>
-                  <p className="text-white font-semibold text-lg">{player.weight ?? '-'} kg</p>
-                </div>
-                <div className="rounded-lg bg-white/5 p-3 border border-white/10">
-                  <p className="text-white/60 text-xs">Pied fort</p>
-                  <p className="text-white font-semibold text-lg">{player.foot ?? '-'}</p>
-                </div>
+            <div className="grid grid-cols-[minmax(0,1fr)_72px] items-center gap-4 md:w-[360px]">
+              <div className="min-w-0 text-left md:text-right">
+                <p className="truncate text-2xl font-bold text-white">{player.club}</p>
+                <p className="text-brand-cyan">{player.country}</p>
               </div>
+              <ClubLogo player={player} size="lg" />
             </div>
           </div>
-        </Card>
+        </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div className="flex flex-col gap-6">
-            <Card
-              color="cyan"
-              baseGradient={false}
-              className="bg-gradient-to-b from-brand-cyan/10 from-0% to-transparent to-90% p-6"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  {clubLogoUrl ? (
-                    <CircleImage
-                      src={clubLogoUrl}
-                      alt={player.club}
-                      className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-brand-cyan"
-                      sizes="48px"
-                      imageClassName="object-contain p-1.5"
-                      fallback={
-                        <div className="w-12 h-12 rounded-full bg-white/10 border-2 border-brand-cyan flex items-center justify-center text-white font-bold">
-                          {player.club.charAt(0).toUpperCase()}
-                        </div>
-                      }
-                    />
-                  ) : (
-                    <div className="w-12 h-12 rounded-full bg-white/10 border-2 border-brand-cyan flex items-center justify-center text-white font-bold">
-                      {player.club.charAt(0).toUpperCase()}
-                    </div>
-                  )}
-                  <div>
-                    <p className="text-white/60 text-xs">Club</p>
-                    <p className="text-white font-bold text-lg">{player.club}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-white/60 text-xs">Statut</p>
-                  <p className="text-brand-cyan font-semibold">{player.transferStatus}</p>
-                </div>
-              </div>
-            </Card>
+        <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr]">
+          <section className="rounded-2xl border border-brand-cyan/25 bg-[#071722]/85 p-6 shadow-2xl shadow-brand-cyan/10">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-white">
+              <UserRound className="h-5 w-5 text-brand-cyan" />
+              Profil joueur
+            </h2>
+            <div className="grid grid-cols-2 gap-4">
+              <DetailMetric icon={<Ruler className="h-5 w-5" />} label="Taille" value={`${player.height ?? '-'} cm`} tone="cyan" />
+              <DetailMetric icon={<Dumbbell className="h-5 w-5" />} label="Poids" value={`${player.weight ?? '-'} kg`} tone="purple" />
+              <DetailMetric icon={<Footprints className="h-5 w-5" />} label="Pied fort" value={player.foot ?? '-'} tone="cyan" />
+              <DetailMetric icon={<Shield className="h-5 w-5" />} label="Statut" value={player.transferStatus} tone="purple" />
+            </div>
+          </section>
 
-            <Card
-              color="purple"
-              baseGradient={false}
-              className="bg-gradient-to-b from-brand-purple/10 from-0% to-transparent to-90% p-6"
-            >
-              <div className="flex items-center gap-4">
-                <div className="text-6xl">{nationality?.flag || '🌍'}</div>
-                <div>
-                  <p className="text-white/60 text-xs">Nationalité/Région</p>
-                  <p className="text-white font-bold text-lg">{player.nationality}</p>
-                </div>
-              </div>
-            </Card>
-          </div>
-
-          <Card
-            color="cyan"
-            baseGradient={false}
-            className="bg-gradient-to-b from-brand-cyan/10 from-0% to-transparent to-90% p-6"
-            >
-            <h3 className="text-lg font-bold text-white mb-4">Finances</h3>
+          <section className="rounded-2xl border border-brand-purple/30 bg-[#071722]/85 p-6 shadow-2xl shadow-brand-purple/10">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-white">
+              <BadgeEuro className="h-5 w-5 text-brand-purple" />
+              Finances
+            </h2>
             <div className="space-y-3">
-              <div className="flex items-center justify-between rounded-lg bg-white/5 p-3 border border-white/10">
-                <p className="text-white/80">Valeur marché</p>
-                <p className="text-brand-cyan font-semibold">{player.marketValue ?? '-'}</p>
-              </div>
-              <div className="flex items-center justify-between rounded-lg bg-white/5 p-3 border border-white/10">
-                <p className="text-white/80">Salaire hebdo.</p>
-                <p className="text-brand-cyan font-semibold">{player.weeklySalary ?? '-'}</p>
-              </div>
-              <div className="flex items-center justify-between rounded-lg bg-white/5 p-3 border border-white/10">
-                <p className="text-white/80">Clause de libération</p>
-                <p className="text-white font-semibold">{player.releaseClause ?? 'Aucun(e)'}</p>
-              </div>
+              <FinanceRow label="Valeur marché" value={player.marketValue ?? '-'} highlight />
+              <FinanceRow label="Salaire hebdo." value={player.weeklySalary ?? '-'} highlight />
+              <FinanceRow label="Clause de libération" value={player.releaseClause ?? 'Aucun(e)'} />
             </div>
-          </Card>
+          </section>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
@@ -292,6 +218,73 @@ function PlayerDetails({ playerId }: PlayerDetailsProps) {
           </p>
         )}
       </div>
+    </div>
+  )
+}
+
+function PlayerPortrait({ player }: { player: Player }) {
+  const fallback = (
+    <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-brand-purple bg-gradient-to-br from-brand-purple to-brand-cyan text-5xl font-bold text-white">
+      {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+    </div>
+  )
+
+  if (player.photoUrl) {
+    return (
+      <CircleImage
+        src={player.photoUrl}
+        alt={`${player.firstName} ${player.lastName}`}
+        className="relative h-32 w-32 shrink-0 overflow-hidden rounded-full border-4 border-brand-purple shadow-[0_0_34px_rgba(166,92,255,0.24)]"
+        sizes="128px"
+        fallback={fallback}
+      />
+    )
+  }
+
+  return fallback
+}
+
+function ClubLogo({ player, size = 'md' }: { player: Player; size?: 'md' | 'lg' }) {
+  const dimension = size === 'lg' ? 'h-[72px] w-[72px]' : 'h-12 w-12'
+  const fallback = (
+    <div className={`flex ${dimension} shrink-0 items-center justify-center rounded-full border-2 border-white/20 bg-gradient-to-br from-brand-purple/20 to-brand-cyan/20 text-2xl text-white`}>
+      {player.club.charAt(0).toUpperCase()}
+    </div>
+  )
+
+  if (player.clubLogoUrl) {
+    return (
+      <CircleImage
+        src={player.clubLogoUrl}
+        alt={player.club}
+        className={`relative ${dimension} shrink-0 overflow-hidden rounded-full border-2 border-white/20`}
+        sizes={size === 'lg' ? '72px' : '48px'}
+        imageClassName="object-contain p-1.5"
+        fallback={fallback}
+      />
+    )
+  }
+
+  return fallback
+}
+
+function DetailMetric({ icon, label, value, tone }: { icon: React.ReactNode; label: string; value: string; tone: 'cyan' | 'purple' }) {
+  const color = tone === 'cyan' ? 'text-brand-cyan border-brand-cyan/30 bg-brand-cyan/10' : 'text-brand-purple border-brand-purple/30 bg-brand-purple/10'
+
+  return (
+    <div className={`rounded-xl border p-4 ${color}`}>
+      <div className="mb-3">{icon}</div>
+      <p className="text-xs text-white/60">{label}</p>
+      <p className="mt-1 text-lg font-bold text-white">{value}</p>
+    </div>
+  )
+}
+
+function FinanceRow({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
+  return (
+    <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-4">
+      <p className="text-white/75">{label}</p>
+      <p className={`font-bold ${highlight ? 'text-brand-cyan' : 'text-white'}`}>{value}</p>
     </div>
   )
 }
