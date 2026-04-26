@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
-import { Search, X } from 'lucide-react'
+import { Search } from 'lucide-react'
 import Modal from '@/components/ui/Modal'
 import Input from '@/components/ui/Input'
+import CircleImage from '@/components/media/CircleImage'
 import type { Player } from '@/features/market/types/player'
 
 interface PlayerSearchModalProps {
@@ -63,15 +64,46 @@ function PlayerSearchModal({
                   className="w-full rounded-lg border border-brand-cyan/50 bg-white/5 p-3 text-left transition-all hover:border-brand-cyan hover:bg-brand-cyan/10"
                 >
                   <div className="flex items-center justify-between">
-                    <div>
+                    <div className="flex items-center gap-3">
+                      {player.photoUrl ? (
+                        <CircleImage
+                          src={player.photoUrl}
+                          alt={`${player.firstName} ${player.lastName}`}
+                          className="relative h-11 w-11 overflow-hidden rounded-full border border-white/20"
+                          sizes="44px"
+                          fallback={
+                            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan text-sm font-bold text-white">
+                              {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+                            </div>
+                          }
+                        />
+                      ) : (
+                        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan text-sm font-bold text-white">
+                          {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+                        </div>
+                      )}
+                      <div>
                       <p className="font-semibold text-white">
                         {player.firstName} {player.lastName}
                       </p>
                       <p className="text-sm text-white/60">
                         {player.position} • {player.age} ans
                       </p>
+                      </div>
                     </div>
-                    <p className="text-xs text-brand-cyan">{player.club}</p>
+                    <div className="flex items-center gap-2">
+                      {player.clubLogoUrl ? (
+                        <CircleImage
+                          src={player.clubLogoUrl}
+                          alt={player.club}
+                          className="relative h-8 w-8 overflow-hidden rounded-full"
+                          sizes="32px"
+                          imageClassName="object-contain p-1"
+                          fallback={<div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-xs font-bold text-white">{player.club.charAt(0).toUpperCase()}</div>}
+                        />
+                      ) : null}
+                      <p className="text-xs text-brand-cyan">{player.club}</p>
+                    </div>
                   </div>
                 </button>
               ))}

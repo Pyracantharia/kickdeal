@@ -1,10 +1,9 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, User, Flag, Shirt, TrendingUp, MapPin, Trophy, Users } from 'lucide-react'
+import { User, Flag, Shirt, TrendingUp, MapPin, Trophy, Users } from 'lucide-react'
 
-import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import PlayerSearchModal from './modals/PlayerSearchModal'
 import PositionSearchModal from './modals/PositionSearchModal'
@@ -13,15 +12,8 @@ import TransferStatusSearchModal from './modals/TransferStatusSearchModal'
 import LeagueSearchModal from './modals/LeagueSearchModal'
 import ClubSearchModal from './modals/ClubSearchModal'
 
-import {
-  MOCK_PLAYERS,
-  MOCK_POSITIONS,
-  MOCK_NATIONALITIES,
-  MOCK_LEAGUES,
-  MOCK_CLUBS,
-  MOCK_TRANSFER_STATUS,
-} from '@/features/market/mockPlayers'
-import type { Player, PlayerSearchFilters } from '@/features/market/types/player'
+import type { Player } from '@/features/market/types/player'
+import { buildPlayerFilters, filterPlayers, playersManager } from '@/features/players/players'
 
 interface SearchState {
   selectedPlayer?: Player
@@ -36,6 +28,8 @@ interface SearchState {
 
 function PlayerSearchForm() {
   const router = useRouter()
+  const [players, setPlayers] = useState<Player[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [searchState, setSearchState] = useState<SearchState>({
     ageMin: 15,
     ageMax: 42,
@@ -51,77 +45,60 @@ function PlayerSearchForm() {
     | null
   >(null)
 
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadPlayers() {
+      try {
+        const response = await playersManager.getAll()
+
+        if (!isMounted || !response.ok) {
+          return
+        }
+
+        setPlayers(response.data.players ?? [])
+      } finally {
+        if (isMounted) {
+          setIsLoading(false)
+        }
+      }
+    }
+
+    loadPlayers()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const {
+    positions,
+    nationalities,
+    leagues,
+    clubs,
+    transferStatuses,
+  } = useMemo(() => buildPlayerFilters(players), [players])
+
   const availableClubs = useMemo(
     () =>
       searchState.leagueId
-        ? MOCK_CLUBS.filter((c) => c.leagueId === searchState.leagueId)
+        ? clubs.filter((club) => club.leagueId === searchState.leagueId)
         : [],
-    [searchState.leagueId]
+    [clubs, searchState.leagueId]
   )
 
   const filteredPlayers = useMemo(() => {
-    return MOCK_PLAYERS.filter((player) => {
-      if (searchState.positionId) {
-        const selectedPosition = MOCK_POSITIONS.find(
-          (p) => p.id === searchState.positionId
-        )
-        if (selectedPosition && player.position !== selectedPosition.label) {
-          return false
-        }
-      }
+    return filterPlayers(players, searchState)
+  }, [players, searchState])
 
-      if (searchState.nationalityId) {
-        const selectedNationality = MOCK_NATIONALITIES.find(
-          (n) => n.id === searchState.nationalityId
-        )
-        if (selectedNationality && player.nationality !== selectedNationality.label) {
-          return false
-        }
-      }
-
-      if (searchState.transferStatusId) {
-        const selectedStatus = MOCK_TRANSFER_STATUS.find(
-          (s) => s.id === searchState.transferStatusId
-        )
-        if (selectedStatus && player.transferStatus !== selectedStatus.label) {
-          return false
-        }
-      }
-
-      if (
-        searchState.ageMin &&
-        searchState.ageMax &&
-        (player.age < searchState.ageMin || player.age > searchState.ageMax)
-      ) {
-        return false
-      }
-
-      if (searchState.leagueId) {
-        const selectedLeague = MOCK_LEAGUES.find((l) => l.id === searchState.leagueId)
-        if (selectedLeague && player.league !== selectedLeague.label) {
-          return false
-        }
-      }
-
-      if (searchState.clubId) {
-        const selectedClub = availableClubs.find((c) => c.id === searchState.clubId)
-        if (selectedClub && player.club !== selectedClub.label) {
-          return false
-        }
-      }
-
-      return true
-    })
-  }, [searchState, availableClubs])
-
-  const selectedPosition = MOCK_POSITIONS.find((p) => p.id === searchState.positionId)
-  const selectedNationality = MOCK_NATIONALITIES.find(
-    (n) => n.id === searchState.nationalityId
+  const selectedPosition = positions.find((position) => position.id === searchState.positionId)
+  const selectedNationality = nationalities.find(
+    (nationality) => nationality.id === searchState.nationalityId
   )
-  const selectedTransferStatus = MOCK_TRANSFER_STATUS.find(
-    (s) => s.id === searchState.transferStatusId
+  const selectedTransferStatus = transferStatuses.find(
+    (status) => status.id === searchState.transferStatusId
   )
-  const selectedLeague = MOCK_LEAGUES.find((l) => l.id === searchState.leagueId)
+  const selectedLeague = leagues.find((league) => league.id === searchState.leagueId)
   const selectedClub = availableClubs.find((c) => c.id === searchState.clubId)
 
   const handlePlayerSelect = (player: Player) => {
@@ -133,14 +110,14 @@ function PlayerSearchForm() {
       return
     }
 
-    const posId = MOCK_POSITIONS.find((p) => p.label === player.position)?.id
-    const natId = MOCK_NATIONALITIES.find((n) => n.label === player.nationality)?.id
-    const statId = MOCK_TRANSFER_STATUS.find(
-      (s) => s.label === player.transferStatus
+    const posId = positions.find((position) => position.label === player.position)?.id
+    const natId = nationalities.find((nationality) => nationality.label === player.nationality)?.id
+    const statId = transferStatuses.find(
+      (status) => status.label === player.transferStatus
     )?.id
-    const leagId = MOCK_LEAGUES.find((l) => l.label === player.league)?.id
+    const leagId = leagues.find((league) => league.label === player.league)?.id
     const clubId = leagId
-      ? MOCK_CLUBS.find((c) => c.label === player.club && c.leagueId === leagId)?.id
+      ? clubs.find((club) => club.label === player.club && club.leagueId === leagId)?.id
       : undefined
 
     setSearchState({
@@ -198,6 +175,9 @@ function PlayerSearchForm() {
         <div className="mb-10">
           <h1 className="text-4xl font-bold text-white mb-2">RECHERCHE DE JOUEURS</h1>
           <div className="h-1 w-32 bg-gradient-to-r from-brand-purple to-brand-cyan rounded-full"></div>
+          <p className="mt-3 text-white/70">
+            {isLoading ? 'Chargement des joueurs...' : `${players.length} joueur(s) charges depuis la base.`}
+          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -289,7 +269,7 @@ function PlayerSearchForm() {
           <Button type="button" onClick={handleResetFilters} variant="secondary">
             Réinitialiser
           </Button>
-          <Button type="button" onClick={handleSearch}>
+          <Button type="button" onClick={handleSearch} disabled={isLoading || players.length === 0}>
             Rechercher
           </Button>
         </div>
@@ -298,14 +278,14 @@ function PlayerSearchForm() {
       <PlayerSearchModal
         isOpen={openModal === 'player'}
         onClose={() => setOpenModal(null)}
-        players={MOCK_PLAYERS}
+        players={filteredPlayers}
         onSelect={handlePlayerSelect}
       />
 
       <PositionSearchModal
         isOpen={openModal === 'position'}
         onClose={() => setOpenModal(null)}
-        positions={MOCK_POSITIONS}
+        positions={positions}
         onSelect={(position) => {
           setSearchState((prev) => ({
             ...prev,
@@ -320,7 +300,7 @@ function PlayerSearchForm() {
       <NationalitySearchModal
         isOpen={openModal === 'nationality'}
         onClose={() => setOpenModal(null)}
-        nationalities={MOCK_NATIONALITIES}
+        nationalities={nationalities}
         onSelect={(nationality) => {
           setSearchState((prev) => ({
             ...prev,
@@ -335,7 +315,7 @@ function PlayerSearchForm() {
       <TransferStatusSearchModal
         isOpen={openModal === 'transferStatus'}
         onClose={() => setOpenModal(null)}
-        statuses={MOCK_TRANSFER_STATUS}
+        statuses={transferStatuses}
         onSelect={(status) => {
           setSearchState((prev) => ({
             ...prev,
@@ -350,7 +330,7 @@ function PlayerSearchForm() {
       <LeagueSearchModal
         isOpen={openModal === 'league'}
         onClose={() => setOpenModal(null)}
-        leagues={MOCK_LEAGUES}
+        leagues={leagues}
         onSelect={(league) => {
           setSearchState((prev) => ({
             ...prev,

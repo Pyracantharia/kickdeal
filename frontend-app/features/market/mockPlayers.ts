@@ -222,22 +222,22 @@ export const MOCK_LEAGUES: League[] = [
 ]
 
 export const MOCK_CLUBS: Club[] = [
-  { id: '1', label: 'Real Madrid', leagueId: '1', logo: '👑' },
-  { id: '2', label: 'Barcelona', leagueId: '1', logo: '🔴🔵' },
-  { id: '3', label: 'Atlético Madrid', leagueId: '1', logo: '⚪🔴' },
-  { id: '4', label: 'Sevilla', leagueId: '1', logo: '🔴' },
-  { id: '5', label: 'Liverpool', leagueId: '2', logo: '🔴' },
-  { id: '6', label: 'Manchester City', leagueId: '2', logo: '🔵' },
-  { id: '7', label: 'Manchester United', leagueId: '2', logo: '🔴' },
-  { id: '8', label: 'Paris Saint-Germain', leagueId: '3', logo: '🔵' },
-  { id: '9', label: 'Olympique Marseille', leagueId: '3', logo: '⚪🔵' },
-  { id: '10', label: 'Lyon', leagueId: '3', logo: '⚪🔴' },
-  { id: '11', label: 'Lille', leagueId: '3', logo: '⚪🔴' },
-  { id: '12', label: 'AS Roma', leagueId: '4', logo: '🔴🟡' },
-  { id: '13', label: 'AC Milan', leagueId: '4', logo: '🔴⚫' },
-  { id: '14', label: 'Juventus', leagueId: '4', logo: '⚪🖤' },
-  { id: '15', label: 'Bayern Munich', leagueId: '5', logo: '🔴' },
-  { id: '16', label: 'Al-Ittihad', leagueId: '6', logo: '⚪' },
+  { id: '1', label: 'Real Madrid', leagueId: '1', logoUrl: null },
+  { id: '2', label: 'Barcelona', leagueId: '1', logoUrl: null },
+  { id: '3', label: 'Atlético Madrid', leagueId: '1', logoUrl: null },
+  { id: '4', label: 'Sevilla', leagueId: '1', logoUrl: null },
+  { id: '5', label: 'Liverpool', leagueId: '2', logoUrl: null },
+  { id: '6', label: 'Manchester City', leagueId: '2', logoUrl: null },
+  { id: '7', label: 'Manchester United', leagueId: '2', logoUrl: null },
+  { id: '8', label: 'Paris Saint-Germain', leagueId: '3', logoUrl: null },
+  { id: '9', label: 'Olympique Marseille', leagueId: '3', logoUrl: null },
+  { id: '10', label: 'Lyon', leagueId: '3', logoUrl: null },
+  { id: '11', label: 'Lille', leagueId: '3', logoUrl: null },
+  { id: '12', label: 'AS Roma', leagueId: '4', logoUrl: null },
+  { id: '13', label: 'AC Milan', leagueId: '4', logoUrl: null },
+  { id: '14', label: 'Juventus', leagueId: '4', logoUrl: null },
+  { id: '15', label: 'Bayern Munich', leagueId: '5', logoUrl: null },
+  { id: '16', label: 'Al-Ittihad', leagueId: '6', logoUrl: null },
 ]
 
 export const MOCK_TRANSFER_STATUS: TransferStatus[] = [

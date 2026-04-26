@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Contract\ContractNegociation;
 use App\Entity\Traits\TimestampableTrait;
+use App\Enum\PlayerAvailabilityStatusEnum;
 use App\Enum\PlayerContractStatusEnum;
 use App\Enum\PlayerMarketStatusEnum;
 use App\Repository\PlayerRepository;
@@ -36,16 +37,36 @@ class Player
     #[Assert\NotBlank(message: 'Le nom est requis')]
     private ?string $lastName = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photoUrl = null;
+
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthDate = null;
+
+    #[ORM\Column(length: 120, nullable: true)]
+    private ?string $nationality = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Le poste est requis')]
     private ?string $position = null;
 
-    // Value in cents
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
-    private ?int $marketValue = null;
+    private ?int $heightCm = null;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $weightKg = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $preferredFoot = null;
+
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $marketValue = null;
+
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $weeklySalary = null;
+
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $releaseClause = null;
 
     #[ORM\Column(length: 20, enumType: PlayerContractStatusEnum::class)]
     #[Assert\NotBlank(message: 'Le statut du contrat est requis')]
@@ -54,9 +75,16 @@ class Player
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $contractEndDate = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $joinedAt = null;
+
     #[ORM\Column(length: 20, enumType: PlayerMarketStatusEnum::class)]
     #[Assert\NotBlank(message: 'Le statut du contrat est requis')]
     private ?PlayerMarketStatusEnum $marketStatus = PlayerMarketStatusEnum::NOT_LISTED;
+
+    #[ORM\Column(length: 20, enumType: PlayerAvailabilityStatusEnum::class)]
+    #[Assert\NotBlank(message: 'Le statut de disponibilite du joueur est requis')]
+    private ?PlayerAvailabilityStatusEnum $availabilityStatus = PlayerAvailabilityStatusEnum::NORMAL;
 
     #[ORM\ManyToOne(inversedBy: 'players')]
     private ?Team $team = null;
@@ -113,6 +141,18 @@ class Player
         return $this;
     }
 
+    public function getPhotoUrl(): ?string
+    {
+        return $this->photoUrl;
+    }
+
+    public function setPhotoUrl(?string $photoUrl): static
+    {
+        $this->photoUrl = $photoUrl;
+
+        return $this;
+    }
+
     public function getBirthDate(): ?\DateTimeInterface
     {
         return $this->birthDate;
@@ -121,6 +161,18 @@ class Player
     public function setBirthDate(\DateTimeInterface $birthDate): static
     {
         $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    public function getNationality(): ?string
+    {
+        return $this->nationality;
+    }
+
+    public function setNationality(?string $nationality): static
+    {
+        $this->nationality = $nationality;
 
         return $this;
     }
@@ -137,14 +189,74 @@ class Player
         return $this;
     }
 
-    public function getMarketValue(): ?int
+    public function getHeightCm(): ?int
     {
-        return $this->marketValue;
+        return $this->heightCm;
     }
 
-    public function setMarketValue(int $marketValue): static
+    public function setHeightCm(?int $heightCm): static
     {
-        $this->marketValue = $marketValue;
+        $this->heightCm = $heightCm;
+
+        return $this;
+    }
+
+    public function getWeightKg(): ?int
+    {
+        return $this->weightKg;
+    }
+
+    public function setWeightKg(?int $weightKg): static
+    {
+        $this->weightKg = $weightKg;
+
+        return $this;
+    }
+
+    public function getPreferredFoot(): ?string
+    {
+        return $this->preferredFoot;
+    }
+
+    public function setPreferredFoot(?string $preferredFoot): static
+    {
+        $this->preferredFoot = $preferredFoot;
+
+        return $this;
+    }
+
+    public function getMarketValue(): ?int
+    {
+        return null === $this->marketValue ? null : (int) $this->marketValue;
+    }
+
+    public function setMarketValue(?int $marketValue): static
+    {
+        $this->marketValue = null === $marketValue ? null : (string) $marketValue;
+
+        return $this;
+    }
+
+    public function getWeeklySalary(): ?int
+    {
+        return null === $this->weeklySalary ? null : (int) $this->weeklySalary;
+    }
+
+    public function setWeeklySalary(?int $weeklySalary): static
+    {
+        $this->weeklySalary = null === $weeklySalary ? null : (string) $weeklySalary;
+
+        return $this;
+    }
+
+    public function getReleaseClause(): ?int
+    {
+        return null === $this->releaseClause ? null : (int) $this->releaseClause;
+    }
+
+    public function setReleaseClause(?int $releaseClause): static
+    {
+        $this->releaseClause = null === $releaseClause ? null : (string) $releaseClause;
 
         return $this;
     }
@@ -173,6 +285,18 @@ class Player
         return $this;
     }
 
+    public function getJoinedAt(): ?\DateTimeInterface
+    {
+        return $this->joinedAt;
+    }
+
+    public function setJoinedAt(?\DateTimeInterface $joinedAt): static
+    {
+        $this->joinedAt = $joinedAt;
+
+        return $this;
+    }
+
     public function getMarketStatus(): ?PlayerMarketStatusEnum
     {
         return $this->marketStatus;
@@ -181,6 +305,18 @@ class Player
     public function setMarketStatus(?PlayerMarketStatusEnum $marketStatus): static
     {
         $this->marketStatus = $marketStatus;
+
+        return $this;
+    }
+
+    public function getAvailabilityStatus(): ?PlayerAvailabilityStatusEnum
+    {
+        return $this->availabilityStatus;
+    }
+
+    public function setAvailabilityStatus(?PlayerAvailabilityStatusEnum $availabilityStatus): static
+    {
+        $this->availabilityStatus = $availabilityStatus;
 
         return $this;
     }

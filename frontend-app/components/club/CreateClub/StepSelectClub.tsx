@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useMemo, useState } from 'react'
+import Image from 'next/image'
 import { Search, CheckCircle2 } from 'lucide-react'
 import type { ClubOption } from '@/features/club/types/createClub'
 
@@ -29,8 +30,24 @@ function normalizeSearchText(value: string): string {
     .trim()
 }
 
-function ClubAvatar({ name }: { name: string }) {
+function ClubAvatar({ club }: { club: ClubOption }) {
+  const name = club.name
   const colorIndex = name.charCodeAt(0) % AVATAR_COLORS.length
+
+  if (club.logoUrl) {
+    return (
+      <div className="relative h-10 w-10 overflow-hidden rounded-full shrink-0">
+        <Image
+          src={club.logoUrl}
+          alt={club.name}
+          fill
+          sizes="40px"
+          className="object-contain"
+        />
+      </div>
+    )
+  }
+
   return (
     <div
       className={`h-10 w-10 rounded-full ${AVATAR_COLORS[colorIndex]} flex items-center justify-center text-white font-bold text-sm shrink-0`}
@@ -118,7 +135,7 @@ function StepSelectClub({ clubs, selectedClub, onSelect }: StepSelectClubProps) 
                       }
                     `}
                   >
-                    <ClubAvatar name={club.name} />
+                    <ClubAvatar club={club} />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-white truncate">{club.name}</p>
                       <p className="text-xs text-gray-400">

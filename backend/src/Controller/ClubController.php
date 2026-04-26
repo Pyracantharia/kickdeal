@@ -39,6 +39,7 @@ final class ClubController extends AbstractController
             'name' => $team->getName(),
             'league' => $team->getLeague() ?? '',
             'country' => $team->getCountry() ?? '',
+            'logoUrl' => $team->getLogoUrl(),
         ], $teams);
 
         return $this->json([

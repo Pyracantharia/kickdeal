@@ -4,9 +4,13 @@ export type OfferStatus = 'pending' | 'accepted' | 'rejected'
 export type OfferType = 'purchase' | 'loan'
 
 export interface TransferListPlayer {
+  id?: string
   playerId: string
   player: Player
   addedDate: string
+  transferType?: 'free' | 'loan' | 'permanent'
+  status?: 'active' | 'closed' | 'paused'
+  askingPrice?: string | null
   offerStatus?: OfferStatus
 }
 

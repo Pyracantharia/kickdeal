@@ -5,6 +5,7 @@ import Modal from '@/components/ui/Modal'
 import Button from '@/components/ui/Button'
 import type { SentOffer, ReceivedOffer } from '@/features/market/types/transfer'
 import { Check } from 'lucide-react'
+import CircleImage from '@/components/media/CircleImage'
 
 interface OfferDetailsModalProps {
   isOpen: boolean
@@ -34,9 +35,23 @@ function OfferDetailsModal({
       <div className="flex flex-col gap-4">
         <div className="bg-white/5 rounded-lg p-4 border border-white/10">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold shrink-0">
-              {offer.player.firstName.charAt(0)}{offer.player.lastName.charAt(0)}
-            </div>
+            {offer.player.photoUrl ? (
+              <CircleImage
+                src={offer.player.photoUrl}
+                alt={`${offer.player.firstName} ${offer.player.lastName}`}
+                className="relative h-12 w-12 overflow-hidden rounded-full border border-white/20 shrink-0"
+                sizes="48px"
+                fallback={
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold shrink-0">
+                    {offer.player.firstName.charAt(0)}{offer.player.lastName.charAt(0)}
+                  </div>
+                }
+              />
+            ) : (
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold shrink-0">
+                {offer.player.firstName.charAt(0)}{offer.player.lastName.charAt(0)}
+              </div>
+            )}
             <div>
               <p className="text-white font-semibold">
                 {offer.player.firstName} {offer.player.lastName}
@@ -49,7 +64,7 @@ function OfferDetailsModal({
         </div>
 
         <div className="flex items-center justify-between">
-          <h3 className="text-white font-semibold">Statut de l'offre</h3>
+          <h3 className="text-white font-semibold">Statut de l&apos;offre</h3>
           <span
             className={`px-4 py-1 rounded-full font-semibold text-xs ${
               offer.status === 'accepted'
@@ -124,7 +139,7 @@ function OfferDetailsModal({
           {offer.customMessage && (
             <div className="p-3 bg-white/5 rounded-lg border border-white/10">
               <p className="text-white/80 text-sm mb-2">Message personnalisé</p>
-              <p className="text-white italic text-sm">"{offer.customMessage}"</p>
+              <p className="text-white italic text-sm">&quot;{offer.customMessage}&quot;</p>
             </div>
           )}
 
