@@ -9,6 +9,7 @@ use App\Enum\TeamVerificationStatusEnum;
 use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
@@ -41,6 +42,10 @@ class Team
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logoUrl = null;
+
+    // Value in cents
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $transferBudget = null;
 
     #[ORM\Column(length: 20, enumType: TeamVerificationStatusEnum::class)]
     #[Assert\NotBlank(message: 'Le statut de vérification est requis')]
@@ -134,6 +139,18 @@ class Team
     public function setLogoUrl(string $logoUrl): static
     {
         $this->logoUrl = $logoUrl;
+
+        return $this;
+    }
+
+    public function getTransferBudget(): ?int
+    {
+        return null === $this->transferBudget ? null : (int) $this->transferBudget;
+    }
+
+    public function setTransferBudget(?int $transferBudget): static
+    {
+        $this->transferBudget = null === $transferBudget ? null : (string) $transferBudget;
 
         return $this;
     }

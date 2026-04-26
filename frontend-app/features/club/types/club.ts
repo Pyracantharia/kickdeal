@@ -30,11 +30,32 @@ export interface ClubFinances {
 export interface ClubDetail {
   id: string
   name: string
-  logo: string
+  logo?: string
+  logoUrl?: string | null
   league: string
   country: string
   joinDate: string
   stats: ClubStats
   finances: ClubFinances
-  players: ClubPlayer[]
+  players?: ClubPlayer[]
+}
+
+export interface CreatePlayerPayload {
+  firstName: string
+  lastName: string
+  position: string
+  birthDate?: string
+  nationality?: string
+  photoUrl?: string
+  heightCm?: number
+  weightKg?: number
+  preferredFoot?: string
+  marketValue?: number
+  weeklySalary?: number
+  releaseClause?: number
+  contractEndDate?: string
+}
+
+export interface UpdateClubBudgetPayload {
+  totalBudget: number
 }

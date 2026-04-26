@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\ClubRequest;
+use App\Entity\Player;
 use App\Entity\Team;
 use App\Entity\TeamMembership;
 use App\Entity\User;
 use App\Enum\MembershipRoleEnum;
+use App\Enum\PlayerAvailabilityStatusEnum;
+use App\Enum\PlayerContractStatusEnum;
+use App\Enum\PlayerMarketStatusEnum;
 use App\Enum\TeamVerificationStatusEnum;
 use App\Repository\ClubRequestRepository;
 use App\Repository\TeamMembershipRepository;
@@ -26,6 +30,135 @@ use Symfony\Component\Uid\Uuid;
 final class ClubController extends AbstractController
 {
     private const string CSRF_TOKEN_ID = 'api_auth';
+
+    #[Route('/mine', name: 'app_club_mine', methods: ['GET'])]
+    public function mine(
+        #[CurrentUser] ?User $user,
+        TeamMembershipRepository $teamMembershipRepository,
+    ): JsonResponse {
+        $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
+
+        if ($membership instanceof JsonResponse) {
+            return $membership;
+        }
+
+        return $this->json([
+            'club' => $this->serializeClubDetail($membership),
+        ]);
+    }
+
+    #[Route('/mine/players', name: 'app_club_player_create', methods: ['POST'])]
+    public function createPlayer(
+        Request $request,
+        #[CurrentUser] ?User $user,
+        TeamMembershipRepository $teamMembershipRepository,
+        EntityManagerInterface $entityManager,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
+        $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
+
+        if ($membership instanceof JsonResponse) {
+            return $membership;
+        }
+
+        $team = $membership->getTeam();
+        $payload = json_decode($request->getContent(), true);
+
+        if (!is_array($payload)) {
+            return $this->json([
+                'errorMessage' => 'Payload invalide.',
+            ], 400);
+        }
+
+        $firstName = trim((string) ($payload['firstName'] ?? ''));
+        $lastName = trim((string) ($payload['lastName'] ?? ''));
+        $position = trim((string) ($payload['position'] ?? ''));
+
+        if ('' === $firstName || '' === $lastName || '' === $position) {
+            return $this->json([
+                'errorMessage' => 'Le prénom, le nom et le poste sont requis.',
+            ], 422);
+        }
+
+        $birthDate = $this->parseDate($payload['birthDate'] ?? null);
+        $contractEndDate = $this->parseDate($payload['contractEndDate'] ?? null);
+
+        $player = (new Player())
+            ->setFirstName($firstName)
+            ->setLastName($lastName)
+            ->setPosition($position)
+            ->setBirthDate($birthDate ?? new \DateTimeImmutable('-18 years'))
+            ->setNationality($this->optionalString($payload['nationality'] ?? null))
+            ->setPhotoUrl($this->optionalString($payload['photoUrl'] ?? null))
+            ->setHeightCm($this->optionalInt($payload['heightCm'] ?? null))
+            ->setWeightKg($this->optionalInt($payload['weightKg'] ?? null))
+            ->setPreferredFoot($this->optionalString($payload['preferredFoot'] ?? null))
+            ->setMarketValue($this->moneyToCents($payload['marketValue'] ?? null))
+            ->setWeeklySalary($this->moneyToCents($payload['weeklySalary'] ?? null))
+            ->setReleaseClause($this->moneyToCents($payload['releaseClause'] ?? null))
+            ->setContractStatus(PlayerContractStatusEnum::UNDER_CONTRACT)
+            ->setContractEndDate($contractEndDate)
+            ->setJoinedAt(new \DateTimeImmutable('today'))
+            ->setMarketStatus(PlayerMarketStatusEnum::NOT_LISTED)
+            ->setAvailabilityStatus(PlayerAvailabilityStatusEnum::NORMAL)
+            ->setTeam($team);
+
+        $entityManager->persist($player);
+        $entityManager->flush();
+
+        return $this->json([
+            'message' => 'Joueur créé avec succès.',
+            'club' => $this->serializeClubDetail($membership),
+        ], 201);
+    }
+
+    #[Route('/mine/budget', name: 'app_club_budget_update', methods: ['PUT', 'PATCH'])]
+    public function updateBudget(
+        Request $request,
+        #[CurrentUser] ?User $user,
+        TeamMembershipRepository $teamMembershipRepository,
+        EntityManagerInterface $entityManager,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
+        $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
+
+        if ($membership instanceof JsonResponse) {
+            return $membership;
+        }
+
+        $payload = json_decode($request->getContent(), true);
+
+        if (!is_array($payload) || !array_key_exists('totalBudget', $payload)) {
+            return $this->json([
+                'errorMessage' => 'Budget requis.',
+            ], 422);
+        }
+
+        $budget = $this->moneyToCents($payload['totalBudget']);
+
+        if (null === $budget || $budget < 0) {
+            return $this->json([
+                'errorMessage' => 'Budget invalide.',
+            ], 422);
+        }
+
+        $membership->getTeam()->setTransferBudget($budget);
+
+        $entityManager->flush();
+
+        return $this->json([
+            'message' => 'Budget mis à jour.',
+            'club' => $this->serializeClubDetail($membership),
+        ]);
+    }
 
     #[Route('/search', name: 'app_club_search', methods: ['GET'])]
     public function search(Request $request, TeamRepository $teamRepository): JsonResponse
@@ -165,6 +298,117 @@ final class ClubController extends AbstractController
         }
 
         return null;
+    }
+
+    private function getCurrentMembership(?User $user, TeamMembershipRepository $teamMembershipRepository): TeamMembership|JsonResponse
+    {
+        if (!$user) {
+            return $this->json([
+                'errorMessage' => 'Utilisateur non authentifié.',
+            ], 401);
+        }
+
+        $membership = $teamMembershipRepository->findPrimaryForUser($user);
+
+        if (!$membership instanceof TeamMembership || null === $membership->getTeam()) {
+            return $this->json([
+                'errorMessage' => 'Aucun club associé à votre compte.',
+            ], 403);
+        }
+
+        return $membership;
+    }
+
+    private function serializeClubDetail(TeamMembership $membership): array
+    {
+        $team = $membership->getTeam();
+        $players = $team->getPlayers()->toArray();
+        $activeListings = $team->getListings()->filter(
+            static fn ($listing): bool => 'active' === $listing->getStatus()?->value,
+        );
+        $totalSalaries = array_sum(array_map(
+            static fn (Player $player): int => $player->getWeeklySalary() ?? 0,
+            $players,
+        ));
+        $playerValue = array_sum(array_map(
+            static fn (Player $player): int => $player->getMarketValue() ?? 0,
+            $players,
+        ));
+        $transferBudget = $team->getTransferBudget() ?? 0;
+
+        return [
+            'id' => $team->getId()?->toRfc4122(),
+            'name' => $team->getName(),
+            'logoUrl' => $team->getLogoUrl(),
+            'league' => $team->getLeague() ?? '',
+            'country' => $team->getCountry() ?? '',
+            'joinDate' => $membership->getCreatedAt()?->format('Y-m-d') ?? '',
+            'stats' => [
+                'totalPlayers' => count($players),
+                'playersOnMarket' => $activeListings->count(),
+                'injuredPlayers' => count(array_filter(
+                    $players,
+                    static fn (Player $player): bool => PlayerAvailabilityStatusEnum::INJURED === $player->getAvailabilityStatus(),
+                )),
+                'offersReceived' => 0,
+                'blockedOffers' => 0,
+                'negotiations' => $team->getTransferNegociations()->count(),
+            ],
+            'finances' => [
+                'totalBudget' => $this->centsToMillions($transferBudget),
+                'remainingBudget' => $this->centsToMillions($transferBudget),
+                'totalSalaries' => $this->centsToMillions($totalSalaries * 52),
+                'playerValue' => $this->centsToMillions($playerValue),
+                'recentRevenues' => 0,
+            ],
+        ];
+    }
+
+    private function parseDate(mixed $value): ?\DateTimeImmutable
+    {
+        if (!is_string($value) || '' === trim($value)) {
+            return null;
+        }
+
+        try {
+            return new \DateTimeImmutable($value);
+        } catch (\Throwable) {
+            return null;
+        }
+    }
+
+    private function optionalString(mixed $value): ?string
+    {
+        if (!is_string($value)) {
+            return null;
+        }
+
+        $value = trim($value);
+
+        return '' === $value ? null : $value;
+    }
+
+    private function optionalInt(mixed $value): ?int
+    {
+        if (null === $value || '' === $value) {
+            return null;
+        }
+
+        return is_numeric($value) ? (int) $value : null;
+    }
+
+    private function moneyToCents(mixed $value): ?int
+    {
+        if (null === $value || '' === $value || !is_numeric($value)) {
+            return null;
+        }
+
+        return (int) round(((float) $value) * 100);
+    }
+
+    private function centsToMillions(int $amountInCents): float
+    {
+        return round($amountInCents / 100 / 1_000_000, 1);
     }
 
     private function resolveTeam(
