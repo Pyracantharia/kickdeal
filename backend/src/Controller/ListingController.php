@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Listing;
 use App\Entity\Player;
 use App\Entity\Team;
+use App\Entity\TransferTarget;
 use App\Entity\User;
 use App\Enum\ListingStatusEnum;
 use App\Enum\PlayerMarketStatusEnum;
@@ -12,6 +13,7 @@ use App\Enum\TransferTypeEnum;
 use App\Repository\ListingRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\TeamMembershipRepository;
+use App\Repository\TransferTargetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,6 +29,7 @@ final class ListingController extends AbstractController
         #[CurrentUser] ?User $user,
         TeamMembershipRepository $teamMembershipRepository,
         ListingRepository $listingRepository,
+        TransferTargetRepository $transferTargetRepository,
     ): JsonResponse {
         $team = $this->getCurrentTeam($user, $teamMembershipRepository);
 
@@ -34,13 +37,13 @@ final class ListingController extends AbstractController
             return $team;
         }
 
-        $listings = array_map(
-            fn (Listing $listing): array => $this->serializeListing($listing),
-            $listingRepository->findActiveForSellerTeam($team),
+        $targets = array_map(
+            fn (TransferTarget $target): array => $this->serializeTarget($target, $listingRepository),
+            $transferTargetRepository->findForTeam($team),
         );
 
         return $this->json([
-            'listings' => $listings,
+            'listings' => $targets,
         ]);
     }
 
@@ -51,6 +54,7 @@ final class ListingController extends AbstractController
         TeamMembershipRepository $teamMembershipRepository,
         PlayerRepository $playerRepository,
         ListingRepository $listingRepository,
+        TransferTargetRepository $transferTargetRepository,
         EntityManagerInterface $entityManager,
     ): JsonResponse {
         $team = $this->getCurrentTeam($user, $teamMembershipRepository);
@@ -76,19 +80,28 @@ final class ListingController extends AbstractController
             ], 404);
         }
 
-        if ($player->getTeam()?->getId()?->toRfc4122() !== $team->getId()?->toRfc4122()) {
+        $sellerTeam = $player->getTeam();
+
+        if (null === $sellerTeam) {
             return $this->json([
-                'errorMessage' => 'Vous ne pouvez ajouter que les joueurs de votre club a votre liste de transferts.',
+                'errorMessage' => 'Ce joueur n\'est rattaché à aucun club.',
+            ], 422);
+        }
+
+        if ($sellerTeam->getId()?->toRfc4122() === $team->getId()?->toRfc4122()) {
+            return $this->json([
+                'errorMessage' => 'Vous ne pouvez ajouter que des joueurs d\'autres clubs à votre liste de transferts.',
             ], 403);
         }
 
         $transferType = $this->getTransferType($payload['transferType'] ?? null);
         $askingPrice = $this->getAskingPrice($payload['askingPrice'] ?? null);
         $listing = $listingRepository->findOneForPlayer($player) ?? new Listing();
+        $target = $transferTargetRepository->findOneForTeamAndPlayer($team, $player) ?? new TransferTarget();
 
         $listing
             ->setPlayer($player)
-            ->setSellerTeam($team)
+            ->setSellerTeam($sellerTeam)
             ->setTransferType($transferType)
             ->setStatus(ListingStatusEnum::ACTIVE)
             ->setAskingPrice($askingPrice)
@@ -98,20 +111,23 @@ final class ListingController extends AbstractController
             $listing->setCreatedAt(new \DateTimeImmutable());
         }
 
-        $player
-            ->setListing($listing)
-            ->setMarketStatus(
-                TransferTypeEnum::LOAN === $transferType
-                    ? PlayerMarketStatusEnum::LOAN_LISTED
-                    : PlayerMarketStatusEnum::ON_MARKET,
-            );
+        $target
+            ->setTeam($team)
+            ->setPlayer($player);
+
+        if (null === $target->getCreatedAt()) {
+            $target->setCreatedAt(new \DateTimeImmutable());
+        }
+
+        $player->setListing($listing);
 
         $entityManager->persist($listing);
+        $entityManager->persist($target);
         $entityManager->persist($player);
         $entityManager->flush();
 
         return $this->json([
-            'listing' => $this->serializeListing($listing),
+            'listing' => $this->serializeTarget($target, $listingRepository),
         ], 201);
     }
 
@@ -164,6 +180,25 @@ final class ListingController extends AbstractController
             'transferType' => $listing->getTransferType()?->value,
             'status' => $listing->getStatus()?->value,
             'askingPrice' => null !== $listing->getAskingPrice()
+                ? $this->formatMoney($listing->getAskingPrice())
+                : null,
+            'player' => $player ? $this->serializePlayer($player) : null,
+        ];
+    }
+
+    private function serializeTarget(TransferTarget $target, ListingRepository $listingRepository): array
+    {
+        $player = $target->getPlayer();
+        $listing = $player ? $listingRepository->findOneForPlayer($player) : null;
+
+        return [
+            'id' => $target->getId()?->toRfc4122(),
+            'listingId' => $listing?->getId()?->toRfc4122(),
+            'playerId' => $player?->getId()?->toRfc4122(),
+            'addedDate' => $target->getCreatedAt()?->format('Y-m-d') ?? '',
+            'transferType' => $listing?->getTransferType()?->value,
+            'status' => 'active',
+            'askingPrice' => null !== $listing?->getAskingPrice()
                 ? $this->formatMoney($listing->getAskingPrice())
                 : null,
             'player' => $player ? $this->serializePlayer($player) : null,

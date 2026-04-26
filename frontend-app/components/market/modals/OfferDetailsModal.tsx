@@ -4,7 +4,7 @@ import React from 'react'
 import Modal from '@/components/ui/Modal'
 import Button from '@/components/ui/Button'
 import type { SentOffer, ReceivedOffer } from '@/features/market/types/transfer'
-import { Check } from 'lucide-react'
+import { ArrowDownLeft, ArrowUpRight, Check } from 'lucide-react'
 import CircleImage from '@/components/media/CircleImage'
 
 interface OfferDetailsModalProps {
@@ -29,6 +29,11 @@ function OfferDetailsModal({
   onReject,
 }: OfferDetailsModalProps) {
   const isSent = type === 'sent'
+  const isSelling = offer.viewerRole === 'seller'
+  const counterpartyClub = isSelling ? offer.fromClub : offer.toClub
+  const directionLabel = isSelling ? 'Vente' : 'Achat'
+  const directionDetail = isSelling ? `à ${counterpartyClub}` : `auprès de ${counterpartyClub}`
+  const DirectionIcon = isSelling ? ArrowUpRight : ArrowDownLeft
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Détails de l'offre">
@@ -64,6 +69,25 @@ function OfferDetailsModal({
         </div>
 
         <div className="flex items-center justify-between">
+          <h3 className="text-white font-semibold">Nature de l&apos;offre</h3>
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${
+              isSelling
+                ? 'border-emerald-400/50 bg-emerald-400/10 text-emerald-300'
+                : 'border-brand-purple/60 bg-brand-purple/15 text-brand-purple'
+            }`}
+          >
+            <DirectionIcon className="h-3.5 w-3.5" />
+            {directionLabel}
+          </span>
+        </div>
+
+        <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg border border-white/10">
+          <span className="text-white/80 text-sm">{isSelling ? 'Vous vendez' : 'Vous achetez'}</span>
+          <span className="text-white font-semibold">{directionDetail}</span>
+        </div>
+
+        <div className="flex items-center justify-between">
           <h3 className="text-white font-semibold">Statut de l&apos;offre</h3>
           <span
             className={`px-4 py-1 rounded-full font-semibold text-xs ${
@@ -75,7 +99,7 @@ function OfferDetailsModal({
             }`}
           >
             {offer.status === 'accepted'
-              ? '✓ Acceptée'
+              ? 'Accord trouvé'
               : offer.status === 'pending'
                 ? '⏱ En attente'
                 : '✗ Rejetée'}

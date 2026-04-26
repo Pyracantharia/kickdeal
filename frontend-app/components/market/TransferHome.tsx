@@ -1,68 +1,103 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Users, Send, ReceiptText } from 'lucide-react'
+import { ReceiptText, Send, Users } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
-import CircleImage from '@/components/media/CircleImage'
-import PlayerActionModal from './modals/PlayerActionModal'
 import OfferDetailsModal from './modals/OfferDetailsModal'
-import {
-  MOCK_SENT_OFFERS,
-  MOCK_RECEIVED_OFFERS,
-} from '@/features/market/mockTransfers'
-import type { Player } from '@/features/market/types/player'
-import type { SentOffer, ReceivedOffer, TransferListPlayer } from '@/features/market/types/transfer'
+import { ClubLogo, EmptyState, ErrorMessage, OfferDirection, PlayerAvatar } from './TransferHomeParts'
+import type {
+  SentOffer,
+  ReceivedOffer,
+  TransferListPlayer,
+} from '@/features/market/types/transfer'
 import { transfersManager } from '@/features/market/transfers'
 
 type TabType = 'liste' | 'envoyees' | 'recues'
 
 function TransferHome() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState<TabType>('liste')
   const [transferList, setTransferList] = useState<TransferListPlayer[]>([])
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
   const [selectedOffer, setSelectedOffer] = useState<SentOffer | ReceivedOffer | null>(null)
   const [offerModalType, setOfferModalType] = useState<'sent' | 'received'>('sent')
+  const [sentOffers, setSentOffers] = useState<SentOffer[]>([])
+  const [receivedOffers, setReceivedOffers] = useState<ReceivedOffer[]>([])
   const [isLoadingList, setIsLoadingList] = useState(true)
+  const [isLoadingOffers, setIsLoadingOffers] = useState(true)
   const [listError, setListError] = useState<string | null>(null)
+  const [offersError, setOffersError] = useState<string | null>(null)
 
   useEffect(() => {
     let isMounted = true
 
-    async function loadTransferList() {
+    async function loadTransferData() {
       try {
-        const response = await transfersManager.getMyList()
+        const [listResponse, offersResponse] = await Promise.all([
+          transfersManager.getMyList(),
+          transfersManager.getMyOffers(),
+        ])
 
         if (!isMounted) {
           return
         }
 
-        if (response.ok) {
-          setTransferList((response.data.listings ?? []).filter((item) => item.player))
+        if (listResponse.ok) {
+          setTransferList((listResponse.data.listings ?? []).filter((item) => item.player))
           setListError(null)
         } else {
           setListError("Impossible de charger la liste de transferts.")
         }
+
+        if (offersResponse.ok) {
+          setSentOffers((offersResponse.data.sentOffers ?? []).filter((item) => item.player))
+          setReceivedOffers((offersResponse.data.receivedOffers ?? []).filter((item) => item.player))
+          setOffersError(null)
+        } else {
+          setOffersError("Impossible de charger les offres.")
+        }
       } catch {
         if (isMounted) {
           setListError("Impossible de charger la liste de transferts.")
+          setOffersError("Impossible de charger les offres.")
         }
       } finally {
         if (isMounted) {
           setIsLoadingList(false)
+          setIsLoadingOffers(false)
         }
       }
     }
 
-    loadTransferList()
+    loadTransferData()
 
     return () => {
       isMounted = false
     }
   }, [])
 
-  const handlePlayerSelect = (player: Player) => {
-    setSelectedPlayer(player)
+  const refreshOffers = async () => {
+    const response = await transfersManager.getMyOffers()
+
+    if (response.ok) {
+      setSentOffers((response.data.sentOffers ?? []).filter((item) => item.player))
+      setReceivedOffers((response.data.receivedOffers ?? []).filter((item) => item.player))
+    }
+  }
+
+  const updateOfferStatus = async (offer: SentOffer | ReceivedOffer, action: 'accept' | 'reject') => {
+    const response = action === 'accept'
+      ? await transfersManager.acceptOffer(offer.id)
+      : await transfersManager.rejectOffer(offer.id)
+
+    if (!response.ok) {
+      setOffersError("Impossible de mettre à jour l'offre.")
+      return
+    }
+
+    setSelectedOffer(null)
+    await refreshOffers()
   }
 
   const handleOfferSelect = (
@@ -77,7 +112,7 @@ function TransferHome() {
     if (status === 'accepted') {
       return (
         <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 text-xs font-semibold">
-          ✓ Acceptée
+          Accord trouvé
         </span>
       )
     }
@@ -122,7 +157,7 @@ function TransferHome() {
             }`}
           >
             <Send className="h-5 w-5" />
-            Offres émises ({MOCK_SENT_OFFERS.length})
+            Offres émises ({sentOffers.length})
           </button>
 
           <button
@@ -134,7 +169,7 @@ function TransferHome() {
             }`}
           >
             <ReceiptText className="h-5 w-5" />
-            Offres reçues ({MOCK_RECEIVED_OFFERS.length})
+            Offres reçues ({receivedOffers.length})
           </button>
         </div>
 
@@ -159,8 +194,8 @@ function TransferHome() {
             {transferList.map((item) => (
               <div
                 key={item.id ?? item.player.id}
-                className="rounded-2xl border-2 border-white/20 bg-gradient-to-r from-brand-cyan/10 to-transparent p-6 hover:border-brand-cyan/50 transition-all cursor-pointer"
-                onClick={() => handlePlayerSelect(item.player)}
+                className="rounded-2xl border-2 border-white/25 bg-[#071722]/85 bg-gradient-to-r from-brand-cyan/20 to-[#071722]/85 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.22)] hover:border-brand-cyan/60 transition-all cursor-pointer"
+                onClick={() => item.listingId && router.push(`/market/transfers/negotiate?listingId=${item.listingId}`)}
               >
                 <div className="flex items-center justify-between gap-6">
                   <div className="flex-1">
@@ -196,12 +231,14 @@ function TransferHome() {
         {activeTab === 'envoyees' && (
           <div className="space-y-4">
             <p className="text-white/60 text-sm">
-              {MOCK_SENT_OFFERS.length} offre(s) émise(s)
+              {isLoadingOffers ? 'Chargement des offres...' : `${sentOffers.length} offre(s) émise(s)`}
             </p>
-            {MOCK_SENT_OFFERS.map((offer) => (
+            {offersError && <ErrorMessage message={offersError} />}
+            {!isLoadingOffers && !offersError && sentOffers.length === 0 && <EmptyState message="Aucune offre émise pour le moment." />}
+            {sentOffers.map((offer) => (
               <div
                 key={offer.id}
-                className="rounded-2xl border-2 border-white/20 bg-gradient-to-r from-brand-purple/10 to-transparent p-6 hover:border-brand-purple/50 transition-all"
+                className="rounded-2xl border-2 border-white/25 bg-[#071722]/85 bg-gradient-to-r from-brand-purple/20 to-[#071722]/85 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.22)] hover:border-brand-purple/60 transition-all"
               >
                 <div className="flex items-center justify-between gap-6">
                   <div className="flex-1">
@@ -213,8 +250,9 @@ function TransferHome() {
                           {offer.player.lastName.toUpperCase()}
                         </h3>
                         <p className="text-white/70 text-sm">
-                          {offer.player.position} • {offer.player.age} ans • {offer.toClub}
+                          {offer.player.position} • {offer.player.age} ans
                         </p>
+                        <OfferDirection offer={offer} />
                         <p className="text-brand-cyan font-semibold mt-1">{offer.amount}</p>
                       </div>
                     </div>
@@ -240,12 +278,14 @@ function TransferHome() {
         {activeTab === 'recues' && (
           <div className="space-y-4">
             <p className="text-white/60 text-sm">
-              {MOCK_RECEIVED_OFFERS.length} offre(s) reçue(s)
+              {isLoadingOffers ? 'Chargement des offres...' : `${receivedOffers.length} offre(s) reçue(s)`}
             </p>
-            {MOCK_RECEIVED_OFFERS.map((offer) => (
+            {offersError && <ErrorMessage message={offersError} />}
+            {!isLoadingOffers && !offersError && receivedOffers.length === 0 && <EmptyState message="Aucune offre reçue pour le moment." />}
+            {receivedOffers.map((offer) => (
               <div
                 key={offer.id}
-                className="rounded-2xl border-2 border-white/20 bg-gradient-to-r from-brand-cyan/10 to-transparent p-6 hover:border-brand-cyan/50 transition-all"
+                className="rounded-2xl border-2 border-white/25 bg-[#071722]/85 bg-gradient-to-r from-brand-cyan/20 to-[#071722]/85 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.22)] hover:border-brand-cyan/60 transition-all"
               >
                 <div className="flex items-center justify-between gap-6 mb-4">
                   <div className="flex-1">
@@ -257,8 +297,9 @@ function TransferHome() {
                           {offer.player.lastName.toUpperCase()}
                         </h3>
                         <p className="text-white/70 text-sm">
-                          {offer.player.position} • {offer.player.age} ans • {offer.fromClub}
+                          {offer.player.position} • {offer.player.age} ans
                         </p>
+                        <OfferDirection offer={offer} />
                         <p className="text-brand-cyan font-semibold mt-1">{offer.amount}</p>
                       </div>
                     </div>
@@ -283,10 +324,7 @@ function TransferHome() {
                   <div className="flex flex-wrap gap-2">
                     <Button
                       type="button"
-                      onClick={() => {
-                        console.log('Accepter offre:', offer)
-                        setSelectedOffer(null)
-                      }}
+                      onClick={() => updateOfferStatus(offer, 'accept')}
                       className="flex-1 min-w-[110px]"
                     >
                       Accepter
@@ -294,8 +332,7 @@ function TransferHome() {
                     <Button
                       type="button"
                       onClick={() => {
-                        console.log('Négocier offre:', offer)
-                        setSelectedOffer(null)
+                        router.push(`/market/transfers/negotiate?offerId=${offer.id}`)
                       }}
                       variant="secondary"
                       className="flex-1 min-w-[110px]"
@@ -304,10 +341,7 @@ function TransferHome() {
                     </Button>
                     <Button
                       type="button"
-                      onClick={() => {
-                        console.log('Rejeter offre:', offer)
-                        setSelectedOffer(null)
-                      }}
+                      onClick={() => updateOfferStatus(offer, 'reject')}
                       className="flex-1 min-w-[110px] bg-red-500/20 border border-red-500/50 hover:bg-red-500/30 text-red-400"
                     >
                       Rejeter
@@ -328,22 +362,6 @@ function TransferHome() {
         )}
       </div>
 
-      {selectedPlayer && (
-        <PlayerActionModal
-          isOpen={!!selectedPlayer}
-          onClose={() => setSelectedPlayer(null)}
-          player={selectedPlayer}
-          onApproachPurchase={() => {
-            console.log('Approacher pour achat:', selectedPlayer)
-            setSelectedPlayer(null)
-          }}
-          onApproachLoan={() => {
-            console.log('Approacher pour prêt:', selectedPlayer)
-            setSelectedPlayer(null)
-          }}
-        />
-      )}
-
       {selectedOffer && (
         <OfferDetailsModal
           isOpen={!!selectedOffer}
@@ -351,68 +369,17 @@ function TransferHome() {
           offer={selectedOffer}
           type={offerModalType}
           onSubmitNewOffer={() => {
-            console.log('Soumettre une nouvelle offre pour:', selectedOffer)
             setSelectedOffer(null)
+            router.push(`/market/transfers/negotiate?offerId=${selectedOffer.id}`)
           }}
-          onAccept={() => {
-            console.log('Accepter offre:', selectedOffer)
-            setSelectedOffer(null)
-          }}
+          onAccept={() => updateOfferStatus(selectedOffer, 'accept')}
           onNegotiate={() => {
-            console.log('Négocier offre:', selectedOffer)
             setSelectedOffer(null)
+            router.push(`/market/transfers/negotiate?offerId=${selectedOffer.id}`)
           }}
-          onReject={() => {
-            console.log('Rejeter offre:', selectedOffer)
-            setSelectedOffer(null)
-          }}
+          onReject={() => updateOfferStatus(selectedOffer, 'reject')}
         />
       )}
-    </div>
-  )
-}
-
-function PlayerAvatar({ player }: { player: Player }) {
-  if (player.photoUrl) {
-    return <CircleImage
-      src={player.photoUrl}
-      alt={`${player.firstName} ${player.lastName}`}
-      className="relative h-14 w-14 overflow-hidden rounded-full border border-white/20 shrink-0"
-      sizes="56px"
-      fallback={
-        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold text-lg shrink-0">
-          {player.firstName.charAt(0)}{player.lastName.charAt(0)}
-        </div>
-      }
-    />
-  }
-
-  return (
-    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold text-lg shrink-0">
-      {player.firstName.charAt(0)}{player.lastName.charAt(0)}
-    </div>
-  )
-}
-
-function ClubLogo({ player }: { player: Player }) {
-  if (player.clubLogoUrl) {
-    return <CircleImage
-      src={player.clubLogoUrl}
-      alt={player.club}
-      className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-white/20 shrink-0"
-      sizes="64px"
-      imageClassName="object-contain p-1.5"
-      fallback={
-        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-brand-purple/20 to-brand-cyan/20 flex items-center justify-center text-white text-3xl border-2 border-white/20 shrink-0">
-          {player.club.charAt(0).toUpperCase()}
-        </div>
-      }
-    />
-  }
-
-  return (
-    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-brand-purple/20 to-brand-cyan/20 flex items-center justify-center text-white text-3xl border-2 border-white/20 shrink-0">
-      {player.club.charAt(0).toUpperCase()}
     </div>
   )
 }

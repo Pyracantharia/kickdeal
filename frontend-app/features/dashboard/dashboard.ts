@@ -5,7 +5,9 @@ export interface DashboardActiveDeal {
   eventLabel: string
   eventDate: string | null
   homeClub: string | null
+  homeClubLogoUrl?: string | null
   awayClub: string | null
+  awayClubLogoUrl?: string | null
   playerName: string
   status: {
     value: string | null

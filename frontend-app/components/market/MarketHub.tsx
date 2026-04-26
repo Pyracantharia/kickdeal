@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Search, ArrowRightLeft, MessageSquare } from 'lucide-react'
+import { History, Search, ArrowRightLeft, MessageSquare } from 'lucide-react'
 import Link from 'next/link'
 
 import Card from '@/components/ui/Card'
@@ -38,6 +38,15 @@ const MARKET_CARDS: MarketCard[] = [
     href: '/market/transfers',
   },
   {
+    id: 'transfer-history',
+    title: 'Historique',
+    subtitle: 'Accords trouvés',
+    icon: <History className="h-16 w-16" />,
+    description: 'Retrouvez les transferts acceptés et les montants négociés par votre club',
+    buttonLabel: 'Voir l’historique',
+    href: '/market/transfers/history',
+  },
+  {
     id: 'messaging',
     title: 'Messagerie',
     subtitle: undefined,
@@ -52,7 +61,7 @@ function MarketHub() {
   return (
     <div className="auth-bg min-h-screen w-full pt-36 md:pt-40 pb-12 px-4">
       <div className="mx-auto w-full max-w-6xl">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 lg:gap-8">
           {MARKET_CARDS.map((card, index) => (
             <MarketCard key={card.id} card={card} colorIndex={index} />
           ))}
@@ -69,7 +78,7 @@ function MarketCard({
   card: MarketCard
   colorIndex: number
 }) {
-  const colors = ['purple', 'cyan', 'purple'] as const
+  const colors = ['purple', 'cyan', 'purple', 'cyan'] as const
   const color = colors[colorIndex % colors.length]
 
   return (

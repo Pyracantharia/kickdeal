@@ -35,6 +35,10 @@ class PlayersManager {
   async getClubRoster() {
     return httpClient.get<ClubRosterResponse>('/players/club-roster')
   }
+
+  async getTeamRoster(teamId: string) {
+    return httpClient.get<ClubRosterResponse>(`/players/team/${teamId}/roster`)
+  }
 }
 
 export function buildPlayerFilters(players: Player[]): {

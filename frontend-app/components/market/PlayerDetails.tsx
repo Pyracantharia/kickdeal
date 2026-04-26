@@ -254,7 +254,12 @@ function PlayerDetails({ playerId }: PlayerDetailsProps) {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <Button type="button" className="flex-1">
+          <Button
+            type="button"
+            className="flex-1"
+            isLoading={isAddingToList}
+            onClick={() => handleAddToList(true)}
+          >
             Recruter
           </Button>
           <Button
