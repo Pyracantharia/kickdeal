@@ -2,12 +2,14 @@ export interface Player {
   id: string
   firstName: string
   lastName: string
+  photoUrl?: string | null
   age: number
   position: string
   nationality: string
   country: string
   league: string
   club: string
+  clubLogoUrl?: string | null
   transferStatus: string
   height?: number // cm
   weight?: number // kg
@@ -38,7 +40,7 @@ export interface Club {
   id: string
   label: string
   leagueId: string
-  logo?: string
+  logoUrl?: string | null
 }
 
 export interface TransferStatus {

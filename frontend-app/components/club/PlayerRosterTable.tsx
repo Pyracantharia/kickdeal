@@ -1,20 +1,63 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Search } from 'lucide-react'
-import { MOCK_CLUB_PLAYERS, POSITION_FILTERS } from '@/features/club/mockRoster'
 import type { ClubPlayer } from '@/features/club/types/roster'
 import PlayerActionsModal from './modals/PlayerActionsModal'
 import PlayerDetailsCard from './PlayerDetailsCard'
+import CircleImage from '@/components/media/CircleImage'
+import { playersManager } from '@/features/players/players'
 
 function PlayerRosterTable() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedPosition, setSelectedPosition] = useState('')
+  const [players, setPlayers] = useState<ClubPlayer[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [selectedPlayer, setSelectedPlayer] = useState<ClubPlayer | null>(null)
   const [isActionsModalOpen, setIsActionsModalOpen] = useState(false)
 
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadRoster() {
+      try {
+        const response = await playersManager.getClubRoster()
+
+        if (!isMounted || !response.ok) {
+          return
+        }
+
+        setPlayers(response.data.players ?? [])
+      } finally {
+        if (isMounted) {
+          setIsLoading(false)
+        }
+      }
+    }
+
+    loadRoster()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const positionFilters = useMemo(
+    () => [
+      { id: 'all', label: 'TOUS', code: '' },
+      ...Array.from(new Set(players.map((player) => player.position)))
+        .sort((a, b) => a.localeCompare(b))
+        .map((position) => ({
+          id: position,
+          label: position,
+          code: position,
+        })),
+    ],
+    [players],
+  )
+
   const filteredPlayers = useMemo(() => {
-    return MOCK_CLUB_PLAYERS.filter((player) => {
+    return players.filter((player) => {
       const matchesSearch =
         searchTerm === '' ||
         player.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -24,7 +67,7 @@ function PlayerRosterTable() {
 
       return matchesSearch && matchesPosition
     })
-  }, [searchTerm, selectedPosition])
+  }, [players, searchTerm, selectedPosition])
 
   const handlePlayerAction = (player: ClubPlayer) => {
     setSelectedPlayer(player)
@@ -61,7 +104,7 @@ function PlayerRosterTable() {
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-2">
-        {POSITION_FILTERS.map((position) => (
+        {positionFilters.map((position) => (
           <button
             key={position.id}
             onClick={() => setSelectedPosition(position.code)}
@@ -105,6 +148,14 @@ function PlayerRosterTable() {
               </tr>
             </thead>
             <tbody>
+              {isLoading && (
+                <tr>
+                  <td colSpan={7} className="px-6 py-8 text-center text-white/60">
+                    Chargement des joueurs...
+                  </td>
+                </tr>
+              )}
+
               {filteredPlayers.map((player) => (
                 <tr
                   key={player.id}
@@ -118,9 +169,23 @@ function PlayerRosterTable() {
                   </td>
                   <td className="px-6 py-4 text-sm">
                     <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white text-xs font-bold">
-                        {player.firstName.charAt(0)}{player.lastName.charAt(0)}
-                      </div>
+                      {player.photoUrl ? (
+                        <CircleImage
+                          src={player.photoUrl}
+                          alt={`${player.firstName} ${player.lastName}`}
+                          className="relative h-8 w-8 overflow-hidden rounded-full border border-white/20"
+                          sizes="32px"
+                          fallback={
+                            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white text-xs font-bold">
+                              {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+                            </div>
+                          }
+                        />
+                      ) : (
+                        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white text-xs font-bold">
+                          {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+                        </div>
+                      )}
                       <div className="text-white font-medium">
                         {player.firstName} {player.lastName}
                       </div>
@@ -142,7 +207,7 @@ function PlayerRosterTable() {
 
           {filteredPlayers.length === 0 && (
             <div className="py-12 text-center text-white/60">
-              Aucun joueur trouvé avec ces critères
+              {isLoading ? 'Chargement des joueurs...' : 'Aucun joueur trouvé avec ces critères'}
             </div>
           )}
         </div>

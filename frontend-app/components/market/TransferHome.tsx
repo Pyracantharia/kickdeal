@@ -1,26 +1,65 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Users, Send, ReceiptText } from 'lucide-react'
 
 import Button from '@/components/ui/Button'
+import CircleImage from '@/components/media/CircleImage'
 import PlayerActionModal from './modals/PlayerActionModal'
 import OfferDetailsModal from './modals/OfferDetailsModal'
 import {
-  MOCK_TRANSFER_LIST,
   MOCK_SENT_OFFERS,
   MOCK_RECEIVED_OFFERS,
 } from '@/features/market/mockTransfers'
 import type { Player } from '@/features/market/types/player'
-import type { SentOffer, ReceivedOffer } from '@/features/market/types/transfer'
+import type { SentOffer, ReceivedOffer, TransferListPlayer } from '@/features/market/types/transfer'
+import { transfersManager } from '@/features/market/transfers'
 
 type TabType = 'liste' | 'envoyees' | 'recues'
 
 function TransferHome() {
   const [activeTab, setActiveTab] = useState<TabType>('liste')
+  const [transferList, setTransferList] = useState<TransferListPlayer[]>([])
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
   const [selectedOffer, setSelectedOffer] = useState<SentOffer | ReceivedOffer | null>(null)
   const [offerModalType, setOfferModalType] = useState<'sent' | 'received'>('sent')
+  const [isLoadingList, setIsLoadingList] = useState(true)
+  const [listError, setListError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadTransferList() {
+      try {
+        const response = await transfersManager.getMyList()
+
+        if (!isMounted) {
+          return
+        }
+
+        if (response.ok) {
+          setTransferList((response.data.listings ?? []).filter((item) => item.player))
+          setListError(null)
+        } else {
+          setListError("Impossible de charger la liste de transferts.")
+        }
+      } catch {
+        if (isMounted) {
+          setListError("Impossible de charger la liste de transferts.")
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoadingList(false)
+        }
+      }
+    }
+
+    loadTransferList()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   const handlePlayerSelect = (player: Player) => {
     setSelectedPlayer(player)
@@ -71,7 +110,7 @@ function TransferHome() {
             }`}
           >
             <Users className="h-5 w-5" />
-            Liste ({MOCK_TRANSFER_LIST.length})
+            Liste ({transferList.length})
           </button>
 
           <button
@@ -102,20 +141,31 @@ function TransferHome() {
         {activeTab === 'liste' && (
           <div className="space-y-4">
             <p className="text-white/60 text-sm">
-              {MOCK_TRANSFER_LIST.length} joueur(s) sur la liste
+              {isLoadingList ? 'Chargement de la liste...' : `${transferList.length} joueur(s) sur la liste`}
             </p>
-            {MOCK_TRANSFER_LIST.map((item) => (
+
+            {listError && (
+              <div className="rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                {listError}
+              </div>
+            )}
+
+            {!isLoadingList && !listError && transferList.length === 0 && (
+              <div className="rounded-2xl border-2 border-white/20 bg-white/5 p-6 text-white/70">
+                Aucun joueur n&apos;est encore sur votre liste de transferts.
+              </div>
+            )}
+
+            {transferList.map((item) => (
               <div
-                key={item.player.id}
+                key={item.id ?? item.player.id}
                 className="rounded-2xl border-2 border-white/20 bg-gradient-to-r from-brand-cyan/10 to-transparent p-6 hover:border-brand-cyan/50 transition-all cursor-pointer"
                 onClick={() => handlePlayerSelect(item.player)}
               >
                 <div className="flex items-center justify-between gap-6">
                   <div className="flex-1">
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold text-lg shrink-0">
-                        {item.player.firstName.charAt(0)}{item.player.lastName.charAt(0)}
-                      </div>
+                      <PlayerAvatar player={item.player} />
                       <div>
                         <h3 className="text-xl font-bold text-white">
                           {item.player.firstName.toUpperCase()}
@@ -129,27 +179,13 @@ function TransferHome() {
 
                   <div className="flex items-center gap-4">
                     <div className="text-right">
+                      {item.askingPrice && (
+                        <p className="text-white/70 text-sm">Prix demande: {item.askingPrice}</p>
+                      )}
                       <p className="text-white font-bold text-lg">{item.player.club}</p>
                       <p className="text-brand-cyan text-sm">{item.player.league}</p>
                     </div>
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-brand-purple/20 to-brand-cyan/20 flex items-center justify-center text-3xl border-2 border-white/20 shrink-0">
-                      {item.player.club === 'Real Madrid' && '👑'}
-                      {item.player.club === 'Barcelona' && '🔴🔵'}
-                      {item.player.club === 'Manchester City' && '🔵'}
-                      {item.player.club === 'PSG' && '🔴🔵'}
-                      {item.player.club === 'Liverpool' && '🔴'}
-                      {item.player.club === 'Bayern Munich' && '🔴⚪'}
-                      {item.player.club === 'Borussia Dortmund' && '⚫💛'}
-                      {item.player.club === 'Juventus' && '⚫⚪'}
-                      {item.player.club === 'AC Milan' && '❤️🖤'}
-                      {item.player.club === 'Inter Milan' && '🔵🖤'}
-                      {item.player.club === 'Atletico Madrid' && '🔴⚪'}
-                      {item.player.club === 'Chelsea' && '🔵'}
-                      {item.player.club === 'Manchester United' && '🔴'}
-                      {item.player.club === 'Arsenal' && '❤️⚪'}
-                      {item.player.club === 'Tottenham' && '⚪'}
-                      {item.player.club === 'Lille' && '💫'}
-                    </div>
+                    <ClubLogo player={item.player} />
                   </div>
                 </div>
               </div>
@@ -170,9 +206,7 @@ function TransferHome() {
                 <div className="flex items-center justify-between gap-6">
                   <div className="flex-1">
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold text-lg shrink-0">
-                        {offer.player.firstName.charAt(0)}{offer.player.lastName.charAt(0)}
-                      </div>
+                      <PlayerAvatar player={offer.player} />
                       <div>
                         <h3 className="text-xl font-bold text-white">
                           {offer.player.firstName.toUpperCase()}{' '}
@@ -216,9 +250,7 @@ function TransferHome() {
                 <div className="flex items-center justify-between gap-6 mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-cyan to-brand-purple flex items-center justify-center text-white font-bold text-lg shrink-0">
-                        {offer.player.firstName.charAt(0)}{offer.player.lastName.charAt(0)}
-                      </div>
+                      <PlayerAvatar player={offer.player} />
                       <div>
                         <h3 className="text-xl font-bold text-white">
                           {offer.player.firstName.toUpperCase()}{' '}
@@ -336,6 +368,51 @@ function TransferHome() {
           }}
         />
       )}
+    </div>
+  )
+}
+
+function PlayerAvatar({ player }: { player: Player }) {
+  if (player.photoUrl) {
+    return <CircleImage
+      src={player.photoUrl}
+      alt={`${player.firstName} ${player.lastName}`}
+      className="relative h-14 w-14 overflow-hidden rounded-full border border-white/20 shrink-0"
+      sizes="56px"
+      fallback={
+        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold text-lg shrink-0">
+          {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+        </div>
+      }
+    />
+  }
+
+  return (
+    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white font-bold text-lg shrink-0">
+      {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+    </div>
+  )
+}
+
+function ClubLogo({ player }: { player: Player }) {
+  if (player.clubLogoUrl) {
+    return <CircleImage
+      src={player.clubLogoUrl}
+      alt={player.club}
+      className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-white/20 shrink-0"
+      sizes="64px"
+      imageClassName="object-contain p-1.5"
+      fallback={
+        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-brand-purple/20 to-brand-cyan/20 flex items-center justify-center text-white text-3xl border-2 border-white/20 shrink-0">
+          {player.club.charAt(0).toUpperCase()}
+        </div>
+      }
+    />
+  }
+
+  return (
+    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-brand-purple/20 to-brand-cyan/20 flex items-center justify-center text-white text-3xl border-2 border-white/20 shrink-0">
+      {player.club.charAt(0).toUpperCase()}
     </div>
   )
 }

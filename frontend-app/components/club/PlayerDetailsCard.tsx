@@ -4,6 +4,7 @@ import React from 'react'
 import { Users } from 'lucide-react'
 import type { ClubPlayer } from '@/features/club/types/roster'
 import Button from '@/components/ui/Button'
+import CircleImage from '@/components/media/CircleImage'
 
 interface PlayerDetailsCardProps {
   player: ClubPlayer
@@ -15,9 +16,23 @@ function PlayerDetailsCard({ player, onActionsClick }: PlayerDetailsCardProps) {
     <div className="w-full lg:w-80 flex-shrink-0">
       <div className="rounded-lg border border-white/10 bg-gradient-to-br from-white/10 to-white/5 p-6 backdrop-blur">
         <div className="mb-6 text-center">
-          <div className="h-20 w-20 mx-auto mb-3 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white text-3xl font-bold">
-            {player.firstName.charAt(0)}{player.lastName.charAt(0)}
-          </div>
+          {player.photoUrl ? (
+            <CircleImage
+              src={player.photoUrl}
+              alt={`${player.firstName} ${player.lastName}`}
+              className="relative mx-auto mb-3 h-20 w-20 overflow-hidden rounded-full border border-white/20"
+              sizes="80px"
+              fallback={
+                <div className="h-20 w-20 mx-auto mb-3 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white text-3xl font-bold">
+                  {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+                </div>
+              }
+            />
+          ) : (
+            <div className="h-20 w-20 mx-auto mb-3 rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center text-white text-3xl font-bold">
+              {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+            </div>
+          )}
           <h3 className="text-xl font-bold text-white">
             {player.firstName} {player.lastName}
           </h3>

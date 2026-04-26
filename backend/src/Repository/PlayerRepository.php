@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Player;
+use App\Entity\Team;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,36 @@ class PlayerRepository extends ServiceEntityRepository
         parent::__construct($registry, Player::class);
     }
 
-    //    /**
-    //     * @return Player[] Returns an array of Player objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return Player[]
+     */
+    public function findAllWithRelations(): array
+    {
+        return $this->createQueryBuilder('player')
+            ->leftJoin('player.team', 'team')
+            ->leftJoin('player.agent', 'agent')
+            ->addSelect('team', 'agent')
+            ->orderBy('player.lastName', 'ASC')
+            ->addOrderBy('player.firstName', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?Player
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @return Player[]
+     */
+    public function findRosterForTeam(Team $team): array
+    {
+        return $this->createQueryBuilder('player')
+            ->leftJoin('player.team', 'team')
+            ->leftJoin('player.agent', 'agent')
+            ->addSelect('team', 'agent')
+            ->andWhere('player.team = :team')
+            ->setParameter('team', $team)
+            ->orderBy('player.position', 'ASC')
+            ->addOrderBy('player.lastName', 'ASC')
+            ->addOrderBy('player.firstName', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

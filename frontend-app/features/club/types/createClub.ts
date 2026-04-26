@@ -3,6 +3,7 @@ export type ClubOption = {
   name: string
   league: string
   country: string
+  logoUrl?: string | null
 }
 
 export type VerificationMethod =

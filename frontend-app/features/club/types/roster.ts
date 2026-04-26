@@ -2,6 +2,7 @@ export interface ClubPlayer {
   id: string
   firstName: string
   lastName: string
+  photoUrl?: string | null
   position: string
   age: number
   height: number // cm

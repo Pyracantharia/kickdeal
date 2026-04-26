@@ -1,4 +1,3 @@
-import { Suspense, use } from 'react'
 import PlayerDetails from '@/components/market/PlayerDetails'
 
 export const metadata = {
@@ -12,14 +11,10 @@ interface PlayerDetailPageProps {
   }>
 }
 
-function PlayerDetailPage({ params }: PlayerDetailPageProps) {
-  const { playerId } = use(params)
+async function PlayerDetailPage({ params }: PlayerDetailPageProps) {
+  const { playerId } = await params
 
-  return (
-    <Suspense>
-      <PlayerDetails playerId={playerId} />
-    </Suspense>
-  )
+  return <PlayerDetails playerId={playerId} />
 }
 
 export default PlayerDetailPage
