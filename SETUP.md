@@ -75,9 +75,10 @@ Une fois que toutes les configurations sont prêtes, vous pouvez déployer votre
     
     docker build -t kickdeal-backend:latest ./backend
     ```
-2.  **Construisez l'image Docker** du frontend :
+2.  **Construisez les images Docker** des frontends :
     ```bash
-    docker build -t kickdeal-frontend:latest ./frontend
+    docker build -t kickdeal-frontend-landing:latest ./frontend-landing
+    docker build -t kickdeal-frontend-app:latest ./frontend-app
     ```
 3.  **Déployez le stack** avec Docker Swarm :
     La commande de déploiement est une chaîne de plusieurs commandes (un "pipeline") qui prépare la configuration avant de la déployer.

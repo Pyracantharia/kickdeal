@@ -31,11 +31,10 @@ services:
         - "traefik.http.services.${TRAEFIK_ROUTER_NAME}.loadbalancer.server.port=80"
         - "traefik.docker.network=traefik_web"
 
-  frontend:
-    image: kickdeal-frontend:latest
+  frontend-landing:
+    image: kickdeal-frontend-landing:latest
     environment:
-      NEXT_SERVER_BACKEND_URL: "http://nginx:80"
-      NEXT_CLIENT_BACKEND_URL: "https://${TRAEFIK_DOMAIN}"
+      NEXT_PUBLIC_APP_URL: "https://${TRAEFIK_FRONTEND_APP_DOMAIN}"
     networks:
       - myapp_network
       - web
@@ -47,6 +46,24 @@ services:
         # - "traefik.http.routers.${TRAEFIK_FRONTEND_ROUTER_NAME}.tls.certresolver=${TRAEFIK_CERTRESOLVER}"on met sa avec traefik sans cloudflaore
         - "traefik.http.routers.${TRAEFIK_FRONTEND_ROUTER_NAME}.entrypoints=web"
         - "traefik.http.services.${TRAEFIK_FRONTEND_ROUTER_NAME}.loadbalancer.server.port=3000"
+        - "traefik.docker.network=traefik_web"
+
+  frontend-app:
+    image: kickdeal-frontend-app:latest
+    environment:
+      NEXT_PUBLIC_API_URL: "https://${TRAEFIK_DOMAIN}/api"
+      NEXT_SERVER_BACKEND_URL: "http://nginx:80"
+    networks:
+      - myapp_network
+      - web
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.${TRAEFIK_FRONTEND_APP_ROUTER_NAME}.rule=Host(`${TRAEFIK_FRONTEND_APP_DOMAIN}`)"
+        # - "traefik.http.routers.${TRAEFIK_FRONTEND_APP_ROUTER_NAME}.entrypoints=websecure" on met sa avec traefik sans cloudflare
+        # - "traefik.http.routers.${TRAEFIK_FRONTEND_APP_ROUTER_NAME}.tls.certresolver=${TRAEFIK_CERTRESOLVER}" on met sa avec traefik sans cloudflare
+        - "traefik.http.routers.${TRAEFIK_FRONTEND_APP_ROUTER_NAME}.entrypoints=web"
+        - "traefik.http.services.${TRAEFIK_FRONTEND_APP_ROUTER_NAME}.loadbalancer.server.port=3000"
         - "traefik.docker.network=traefik_web"
 
 
