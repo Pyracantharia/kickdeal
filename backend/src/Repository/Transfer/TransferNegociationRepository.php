@@ -44,4 +44,15 @@ class TransferNegociationRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getOneOrNullResult();
     }
+
+    public function findOneForListingAndBuyer(mixed $listing, Team $buyerTeam): ?TransferNegociation
+    {
+        return $this->createQueryBuilder('negociation')
+            ->andWhere('negociation.listing = :listing')
+            ->andWhere('negociation.buyerTeam = :buyerTeam')
+            ->setParameter('listing', $listing)
+            ->setParameter('buyerTeam', $buyerTeam)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

@@ -77,7 +77,9 @@ final class DashboardController extends AbstractController
             'eventLabel' => 'Deal transfert',
             'eventDate' => $eventDate?->format(\DateTimeInterface::ATOM),
             'homeClub' => $sellerTeam?->getName(),
+            'homeClubLogoUrl' => $sellerTeam?->getLogoUrl(),
             'awayClub' => $buyerTeam?->getName(),
+            'awayClubLogoUrl' => $buyerTeam?->getLogoUrl(),
             'playerName' => trim(sprintf('%s %s', $player?->getFirstName() ?? '', $player?->getLastName() ?? '')),
             'status' => [
                 'value' => $negociation->getStatus()?->value,

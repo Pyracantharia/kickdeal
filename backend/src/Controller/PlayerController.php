@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Enum\PlayerAvailabilityStatusEnum;
 use App\Enum\PlayerMarketStatusEnum;
 use App\Repository\PlayerRepository;
+use App\Repository\TeamRepository;
 use App\Repository\TeamMembershipRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,6 +40,30 @@ final class PlayerController extends AbstractController
         $players = array_map(
             fn (Player $player): array => $this->serializeClubRosterPlayer($player),
             $playerRepository->findRosterForTeam($membership->getTeam()),
+        );
+
+        return $this->json([
+            'players' => $players,
+        ]);
+    }
+
+    #[Route('/team/{teamId}/roster', name: 'app_player_team_roster', methods: ['GET'])]
+    public function teamRoster(
+        string $teamId,
+        TeamRepository $teamRepository,
+        PlayerRepository $playerRepository,
+    ): JsonResponse {
+        $team = $teamRepository->find($teamId);
+
+        if (null === $team) {
+            return $this->json([
+                'errorMessage' => 'Club introuvable.',
+            ], 404);
+        }
+
+        $players = array_map(
+            fn (Player $player): array => $this->serializeClubRosterPlayer($player),
+            $playerRepository->findRosterForTeam($team),
         );
 
         return $this->json([

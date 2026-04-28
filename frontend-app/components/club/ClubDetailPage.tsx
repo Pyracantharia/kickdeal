@@ -7,9 +7,10 @@ import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import Modal from '@/components/ui/Modal'
-import CircleImage from '@/components/media/CircleImage'
+import { ActionCard, ClubLogo, FinanceCard, InfoCard, StatCard } from '@/components/club/ClubDetailParts'
 import { clubManager } from '@/features/club/club'
 import type { ClubDetail, CreatePlayerPayload } from '@/features/club/types/club'
+import { formatNumberInput, parseFormattedNumber, parseOptionalNumber } from '@/features/format/number'
 
 const INITIAL_PLAYER_FORM = {
   firstName: '',
@@ -94,12 +95,12 @@ function ClubDetailPage() {
       birthDate: playerForm.birthDate || undefined,
       nationality: playerForm.nationality || undefined,
       photoUrl: playerForm.photoUrl || undefined,
-      heightCm: toNumber(playerForm.heightCm),
-      weightKg: toNumber(playerForm.weightKg),
+      heightCm: parseOptionalNumber(playerForm.heightCm),
+      weightKg: parseOptionalNumber(playerForm.weightKg),
       preferredFoot: playerForm.preferredFoot || undefined,
-      marketValue: toNumber(playerForm.marketValue),
-      weeklySalary: toNumber(playerForm.weeklySalary),
-      releaseClause: toNumber(playerForm.releaseClause),
+      marketValue: parseFormattedNumber(playerForm.marketValue),
+      weeklySalary: parseFormattedNumber(playerForm.weeklySalary),
+      releaseClause: parseFormattedNumber(playerForm.releaseClause),
       contractEndDate: playerForm.contractEndDate || undefined,
     }
 
@@ -127,7 +128,7 @@ function ClubDetailPage() {
   }
 
   const openBudgetModal = () => {
-    setBudgetForm(club ? String(club.finances.totalBudget) : '')
+    setBudgetForm(club ? formatNumberInput(String(club.finances.totalBudget * 1_000_000)) : '')
     setBudgetError(null)
     setIsBudgetModalOpen(true)
   }
@@ -137,9 +138,9 @@ function ClubDetailPage() {
     setIsUpdatingBudget(true)
     setBudgetError(null)
 
-    const budgetInMillions = Number(budgetForm)
+    const budget = parseFormattedNumber(budgetForm)
 
-    if (!Number.isFinite(budgetInMillions) || budgetInMillions < 0) {
+    if (budget === undefined || budget < 0) {
       setBudgetError('Budget invalide.')
       setIsUpdatingBudget(false)
       return
@@ -147,7 +148,7 @@ function ClubDetailPage() {
 
     try {
       const response = await clubManager.updateBudget({
-        totalBudget: budgetInMillions * 1_000_000,
+        totalBudget: budget,
       })
 
       if (!response.ok) {
@@ -190,25 +191,29 @@ function ClubDetailPage() {
   return (
     <div className="auth-bg min-h-screen w-full pt-28 pb-10 px-4">
       <div className="mx-auto w-full max-w-6xl">
-        <Card color="cyan" baseGradient={false} className="mb-8 bg-white/5 p-6 md:p-8">
+        <Card
+          color="cyan"
+          baseGradient={false}
+          className="relative mb-8 overflow-hidden border-brand-cyan/35 bg-[#071722]/85 bg-gradient-to-br from-brand-cyan/16 via-[#071722]/90 to-brand-purple/18 p-6 shadow-2xl shadow-brand-cyan/10 md:p-8"
+        >
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-cyan via-brand-purple to-brand-cyan" />
           <div className="flex items-start justify-between gap-6">
             <div className="flex items-start gap-4 flex-1">
               <ClubLogo club={club} />
               <div>
                 <h1 className="text-4xl font-bold text-white mb-2">{club.name}</h1>
-                <div className="flex items-center gap-2 text-brand-cyan text-sm">
-                  <span>{club.league}</span>
-                  <span>•</span>
-                  <span>{club.country}</span>
-                  <span>•</span>
-                  <span>Membre depuis {club.joinDate}</span>
+                <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-white/85">
+                  <span className="rounded-full border border-brand-cyan/40 bg-brand-cyan/10 px-3 py-1 text-brand-cyan">{club.league}</span>
+                  <span className="rounded-full border border-brand-purple/40 bg-brand-purple/10 px-3 py-1 text-white">{club.country}</span>
+                  <span className="text-white/65">Membre depuis {club.joinDate}</span>
                 </div>
+                <div className="mt-4 h-[3px] w-28 rounded-full bg-gradient-to-r from-brand-cyan to-brand-purple" />
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <InfoCard label="Budget" value={`${club.finances.totalBudget.toFixed(1)} M€`} />
-              <InfoCard label="Salaires" value={`${club.finances.totalSalaries.toFixed(1)} M€`} />
-              <InfoCard label="Joueurs" value={club.stats.totalPlayers.toString()} />
+            <div className="flex flex-wrap items-center justify-end gap-4">
+              <InfoCard label="Budget" value={`${club.finances.totalBudget.toFixed(1)} M€`} tone="cyan" />
+              <InfoCard label="Salaires" value={`${club.finances.totalSalaries.toFixed(1)} M€`} tone="purple" />
+              <InfoCard label="Joueurs" value={club.stats.totalPlayers.toString()} tone="cyan" />
             </div>
           </div>
         </Card>
@@ -219,29 +224,39 @@ function ClubDetailPage() {
             STATISTIQUES DU CLUB
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-            <StatCard label="Effectif" value={club.stats.totalPlayers} icon={<Users className="h-5 w-5" />} />
-            <StatCard label="Sur le marché" value={club.stats.playersOnMarket} icon={<Send className="h-5 w-5" />} />
-            <StatCard label="Blessés" value={club.stats.injuredPlayers} icon={<Users className="h-5 w-5" />} />
-            <StatCard label="Offres reçues" value={club.stats.offersReceived} icon={<Send className="h-5 w-5" />} />
-            <StatCard label="Bloquées" value={club.stats.blockedOffers} icon={<Users className="h-5 w-5" />} />
-            <StatCard label="Négociations" value={club.stats.negotiations} icon={<Zap className="h-5 w-5" />} />
+            <StatCard label="Effectif" value={club.stats.totalPlayers} icon={<Users className="h-5 w-5" />} tone="cyan" />
+            <StatCard label="Sur le marché" value={club.stats.playersOnMarket} icon={<Send className="h-5 w-5" />} tone="purple" />
+            <StatCard label="Blessés" value={club.stats.injuredPlayers} icon={<Users className="h-5 w-5" />} tone="cyan" />
+            <StatCard label="Offres reçues" value={club.stats.offersReceived} icon={<Send className="h-5 w-5" />} tone="purple" />
+            <StatCard label="Bloquées" value={club.stats.blockedOffers} icon={<Users className="h-5 w-5" />} tone="cyan" />
+            <StatCard label="Négociations" value={club.stats.negotiations} icon={<Zap className="h-5 w-5" />} tone="purple" />
           </div>
         </div>
 
         <div className="mb-8">
           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h2 className="text-xl font-bold text-brand-cyan">FINANCES</h2>
-            <Button type="button" variant="secondary" onClick={openBudgetModal}>
+            <Button
+              type="button"
+              variant="secondary"
+              className="border-brand-purple/45 bg-brand-purple/15 text-white hover:bg-brand-purple/25"
+              onClick={openBudgetModal}
+            >
               Modifier le budget
             </Button>
           </div>
-          <Card color="cyan" baseGradient={false} className="bg-white/5 p-6">
+          <Card
+            color="cyan"
+            baseGradient={false}
+            className="relative overflow-hidden border-brand-cyan/30 bg-[#071722]/85 bg-gradient-to-r from-brand-cyan/12 via-[#071722]/90 to-brand-purple/14 p-6 shadow-2xl shadow-brand-purple/10"
+          >
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-purple via-brand-cyan to-brand-purple" />
             <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-              <FinanceCard label="Budget total" value={`${club.finances.totalBudget.toFixed(1)} M€`} />
-              <FinanceCard label="Budget restant" value={`${club.finances.remainingBudget.toFixed(1)} M€`} />
-              <FinanceCard label="Masse salariale" value={`${club.finances.totalSalaries.toFixed(1)} M€`} />
-              <FinanceCard label="Valeur effectif" value={`${club.finances.playerValue.toFixed(1)} M€`} />
-              <FinanceCard label="Revenus récents" value={`+${club.finances.recentRevenues.toFixed(1)} M€`} />
+              <FinanceCard label="Budget total" value={`${club.finances.totalBudget.toFixed(1)} M€`} tone="cyan" />
+              <FinanceCard label="Budget restant" value={`${club.finances.remainingBudget.toFixed(1)} M€`} tone="purple" />
+              <FinanceCard label="Masse salariale" value={`${club.finances.totalSalaries.toFixed(1)} M€`} tone="cyan" />
+              <FinanceCard label="Valeur effectif" value={`${club.finances.playerValue.toFixed(1)} M€`} tone="purple" />
+              <FinanceCard label="Revenus récents" value={`+${club.finances.recentRevenues.toFixed(1)} M€`} tone="cyan" />
             </div>
           </Card>
         </div>
@@ -252,18 +267,21 @@ function ClubDetailPage() {
             description="Voir et modifier vos joueurs"
             icon={<Users className="h-6 w-6" />}
             href="/players"
+            tone="cyan"
           />
           <ActionCard
             title="Voir le marché"
             description="Joueurs disponibles"
             icon={<Send className="h-6 w-6" />}
             href="/market"
+            tone="purple"
           />
           <ActionCard
             title="Créer un joueur"
             description="Centre de formation"
             icon={<Zap className="h-6 w-6" />}
             onClick={() => setIsCreateModalOpen(true)}
+            tone="cyan"
           />
         </div>
       </div>
@@ -346,26 +364,23 @@ function ClubDetailPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <Input
               label="Valeur"
-              type="number"
-              min="0"
+              inputMode="numeric"
               value={playerForm.marketValue}
-              onChange={(event) => updatePlayerField('marketValue', event.target.value)}
-              placeholder="5000000"
+              onChange={(event) => updatePlayerField('marketValue', formatNumberInput(event.target.value))}
+              placeholder="5 000 000"
             />
             <Input
               label="Salaire hebdo"
-              type="number"
-              min="0"
+              inputMode="numeric"
               value={playerForm.weeklySalary}
-              onChange={(event) => updatePlayerField('weeklySalary', event.target.value)}
-              placeholder="50000"
+              onChange={(event) => updatePlayerField('weeklySalary', formatNumberInput(event.target.value))}
+              placeholder="50 000"
             />
             <Input
               label="Clause"
-              type="number"
-              min="0"
+              inputMode="numeric"
               value={playerForm.releaseClause}
-              onChange={(event) => updatePlayerField('releaseClause', event.target.value)}
+              onChange={(event) => updatePlayerField('releaseClause', formatNumberInput(event.target.value))}
               placeholder="0"
             />
           </div>
@@ -401,12 +416,11 @@ function ClubDetailPage() {
       >
         <form className="space-y-4" onSubmit={handleUpdateBudget}>
           <Input
-            label="Budget transfert (M€)"
-            type="number"
-            min="0"
-            step="0.1"
+            label="Budget transfert (€)"
+            inputMode="numeric"
             value={budgetForm}
-            onChange={(event) => setBudgetForm(event.target.value)}
+            onChange={(event) => setBudgetForm(formatNumberInput(event.target.value))}
+            placeholder="100 000 000"
             required
           />
           {budgetError && (
@@ -425,122 +439,6 @@ function ClubDetailPage() {
         </form>
       </Modal>
     </div>
-  )
-}
-
-function toNumber(value: string): number | undefined {
-  if ('' === value) {
-    return undefined
-  }
-
-  const numberValue = Number(value)
-
-  return Number.isFinite(numberValue) ? numberValue : undefined
-}
-
-function ClubLogo({ club }: { club: ClubDetail }) {
-  if (club.logoUrl) {
-    return (
-      <CircleImage
-        src={club.logoUrl}
-        alt={club.name}
-        className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border-2 border-brand-cyan bg-white/10"
-        sizes="80px"
-        imageClassName="object-contain p-2"
-        fallback={<ClubLogoFallback club={club} />}
-      />
-    )
-  }
-
-  return <ClubLogoFallback club={club} />
-}
-
-function ClubLogoFallback({ club }: { club: ClubDetail }) {
-  return (
-    <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 border-brand-cyan bg-white/10 text-3xl font-bold text-white">
-      {(club.logo || club.name.charAt(0)).toUpperCase()}
-    </div>
-  )
-}
-
-interface InfoCardProps {
-  label: string
-  value: string
-}
-
-function InfoCard({ label, value }: InfoCardProps) {
-  return (
-    <div className="rounded-lg border-2 border-brand-cyan/50 bg-white/5 px-3 py-2 text-center">
-      <p className="text-xs text-white/70">{label}</p>
-      <p className="text-lg font-bold text-brand-cyan">{value}</p>
-    </div>
-  )
-}
-
-interface StatCardProps {
-  icon: React.ReactNode
-  label: string
-  value: number
-}
-
-function StatCard({ icon, label, value }: StatCardProps) {
-  return (
-    <div className="rounded-lg border-2 border-white/20 bg-white/5 p-4 flex flex-col items-center gap-2 text-center">
-      <div className="text-brand-cyan">{icon}</div>
-      <p className="text-2xl font-bold text-brand-cyan">{value}</p>
-      <p className="text-xs text-white/70">{label}</p>
-    </div>
-  )
-}
-
-interface FinanceCardProps {
-  label: string
-  value: string
-}
-
-function FinanceCard({ label, value }: FinanceCardProps) {
-  return (
-    <div className="text-center">
-      <p className="text-xs text-white/70 mb-2">{label}</p>
-      <p className="text-2xl font-bold text-brand-cyan">{value}</p>
-    </div>
-  )
-}
-
-interface ActionCardProps {
-  title: string
-  description: string
-  icon: React.ReactNode
-  href?: string
-  onClick?: () => void
-}
-
-function ActionCard({ title, description, icon, href, onClick }: ActionCardProps) {
-  const content = (
-    <div className="rounded-lg border-2 border-white/20 bg-white/5 p-4 hover:border-brand-cyan/50 hover:bg-white/10 transition-all cursor-pointer group">
-        <div className="flex items-center gap-4">
-          <div className="text-brand-cyan">{icon}</div>
-          <div className="flex-1">
-            <p className="font-semibold text-white">{title}</p>
-            <p className="text-sm text-white/70">{description}</p>
-          </div>
-          <span className="text-brand-cyan opacity-0 group-hover:opacity-100 transition-opacity">→</span>
-        </div>
-      </div>
-  )
-
-  if (href) {
-    return (
-      <a href={href}>
-        {content}
-      </a>
-    )
-  }
-
-  return (
-    <button type="button" onClick={onClick} className="w-full text-left">
-      {content}
-    </button>
   )
 }
 
