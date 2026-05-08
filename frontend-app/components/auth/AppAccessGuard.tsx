@@ -15,6 +15,8 @@ function AppAccessGuard({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
 
+  const isUnauthenticated = !isLoading && !user
+
   const mustCompleteClubSetup =
     !isLoading &&
     user?.roles.includes('ROLE_CLUB') &&
@@ -22,12 +24,17 @@ function AppAccessGuard({ children }: { children: ReactNode }) {
     !isClubSetupPath(pathname)
 
   useEffect(() => {
+    if (isUnauthenticated) {
+      router.replace('/auth/login')
+      return
+    }
+
     if (mustCompleteClubSetup) {
       router.replace('/club')
     }
-  }, [mustCompleteClubSetup, router])
+  }, [isUnauthenticated, mustCompleteClubSetup, router])
 
-  if (isLoading || mustCompleteClubSetup) {
+  if (isLoading || isUnauthenticated || mustCompleteClubSetup) {
     return <div className="auth-bg min-h-screen w-full" />
   }
 
