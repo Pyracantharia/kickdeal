@@ -27,6 +27,29 @@ export interface ClubFinances {
   recentRevenues: number
 }
 
+export interface ClubAccountMember {
+  id: string
+  userId?: string | null
+  name: string
+  email?: string | null
+  role: string
+  roleLabel: string
+  isPrimary: boolean
+  joinedAt?: string | null
+}
+
+export interface ClubAccounts {
+  canManage: boolean
+  invitationCode: string
+  seats: {
+    used: number
+    included?: number | null
+    remaining?: number | null
+    unlimited: boolean
+  }
+  members: ClubAccountMember[]
+}
+
 export interface ClubDetail {
   id: string
   name: string
@@ -37,6 +60,7 @@ export interface ClubDetail {
   joinDate: string
   stats: ClubStats
   finances: ClubFinances
+  accounts?: ClubAccounts
   players?: ClubPlayer[]
 }
 

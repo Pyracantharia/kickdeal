@@ -7,6 +7,7 @@ use App\Entity\Player;
 use App\Entity\Team;
 use App\Entity\TeamMembership;
 use App\Entity\User;
+use App\Enum\ClubRequestStatusEnum;
 use App\Enum\MembershipRoleEnum;
 use App\Enum\PlayerAvailabilityStatusEnum;
 use App\Enum\PlayerContractStatusEnum;
@@ -160,6 +161,79 @@ final class ClubController extends AbstractController
         ]);
     }
 
+    #[Route('/join', name: 'app_club_join', methods: ['POST'])]
+    public function join(
+        Request $request,
+        #[CurrentUser] ?User $user,
+        TeamRepository $teamRepository,
+        TeamMembershipRepository $teamMembershipRepository,
+        EntityManagerInterface $entityManager,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
+        if (!$user) {
+            return $this->json([
+                'errorMessage' => 'Utilisateur non authentifié.',
+            ], 401);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        $invitationCode = trim((string) ($payload['invitationCode'] ?? ''));
+
+        if ('' === $invitationCode) {
+            return $this->json([
+                'errorMessage' => 'Code d’invitation requis.',
+            ], 422);
+        }
+
+        $team = $this->resolveTeamFromInvitationCode($teamRepository, $invitationCode);
+
+        if (!$team instanceof Team) {
+            return $this->json([
+                'errorMessage' => 'Code d’invitation invalide.',
+            ], 404);
+        }
+
+        $existingMembership = $teamMembershipRepository->findOneBy([
+            'user' => $user,
+            'team' => $team,
+        ]);
+
+        if ($existingMembership instanceof TeamMembership) {
+            return $this->json([
+                'errorMessage' => 'Vous êtes déjà membre de ce club.',
+            ], 409);
+        }
+
+        if (!$this->teamHasAvailableSeat($team, $teamMembershipRepository)) {
+            return $this->json([
+                'errorMessage' => 'La limite de comptes du club est atteinte. Le gestionnaire doit passer sur une offre supérieure.',
+            ], 402);
+        }
+
+        $hasPrimaryMembership = $teamMembershipRepository->findOneBy([
+            'user' => $user,
+            'primary' => true,
+        ]);
+
+        $membership = (new TeamMembership())
+            ->setUser($user)
+            ->setTeam($team)
+            ->setRole(MembershipRoleEnum::STAFF)
+            ->setPrimary(null === $hasPrimaryMembership);
+
+        $entityManager->persist($membership);
+        $entityManager->flush();
+
+        return $this->json([
+            'message' => 'Club rejoint avec succès.',
+            'club' => $this->serializeClubDetail($membership),
+        ], 201);
+    }
+
     #[Route('/search', name: 'app_club_search', methods: ['GET'])]
     public function search(Request $request, TeamRepository $teamRepository): JsonResponse
     {
@@ -173,10 +247,38 @@ final class ClubController extends AbstractController
             'league' => $team->getLeague() ?? '',
             'country' => $team->getCountry() ?? '',
             'logoUrl' => $team->getLogoUrl(),
+            'isClaimed' => !$team->getTeamMemberships()->isEmpty(),
         ], $teams);
 
         return $this->json([
             'clubs' => $clubs,
+        ]);
+    }
+
+    #[Route('/requests/mine', name: 'app_club_request_mine', methods: ['GET'])]
+    public function myRequest(
+        #[CurrentUser] ?User $user,
+        ClubRequestRepository $clubRequestRepository,
+        TeamMembershipRepository $teamMembershipRepository,
+        EntityManagerInterface $entityManager,
+    ): JsonResponse {
+        if (!$user) {
+            return $this->json([
+                'errorMessage' => 'Utilisateur non authentifié.',
+            ], 401);
+        }
+
+        $clubRequest = $clubRequestRepository->findLatestUnresolvedForUser($user);
+
+        if ($clubRequest instanceof ClubRequest && ClubRequestStatusEnum::APPROVED === $clubRequest->getStatus()) {
+            $this->ensureApprovedClubMembership($clubRequest, $teamMembershipRepository, $entityManager);
+        }
+
+        $membership = $teamMembershipRepository->findPrimaryForUser($user);
+
+        return $this->json([
+            'clubRequest' => $clubRequest instanceof ClubRequest ? $this->serializeClubRequest($clubRequest) : null,
+            'hasClubAccess' => $membership instanceof TeamMembership && null !== $membership->getTeam(),
         ]);
     }
 
@@ -235,22 +337,35 @@ final class ClubController extends AbstractController
             ], 404);
         }
 
-        if ($clubRequestRepository->hasPendingRequest($user, $team)) {
+        $pendingRequest = $clubRequestRepository->findLatestUnresolvedForUser($user);
+
+        if ($pendingRequest instanceof ClubRequest) {
             return $this->json([
-                'errorMessage' => 'Une demande de création est déjà en attente pour ce club.',
+                'errorMessage' => ClubRequestStatusEnum::APPROVED === $pendingRequest->getStatus()
+                    ? 'Votre demande de gestion a déjà été validée.'
+                    : 'Vous avez déjà une demande de gestion de club en attente de validation.',
+                'clubRequest' => $this->serializeClubRequest($pendingRequest),
             ], 409);
         }
 
-        if (!$teamMembershipRepository->findOneBy(['user' => $user, 'team' => $team])) {
-            $hasPrimaryMembership = $teamMembershipRepository->findOneBy(['user' => $user, 'primary' => true]);
+        if ($clubRequestRepository->hasPendingRequest($user, $team)) {
+            return $this->json([
+                'errorMessage' => 'Une demande de gestion est déjà en attente pour ce club.',
+            ], 409);
+        }
 
-            $teamMembership = (new TeamMembership())
-                ->setUser($user)
-                ->setTeam($team)
-                ->setRole(MembershipRoleEnum::CLUB_MANAGER)
-                ->setPrimary(null === $hasPrimaryMembership);
+        $existingMembership = $teamMembershipRepository->findOneBy(['user' => $user, 'team' => $team]);
 
-            $entityManager->persist($teamMembership);
+        if ($existingMembership instanceof TeamMembership) {
+            return $this->json([
+                'errorMessage' => 'Vous êtes déjà rattaché à ce club.',
+            ], 409);
+        }
+
+        if ($teamMembershipRepository->countByTeam($team) > 0) {
+            return $this->json([
+                'errorMessage' => 'Ce club est déjà géré sur KickDeal. Demandez un code d’invitation au gestionnaire principal pour le rejoindre.',
+            ], 409);
         }
 
         $clubRequest = (new ClubRequest())
@@ -281,9 +396,10 @@ final class ClubController extends AbstractController
         $entityManager->flush();
 
         return $this->json([
-            'message' => 'Demande club soumise avec succès.',
+            'message' => 'Demande de gestion soumise avec succès.',
             'clubRequestId' => $clubRequest->getId()?->toRfc4122(),
             'teamId' => $team->getId()?->toRfc4122(),
+            'clubRequest' => $this->serializeClubRequest($clubRequest),
         ], 201);
     }
 
@@ -361,7 +477,135 @@ final class ClubController extends AbstractController
                 'playerValue' => $this->centsToMillions($playerValue),
                 'recentRevenues' => 0,
             ],
+            'accounts' => $this->serializeClubAccounts($membership),
         ];
+    }
+
+    private function serializeClubAccounts(TeamMembership $currentMembership): array
+    {
+        $team = $currentMembership->getTeam();
+        $memberships = $team->getTeamMemberships()->toArray();
+        usort(
+            $memberships,
+            static function (TeamMembership $a, TeamMembership $b): int {
+                if ($a->isPrimary() !== $b->isPrimary()) {
+                    return $a->isPrimary() ? -1 : 1;
+                }
+
+                return ($a->getCreatedAt()?->getTimestamp() ?? 0) <=> ($b->getCreatedAt()?->getTimestamp() ?? 0);
+            },
+        );
+
+        $managerMembership = $this->findManagerMembership($memberships) ?? $currentMembership;
+        $seatsIncluded = $managerMembership->getUser()?->getSubscriptionPlan()->clubSeatsIncluded();
+        $usedSeats = count($memberships);
+
+        return [
+            'canManage' => MembershipRoleEnum::CLUB_MANAGER === $currentMembership->getRole(),
+            'invitationCode' => $this->buildInvitationCode($team),
+            'seats' => [
+                'used' => $usedSeats,
+                'included' => $seatsIncluded,
+                'remaining' => null === $seatsIncluded ? null : max(0, $seatsIncluded - $usedSeats),
+                'unlimited' => null === $seatsIncluded,
+            ],
+            'members' => array_map(fn (TeamMembership $membership): array => $this->serializeClubMember($membership), $memberships),
+        ];
+    }
+
+    /**
+     * @param TeamMembership[] $memberships
+     */
+    private function findManagerMembership(array $memberships): ?TeamMembership
+    {
+        foreach ($memberships as $membership) {
+            if (MembershipRoleEnum::CLUB_MANAGER === $membership->getRole()) {
+                return $membership;
+            }
+        }
+
+        return $memberships[0] ?? null;
+    }
+
+    private function serializeClubMember(TeamMembership $membership): array
+    {
+        $user = $membership->getUser();
+
+        return [
+            'id' => $membership->getId()?->toRfc4122(),
+            'userId' => $user?->getId()?->toRfc4122(),
+            'name' => trim(sprintf('%s %s', $user?->getFirstName() ?? '', $user?->getLastName() ?? '')) ?: $user?->getEmail(),
+            'email' => $user?->getEmail(),
+            'role' => $membership->getRole()?->value,
+            'roleLabel' => $this->membershipRoleLabel($membership->getRole()),
+            'isPrimary' => $membership->isPrimary(),
+            'joinedAt' => $membership->getCreatedAt()?->format('Y-m-d'),
+        ];
+    }
+
+    private function membershipRoleLabel(?MembershipRoleEnum $role): string
+    {
+        return match ($role) {
+            MembershipRoleEnum::CLUB_MANAGER => 'Gestionnaire',
+            MembershipRoleEnum::SPORTING_DIRECTOR => 'Directeur sportif',
+            MembershipRoleEnum::RECRUITER => 'Recruteur',
+            MembershipRoleEnum::STAFF => 'Staff',
+            null => 'Membre',
+        };
+    }
+
+    private function serializeClubRequest(ClubRequest $clubRequest): array
+    {
+        $team = $clubRequest->getTeam();
+
+        return [
+            'id' => $clubRequest->getId()?->toRfc4122(),
+            'status' => $clubRequest->getStatus()->value,
+            'createdAt' => $clubRequest->getCreatedAt()?->format(\DateTimeInterface::ATOM),
+            'team' => $team instanceof Team ? [
+                'id' => $team->getId()?->toRfc4122(),
+                'name' => $team->getName(),
+                'league' => $team->getLeague() ?? '',
+                'country' => $team->getCountry() ?? '',
+                'logoUrl' => $team->getLogoUrl(),
+            ] : null,
+        ];
+    }
+
+    private function ensureApprovedClubMembership(
+        ClubRequest $clubRequest,
+        TeamMembershipRepository $teamMembershipRepository,
+        EntityManagerInterface $entityManager,
+    ): void {
+        $user = $clubRequest->getRequester();
+        $team = $clubRequest->getTeam();
+
+        if (!$user instanceof User || !$team instanceof Team) {
+            return;
+        }
+
+        $existingMembership = $teamMembershipRepository->findOneBy([
+            'user' => $user,
+            'team' => $team,
+        ]);
+
+        if ($existingMembership instanceof TeamMembership) {
+            return;
+        }
+
+        $hasPrimaryMembership = $teamMembershipRepository->findOneBy([
+            'user' => $user,
+            'primary' => true,
+        ]);
+
+        $teamMembership = (new TeamMembership())
+            ->setUser($user)
+            ->setTeam($team)
+            ->setRole(MembershipRoleEnum::CLUB_MANAGER)
+            ->setPrimary(null === $hasPrimaryMembership);
+
+        $entityManager->persist($teamMembership);
+        $entityManager->flush();
     }
 
     private function parseDate(mixed $value): ?\DateTimeImmutable
@@ -444,6 +688,60 @@ final class ClubController extends AbstractController
         $entityManager->persist($team);
 
         return $team;
+    }
+
+    private function buildInvitationCode(Team $team): string
+    {
+        $teamId = $team->getId()?->toRfc4122();
+
+        if (null === $teamId) {
+            return '';
+        }
+
+        return 'KD-'.strtoupper(str_replace('-', '', $teamId));
+    }
+
+    private function resolveTeamFromInvitationCode(TeamRepository $teamRepository, string $invitationCode): ?Team
+    {
+        $normalizedCode = strtoupper(preg_replace('/[^A-Z0-9]/', '', $invitationCode) ?? '');
+
+        if (str_starts_with($normalizedCode, 'KD')) {
+            $normalizedCode = substr($normalizedCode, 2);
+        }
+
+        if (!preg_match('/^[A-F0-9]{32}$/', $normalizedCode)) {
+            return null;
+        }
+
+        $teamId = strtolower(sprintf(
+            '%s-%s-%s-%s-%s',
+            substr($normalizedCode, 0, 8),
+            substr($normalizedCode, 8, 4),
+            substr($normalizedCode, 12, 4),
+            substr($normalizedCode, 16, 4),
+            substr($normalizedCode, 20),
+        ));
+
+        if (!Uuid::isValid($teamId)) {
+            return null;
+        }
+
+        $team = $teamRepository->find(Uuid::fromString($teamId));
+
+        return $team instanceof Team ? $team : null;
+    }
+
+    private function teamHasAvailableSeat(Team $team, TeamMembershipRepository $teamMembershipRepository): bool
+    {
+        $memberships = $teamMembershipRepository->findByTeamOrdered($team);
+        $managerMembership = $this->findManagerMembership($memberships);
+        $seatsIncluded = $managerMembership?->getUser()?->getSubscriptionPlan()->clubSeatsIncluded();
+
+        if (null === $seatsIncluded) {
+            return true;
+        }
+
+        return count($memberships) < $seatsIncluded;
     }
 
     /**

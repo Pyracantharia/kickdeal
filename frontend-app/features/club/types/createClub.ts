@@ -4,6 +4,7 @@ export type ClubOption = {
   league: string
   country: string
   logoUrl?: string | null
+  isClaimed?: boolean
 }
 
 export type VerificationMethod =

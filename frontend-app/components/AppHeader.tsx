@@ -20,7 +20,14 @@ function AppHeader() {
     ? 'sans-club'
     : getVariantFromRoles(user.roles)
 
-  return <Navbar variant={variant} clubName={user.clubName ?? 'Mon club'} clubLogoUrl={user.clubLogoUrl} />
+  return (
+    <Navbar
+      variant={variant}
+      clubName={user.clubName ?? 'Mon club'}
+      clubLogoUrl={user.clubLogoUrl}
+      subscriptionPlan={user.subscriptionPlan}
+    />
+  )
 }
 
 export default AppHeader

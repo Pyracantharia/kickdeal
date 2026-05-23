@@ -4,10 +4,11 @@ import React, { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Menu, X, ArrowLeft, Users2, ChevronDown, LogOut } from 'lucide-react'
+import { Menu, X, ArrowLeft, ChevronDown, LogOut } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { useAuth } from '@/context/AuthProvider'
 import { authManager } from '@/features/auth/auth'
+import type { SubscriptionPlan } from '@/features/subscription/subscription'
 
 export type NavbarVariant = 'club' | 'agent' | 'sans-club' | 'creation'
 
@@ -15,6 +16,7 @@ interface NavbarProps {
   variant: NavbarVariant
   clubName?: string
   clubLogoUrl?: string | null
+  subscriptionPlan?: SubscriptionPlan
 }
 
 const CLUB_LINKS = [
@@ -177,15 +179,33 @@ function ClubButton({
   )
 }
 
-function AgentProButton() {
+function PlanBadge({ plan, onClick }: { plan?: SubscriptionPlan; onClick: () => void }) {
+  const label = getPlanBadgeLabel(plan)
+  const isEnterprise = plan === 'club_enterprise'
+  const isPaid = isEnterprise || plan === 'club_pro' || plan === 'agent_pro'
+
   return (
-    <button className="flex items-center gap-2.5 rounded-full px-4 py-2 gradient-button border border-brand-purple/30 text-white text-sm font-semibold transition-all hover:opacity-90 shrink-0">
-      <div className="rounded-full bg-brand-purple/30 p-1">
-        <Users2 className="h-4 w-4 text-brand-purple" />
-      </div>
-      Agent Pro
+    <button
+      type="button"
+      onClick={onClick}
+      className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${
+        isEnterprise
+          ? 'border-brand-cyan/50 bg-brand-purple/25 text-white hover:bg-brand-purple/35'
+          : isPaid
+          ? 'border-brand-purple/50 bg-brand-purple/20 text-white hover:bg-brand-purple/30'
+          : 'border-brand-cyan/45 bg-brand-cyan/10 text-brand-cyan hover:bg-brand-cyan/20'
+      }`}
+      title="Voir mon abonnement"
+    >
+      {label}
     </button>
   )
+}
+
+function getPlanBadgeLabel(plan?: SubscriptionPlan): string {
+  if (plan === 'club_enterprise') return 'Enterprise'
+  if (plan === 'club_pro' || plan === 'agent_pro') return 'Pro'
+  return 'Free'
 }
 
 function MobileMenu({
@@ -193,13 +213,19 @@ function MobileMenu({
   onClose,
   onLogout,
   isLoggingOut,
+  subscriptionPlan,
 }: {
   links: { href: string; label: string }[]
   onClose: () => void
   onLogout: () => void
   isLoggingOut: boolean
+  subscriptionPlan?: SubscriptionPlan
 }) {
   const pathname = usePathname()
+  const badgeLabel = getPlanBadgeLabel(subscriptionPlan)
+  const isEnterprise = subscriptionPlan === 'club_enterprise'
+  const isPaid = isEnterprise || subscriptionPlan === 'club_pro' || subscriptionPlan === 'agent_pro'
+
   return (
     <>
       <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" onClick={onClose} />
@@ -218,6 +244,14 @@ function MobileMenu({
             {label}
           </Link>
         ))}
+        <Link
+          href="/subscription"
+          onClick={onClose}
+          className="mx-6 mt-2 flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+        >
+          <span>Abonnement</span>
+          <span className={isPaid ? 'text-brand-purple' : 'text-brand-cyan'}>{badgeLabel}</span>
+        </Link>
         <div className="px-6 pt-3">
           <Button
             type="button"
@@ -236,7 +270,7 @@ function MobileMenu({
 }
 
 
-function Navbar({ variant, clubName = 'Club', clubLogoUrl = null }: NavbarProps) {
+function Navbar({ variant, clubName = 'Club', clubLogoUrl = null, subscriptionPlan }: NavbarProps) {
   const router = useRouter()
   const { updateUser } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -299,6 +333,9 @@ function Navbar({ variant, clubName = 'Club', clubLogoUrl = null }: NavbarProps)
         )}
 
         <div className="ml-auto flex items-center gap-3">
+          {canLogout && (
+            <PlanBadge plan={subscriptionPlan} onClick={() => router.push('/subscription')} />
+          )}
           {variant === 'club' && (
             <ClubButton
               name={clubName}
@@ -307,7 +344,6 @@ function Navbar({ variant, clubName = 'Club', clubLogoUrl = null }: NavbarProps)
               isLoggingOut={isLoggingOut}
             />
           )}
-          {variant === 'agent' && <AgentProButton />}
           {canLogout && variant !== 'club' && (
             <Button
               type="button"
@@ -349,27 +385,15 @@ function Navbar({ variant, clubName = 'Club', clubLogoUrl = null }: NavbarProps)
         <LogoMobile />
 
         <div className="w-10 flex justify-end">
-          {variant === 'club' && (
-            clubLogoUrl ? (
-              <div className="relative h-9 w-9">
-                <Image
-                  src={clubLogoUrl}
-                  alt={`Logo ${clubName}`}
-                  fill
-                  sizes="36px"
-                  className="object-contain"
-                />
-              </div>
-            ) : (
-              <div className={`h-9 w-9 rounded-full ${getAvatarColor(clubName)} flex items-center justify-center text-white font-bold text-sm`}>
-                {clubName.charAt(0).toUpperCase()}
-              </div>
-            )
-          )}
-          {variant === 'agent' && (
-            <div className="rounded-full bg-brand-purple/30 p-2 border border-brand-purple/30">
-              <Users2 className="h-5 w-5 text-brand-purple" />
-            </div>
+          {canLogout && (
+            <button
+              type="button"
+              onClick={() => router.push('/subscription')}
+              className="rounded-full border border-brand-cyan/45 bg-brand-cyan/10 px-2 py-1 text-[10px] font-bold uppercase text-brand-cyan"
+              aria-label="Voir mon abonnement"
+            >
+              {getPlanBadgeLabel(subscriptionPlan)}
+            </button>
           )}
         </div>
       </div>
@@ -380,6 +404,7 @@ function Navbar({ variant, clubName = 'Club', clubLogoUrl = null }: NavbarProps)
           onClose={() => setIsMenuOpen(false)}
           onLogout={handleLogout}
           isLoggingOut={isLoggingOut}
+          subscriptionPlan={subscriptionPlan}
         />
       )}
     </header>

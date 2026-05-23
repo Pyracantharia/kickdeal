@@ -34,4 +34,33 @@ class ClubRequestRepository extends ServiceEntityRepository
 
         return (int) $result > 0;
     }
+
+    public function findLatestPendingForUser(User $requester): ?ClubRequest
+    {
+        return $this->createQueryBuilder('clubRequest')
+            ->andWhere('clubRequest.requester = :requester')
+            ->andWhere('clubRequest.status = :status')
+            ->setParameter('requester', $requester)
+            ->setParameter('status', ClubRequestStatusEnum::PENDING)
+            ->orderBy('clubRequest.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findLatestUnresolvedForUser(User $requester): ?ClubRequest
+    {
+        return $this->createQueryBuilder('clubRequest')
+            ->andWhere('clubRequest.requester = :requester')
+            ->andWhere('clubRequest.status IN (:statuses)')
+            ->setParameter('requester', $requester)
+            ->setParameter('statuses', [
+                ClubRequestStatusEnum::PENDING,
+                ClubRequestStatusEnum::APPROVED,
+            ])
+            ->orderBy('clubRequest.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

@@ -20,6 +20,7 @@ import { formatCurrency, formatNumberInput, parseFormattedNumber, parseOptionalN
 import { transfersManager } from '@/features/market/transfers'
 import type { OfferType, TransferNegotiationContext, TransferOfferPayload } from '@/features/market/types/transfer'
 import { playersManager } from '@/features/players/players'
+import { subscriptionManager, type SubscriptionSummary } from '@/features/subscription/subscription'
 
 type PaymentMode = 'single' | 'installments'
 
@@ -34,6 +35,7 @@ function TransferNegotiationPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [subscription, setSubscription] = useState<SubscriptionSummary | null>(null)
 
   const [type, setType] = useState<OfferType>('purchase')
   const [amount, setAmount] = useState('')
@@ -61,7 +63,10 @@ function TransferNegotiationPage() {
       }
 
       try {
-        const response = await transfersManager.getNegotiationContext({ listingId, offerId })
+        const [response, subscriptionResponse] = await Promise.all([
+          transfersManager.getNegotiationContext({ listingId, offerId }),
+          subscriptionManager.getCurrent(),
+        ])
 
         if (!isMounted) {
           return
@@ -77,6 +82,9 @@ function TransferNegotiationPage() {
         const latestOffer = nextContext.latestOffer
 
         setContext(nextContext)
+        if (subscriptionResponse.ok) {
+          setSubscription(subscriptionResponse.data.subscription)
+        }
         setType(latestOffer?.type ?? 'purchase')
         setAmount(latestOffer?.amountValue ? formatNumberInput(String(latestOffer.amountValue)) : '')
         setHasBonus(Boolean(latestOffer?.performanceBonusValue))
@@ -143,6 +151,11 @@ function TransferNegotiationPage() {
     event.preventDefault()
 
     if (!context) {
+      return
+    }
+
+    if (subscription && !subscription.canCreateOffer) {
+      setErrorMessage('Vous avez atteint la limite du plan gratuit.')
       return
     }
 
@@ -353,7 +366,19 @@ function TransferNegotiationPage() {
                 </p>
               )}
 
-              <Button type="submit" className="mt-5 w-full" isLoading={isSubmitting} icon={<Send className="h-4 w-4" />}>
+              {subscription && !subscription.canCreateOffer && (
+                <div className="mt-4 rounded-lg border border-brand-purple/40 bg-brand-purple/10 p-4">
+                  <p className="text-sm font-semibold text-white">Fonctionnalité Pro</p>
+                  <p className="mt-1 text-sm text-white/65">
+                    Vous avez atteint la limite du plan gratuit.
+                  </p>
+                  <Button type="button" className="mt-3 w-full" onClick={() => router.push('/subscription')}>
+                    Passer à Club Pro
+                  </Button>
+                </div>
+              )}
+
+              <Button type="submit" className="mt-5 w-full" isLoading={isSubmitting} disabled={Boolean(subscription && !subscription.canCreateOffer)} icon={<Send className="h-4 w-4" />}>
                 Envoyer l&apos;offre
               </Button>
               <Button type="button" variant="secondary" className="mt-3 w-full" onClick={() => router.push('/market/transfers')}>

@@ -3,6 +3,7 @@ import type { ClubDetail, CreatePlayerPayload, UpdateClubBudgetPayload } from '.
 
 type JoinClubResponse = {
   message: string
+  club?: ClubDetail
 }
 
 export type ClubSearchItem = {
@@ -10,10 +11,25 @@ export type ClubSearchItem = {
   name: string
   league: string
   country: string
+  logoUrl?: string | null
+  isClaimed?: boolean
 }
 
 type SearchClubsResponse = {
   clubs: ClubSearchItem[]
+}
+
+export type ClubRequestSummary = {
+  id: string
+  status: 'pending' | 'approved' | 'rejected'
+  createdAt?: string | null
+  team: {
+    id: string
+    name: string
+    league: string
+    country: string
+    logoUrl?: string | null
+  } | null
 }
 
 export type CreateClubRequestPayload = {
@@ -30,6 +46,12 @@ type CreateClubRequestResponse = {
   message: string
   clubRequestId: string
   teamId: string
+  clubRequest?: ClubRequestSummary
+}
+
+type ClubRequestMineResponse = {
+  clubRequest: ClubRequestSummary | null
+  hasClubAccess: boolean
 }
 
 type ClubMineResponse = {
@@ -54,6 +76,11 @@ class ClubManager {
 
   async searchClubs(query: string) {
     const response = await httpClient.get<SearchClubsResponse>(`/clubs/search?query=${encodeURIComponent(query)}`)
+    return response
+  }
+
+  async getMyClubRequest() {
+    const response = await httpClient.get<ClubRequestMineResponse>('/clubs/requests/mine')
     return response
   }
 
@@ -85,7 +112,7 @@ class ClubManager {
   }
 
   async joinClub(invitationCode: string) {
-    const response = await httpClient.post<JoinClubResponse>('/club/join', {
+    const response = await httpClient.post<JoinClubResponse>('/clubs/join', {
       invitationCode,
     })
     return response

@@ -86,8 +86,8 @@ export function ActionCard({
   tone?: Tone
 }) {
   const styles = tone === 'cyan'
-    ? 'border-brand-cyan/35 bg-brand-cyan/10 hover:border-brand-cyan/65 hover:bg-brand-cyan/15'
-    : 'border-brand-purple/35 bg-brand-purple/12 hover:border-brand-purple/65 hover:bg-brand-purple/18'
+    ? 'border-brand-cyan/40 bg-[#0b202a] hover:border-brand-cyan/70 hover:bg-[#0f2a35]'
+    : 'border-brand-purple/40 bg-[#191629] hover:border-brand-purple/70 hover:bg-[#211b35]'
   const iconColor = tone === 'cyan' ? 'text-brand-cyan' : 'text-brand-purple'
 
   const content = (

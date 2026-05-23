@@ -7,15 +7,15 @@ import Button from '@/components/ui/Button'
 import JoinClubForm from './JoinClubForm'
 
 const CREATE_CLUB_FEATURES = [
-  'Sélection depuis la base existante',
-  'Vérification administrative requise',
-  'Statut de gestionnaire principal',
+  'Choix depuis la base de clubs',
+  'Vérification de votre légitimité',
+  'Gestionnaire principal après validation',
 ]
 
 const WHY_ITEMS = [
   'KickDeal est une plateforme professionnelle réservée aux clubs et agents licenciés',
   'Chaque utilisateur doit être rattaché à une entité vérifiée pour garantir la crédibilité des transactions',
-  'Les clubs créés sont soumis à validation administrative pour éviter les abus',
+  'Un club déjà revendiqué se rejoint uniquement avec un code transmis par son gestionnaire principal',
 ]
 
 function ManageClubCard() {
@@ -51,11 +51,11 @@ function ManageClubCard() {
               <ClipboardList className="h-8 w-8 text-brand-purple" />
             </div>
 
-            <h2 className="text-lg font-bold uppercase">Créer un nouveau club</h2>
+            <h2 className="text-lg font-bold uppercase">Revendiquer la gestion d’un club</h2>
 
             <p className="text-sm text-gray-300">
-              Créez officiellement votre club sur la plateforme et devenez son
-              gestionnaire principal.
+              Choisissez le club que vous représentez et demandez à devenir son
+              gestionnaire principal sur KickDeal.
             </p>
 
             <ul className="space-y-2 flex-1">
@@ -69,7 +69,7 @@ function ManageClubCard() {
 
             <Link href="/club/create">
               <Button className="w-full" icon={<ChevronRight className="h-4 w-4" />}>
-                Créer mon club
+                Choisir mon club
               </Button>
             </Link>
           </div>

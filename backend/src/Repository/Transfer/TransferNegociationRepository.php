@@ -45,6 +45,29 @@ class TransferNegociationRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getOneOrNullResult();
     }
 
+    public function countActiveForTeam(Team $team): int
+    {
+        $queryBuilder = $this->createQueryBuilder('negociation')
+            ->select('COUNT(negociation.id)')
+            ->innerJoin('negociation.listing', 'listing');
+
+        $queryBuilder
+            ->andWhere($queryBuilder->expr()->orX(
+                'negociation.buyerTeam = :team',
+                'listing.sellerTeam = :team',
+            ))
+            ->andWhere('negociation.status IN (:statuses)')
+            ->setParameter('team', $team)
+            ->setParameter('statuses', [
+                TransferNegociationStatusEnum::OPEN,
+                TransferNegociationStatusEnum::COUNTER_OFFER,
+                TransferNegociationStatusEnum::PERMISSION_TO_SPEAK,
+                TransferNegociationStatusEnum::AGREED_CLUBS,
+            ]);
+
+        return (int) $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+
     public function findOneForListingAndBuyer(mixed $listing, Team $buyerTeam): ?TransferNegociation
     {
         return $this->createQueryBuilder('negociation')

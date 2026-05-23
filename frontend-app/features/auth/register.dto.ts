@@ -4,4 +4,5 @@ export type RegisterDTO = {
   email: string;
   password: string;
   roles?: string[];
+  subscriptionPlan?: 'club_free' | 'club_pro' | 'club_enterprise' | 'agent_free' | 'agent_pro';
 }

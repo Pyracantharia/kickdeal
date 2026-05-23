@@ -11,10 +11,13 @@ import Input from '@/components/ui/Input'
 import { ArrowRight, Briefcase, Mail, Phone, User } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { RegisterClubFormData, registerClubSchema } from '@/features/auth/schemas/registerClub.schemea'
+import PlanSelection from './PlanSelection'
+import type { SubscriptionPlan } from '@/features/subscription/subscription'
 
 function RegisterClubForm() {
   const router = useRouter()
   const { updateUser } = useAuth()
+  const [selectedPlan, setSelectedPlan] = React.useState<SubscriptionPlan>('club_free')
 
   const {
     register,
@@ -42,6 +45,7 @@ function RegisterClubForm() {
         email: data.email,
         password: data.password,
         roles: ['ROLE_CLUB'],
+        subscriptionPlan: selectedPlan,
       }
 
       const response = await authManager.register(payload)
@@ -203,10 +207,12 @@ function RegisterClubForm() {
             </div>
           </div>
         </div>
+
+        <PlanSelection audience="club" selectedPlan={selectedPlan} onChange={setSelectedPlan} />
         
         <div>
           <Button type="submit" isLoading={isSubmitting} className='w-full' icon={<ArrowRight className="h-4 w-4" />}>
-            S&apos;inscrire
+            {selectedPlan === 'club_free' ? 'Créer mon compte gratuit' : 'Créer mon compte et activer ce plan'}
           </Button>
         </div>
       </form>

@@ -35,6 +35,18 @@ class TransferOfferRepository extends ServiceEntityRepository
         return (int) $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
+    public function countSentByTeam(Team $team): int
+    {
+        return (int) $this->createQueryBuilder('transferOffer')
+            ->select('COUNT(transferOffer.id)')
+            ->innerJoin('transferOffer.author', 'author')
+            ->innerJoin('author.teamMemberships', 'authorMembership')
+            ->andWhere('authorMembership.team = :team')
+            ->setParameter('team', $team)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     /**
      * @return TransferOffer[]
      */

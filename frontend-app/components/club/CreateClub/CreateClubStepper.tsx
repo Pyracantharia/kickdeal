@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthProvider'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
-import { authManager } from '@/features/auth/auth'
 import { clubManager } from '@/features/club/club'
 import Stepper from './Stepper'
 import StepSelectClub from './StepSelectClub'
@@ -18,7 +17,7 @@ import type { ClubOption, VerificationMethod } from '@/features/club/types/creat
 const TOTAL_STEPS = 3
 
 function CreateClubStepper() {
-  const { user, isLoading, updateUser } = useAuth()
+  const { user, isLoading } = useAuth()
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(1)
   const [selectedClub, setSelectedClub] = useState<ClubOption | null>(null)
@@ -108,19 +107,20 @@ function CreateClubStepper() {
             return
           }
 
-          const apiError = response.data as { errorMessage?: string }
+          const apiError = response.data as { errorMessage?: string; clubRequest?: unknown }
+
+          if (apiError.clubRequest) {
+            router.push('/club/pending')
+            return
+          }
+
           setErrorMessage(apiError.errorMessage ?? 'Impossible de soumettre la demande pour le moment.')
 
           return
         }
 
-        const meResponse = await authManager.me()
-        if (meResponse.ok) {
-          updateUser(meResponse.data)
-        }
-
-        setSuccessMessage('Demande soumise avec succès. Votre club est maintenant connecté à votre compte.')
-        router.push('/dashboard')
+        setSuccessMessage('Demande soumise avec succès. Elle doit maintenant être validée par un administrateur.')
+        router.push('/club/pending')
       } catch {
         setErrorMessage('Une erreur est survenue. Veuillez réessayer.')
       } finally {
@@ -141,11 +141,11 @@ function CreateClubStepper() {
     <div className="auth-bg min-h-screen flex flex-col items-center pt-24 pb-12 px-4 w-full">
       <div className="text-center mb-6 w-full max-w-2xl">
         <h1 className="text-4xl font-bold text-white uppercase tracking-widest mb-4">
-          Créer mon club
+          Revendiquer mon club
         </h1>
         <hr className="border-white/10 mb-4" />
         <p className="text-sm text-gray-300">
-          Les informations du club seront vérifiées par un administrateur avant validation.
+          Choisissez le club que vous représentez. Votre demande de gestion sera vérifiée avant validation.
         </p>
       </div>
 

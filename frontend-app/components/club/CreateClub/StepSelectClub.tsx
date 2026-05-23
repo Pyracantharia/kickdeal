@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from 'react'
 import Image from 'next/image'
-import { Search, CheckCircle2 } from 'lucide-react'
+import { Search, CheckCircle2, Lock } from 'lucide-react'
 import type { ClubOption } from '@/features/club/types/createClub'
 
 interface StepSelectClubProps {
@@ -81,6 +81,10 @@ function StepSelectClub({ clubs, selectedClub, onSelect }: StepSelectClubProps) 
   }
 
   function handleSelect(club: ClubOption) {
+    if (club.isClaimed) {
+      return
+    }
+
     onSelect(club)
     setQuery(club.name)
   }
@@ -90,9 +94,10 @@ function StepSelectClub({ clubs, selectedClub, onSelect }: StepSelectClubProps) 
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h2 className="text-lg font-bold text-white uppercase mb-1">Sélection du club</h2>
+        <h2 className="text-lg font-bold text-white uppercase mb-1">Choix du club à gérer</h2>
         <p className="text-sm text-gray-300">
-          Sélectionnez votre club pour préremplir automatiquement les informations disponibles.
+          Sélectionnez le club dont vous souhaitez devenir gestionnaire principal.
+          Si le club est déjà revendiqué, vous devrez le rejoindre avec un code d&apos;invitation.
         </p>
       </div>
 
@@ -123,13 +128,17 @@ function StepSelectClub({ clubs, selectedClub, onSelect }: StepSelectClubProps) 
             ) : (
               filtered.map((club) => {
                 const isSelected = selectedClub?.id === club.id
+                const isClaimed = Boolean(club.isClaimed)
                 return (
                   <button
                     key={club.id}
                     type="button"
                     onClick={() => handleSelect(club)}
+                    disabled={isClaimed}
                     className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all
-                      ${isSelected
+                      ${isClaimed
+                        ? 'cursor-not-allowed bg-white/[0.03] opacity-60'
+                        : isSelected
                         ? 'bg-brand-cyan/10 border-l-2 border-l-brand-cyan'
                         : 'bg-white/5 hover:bg-white/10'
                       }
@@ -141,8 +150,14 @@ function StepSelectClub({ clubs, selectedClub, onSelect }: StepSelectClubProps) 
                       <p className="text-xs text-gray-400">
                         {club.league} • {club.country}
                       </p>
+                      {isClaimed && (
+                        <p className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-brand-purple">
+                          <Lock className="h-3 w-3" />
+                          Déjà revendiqué · code requis
+                        </p>
+                      )}
                     </div>
-                    {isSelected && (
+                    {isSelected && !isClaimed && (
                       <CheckCircle2 className="h-5 w-5 text-brand-cyan shrink-0" />
                     )}
                   </button>
