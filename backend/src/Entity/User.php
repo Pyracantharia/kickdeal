@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Contract\ContractMessage;
 use App\Entity\Contract\ContractOffer;
 use App\Entity\Traits\TimestampableTrait;
+use App\Enum\SubscriptionPlanEnum;
 use App\Entity\Transfer\TransferMessage;
 use App\Entity\Transfer\TransferOffer;
 use App\Repository\UserRepository;
@@ -76,6 +77,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $resetTokenSelector = null;
+
+    #[ORM\Column(length: 30, nullable: true, enumType: SubscriptionPlanEnum::class)]
+    private ?SubscriptionPlanEnum $subscriptionPlan = null;
+
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $subscriptionLimitsOverrides = null;
 
     #[ORM\OneToOne(targetEntity: Agent::class, mappedBy: 'user')]
     private Agent $agentProfile;
@@ -299,6 +306,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResetTokenSelector(?string $resetTokenSelector): static
     {
         $this->resetTokenSelector = $resetTokenSelector;
+
+        return $this;
+    }
+
+    #[Groups('user:read')]
+    public function getSubscriptionPlan(): SubscriptionPlanEnum
+    {
+        return $this->subscriptionPlan ?? SubscriptionPlanEnum::defaultForUser($this);
+    }
+
+    public function setSubscriptionPlan(?SubscriptionPlanEnum $subscriptionPlan): static
+    {
+        $this->subscriptionPlan = $subscriptionPlan;
+
+        return $this;
+    }
+
+    public function getSubscriptionLimitsOverrides(): ?array
+    {
+        return $this->subscriptionLimitsOverrides;
+    }
+
+    public function setSubscriptionLimitsOverrides(?array $subscriptionLimitsOverrides): static
+    {
+        $this->subscriptionLimitsOverrides = $subscriptionLimitsOverrides;
 
         return $this;
     }

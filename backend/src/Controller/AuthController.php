@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Enum\SubscriptionPlanEnum;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -51,7 +52,32 @@ final class AuthController extends AbstractController
             return $csrfError;
         }
 
+        $payload = json_decode($request->getContent(), true);
         $newUser = $serializer->deserialize($request->getContent(), User::class, 'json');
+
+        if (is_array($payload) && isset($payload['subscriptionPlan'])) {
+            $subscriptionPlan = is_string($payload['subscriptionPlan']) ? SubscriptionPlanEnum::tryFrom($payload['subscriptionPlan']) : null;
+
+            if (!$subscriptionPlan instanceof SubscriptionPlanEnum) {
+                return $this->json([
+                    'errors' => [
+                        'subscriptionPlan' => 'Plan invalide.',
+                    ],
+                ], 422);
+            }
+
+            $isAgentAccount = in_array(User::ROLE_AGENT, $newUser->getRoles(), true);
+
+            if ($isAgentAccount !== $subscriptionPlan->isAgentPlan()) {
+                return $this->json([
+                    'errors' => [
+                        'subscriptionPlan' => 'Ce plan ne correspond pas au type de compte.',
+                    ],
+                ], 422);
+            }
+
+            $newUser->setSubscriptionPlan($subscriptionPlan);
+        }
 
         $errors = $validator->validate($newUser);
 

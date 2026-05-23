@@ -1,0 +1,71 @@
+import httpClient from '@/features/api'
+import type { ChilizPlanType } from '@/features/payments/chiliz'
+
+export type SubscriptionPlan = 'club_free' | 'club_pro' | 'club_enterprise' | 'agent_free' | 'agent_pro'
+export type SubscriptionAudience = 'club' | 'agent'
+export type SubscriptionTier = 'free' | 'pro' | 'enterprise'
+
+export interface SubscriptionLimit {
+  key: string
+  label: string
+  used?: number | null
+  limit?: number | null
+  remaining?: number | null
+  unit?: string
+  isLimited: boolean
+  unlimited?: boolean
+}
+
+export interface SubscriptionSeats {
+  used: number
+  included: number | null
+  unlimited: boolean
+}
+
+export interface SubscriptionSummary {
+  audience: SubscriptionAudience
+  plan: SubscriptionPlan
+  planLabel: string
+  tier: SubscriptionTier
+  isPro: boolean
+  seats?: SubscriptionSeats | null
+  limits: SubscriptionLimit[]
+  proBenefits: string[]
+  canCreateOffer: boolean
+  upgradeCta: string
+  enterpriseCta?: string | null
+  manageCta: string
+}
+
+interface SubscriptionResponse {
+  subscription: SubscriptionSummary
+}
+
+interface ChilizPaymentVerificationResponse {
+  payment: {
+    id: string
+    provider: 'chiliz'
+    txHash: string
+    planType: ChilizPlanType
+    amountChz: string
+    status: 'confirmed'
+    confirmedAt?: string | null
+  }
+  subscription: SubscriptionSummary
+}
+
+class SubscriptionManager {
+  async getCurrent() {
+    return httpClient.get<SubscriptionResponse>('/subscription/me')
+  }
+
+  async simulateUpgrade(targetPlan?: SubscriptionPlan) {
+    return httpClient.post<SubscriptionResponse, { targetPlan?: SubscriptionPlan }>('/subscription/simulate-upgrade', { targetPlan })
+  }
+
+  async verifyChilizPayment(payload: { txHash: string; planType: ChilizPlanType }) {
+    return httpClient.post<ChilizPaymentVerificationResponse, typeof payload>('/subscription/payments/chiliz/verify', payload)
+  }
+}
+
+export const subscriptionManager = new SubscriptionManager()

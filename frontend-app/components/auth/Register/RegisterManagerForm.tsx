@@ -9,9 +9,12 @@ import { RegisterManagerFormData, registerManagerSchema } from '@/features/auth/
 import Input from '@/components/ui/Input'
 import { ArrowRight, Building2, Mail, MapPin, User } from 'lucide-react'
 import Button from '@/components/ui/Button'
+import PlanSelection from './PlanSelection'
+import type { SubscriptionPlan } from '@/features/subscription/subscription'
 
 function RegisterManagerForm() {
   const router = useRouter()
+  const [selectedPlan, setSelectedPlan] = React.useState<SubscriptionPlan>('agent_free')
 
   const {
     register,
@@ -38,12 +41,17 @@ function RegisterManagerForm() {
       const payload = {
         ...registerData,
         roles: ['ROLE_AGENT'],
+        subscriptionPlan: selectedPlan,
       }
 
       const response = await authManager.register(payload)
 
       if (!response.ok) {
-        const errorData = response.data as any
+        const errorData = response.data as {
+          errors?: Record<string, string>
+          errorMessage?: string
+          message?: string
+        }
         
         if (errorData.errors) {
           Object.entries(errorData.errors).forEach(([field, message]) => {
@@ -64,7 +72,7 @@ function RegisterManagerForm() {
       }
 
       router.push('/auth/login?registered=true')
-    } catch (error) {
+    } catch {
       setError('root', {
         message: 'Une erreur est survenue. Veuillez réessayer.',
       })
@@ -179,9 +187,11 @@ function RegisterManagerForm() {
           </div>
         </div>
 
+        <PlanSelection audience="agent" selectedPlan={selectedPlan} onChange={setSelectedPlan} />
+
         <div>
           <Button type="submit" isLoading={isSubmitting} className='w-full' icon={<ArrowRight className="h-4 w-4" />}>
-            S'inscrire
+            {selectedPlan === 'agent_free' ? 'Créer mon compte gratuit' : 'Créer mon compte et activer ce plan'}
           </Button>
         </div>
       </form>

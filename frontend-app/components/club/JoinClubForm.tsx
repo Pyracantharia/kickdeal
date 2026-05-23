@@ -8,6 +8,7 @@ import { KeyRound, ArrowRight } from 'lucide-react'
 
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
+import { clubManager } from '@/features/club/club'
 import { joinClubSchema, type JoinClubFormData } from '@/features/club/schemas/joinClub.schema'
 
 function JoinClubForm() {
@@ -27,8 +28,19 @@ function JoinClubForm() {
 
   async function onSubmit(data: JoinClubFormData) {
     try {
-      // TODO: Connect to backend via clubManager.joinClub(data.invitationCode)
-      router.push(`/club/joined?code=${encodeURIComponent(data.invitationCode)}`)
+      const response = await clubManager.joinClub(data.invitationCode)
+
+      if (!response.ok) {
+        const errorData = response.data as { errorMessage?: unknown }
+        setError('root', {
+          message: typeof errorData.errorMessage === 'string'
+            ? errorData.errorMessage
+            : 'Impossible de rejoindre ce club.',
+        })
+        return
+      }
+
+      router.push('/club/detail')
     } catch {
       setError('root', {
         message: 'Une erreur est survenue. Veuillez réessayer.',
@@ -51,7 +63,7 @@ function JoinClubForm() {
         <Input
           label="CODE D'INVITATION"
           type="text"
-          placeholder="EX: CLUB-ABC-123"
+          placeholder="EX: KD-1F14BC..."
           icon={<KeyRound className="h-5 w-5" />}
           error={errors.invitationCode?.message}
           {...register('invitationCode')}

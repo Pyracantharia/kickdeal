@@ -30,6 +30,30 @@ class TeamMembershipRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function countByTeam(Team $team): int
+    {
+        return (int) $this->createQueryBuilder('membership')
+            ->select('COUNT(membership.id)')
+            ->andWhere('membership.team = :team')
+            ->setParameter('team', $team)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return TeamMembership[]
+     */
+    public function findByTeamOrdered(Team $team): array
+    {
+        return $this->createQueryBuilder('membership')
+            ->andWhere('membership.team = :team')
+            ->setParameter('team', $team)
+            ->orderBy('membership.primary', 'DESC')
+            ->addOrderBy('membership.createdAt', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     /**
      * @return string[]
      */

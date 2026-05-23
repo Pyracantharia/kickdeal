@@ -21,6 +21,7 @@
         "symfony/dotenv": "*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "*",
+        "symfony/http-client": "6.4.*",
         "symfony/http-kernel": "*",
         "symfony/mailer": "*",
         "symfony/property-access": "*",

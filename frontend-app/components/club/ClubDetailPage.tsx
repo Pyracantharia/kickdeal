@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Users, TrendingUp, Send, Zap } from 'lucide-react'
+import { TrendingUp, Send, UserPlus, Users, Zap } from 'lucide-react'
 
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
@@ -9,7 +9,7 @@ import Input from '@/components/ui/Input'
 import Modal from '@/components/ui/Modal'
 import { ActionCard, ClubLogo, FinanceCard, InfoCard, StatCard } from '@/components/club/ClubDetailParts'
 import { clubManager } from '@/features/club/club'
-import type { ClubDetail, CreatePlayerPayload } from '@/features/club/types/club'
+import type { ClubAccounts, ClubDetail, CreatePlayerPayload } from '@/features/club/types/club'
 import { formatNumberInput, parseFormattedNumber, parseOptionalNumber } from '@/features/format/number'
 
 const INITIAL_PLAYER_FORM = {
@@ -261,7 +261,14 @@ function ClubDetailPage() {
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <ActionCard
+            title="Gérer les comptes"
+            description={club.accounts ? formatSeatsLabel(club.accounts) : 'Invitations et accès'}
+            icon={<UserPlus className="h-6 w-6" />}
+            href="/club/accounts"
+            tone="purple"
+          />
           <ActionCard
             title="Gérer l'effectif"
             description="Voir et modifier vos joueurs"
@@ -440,6 +447,14 @@ function ClubDetailPage() {
       </Modal>
     </div>
   )
+}
+
+function formatSeatsLabel(accounts: ClubAccounts): string {
+  if (accounts.seats.unlimited) {
+    return `${accounts.seats.used} membres · illimité`
+  }
+
+  return `${accounts.seats.remaining ?? 0} place${(accounts.seats.remaining ?? 0) > 1 ? 's' : ''} restante${(accounts.seats.remaining ?? 0) > 1 ? 's' : ''}`
 }
 
 export default ClubDetailPage

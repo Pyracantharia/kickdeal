@@ -18,6 +18,7 @@ use App\Repository\PlayerRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\Transfer\TransferNegociationRepository;
 use App\Repository\Transfer\TransferOfferRepository;
+use App\Service\Subscription\SubscriptionLimits;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -170,6 +171,7 @@ final class TransferController extends AbstractController
         ListingRepository $listingRepository,
         PlayerRepository $playerRepository,
         TransferNegociationRepository $transferNegociationRepository,
+        SubscriptionLimits $subscriptionLimits,
         EntityManagerInterface $entityManager,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
@@ -191,6 +193,13 @@ final class TransferController extends AbstractController
         }
 
         $buyerTeam = $membership->getTeam();
+
+        if (!$subscriptionLimits->canCreateClubOffer($user)) {
+            return $this->json([
+                'errorMessage' => 'Vous avez atteint la limite du plan gratuit.',
+                'upgradePath' => '/subscription',
+            ], 402);
+        }
 
         if ($listing->getSellerTeam()?->getId()?->toRfc4122() === $buyerTeam->getId()?->toRfc4122()) {
             return $this->json([
@@ -302,6 +311,7 @@ final class TransferController extends AbstractController
         #[CurrentUser] ?User $user,
         TeamMembershipRepository $teamMembershipRepository,
         PlayerRepository $playerRepository,
+        SubscriptionLimits $subscriptionLimits,
         EntityManagerInterface $entityManager,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
@@ -318,6 +328,13 @@ final class TransferController extends AbstractController
 
         if (!$isSeller && !$isBuyer) {
             return $this->json(['errorMessage' => 'Vous ne pouvez pas contre-proposer sur cette offre.'], 403);
+        }
+
+        if (!$subscriptionLimits->canCreateClubOffer($user)) {
+            return $this->json([
+                'errorMessage' => 'Vous avez atteint la limite du plan gratuit.',
+                'upgradePath' => '/subscription',
+            ], 402);
         }
 
         $payload = json_decode($request->getContent(), true);
