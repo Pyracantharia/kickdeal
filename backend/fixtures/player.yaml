@@ -1,10 +1,20 @@
 App\Entity\Player:
-    player_{0..25}:
-        firstName: "<getPlayerFirstName(<getPlayerData(<current()>)>)>"
-        lastName: "<getPlayerLastName(<getPlayerData(<current()>)>)>"
-        birthDate: "<getPlayerBirthDate(<getPlayerData(<current()>)>)>"
-        position: "<getPlayerPosition(<getPlayerData(<current()>)>)>"
-
-        marketValue: 0
-        contractStatus: under_contract
-        marketStatus: not_listed
+  # Charge les 36 joueurs du psg_players.json via la boucle Alice
+  player_{0..35}:
+    firstName: '<psgSquadData($current, "firstName")>'
+    lastName: '<psgSquadData($current, "lastName")>'
+    photoUrl: '<imageUrl(200, 200, "sports")>'
+    birthDate: '<parseBirthDate($current)>'
+    nationality: '<psgSquadData($current, "nationality")>'
+    position: '<psgSquadData($current, "position")>'
+    heightCm: "<numberBetween(170, 195)>"
+    weightKg: "<numberBetween(65, 90)>"
+    preferredFoot: '<randomElement(["Droit", "Gauche", "Ambidextre"])>'
+    marketValue: "<numberBetween(5000000, 90000000)>"
+    weeklySalary: "<numberBetween(15000, 300000)>"
+    releaseClause: "<numberBetween(20000000, 150000000)>"
+    contractStatus: !php/enum App\Enum\PlayerContractStatusEnum::UNDER_CONTRACT
+    contractEndDate: '<dateTimeBetween("+1 year", "+3 years")>'
+    joinedAt: '<dateTimeBetween("-3 years", "now")>'
+    marketStatus: !php/enum App\Enum\PlayerMarketStatusEnum::NOT_LISTED
+    availabilityStatus: !php/enum App\Enum\PlayerAvailabilityStatusEnum::NORMAL
