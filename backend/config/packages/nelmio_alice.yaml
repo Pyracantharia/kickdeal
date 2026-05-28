@@ -1,7 +1,7 @@
 when@dev: &dev
     nelmio_alice:
         functions_blacklist:
-            - 'current'
+            # - 'current'  # À besoin pour les boucles Alice {0..N}
             - 'shuffle'
             - 'date'
             - 'time'
