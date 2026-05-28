@@ -1,20 +1,60 @@
+# ========================================================
+# 1. GENERATION DE TOUS LES CLUBS ET EQUIPES DE LIGUE 1
+# ========================================================
+App\Entity\Club:
+  club_{0..17}:
+    # Crée automatiquement 18 entités Club (club_0 à club_17)
+
+App\Entity\Team:
+  team_{0..17}:
+    name: '<ligue1TeamData("name")>'
+    country: '<ligue1TeamData("country")>'
+    logoUrl: '<ligue1TeamData("logoUrl")>'
+    league: "Ligue 1"
+    transferBudget: "<numberBetween(10000000, 200000000)>"
+    verificationStatus: !php/enum App\Enum\TeamVerificationStatusEnum::VERIFIED
+
+# ========================================================
+# 2. SEED DES JOUEURS STARS (DEPUIS LES MEILLEURS BUTEURS)
+# ========================================================
 App\Entity\Player:
-  # Charge les 36 joueurs du psg_players.json via la boucle Alice
-  player_{0..35}:
-    firstName: '<psgSquadData($current, "firstName")>'
-    lastName: '<psgSquadData($current, "lastName")>'
+  star_player_{0..9}:
+    firstName: '<scorerData("firstName")>'
+    lastName: '<scorerData("lastName")>'
     photoUrl: '<imageUrl(200, 200, "sports")>'
-    birthDate: '<parseBirthDate($current)>'
-    nationality: '<psgSquadData($current, "nationality")>'
-    position: '<psgSquadData($current, "position")>'
-    heightCm: "<numberBetween(170, 195)>"
-    weightKg: "<numberBetween(65, 90)>"
-    preferredFoot: '<randomElement(["Droit", "Gauche", "Ambidextre"])>'
-    marketValue: "<numberBetween(5000000, 90000000)>"
-    weeklySalary: "<numberBetween(15000, 300000)>"
-    releaseClause: "<numberBetween(20000000, 150000000)>"
+    birthDate: '<scorerData("birthDate")>'
+    nationality: '<scorerData("nationality")>'
+    position: '<scorerData("position")>'
+    heightCm: "<numberBetween(172, 190)>"
+    weightKg: "<numberBetween(68, 85)>"
+    preferredFoot: '<randomElement(["Droitier", "Gaucher"])>'
+    marketValue: "<numberBetween(15000000, 60000000)>"
+    weeklySalary: "<numberBetween(40000, 250000)>"
+    releaseClause: "<numberBetween(40000000, 120000000)>"
     contractStatus: !php/enum App\Enum\PlayerContractStatusEnum::UNDER_CONTRACT
-    contractEndDate: '<dateTimeBetween("+1 year", "+3 years")>'
-    joinedAt: '<dateTimeBetween("-3 years", "now")>'
+    contractEndDate: '<dateTimeBetween("+1 year", "+4 years")>'
+    joinedAt: '<dateTimeBetween("-3 years", "-1 year")>'
     marketStatus: !php/enum App\Enum\PlayerMarketStatusEnum::NOT_LISTED
     availabilityStatus: !php/enum App\Enum\PlayerAvailabilityStatusEnum::NORMAL
+    team: "@team_0"
+    club: "@club_0"
+
+# ========================================================
+# 3. REMPLISSAGE DE LA SHORTLIST (TRANSFER TARGETS)
+# ========================================================
+App\Entity\TransferTarget:
+  target_0:
+    team: "@team_0"
+    player: "@star_player_0"
+  target_1:
+    team: "@team_0"
+    player: "@star_player_1"
+  target_2:
+    team: "@team_0"
+    player: "@star_player_2"
+  target_3:
+    team: "@team_0"
+    player: "@star_player_3"
+  target_4:
+    team: "@team_0"
+    player: "@star_player_4"

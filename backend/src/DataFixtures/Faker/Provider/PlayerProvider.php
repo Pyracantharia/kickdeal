@@ -2,76 +2,76 @@
 
 namespace App\DataFixtures\Faker\Provider;
 
-use Faker\Generator;
 use Faker\Provider\Base as BaseProvider;
 
 class PlayerProvider extends BaseProvider
 {
-    private array $squad = [];
+    private array $teamsData = [];
+    private array $scorersData = [];
 
-    public function __construct(Generator $generator)
+    private static int $teamIndex = 0;
+    private static int $scorerIndex = 0;
+
+    public function __construct()
     {
-        parent::__construct($generator);
-        
-        // Récupère la racine du projet Symfony
-        $projectDir = dirname(__DIR__, 4);
-        $jsonPath = $projectDir . '/fixtures/json/psg_players.json';
+        $projectDir = realpath(__DIR__ . '/../../../../');
+        $jsonDir = $projectDir . '/fixtures/json/';
 
-        if (file_exists($jsonPath)) {
-            $data = json_decode(file_get_contents($jsonPath), true);
-            $this->squad = $data['squad'] ?? [];
+        if (file_exists($jsonDir . 'ligue1_teams.json')) {
+            $this->teamsData = json_decode(file_get_contents($jsonDir . 'ligue1_teams.json'), true)['teams'] ?? [];
+        }
+
+        if (file_exists($jsonDir . 'ligue1_scorers.json')) {
+            $this->scorersData = json_decode(file_get_contents($jsonDir . 'ligue1_scorers.json'), true)['scorers'] ?? [];
         }
     }
 
-    /**
-     * Extrait une valeur du tableau 'squad' selon l'index de la boucle Alice
-     * $current est l'index passé par Alice lors de la boucle {0..35}
-     */
-    public function psgSquadData($current, string $key): mixed
+    public function ligue1TeamData(string $key): mixed
     {
-        $index = (int)$current; // Assure que c'est un entier
-        
-        if (!isset($this->squad[$index])) {
-            return null;
+        $index = self::$teamIndex;
+
+        // On passe à l'index suivant dès qu'on traite la dernière propriété de l'entité Team dans le YAML
+        if ($key === 'logoUrl') {
+            self::$teamIndex++;
         }
 
-        $player = $this->squad[$index];
-
-        // Séparation propre Prénom / Nom
-        if ($key === 'firstName' || $key === 'lastName') {
-            $fullName = $player['name'] ?? '';
-            $parts = explode(' ', $fullName, 2);
-
-            if ($key === 'firstName') {
-                return $parts[0] ?? '';
-            }
-            // Si le joueur n'a qu'un nom (ex: Marquinhos), on le met dans le lastName
-            return isset($parts[1]) ? $parts[1] : $parts[0];
+        if (!isset($this->teamsData[$index])) {
+            return $key === 'name' ? 'Club Fictif ' . $index : '';
         }
 
-        return $player[$key] ?? null;
+        $team = $this->teamsData[$index];
+
+        return match ($key) {
+            'name' => $team['name'] ?? '',
+            'country' => $team['area']['name'] ?? 'France',
+            'logoUrl' => $team['crest'] ?? null,
+            default => null,
+        };
     }
 
-    /**
-     * Parse une date de naissance du JSON et retourne un DateTime
-     */
-    public function parseBirthDate($current): ?\DateTime
+    public function scorerData(string $key): mixed
     {
-        $index = (int)$current;
-        
-        if (!isset($this->squad[$index])) {
+        $index = self::$scorerIndex;
+
+        if ($key === 'position') {
+            self::$scorerIndex++;
+        }
+
+        if (!isset($this->scorersData[$index])) {
             return null;
         }
 
-        $dateStr = $this->squad[$index]['dateOfBirth'] ?? null;
-        if (!$dateStr) {
-            return null;
-        }
+        $scorer = $this->scorersData[$index];
 
-        try {
-            return new \DateTime($dateStr);
-        } catch (\Exception) {
-            return null;
-        }
+        return match ($key) {
+            'firstName' => $scorer['player']['firstName'] ?? '',
+            'lastName' => $scorer['player']['lastName'] ?? '',
+            'birthDate' => isset($scorer['player']['dateOfBirth'])
+            ? new \DateTimeImmutable($scorer['player']['dateOfBirth'])
+            : new \DateTimeImmutable('-25 years'),
+            'nationality' => $scorer['player']['nationality'] ?? null,
+            'position' => $scorer['player']['section'] ?? 'Offence',
+            default => null,
+        };
     }
 }
