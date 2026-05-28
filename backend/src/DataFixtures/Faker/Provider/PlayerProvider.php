@@ -7,10 +7,10 @@ use Faker\Provider\Base as BaseProvider;
 class PlayerProvider extends BaseProvider
 {
     private array $teamsData = [];
-    private array $scorersData = [];
+    private array $playersData = [];
 
     private static int $teamIndex = 0;
-    private static int $scorerIndex = 0;
+    private static int $playerIndex = 0;
 
     public function __construct()
     {
@@ -21,8 +21,23 @@ class PlayerProvider extends BaseProvider
             $this->teamsData = json_decode(file_get_contents($jsonDir . 'ligue1_teams.json'), true)['teams'] ?? [];
         }
 
-        if (file_exists($jsonDir . 'ligue1_scorers.json')) {
-            $this->scorersData = json_decode(file_get_contents($jsonDir . 'ligue1_scorers.json'), true)['scorers'] ?? [];
+        foreach ($this->teamsData as $teamIndex => $team) {
+            foreach (($team['squad'] ?? []) as $player) {
+                $fullName = $player['name'] ?? '';
+                $parts = preg_split('/\s+/', trim($fullName), 2) ?: [];
+
+                $this->playersData[] = [
+                    'teamIndex' => $teamIndex,
+                    'clubIndex' => $teamIndex,
+                    'firstName' => $parts[0] ?? 'Joueur',
+                    'lastName' => $parts[1] ?? ($parts[0] ?? 'Inconnu'),
+                    'birthDate' => isset($player['dateOfBirth'])
+                        ? new \DateTimeImmutable($player['dateOfBirth'])
+                        : new \DateTimeImmutable('-25 years'),
+                    'nationality' => $player['nationality'] ?? null,
+                    'position' => $player['position'] ?? 'Offence',
+                ];
+            }
         }
     }
 
@@ -49,29 +64,37 @@ class PlayerProvider extends BaseProvider
         };
     }
 
-    public function scorerData(string $key): mixed
+    public function teamSquadData(string $key): mixed
     {
-        $index = self::$scorerIndex;
+        $index = self::$playerIndex;
 
-        if ($key === 'position') {
-            self::$scorerIndex++;
-        }
-
-        if (!isset($this->scorersData[$index])) {
+        if (!isset($this->playersData[$index])) {
             return null;
         }
 
-        $scorer = $this->scorersData[$index];
+        $player = $this->playersData[$index];
 
         return match ($key) {
-            'firstName' => $scorer['player']['firstName'] ?? '',
-            'lastName' => $scorer['player']['lastName'] ?? '',
-            'birthDate' => isset($scorer['player']['dateOfBirth'])
-            ? new \DateTimeImmutable($scorer['player']['dateOfBirth'])
-            : new \DateTimeImmutable('-25 years'),
-            'nationality' => $scorer['player']['nationality'] ?? null,
-            'position' => $scorer['player']['section'] ?? 'Offence',
+            'firstName' => $player['firstName'] ?? '',
+            'lastName' => $player['lastName'] ?? '',
+            'birthDate' => $player['birthDate'] ?? new \DateTimeImmutable('-25 years'),
+            'nationality' => $player['nationality'] ?? null,
+            'position' => $player['position'] ?? 'Offence',
             default => null,
         };
+    }
+
+    public function playerTeamIndex(): int
+    {
+        return $this->playersData[self::$playerIndex]['teamIndex'] ?? 0;
+    }
+
+    public function playerClubIndex(): int
+    {
+        $index = $this->playersData[self::$playerIndex]['clubIndex'] ?? 0;
+
+        self::$playerIndex++;
+
+        return $index;
     }
 }

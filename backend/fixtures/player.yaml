@@ -15,16 +15,16 @@ App\Entity\Team:
     verificationStatus: !php/enum App\Enum\TeamVerificationStatusEnum::VERIFIED
 
 # ========================================================
-# 2. SEED DES JOUEURS STARS (DEPUIS LES MEILLEURS BUTEURS)
+# 2. TOUS LES JOUEURS DES EQUIPES LIGUE 1
 # ========================================================
 App\Entity\Player:
-  star_player_{0..9}:
-    firstName: '<scorerData("firstName")>'
-    lastName: '<scorerData("lastName")>'
+  player_{0..600}:
+    firstName: '<teamSquadData("firstName")>'
+    lastName: '<teamSquadData("lastName")>'
     photoUrl: '<imageUrl(200, 200, "sports")>'
-    birthDate: '<scorerData("birthDate")>'
-    nationality: '<scorerData("nationality")>'
-    position: '<scorerData("position")>'
+    birthDate: '<teamSquadData("birthDate")>'
+    nationality: '<teamSquadData("nationality")>'
+    position: '<teamSquadData("position")>'
     heightCm: "<numberBetween(172, 190)>"
     weightKg: "<numberBetween(68, 85)>"
     preferredFoot: '<randomElement(["Droitier", "Gaucher"])>'
@@ -36,8 +36,8 @@ App\Entity\Player:
     joinedAt: '<dateTimeBetween("-3 years", "-1 year")>'
     marketStatus: !php/enum App\Enum\PlayerMarketStatusEnum::NOT_LISTED
     availabilityStatus: !php/enum App\Enum\PlayerAvailabilityStatusEnum::NORMAL
-    team: "@team_0"
-    club: "@club_0"
+    team: "@team_<playerTeamIndex()>"
+    club: "@club_<playerClubIndex()>"
 
 # ========================================================
 # 3. REMPLISSAGE DE LA SHORTLIST (TRANSFER TARGETS)
@@ -45,16 +45,16 @@ App\Entity\Player:
 App\Entity\TransferTarget:
   target_0:
     team: "@team_0"
-    player: "@star_player_0"
+    player: "@player_0"
   target_1:
     team: "@team_0"
-    player: "@star_player_1"
+    player: "@player_1"
   target_2:
     team: "@team_0"
-    player: "@star_player_2"
+    player: "@player_2"
   target_3:
     team: "@team_0"
-    player: "@star_player_3"
+    player: "@player_3"
   target_4:
     team: "@team_0"
-    player: "@star_player_4"
+    player: "@player_4"
