@@ -6,25 +6,38 @@ use Faker\Provider\Base as BaseProvider;
 
 class PlayerProvider extends BaseProvider
 {
-    private array $teams = [];
-    private array $players = [];
+    private static array $competitionData = [];
 
     private static int $teamIndex = 0;
     private static int $playerIndex = 0;
+    private static ?string $currentCompetitionCode = null;
 
     /**
      * Charge dynamiquement les données d'une compétition (Dossier JSON)
      */
     public function loadCompetition(string $code): void
     {
+        $this->loadCompetitionData($code);
+    }
+
+private function loadCompetitionData(string $code): void
+    {
         $projectDir = realpath(__DIR__ . '/../../../../');
         $jsonPath = $projectDir . "/fixtures/json/{$code}/teams.json";
 
-        // Réinitialisation complète des compteurs et de la mémoire à chaque nouvelle ligue
-        $this->teams = [];
-        $this->players = [];
+        // Si la compétition demandée est déjà chargée, on ne fait rien
+        if (self::$currentCompetitionCode === $code && isset(self::$competitionData[$code])) {
+            return;
+        }
+
+        // Si on change de compétition, on Reset obligatoirement les compteurs
+        self::$competitionData[$code] = [
+            'teams' => [],
+            'players' => [],
+        ];
         self::$teamIndex = 0;
         self::$playerIndex = 0;
+        self::$currentCompetitionCode = $code;
 
         if (!file_exists($jsonPath)) {
             throw new \InvalidArgumentException(sprintf('Le fichier de compétition n\'existe pas : %s', $jsonPath));
@@ -34,19 +47,17 @@ class PlayerProvider extends BaseProvider
         $teamsList = $data['teams'] ?? [];
 
         foreach ($teamsList as $teamKey => $teamData) {
-            // Extraction et stockage des informations de l'équipe
-            $this->teams[] = [
+            self::$competitionData[$code]['teams'][] = [
                 'name' => $teamData['name'] ?? '',
                 'country' => $teamData['area']['name'] ?? 'France',
                 'logoUrl' => $teamData['crest'] ?? null,
             ];
 
-            // Aplatissement et stockage de tous les joueurs de l'équipe
             $squad = $teamData['squad'] ?? [];
             foreach ($squad as $playerData) {
-                $this->players[] = [
+                self::$competitionData[$code]['players'][] = [
                     'player' => $playerData,
-                    'associatedTeamIndex' => $teamKey // Index correspondant à la boucle de fixtures Alice
+                    'associatedTeamIndex' => $teamKey
                 ];
             }
         }
@@ -55,8 +66,12 @@ class PlayerProvider extends BaseProvider
     // ========================================================
     // EXTRACTION DES DONNÉES D'ÉQUIPES
     // ========================================================
-    public function competitionTeamData(string $key): mixed
+    public function competitionTeamData(string $key, ?string $code = null): mixed
     {
+        if (null !== $code) {
+            $this->loadCompetitionData($code);
+        }
+
         $index = self::$teamIndex;
 
         // Alice lit séquentiellement. logoUrl (crest) étant la dernière propriété 
@@ -65,23 +80,27 @@ class PlayerProvider extends BaseProvider
             self::$teamIndex++;
         }
 
-        if (!isset($this->teams[$index])) {
+        if (null === self::$currentCompetitionCode || !isset(self::$competitionData[self::$currentCompetitionCode]['teams'][$index])) {
             return null;
         }
 
-        return $this->teams[$index][$key] ?? null;
+        return self::$competitionData[self::$currentCompetitionCode]['teams'][$index][$key] ?? null;
     }
 
     // ========================================================
     // EXTRACTION DES DONNÉES DE JOUEURS
     // ========================================================
-    public function competitionPlayerData(string $key): mixed
+    public function competitionPlayerData(string $key, ?string $code = null): mixed
     {
+        if (null !== $code) {
+            $this->loadCompetitionData($code);
+        }
+
         $index = self::$playerIndex;
 
         // Résolution des liaisons de clés étrangères pour @team_X et @club_X
         if ($key === 'associatedClubIndex' || $key === 'associatedTeamIndex') {
-            $associatedIndex = $this->players[$index]['associatedTeamIndex'] ?? 0;
+            $associatedIndex = self::$competitionData[self::$currentCompetitionCode]['players'][$index]['associatedTeamIndex'] ?? 0;
             
             // club est la dernière propriété lue du bloc Player dans le YAML.
             // Dès qu'elle est injectée, on passe au joueur suivant.
@@ -91,11 +110,11 @@ class PlayerProvider extends BaseProvider
             return $associatedIndex;
         }
 
-        if (!isset($this->players[$index])) {
+        if (null === self::$currentCompetitionCode || !isset(self::$competitionData[self::$currentCompetitionCode]['players'][$index])) {
             return $key === 'firstName' || $key === 'lastName' ? 'Inconnu' : null;
         }
 
-        $playerData = $this->players[$index]['player'];
+        $playerData = self::$competitionData[self::$currentCompetitionCode]['players'][$index]['player'];
 
         // Découpage propre du prénom et du nom
         if ($key === 'firstName' || $key === 'lastName') {

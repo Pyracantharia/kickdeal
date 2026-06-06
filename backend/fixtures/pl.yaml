@@ -1,37 +1,33 @@
-# Initialisation de la Premier League
-App\Entity\Team:
-  pl_init:
-    __construct: false
-    __calls:
-      - loadCompetition: ['PL']
-
 # ========================================================
-# CLUBS ET EQUIPES (PREMIER LEAGUE)
+# INITIALISATION ET EQUIPES (PREMIER LEAGUE)
 # ========================================================
-App\Entity\Club:
-  club_pl_{0..19}:
-
 App\Entity\Team:
   team_pl_{0..19}:
-    name: '<competitionTeamData("name")>'
-    country: '<competitionTeamData("country")>'
-    logoUrl: '<competitionTeamData("logoUrl")>'
+    name: '<competitionTeamData("name", "PL")>'
+    country: '<competitionTeamData("country", "PL")>'
+    logoUrl: '<competitionTeamData("logoUrl", "PL")>'
     league: "Premier League"
     transferBudget: "<numberBetween(30000000, 500000000)>"
     verificationStatus: !php/enum App\Enum\TeamVerificationStatusEnum::VERIFIED
-    club: '@club_pl_$current'
+    # La ligne 'club' a été supprimée d'ici car elle n'existe pas dans l'entité Team !
+
+# ========================================================
+# CLUBS (PREMIER LEAGUE)
+# ========================================================
+App\Entity\Club:
+  club_pl_{0..19}:
 
 # ========================================================
 # JOUEURS (PREMIER LEAGUE)
 # ========================================================
 App\Entity\Player:
   player_pl_{0..585}:
-    firstName: '<competitionPlayerData("firstName")>'
-    lastName: '<competitionPlayerData("lastName")>'
+    firstName: '<competitionPlayerData("firstName", "PL")>'
+    lastName: '<competitionPlayerData("lastName", "PL")>'
     photoUrl: '<imageUrl(200, 200, "sports")>'
-    birthDate: '<dateTimeBetween("<competitionPlayerData("birthDate")>", "<competitionPlayerData("birthDate")>")>'
-    nationality: '<competitionPlayerData("nationality")>'
-    position: '<competitionPlayerData("position")>'
+    birthDate: '<dateTimeBetween("<competitionPlayerData("birthDate", "PL")>", "<competitionPlayerData("birthDate", "PL")>")>'
+    nationality: '<competitionPlayerData("nationality", "PL")>'
+    position: '<competitionPlayerData("position", "PL")>'
     heightCm: "<numberBetween(170, 195)>"
     weightKg: "<numberBetween(65, 90)>"
     preferredFoot: '<randomElement(["Droitier", "Gaucher"])>'
@@ -44,5 +40,6 @@ App\Entity\Player:
     marketStatus: !php/enum App\Enum\PlayerMarketStatusEnum::NOT_LISTED
     availabilityStatus: !php/enum App\Enum\PlayerAvailabilityStatusEnum::NORMAL
     
-    team: '@team_pl_<competitionPlayerData("associatedTeamIndex")>'
-    club: '@club_pl_<competitionPlayerData("associatedClubIndex")>'
+    # C'est bien ici, au niveau du Player, que tu fais les deux liaisons !
+    team: '@team_pl_<competitionPlayerData("associatedTeamIndex", "PL")>'
+    club: '@club_pl_<competitionPlayerData("associatedClubIndex", "PL")>'
