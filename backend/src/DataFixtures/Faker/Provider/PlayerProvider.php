@@ -6,95 +6,112 @@ use Faker\Provider\Base as BaseProvider;
 
 class PlayerProvider extends BaseProvider
 {
-    private array $teamsData = [];
-    private array $playersData = [];
+    private array $teams = [];
+    private array $players = [];
 
     private static int $teamIndex = 0;
     private static int $playerIndex = 0;
 
-    public function __construct()
+    /**
+     * Charge dynamiquement les données d'une compétition (Dossier JSON)
+     */
+    public function loadCompetition(string $code): void
     {
         $projectDir = realpath(__DIR__ . '/../../../../');
-        $jsonDir = $projectDir . '/fixtures/json/';
+        $jsonPath = $projectDir . "/fixtures/json/{$code}/teams.json";
 
-        if (file_exists($jsonDir . 'ligue1_teams.json')) {
-            $this->teamsData = json_decode(file_get_contents($jsonDir . 'ligue1_teams.json'), true)['teams'] ?? [];
+        // Réinitialisation complète des compteurs et de la mémoire à chaque nouvelle ligue
+        $this->teams = [];
+        $this->players = [];
+        self::$teamIndex = 0;
+        self::$playerIndex = 0;
+
+        if (!file_exists($jsonPath)) {
+            throw new \InvalidArgumentException(sprintf('Le fichier de compétition n\'existe pas : %s', $jsonPath));
         }
 
-        foreach ($this->teamsData as $teamIndex => $team) {
-            foreach (($team['squad'] ?? []) as $player) {
-                $fullName = $player['name'] ?? '';
-                $parts = preg_split('/\s+/', trim($fullName), 2) ?: [];
+        $data = json_decode(file_get_contents($jsonPath), true);
+        $teamsList = $data['teams'] ?? [];
 
-                $this->playersData[] = [
-                    'teamIndex' => $teamIndex,
-                    'clubIndex' => $teamIndex,
-                    'firstName' => $parts[0] ?? 'Joueur',
-                    'lastName' => $parts[1] ?? ($parts[0] ?? 'Inconnu'),
-                    'birthDate' => isset($player['dateOfBirth'])
-                        ? new \DateTimeImmutable($player['dateOfBirth'])
-                        : new \DateTimeImmutable('-25 years'),
-                    'nationality' => $player['nationality'] ?? null,
-                    'position' => $player['position'] ?? 'Offence',
+        foreach ($teamsList as $teamKey => $teamData) {
+            // Extraction et stockage des informations de l'équipe
+            $this->teams[] = [
+                'name' => $teamData['name'] ?? '',
+                'country' => $teamData['area']['name'] ?? 'France',
+                'logoUrl' => $teamData['crest'] ?? null,
+            ];
+
+            // Aplatissement et stockage de tous les joueurs de l'équipe
+            $squad = $teamData['squad'] ?? [];
+            foreach ($squad as $playerData) {
+                $this->players[] = [
+                    'player' => $playerData,
+                    'associatedTeamIndex' => $teamKey // Index correspondant à la boucle de fixtures Alice
                 ];
             }
         }
     }
 
-    public function ligue1TeamData(string $key): mixed
+    // ========================================================
+    // EXTRACTION DES DONNÉES D'ÉQUIPES
+    // ========================================================
+    public function competitionTeamData(string $key): mixed
     {
         $index = self::$teamIndex;
 
-        // On passe à l'index suivant dès qu'on traite la dernière propriété de l'entité Team dans le YAML
+        // Alice lit séquentiellement. logoUrl (crest) étant la dernière propriété 
+        // du bloc Team dans le YAML, on passe à l'index suivant juste après.
         if ($key === 'logoUrl') {
             self::$teamIndex++;
         }
 
-        if (!isset($this->teamsData[$index])) {
-            return $key === 'name' ? 'Club Fictif ' . $index : '';
-        }
-
-        $team = $this->teamsData[$index];
-
-        return match ($key) {
-            'name' => $team['name'] ?? '',
-            'country' => $team['area']['name'] ?? 'France',
-            'logoUrl' => $team['crest'] ?? null,
-            default => null,
-        };
-    }
-
-    public function teamSquadData(string $key): mixed
-    {
-        $index = self::$playerIndex;
-
-        if (!isset($this->playersData[$index])) {
+        if (!isset($this->teams[$index])) {
             return null;
         }
 
-        $player = $this->playersData[$index];
-
-        return match ($key) {
-            'firstName' => $player['firstName'] ?? '',
-            'lastName' => $player['lastName'] ?? '',
-            'birthDate' => $player['birthDate'] ?? new \DateTimeImmutable('-25 years'),
-            'nationality' => $player['nationality'] ?? null,
-            'position' => $player['position'] ?? 'Offence',
-            default => null,
-        };
+        return $this->teams[$index][$key] ?? null;
     }
 
-    public function playerTeamIndex(): int
+    // ========================================================
+    // EXTRACTION DES DONNÉES DE JOUEURS
+    // ========================================================
+    public function competitionPlayerData(string $key): mixed
     {
-        return $this->playersData[self::$playerIndex]['teamIndex'] ?? 0;
-    }
+        $index = self::$playerIndex;
 
-    public function playerClubIndex(): int
-    {
-        $index = $this->playersData[self::$playerIndex]['clubIndex'] ?? 0;
+        // Résolution des liaisons de clés étrangères pour @team_X et @club_X
+        if ($key === 'associatedClubIndex' || $key === 'associatedTeamIndex') {
+            $associatedIndex = $this->players[$index]['associatedTeamIndex'] ?? 0;
+            
+            // club est la dernière propriété lue du bloc Player dans le YAML.
+            // Dès qu'elle est injectée, on passe au joueur suivant.
+            if ($key === 'associatedClubIndex') {
+                self::$playerIndex++; 
+            }
+            return $associatedIndex;
+        }
 
-        self::$playerIndex++;
+        if (!isset($this->players[$index])) {
+            return $key === 'firstName' || $key === 'lastName' ? 'Inconnu' : null;
+        }
 
-        return $index;
+        $playerData = $this->players[$index]['player'];
+
+        // Découpage propre du prénom et du nom
+        if ($key === 'firstName' || $key === 'lastName') {
+            $fullName = $playerData['name'] ?? '';
+            $parts = explode(' ', $fullName, 2);
+
+            if ($key === 'firstName') {
+                return $parts[0] ?? 'Joueur';
+            }
+            return isset($parts[1]) ? $parts[1] : $parts[0];
+        }
+
+        if ($key === 'birthDate') {
+            return $playerData['dateOfBirth'] ?? null;
+        }
+
+        return $playerData[$key] ?? null;
     }
 }

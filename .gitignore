@@ -63,3 +63,5 @@
 backend/docker/nginx/default.conf
 backups/
 backend/data/fixtures/player.json
+backend/supervisord.log
+backend/supervisord.pid

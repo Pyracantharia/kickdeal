@@ -1,0 +1,48 @@
+# Initialisation de la Premier League
+App\Entity\Team:
+  pl_init:
+    __construct: false
+    __calls:
+      - loadCompetition: ['PL']
+
+# ========================================================
+# CLUBS ET EQUIPES (PREMIER LEAGUE)
+# ========================================================
+App\Entity\Club:
+  club_pl_{0..19}:
+
+App\Entity\Team:
+  team_pl_{0..19}:
+    name: '<competitionTeamData("name")>'
+    country: '<competitionTeamData("country")>'
+    logoUrl: '<competitionTeamData("logoUrl")>'
+    league: "Premier League"
+    transferBudget: "<numberBetween(30000000, 500000000)>"
+    verificationStatus: !php/enum App\Enum\TeamVerificationStatusEnum::VERIFIED
+    club: '@club_pl_$current'
+
+# ========================================================
+# JOUEURS (PREMIER LEAGUE)
+# ========================================================
+App\Entity\Player:
+  player_pl_{0..585}:
+    firstName: '<competitionPlayerData("firstName")>'
+    lastName: '<competitionPlayerData("lastName")>'
+    photoUrl: '<imageUrl(200, 200, "sports")>'
+    birthDate: '<dateTimeBetween("<competitionPlayerData("birthDate")>", "<competitionPlayerData("birthDate")>")>'
+    nationality: '<competitionPlayerData("nationality")>'
+    position: '<competitionPlayerData("position")>'
+    heightCm: "<numberBetween(170, 195)>"
+    weightKg: "<numberBetween(65, 90)>"
+    preferredFoot: '<randomElement(["Droitier", "Gaucher"])>'
+    marketValue: "<numberBetween(5000000, 120000000)>"
+    weeklySalary: "<numberBetween(35000, 450000)>"
+    releaseClause: "<numberBetween(15000000, 250000000)>"
+    contractStatus: !php/enum App\Enum\PlayerContractStatusEnum::UNDER_CONTRACT
+    contractEndDate: '<dateTimeBetween("+1 year", "+4 years")>'
+    joinedAt: '<dateTimeBetween("-3 years", "-1 year")>'
+    marketStatus: !php/enum App\Enum\PlayerMarketStatusEnum::NOT_LISTED
+    availabilityStatus: !php/enum App\Enum\PlayerAvailabilityStatusEnum::NORMAL
+    
+    team: '@team_pl_<competitionPlayerData("associatedTeamIndex")>'
+    club: '@club_pl_<competitionPlayerData("associatedClubIndex")>'
