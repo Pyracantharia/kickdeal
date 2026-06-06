@@ -63,6 +63,18 @@ private function loadCompetitionData(string $code): void
         }
     }
 
+    /**
+     * Retourne le nombre total de joueurs pour une compétition donnée
+     * Utilisé par Alice pour dimensionner la boucle d'injection
+     */
+    public function countPlayers(string $code): int
+    {
+        // On s'assure que le JSON est chargé en mémoire avant de compter
+        $this->loadCompetitionData($code);
+
+        return count(self::$competitionData[$code]['players'] ?? []);
+    }
+
     // ========================================================
     // EXTRACTION DES DONNÉES D'ÉQUIPES
     // ========================================================
