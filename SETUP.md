@@ -164,4 +164,6 @@ En production, toutes les images doivent être construites avant le déploiement
 
 ### Les fixtures avec Alice
 
-php bin/console doctrine:fixtures:load
+bypass les restrictions de mémoire pour charger les fixtures avec beaucoup de données :
+
+php -d memory_limit=-1 bin/console doctrine:fixtures:load

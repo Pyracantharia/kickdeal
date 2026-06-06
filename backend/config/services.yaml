@@ -29,3 +29,7 @@ services:
 
     App\DataFixtures\Faker\Provider\PlayerProvider:
         tags: [{ name: nelmio_alice.faker.provider }]
+
+    # AJOUTE CE BLOC ICI :
+    App\DataFixtures\CompetitionFixtures:
+        tags: [{ name: doctrine.fixture.orm }]
