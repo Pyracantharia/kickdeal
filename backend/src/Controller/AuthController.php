@@ -105,7 +105,7 @@ final class AuthController extends AbstractController
 
         $errors = $validator->validate($newUser);
 
-        if (0 !== \count($errors)) {
+        if (0 !== count($errors)) {
             $errorsArr = [];
             foreach ($errors as $error) {
                 $errorsArr[$error->getPropertyPath()] = $error->getMessage();
