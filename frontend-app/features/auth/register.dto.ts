@@ -7,4 +7,6 @@ export type RegisterDTO = {
   agencyName?: string;
   country?: string;
   subscriptionPlan?: 'club_free' | 'club_pro' | 'club_enterprise' | 'agent_free' | 'agent_pro';
+  jobTitle?: string;
+  professionalContact?: string;
 }
