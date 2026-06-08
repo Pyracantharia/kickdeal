@@ -1,5 +1,6 @@
 'use client';
 import { Search } from 'lucide-react'
+import Link from 'next/link';
 import React from 'react'
 
 const mockConversations = [
@@ -26,7 +27,7 @@ const mockConversations = [
   },
 ]
 
-function MessagesTable() {
+function ConversationsTable() {
   const [filteredConversations, setFilteredConversations] = React.useState(mockConversations)
   const [searchTerm, setSearchTerm] = React.useState('')
 
@@ -42,7 +43,7 @@ function MessagesTable() {
         )
       )
     }
-  }, [searchTerm, mockConversations])
+  }, [searchTerm])
 
   return (
     <div>
@@ -60,21 +61,24 @@ function MessagesTable() {
       <div className="mt-6">
         <ul className="border border-white/10 bg-white/5 rounded-lg">
           {filteredConversations.map((conversation) => (
-            <li key={conversation.id} className="flex items-center gap-4 border-b border-white/10 p-4 hover:bg-white/10 cursor-pointer last:border-b-0 transition-all duration-100">
-              <div className="relative min-w-6">
-                {conversation.newMessages > 0 && (
-                  <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded-full bg-brand-purple text-xs font-bold text-white">
-                    {conversation.newMessages}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center justify-between flex-1">
-                <div>
-                  <p className="text-lg font-semibold text-white">{conversation.name}</p>
-                  <p className="text-sm text-white/60">{conversation.lastMessage}</p>
+            <li key={conversation.id} className="border-b border-white/10 p-4 hover:bg-white/10 cursor-pointer last:border-b-0 transition-all duration-100">
+              <Link href={`/messages/conversation/${conversation.id}`} className="flex items-center gap-4 flex-1">
+                <div className="relative min-w-6">
+                  {conversation.newMessages > 0 && (
+                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded-full bg-brand-purple text-xs font-bold text-white">
+                      {conversation.newMessages}
+                    </span>
+                  )}
                 </div>
-                <span className="text-sm text-white/60">{conversation.timestamp}</span>
-              </div>
+                <div className="flex items-center justify-between flex-1">
+                  <div>
+                    <p className="text-lg font-semibold text-white">{conversation.name}</p>
+                    <p className="text-sm text-white/60">{conversation.lastMessage}</p>
+                  </div>
+                  <span className="text-sm text-white/60">{conversation.timestamp}</span>
+                </div>
+              
+              </Link>
             </li>
           ))}
         </ul>
@@ -83,4 +87,4 @@ function MessagesTable() {
   )
 }
 
-export default MessagesTable
+export default ConversationsTable
