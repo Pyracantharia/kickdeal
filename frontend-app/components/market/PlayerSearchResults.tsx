@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
 import type { Player } from '@/features/market/types/player'
 import { filterPlayers, playersManager } from '@/features/players/players'
+import { getLeagueDisplayName } from '@/features/league/leagueConfig'
 
 function PlayerSearchResults() {
   const router = useRouter()
@@ -18,6 +19,7 @@ function PlayerSearchResults() {
   const playerId = searchParams.get('playerId')
   const positionId = searchParams.get('positionId')
   const nationalityId = searchParams.get('nationalityId')
+  const countryId = searchParams.get('countryId')
   const transferStatusId = searchParams.get('transferStatusId')
   const ageMin = searchParams.get('ageMin') ? parseInt(searchParams.get('ageMin')!) : undefined
   const ageMax = searchParams.get('ageMax') ? parseInt(searchParams.get('ageMax')!) : undefined
@@ -56,13 +58,14 @@ function PlayerSearchResults() {
         playerId,
         positionId,
         nationalityId,
+        countryId,
         transferStatusId,
         ageMin,
         ageMax,
         leagueId,
         clubId,
       }),
-    [players, playerId, positionId, nationalityId, transferStatusId, ageMin, ageMax, leagueId, clubId],
+    [players, playerId, positionId, nationalityId, countryId, transferStatusId, ageMin, ageMax, leagueId, clubId],
   )
 
   const handleNewSearch = () => {
@@ -156,7 +159,9 @@ function PlayerResultCard({ player }: PlayerResultCardProps) {
         <div className="grid grid-cols-[minmax(0,1fr)_64px] items-center gap-4 border-t border-white/10 pt-4 md:w-[360px] md:grid-cols-[minmax(0,1fr)_64px_20px] md:border-t-0 md:pt-0">
           <div className="min-w-0 text-left md:text-right">
             <p className="truncate text-lg font-bold text-white">{player.club}</p>
-            <p className="truncate text-sm text-brand-cyan">{player.league}</p>
+            <p className="truncate text-sm text-brand-cyan">
+              {getLeagueDisplayName(player.league)}
+            </p>
             <p className="mt-1 text-xs text-white/55">{player.country}</p>
           </div>
           <ClubLogo player={player} />

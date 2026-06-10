@@ -36,6 +36,12 @@ export interface League {
   country: string
 }
 
+export interface LeagueCountry {
+  id: string
+  label: string
+  flag: string
+}
+
 export interface Club {
   id: string
   label: string

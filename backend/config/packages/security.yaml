@@ -37,7 +37,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api/clubs/search$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/clubs/(search|leagues)$, roles: PUBLIC_ACCESS }
         - { path: ^/api/clubs, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/subscription, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/transfers, roles: IS_AUTHENTICATED_FULLY }

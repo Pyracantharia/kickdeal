@@ -238,8 +238,11 @@ final class ClubController extends AbstractController
     public function search(Request $request, TeamRepository $teamRepository): JsonResponse
     {
         $query = $request->query->getString('query', '');
+        $league = trim($request->query->getString('league', ''));
 
-        $teams = $teamRepository->searchByQuery($query, 30);
+        $teams = '' !== $league
+            ? $teamRepository->findByLeague($league)
+            : $teamRepository->searchByQuery($query, 30);
 
         $clubs = array_map(static fn (Team $team): array => [
             'id' => $team->getId()?->toRfc4122(),
@@ -252,6 +255,14 @@ final class ClubController extends AbstractController
 
         return $this->json([
             'clubs' => $clubs,
+        ]);
+    }
+
+    #[Route('/leagues', name: 'app_club_leagues', methods: ['GET'])]
+    public function leagues(TeamRepository $teamRepository): JsonResponse
+    {
+        return $this->json([
+            'leagues' => $teamRepository->findAvailableLeagues(),
         ]);
     }
 

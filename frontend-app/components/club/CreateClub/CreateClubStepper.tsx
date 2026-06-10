@@ -12,7 +12,7 @@ import Stepper from './Stepper'
 import StepSelectClub from './StepSelectClub'
 import StepClubManager from './StepClubManager'
 import StepVerification from './StepVerification'
-import type { ClubOption, VerificationMethod } from '@/features/club/types/createClub'
+import type { ClubOption, LeagueOption, VerificationMethod } from '@/features/club/types/createClub'
 
 const TOTAL_STEPS = 3
 
@@ -21,8 +21,11 @@ function CreateClubStepper() {
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(1)
   const [selectedClub, setSelectedClub] = useState<ClubOption | null>(null)
+  const [selectedLeague, setSelectedLeague] = useState<LeagueOption | null>(null)
   const [verifications, setVerifications] = useState<VerificationMethod[]>([])
+  const [leagues, setLeagues] = useState<LeagueOption[]>([])
   const [clubs, setClubs] = useState<ClubOption[]>([])
+  const [isCatalogLoading, setIsCatalogLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
@@ -34,23 +37,55 @@ function CreateClubStepper() {
   }, [isLoading, user, router])
 
   useEffect(() => {
-    async function loadClubs() {
+    async function loadLeagues() {
       try {
-        const response = await clubManager.searchClubs('')
-        if (response.ok && response.data?.clubs) {
-          setClubs(response.data.clubs)
+        const response = await clubManager.getLeagues()
+        if (response.ok && response.data?.leagues) {
+          setLeagues(response.data.leagues)
           return
         }
 
-        setErrorMessage('Impossible de charger les clubs pour le moment.')
+        setErrorMessage('Impossible de charger les ligues pour le moment.')
       } catch {
-        setClubs([])
-        setErrorMessage('Impossible de charger les clubs pour le moment.')
+        setLeagues([])
+        setErrorMessage('Impossible de charger les ligues pour le moment.')
+      } finally {
+        setIsCatalogLoading(false)
       }
     }
 
-    loadClubs()
+    loadLeagues()
   }, [])
+
+  async function handleLeagueSelect(league: LeagueOption) {
+    setSelectedLeague(league)
+    setSelectedClub(null)
+    setClubs([])
+    setErrorMessage(null)
+    setIsCatalogLoading(true)
+
+    try {
+      const response = await clubManager.getClubsByLeague(league.name)
+
+      if (response.ok && response.data?.clubs) {
+        setClubs(response.data.clubs)
+        return
+      }
+
+      setErrorMessage('Impossible de charger les clubs de cette ligue.')
+    } catch {
+      setErrorMessage('Impossible de charger les clubs de cette ligue.')
+    } finally {
+      setIsCatalogLoading(false)
+    }
+  }
+
+  function handleLeagueBack() {
+    setSelectedLeague(null)
+    setSelectedClub(null)
+    setClubs([])
+    setErrorMessage(null)
+  }
 
   const selectedEmailVerification = useMemo(
     () => verifications.find((verification) => verification.type === 'email'),
@@ -168,8 +203,14 @@ function CreateClubStepper() {
 
         {currentStep === 1 && (
           <StepSelectClub
+            key={selectedLeague?.name ?? 'leagues'}
+            leagues={leagues}
             clubs={clubs}
+            selectedLeague={selectedLeague}
             selectedClub={selectedClub}
+            isLoading={isCatalogLoading}
+            onLeagueSelect={handleLeagueSelect}
+            onLeagueBack={handleLeagueBack}
             onSelect={setSelectedClub}
           />
         )}

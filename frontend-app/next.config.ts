@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
         hostname: 'commons.wikimedia.org',
       },
       {
+        protocol: 'https',
+        hostname: 'crests.football-data.org',
+      },
+      {
         protocol: 'http',
         hostname: 'localhost',
         port: '8000',

@@ -79,8 +79,14 @@ function ClubPendingRequestCard() {
           ) : team ? (
             <div className="flex items-center gap-4">
               {team.logoUrl ? (
-                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-white/10">
-                  <Image src={team.logoUrl} alt={team.name} fill sizes="64px" className="object-contain" />
+                <div className="relative h-20 w-24 shrink-0">
+                  <Image
+                    src={team.logoUrl}
+                    alt={`Logo ${team.name}`}
+                    fill
+                    sizes="96px"
+                    className="object-contain"
+                  />
                 </div>
               ) : (
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand-purple/40 text-xl font-bold text-white">
