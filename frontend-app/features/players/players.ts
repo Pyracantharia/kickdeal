@@ -3,11 +3,18 @@ import type { ClubPlayer } from '@/features/club/types/roster'
 import type {
   Club,
   League,
+  LeagueCountry,
   Nationality,
   Player,
   Position,
   TransferStatus,
 } from '@/features/market/types/player'
+import {
+  getLeagueDisplayName,
+  getLeagueCountryId,
+  isDisplayedLeague,
+  LEAGUE_CONFIG,
+} from '@/features/league/leagueConfig'
 
 const NATIONALITY_FLAGS: Record<string, string> = {
   Belgique: '🇧🇪',
@@ -44,6 +51,7 @@ class PlayersManager {
 export function buildPlayerFilters(players: Player[]): {
   positions: Position[]
   nationalities: Nationality[]
+  countries: LeagueCountry[]
   leagues: League[]
   clubs: Club[]
   transferStatuses: TransferStatus[]
@@ -66,15 +74,28 @@ export function buildPlayerFilters(players: Player[]): {
   const leagues = Array.from(
     new Map(
       players
-        .filter((player) => player.league)
+        .filter((player) => player.league && isDisplayedLeague(player.league))
         .map((player) => [
           player.league,
           {
             id: player.league,
-            label: player.league,
-            country: player.country,
+            label: getLeagueDisplayName(player.league),
+            country: getLeagueCountryId(player.league) ?? player.country,
           },
         ]),
+    ).values(),
+  ).sort((a, b) => a.label.localeCompare(b.label))
+
+  const countries = Array.from(
+    new Map(
+      Object.values(LEAGUE_CONFIG).map((league) => [
+        league.countryId,
+        {
+          id: league.countryId,
+          label: league.countryName,
+          flag: league.countryFlag,
+        },
+      ]),
     ).values(),
   ).sort((a, b) => a.label.localeCompare(b.label))
 
@@ -104,6 +125,7 @@ export function buildPlayerFilters(players: Player[]): {
   return {
     positions,
     nationalities,
+    countries,
     leagues,
     clubs,
     transferStatuses,
@@ -116,6 +138,7 @@ export function filterPlayers(
     playerId?: string | null
     positionId?: string | null
     nationalityId?: string | null
+    countryId?: string | null
     transferStatusId?: string | null
     ageMin?: number
     ageMax?: number
@@ -133,6 +156,10 @@ export function filterPlayers(
     }
 
     if (filters.nationalityId && player.nationality !== filters.nationalityId) {
+      return false
+    }
+
+    if (filters.countryId && getLeagueCountryId(player.league) !== filters.countryId) {
       return false
     }
 

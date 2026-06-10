@@ -11,6 +11,7 @@ import NationalitySearchModal from './modals/NationalitySearchModal'
 import TransferStatusSearchModal from './modals/TransferStatusSearchModal'
 import LeagueSearchModal from './modals/LeagueSearchModal'
 import ClubSearchModal from './modals/ClubSearchModal'
+import CountrySearchModal from './modals/CountrySearchModal'
 
 import type { Player } from '@/features/market/types/player'
 import { buildPlayerFilters, filterPlayers, playersManager } from '@/features/players/players'
@@ -19,6 +20,7 @@ interface SearchState {
   selectedPlayer?: Player
   positionId?: string
   nationalityId?: string
+  countryId?: string
   transferStatusId?: string
   ageMin?: number
   ageMax?: number
@@ -39,6 +41,7 @@ function PlayerSearchForm() {
     | 'player'
     | 'position'
     | 'nationality'
+    | 'country'
     | 'transferStatus'
     | 'league'
     | 'club'
@@ -74,10 +77,19 @@ function PlayerSearchForm() {
   const {
     positions,
     nationalities,
+    countries,
     leagues,
     clubs,
     transferStatuses,
   } = useMemo(() => buildPlayerFilters(players), [players])
+
+  const availableLeagues = useMemo(
+    () =>
+      searchState.countryId
+        ? leagues.filter((league) => league.country === searchState.countryId)
+        : leagues,
+    [leagues, searchState.countryId],
+  )
 
   const availableClubs = useMemo(
     () =>
@@ -95,6 +107,7 @@ function PlayerSearchForm() {
   const selectedNationality = nationalities.find(
     (nationality) => nationality.id === searchState.nationalityId
   )
+  const selectedCountry = countries.find((country) => country.id === searchState.countryId)
   const selectedTransferStatus = transferStatuses.find(
     (status) => status.id === searchState.transferStatusId
   )
@@ -115,7 +128,7 @@ function PlayerSearchForm() {
     const statId = transferStatuses.find(
       (status) => status.label === player.transferStatus
     )?.id
-    const leagId = leagues.find((league) => league.label === player.league)?.id
+    const leagId = leagues.find((league) => league.id === player.league)?.id
     const clubId = leagId
       ? clubs.find((club) => club.label === player.club && club.leagueId === leagId)?.id
       : undefined
@@ -124,6 +137,7 @@ function PlayerSearchForm() {
       selectedPlayer: player,
       positionId: posId,
       nationalityId: natId,
+      countryId: leagues.find((league) => league.id === leagId)?.country,
       transferStatusId: statId,
       ageMin: player.age,
       ageMax: player.age,
@@ -144,6 +158,7 @@ function PlayerSearchForm() {
     if (searchState.selectedPlayer?.id) params.append('playerId', searchState.selectedPlayer.id)
     if (searchState.positionId) params.append('positionId', searchState.positionId)
     if (searchState.nationalityId) params.append('nationalityId', searchState.nationalityId)
+    if (searchState.countryId) params.append('countryId', searchState.countryId)
     if (searchState.transferStatusId) params.append('transferStatusId', searchState.transferStatusId)
     if (searchState.ageMin) params.append('ageMin', searchState.ageMin.toString())
     if (searchState.ageMax) params.append('ageMax', searchState.ageMax.toString())
@@ -235,12 +250,11 @@ function PlayerSearchForm() {
           <SearchCard
             title="Pays/Région"
             icon={<MapPin className="h-12 w-12" />}
-            value="Tout"
-            subtitle="Tout"
-            onClick={() => {}}
-            isActive={false}
-            disabled
-            description="Tout"
+            value={selectedCountry?.label || 'Tout'}
+            subtitle={selectedCountry ? selectedCountry.flag : 'Tout'}
+            onClick={() => setOpenModal('country')}
+            isActive={!!selectedCountry}
+            description={selectedCountry ? 'Pays sélectionné' : 'Tout'}
           />
 
           <SearchCard
@@ -330,17 +344,45 @@ function PlayerSearchForm() {
       <LeagueSearchModal
         isOpen={openModal === 'league'}
         onClose={() => setOpenModal(null)}
-        leagues={leagues}
+        leagues={availableLeagues}
         onSelect={(league) => {
           setSearchState((prev) => ({
             ...prev,
             selectedPlayer: undefined,
             leagueId: prev.leagueId === league.id ? undefined : league.id,
+            countryId: prev.leagueId === league.id ? prev.countryId : league.country,
             clubId: undefined, 
           }))
           setOpenModal(null)
         }}
         selectedLeagueId={searchState.leagueId}
+      />
+
+      <CountrySearchModal
+        isOpen={openModal === 'country'}
+        onClose={() => setOpenModal(null)}
+        countries={countries}
+        onSelect={(country) => {
+          setSearchState((prev) => {
+            const isDeselecting = prev.countryId === country.id
+
+            return {
+              ...prev,
+              selectedPlayer: undefined,
+              countryId: isDeselecting ? undefined : country.id,
+              leagueId:
+                !isDeselecting && selectedLeague?.country === country.id
+                  ? prev.leagueId
+                  : undefined,
+              clubId:
+                !isDeselecting && selectedLeague?.country === country.id
+                  ? prev.clubId
+                  : undefined,
+            }
+          })
+          setOpenModal(null)
+        }}
+        selectedCountryId={searchState.countryId}
       />
 
       <ClubSearchModal

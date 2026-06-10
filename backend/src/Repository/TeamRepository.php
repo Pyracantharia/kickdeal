@@ -35,4 +35,39 @@ class TeamRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @return array<int, array{name: string, clubCount: int}>
+     */
+    public function findAvailableLeagues(): array
+    {
+        /** @var array<int, array{league: string, clubCount: string|int}> $rows */
+        $rows = $this->createQueryBuilder('team')
+            ->select('team.league AS league')
+            ->addSelect('COUNT(team.id) AS clubCount')
+            ->andWhere('team.league IS NOT NULL')
+            ->andWhere("TRIM(team.league) <> ''")
+            ->groupBy('team.league')
+            ->orderBy('team.league', 'ASC')
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_map(static fn (array $row): array => [
+            'name' => $row['league'],
+            'clubCount' => (int) $row['clubCount'],
+        ], $rows);
+    }
+
+    /**
+     * @return Team[]
+     */
+    public function findByLeague(string $league): array
+    {
+        return $this->createQueryBuilder('team')
+            ->andWhere('LOWER(team.league) = :league')
+            ->setParameter('league', mb_strtolower(trim($league)))
+            ->orderBy('team.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

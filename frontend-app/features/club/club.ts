@@ -1,5 +1,6 @@
 import httpClient from '../api'
 import type { ClubDetail, CreatePlayerPayload, UpdateClubBudgetPayload } from './types/club'
+import type { LeagueOption } from './types/createClub'
 
 type JoinClubResponse = {
   message: string
@@ -17,6 +18,10 @@ export type ClubSearchItem = {
 
 type SearchClubsResponse = {
   clubs: ClubSearchItem[]
+}
+
+type SearchLeaguesResponse = {
+  leagues: LeagueOption[]
 }
 
 export type ClubRequestSummary = {
@@ -77,6 +82,14 @@ class ClubManager {
   async searchClubs(query: string) {
     const response = await httpClient.get<SearchClubsResponse>(`/clubs/search?query=${encodeURIComponent(query)}`)
     return response
+  }
+
+  async getLeagues() {
+    return httpClient.get<SearchLeaguesResponse>('/clubs/leagues')
+  }
+
+  async getClubsByLeague(league: string) {
+    return httpClient.get<SearchClubsResponse>(`/clubs/search?league=${encodeURIComponent(league)}`)
   }
 
   async getMyClubRequest() {

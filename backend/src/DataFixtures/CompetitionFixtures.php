@@ -23,7 +23,7 @@ class CompetitionFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         $projectDir = dirname(__DIR__, 2);
         
-        $competitions = ['PL', 'BL1', 'FL1', 'PD', 'SA', 'DED', 'PPL', 'ELC', 'BSA', 'WC', 'EC', 'CL'];
+        $competitions = ['PL', 'BL1', 'FL1', 'PD', 'SA', 'DED', 'PPL'];
         
         $batchSize = 20;
         $i = 0;

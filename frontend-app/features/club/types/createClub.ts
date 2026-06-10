@@ -7,6 +7,11 @@ export type ClubOption = {
   isClaimed?: boolean
 }
 
+export type LeagueOption = {
+  name: string
+  clubCount: number
+}
+
 export type VerificationMethod =
   | { type: 'document'; file: File }
   | { type: 'email'; email: string }

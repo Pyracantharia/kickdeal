@@ -9,6 +9,7 @@ import CircleImage from '@/components/media/CircleImage'
 import type { Player } from '@/features/market/types/player'
 import { buildPlayerFilters, playersManager } from '@/features/players/players'
 import { transfersManager } from '@/features/market/transfers'
+import { getLeagueDisplayName } from '@/features/league/leagueConfig'
 
 interface PlayerDetailsProps {
   playerId: string
@@ -137,7 +138,8 @@ function PlayerDetails({ playerId }: PlayerDetailsProps) {
                   {player.firstName} {player.lastName}
                 </h1>
                 <p className="mt-2 text-lg text-white/65">
-                  {nationality?.flag ? `${nationality.flag} ` : ''}{player.nationality} • {player.age} ans • {player.league}
+                  {nationality?.flag ? `${nationality.flag} ` : ''}
+                  {player.nationality} • {player.age} ans • {getLeagueDisplayName(player.league)}
                 </p>
               </div>
             </div>
