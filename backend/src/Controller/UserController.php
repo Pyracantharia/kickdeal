@@ -46,6 +46,11 @@ final class UserController extends AbstractController
                     return [
                         'id' => $clubProfile->getId(),
                         'jobTitle' => $clubProfile->getJobTitle(),
+                        "team" => $clubProfile->getClub() ? [
+                            'id' => $clubProfile->getClub()->getId(),
+                            'name' => $clubProfile->getClub()->getTeam() ? $clubProfile->getClub()->getTeam()->getName() : null,
+                        ] : null,
+                        
                     ];
                 }, $user->getClubProfiles()->toArray()),
             ];

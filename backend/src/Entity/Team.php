@@ -87,6 +87,9 @@ class Team
     #[ORM\OneToMany(targetEntity: ContractNegociation::class, mappedBy: 'buyerTeam')]
     private Collection $contractNegociations;
 
+    #[ORM\OneToOne(mappedBy: 'team', cascade: ['persist', 'remove'])]
+    private ?Club $club = null;
+
     public function __construct()
     {
         $this->teamMemberships = new ArrayCollection();
@@ -316,6 +319,28 @@ class Team
                 $contractNegociation->setBuyerTeam(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(?Club $club): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($club === null && $this->club !== null) {
+            $this->club->setTeam(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($club !== null && $club->getTeam() !== $this) {
+            $club->setTeam($this);
+        }
+
+        $this->club = $club;
 
         return $this;
     }

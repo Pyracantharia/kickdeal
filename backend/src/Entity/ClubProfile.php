@@ -37,6 +37,9 @@ class ClubProfile
     #[Assert\NotNull(message: 'L\'utilisateur est requis.')]
     private ?User $user = null;
 
+    #[ORM\ManyToOne(inversedBy: 'clubProfiles')]
+    private ?Club $club = null;
+
     public function getId(): ?Uuid
     {
         return $this->id;
@@ -74,6 +77,18 @@ class ClubProfile
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(?Club $club): static
+    {
+        $this->club = $club;
 
         return $this;
     }

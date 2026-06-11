@@ -84,6 +84,7 @@ final class AdminController extends AbstractController
             ->setUser($clubRequest->getRequester())
             ->setJobTitle("Gérant du club")
             ->setProfessionalContact($clubRequest->getRequester()->getPhone())
+            ->setClub($clubRequest->getTeam()->getClub())
             ->setCreatedAt(new DateTimeImmutable());
 
         $entityManager->persist($clubProfile);
