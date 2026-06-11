@@ -63,4 +63,18 @@ class ClubRequestRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findPendingRequests(?int $limit = null): array
+    {
+        $qb = $this->createQueryBuilder('clubRequest')
+            ->andWhere('clubRequest.status = :status')
+            ->setParameter('status', ClubRequestStatusEnum::PENDING)
+            ->orderBy('clubRequest.createdAt', 'DESC');
+
+        if ($limit !== null) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

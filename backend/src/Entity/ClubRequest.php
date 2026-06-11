@@ -8,6 +8,7 @@ use App\Repository\ClubRequestRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ClubRequestRepository::class)]
@@ -20,29 +21,37 @@ class ClubRequest
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    #[Groups(['admin:club_request:read'])]
     private ?Uuid $id = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['admin:club_request:read'])]
     private ?User $requester = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['admin:club_request:read'])]
     private ?Team $team = null;
 
     #[ORM\Column(length: 20, enumType: ClubRequestStatusEnum::class)]
+    #[Groups(['admin:club_request:read'])]
     private ClubRequestStatusEnum $status = ClubRequestStatusEnum::PENDING;
 
     #[ORM\Column(length: 320, nullable: true)]
+    #[Groups(['admin:club_request:read'])]
     private ?string $verificationEmail = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['admin:club_request:read'])]
     private ?string $verificationMessage = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['admin:club_request:read'])]
     private ?string $verificationDocumentPath = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['admin:club_request:read'])]
     private ?string $verificationDocumentOriginalName = null;
 
     public function getId(): ?Uuid

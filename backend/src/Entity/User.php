@@ -37,21 +37,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    #[Groups('user:read')] // ✅ Exposer cette propriété dans les réponses json
+    #[Groups(['user:read', 'admin:club_request:read'])] // ✅ Exposer cette propriété dans les réponses json
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('user:read')]
+    #[Groups(['user:read', 'admin:club_request:read'])]
     #[Assert\NotBlank(message: 'Le prénom est requis')]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('user:read')]
+    #[Groups(['user:read', 'admin:club_request:read'])]
     #[Assert\NotBlank(message: 'Le nom est requis')]
     private ?string $lastName = null;
 
     #[ORM\Column(type: 'string', length: 320, unique: true)]
-    #[Groups('user:read')]
+    #[Groups(['user:read', 'admin:club_request:read'])]
     #[Assert\NotBlank(message: "L'email est requis")]
     #[Assert\Email(message: "L'adresse '{{ value }}' n'est pas un email valide.")]
     private ?string $email = null;

@@ -17,6 +17,15 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function findAdminUser(): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('CONCAT(u.roles, \'\') LIKE :adminRole')
+            ->setParameter('adminRole', '%"ROLE_ADMIN"%') // Précisez le rôle complet avec les guillemets
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     /**
      * @return User[]  Returns an array of User objects that are either agents ar clubs, excluding the user with the given ID and the admin users
      */

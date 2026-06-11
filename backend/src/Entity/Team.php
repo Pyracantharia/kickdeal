@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -28,19 +29,24 @@ class Team
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    #[Groups(['admin:club_request:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank(message: 'Le nom est requis')]
+    #[Groups(['admin:club_request:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['admin:club_request:read'])]
     private ?string $country = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['admin:club_request:read'])]
     private ?string $league = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['admin:club_request:read'])]
     private ?string $logoUrl = null;
 
     // Value in cents
