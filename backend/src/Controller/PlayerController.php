@@ -7,8 +7,10 @@ use App\Entity\User;
 use App\Enum\PlayerAvailabilityStatusEnum;
 use App\Enum\PlayerMarketStatusEnum;
 use App\Repository\PlayerRepository;
+use App\Repository\AgentRepository;
 use App\Repository\TeamRepository;
 use App\Repository\TeamMembershipRepository;
+use App\Service\Player\PlayerMarketContextResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,6 +19,37 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 #[Route('/api/players')]
 final class PlayerController extends AbstractController
 {
+    public function __construct(
+        private readonly PlayerMarketContextResolver $marketContextResolver,
+    ) {
+    }
+
+    #[Route('/agent-roster', name: 'app_player_agent_roster', methods: ['GET'])]
+    public function agentRoster(
+        #[CurrentUser] ?User $user,
+        AgentRepository $agentRepository,
+        PlayerRepository $playerRepository,
+    ): JsonResponse {
+        if (!$user) {
+            return $this->json([
+                'errorMessage' => 'Utilisateur non authentifié.',
+            ], 401);
+        }
+
+        $agent = $agentRepository->findOneBy(['user' => $user]);
+
+        if (null === $agent) {
+            return $this->json(['players' => []]);
+        }
+
+        return $this->json([
+            'players' => array_map(
+                fn (Player $player): array => $this->serializeMarketPlayer($player),
+                $playerRepository->findRepresentedByAgent($agent),
+            ),
+        ]);
+    }
+
     #[Route('/club-roster', name: 'app_player_club_roster', methods: ['GET'])]
     public function clubRoster(
         #[CurrentUser] ?User $user,
@@ -113,6 +146,10 @@ final class PlayerController extends AbstractController
             'marketValue' => $this->formatMoney($player->getMarketValue()),
             'weeklySalary' => $this->formatMoney($player->getWeeklySalary()),
             'releaseClause' => $this->formatMoney($player->getReleaseClause(), true),
+            'contractEndDate' => $player->getContractEndDate()?->format('Y-m-d'),
+            'contractStatus' => $player->getContractStatus()?->value,
+            'marketStatusValue' => $player->getMarketStatus()?->value,
+            'marketContext' => $this->marketContextResolver->resolve($player),
         ];
     }
 
@@ -135,6 +172,9 @@ final class PlayerController extends AbstractController
             'nationality' => $player->getNationality() ?? 'Inconnue',
             'joinDate' => $player->getJoinedAt()?->format('Y-m-d') ?? '',
             'agentName' => $player->getAgent()?->getAgencyName(),
+            'contractStatus' => $player->getContractStatus()?->value,
+            'marketStatusValue' => $player->getMarketStatus()?->value,
+            'marketContext' => $this->marketContextResolver->resolve($player),
         ];
     }
 

@@ -1,3 +1,5 @@
+import type { PlayerMarketContext } from '@/features/market/types/player'
+
 export interface ClubPlayer {
   id: string
   firstName: string
@@ -15,6 +17,9 @@ export interface ClubPlayer {
   nationality: string
   joinDate: string
   agentName?: string
+  contractStatus?: 'free_agent' | 'under_contract'
+  marketStatusValue?: 'on_market' | 'loan_listed' | 'not_listed' | null
+  marketContext?: PlayerMarketContext
 }
 
 export interface PositionFilter {

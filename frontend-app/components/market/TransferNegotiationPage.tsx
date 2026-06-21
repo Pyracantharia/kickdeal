@@ -21,6 +21,7 @@ import { transfersManager } from '@/features/market/transfers'
 import type { OfferType, TransferNegotiationContext, TransferOfferPayload } from '@/features/market/types/transfer'
 import { playersManager } from '@/features/players/players'
 import { subscriptionManager, type SubscriptionSummary } from '@/features/subscription/subscription'
+import { getPositionDisplayName } from '@/features/players/position'
 
 type PaymentMode = 'single' | 'installments'
 
@@ -267,7 +268,7 @@ function TransferNegotiationPage() {
                     <option value="">Sélectionner un joueur</option>
                     {roster.map((player) => (
                       <option key={player.id} value={player.id}>
-                        {player.firstName} {player.lastName} - {player.position}
+                        {player.firstName} {player.lastName} - {getPositionDisplayName(player.position)}
                       </option>
                     ))}
                   </select>

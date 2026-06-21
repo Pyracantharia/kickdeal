@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Agent;
 use App\Entity\User;
 use App\Enum\SubscriptionPlanEnum;
 use App\Repository\UserRepository;
@@ -53,9 +54,28 @@ final class AuthController extends AbstractController
         }
 
         $payload = json_decode($request->getContent(), true);
-        $newUser = $serializer->deserialize($request->getContent(), User::class, 'json');
 
-        if (is_array($payload) && isset($payload['subscriptionPlan'])) {
+        if (!is_array($payload)) {
+            return $this->json([
+                'errorMessage' => 'Payload invalide.',
+            ], 400);
+        }
+
+        $userPayload = array_intersect_key($payload, array_flip([
+            'firstName',
+            'lastName',
+            'email',
+            'password',
+            'roles',
+            'subscriptionPlan',
+        ]));
+        $newUser = $serializer->deserialize(
+            json_encode($userPayload, JSON_THROW_ON_ERROR),
+            User::class,
+            'json',
+        );
+
+        if (isset($payload['subscriptionPlan'])) {
             $subscriptionPlan = is_string($payload['subscriptionPlan']) ? SubscriptionPlanEnum::tryFrom($payload['subscriptionPlan']) : null;
 
             if (!$subscriptionPlan instanceof SubscriptionPlanEnum) {
@@ -94,6 +114,17 @@ final class AuthController extends AbstractController
         $newUser->setPassword($hashedPassword);
         try {
             $entityManager->persist($newUser);
+
+            if (in_array(User::ROLE_AGENT, $newUser->getRoles(), true)) {
+                $agent = (new Agent())
+                    ->setUser($newUser)
+                    ->setAgencyName($this->optionalString($payload['agencyName'] ?? null))
+                    ->setCountry($this->optionalString($payload['country'] ?? null));
+
+                $newUser->setAgentProfile($agent);
+                $entityManager->persist($agent);
+            }
+
             $entityManager->flush();
         } catch (UniqueConstraintViolationException $exception) {
             return $this->json([
@@ -107,6 +138,17 @@ final class AuthController extends AbstractController
             'message' => 'utilisateur créé avec succès.',
             'user' => $newUser,
         ], 201, [], ['groups' => 'user:read']);
+    }
+
+    private function optionalString(mixed $value): ?string
+    {
+        if (!is_string($value)) {
+            return null;
+        }
+
+        $trimmedValue = trim($value);
+
+        return '' === $trimmedValue ? null : $trimmedValue;
     }
 
     #[Route('/login', name: 'app_login', methods: ['POST'])]

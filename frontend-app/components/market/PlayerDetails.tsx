@@ -2,14 +2,17 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, BadgeEuro, Dumbbell, Footprints, Ruler, Shield, UserRound } from 'lucide-react'
+import { ArrowLeft, ArrowRightLeft, BadgeEuro, Dumbbell, Footprints, Ruler, Shield, UserPlus, UserRound } from 'lucide-react'
 
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
+import { useAuth } from '@/context/AuthProvider'
 import type { Player } from '@/features/market/types/player'
+import { agentPlayersManager, type RepresentationRequest } from '@/features/agent/agentPlayers'
 import { buildPlayerFilters, playersManager } from '@/features/players/players'
 import { transfersManager } from '@/features/market/transfers'
 import { getLeagueDisplayName } from '@/features/league/leagueConfig'
+import { getPositionDisplayName } from '@/features/players/position'
 
 interface PlayerDetailsProps {
   playerId: string
@@ -17,7 +20,10 @@ interface PlayerDetailsProps {
 
 function PlayerDetails({ playerId }: PlayerDetailsProps) {
   const router = useRouter()
+  const { user } = useAuth()
   const [player, setPlayer] = useState<Player | null>(null)
+  const [agentRoster, setAgentRoster] = useState<Player[]>([])
+  const [representationRequests, setRepresentationRequests] = useState<RepresentationRequest[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isAddingToList, setIsAddingToList] = useState(false)
   const [addToListError, setAddToListError] = useState<string | null>(null)
@@ -28,13 +34,29 @@ function PlayerDetails({ playerId }: PlayerDetailsProps) {
 
     async function loadPlayer() {
       try {
-        const response = await playersManager.getById(playerId)
+        const [playerResponse, rosterResponse, requestsResponse] = await Promise.all([
+          playersManager.getById(playerId),
+          user?.roles.includes('ROLE_AGENT')
+            ? playersManager.getAgentRoster()
+            : Promise.resolve(null),
+          user?.roles.includes('ROLE_AGENT')
+            ? agentPlayersManager.getRepresentationRequests()
+            : Promise.resolve(null),
+        ])
 
-        if (!isMounted || !response.ok) {
+        if (!isMounted || !playerResponse.ok) {
           return
         }
 
-        setPlayer(response.data)
+        setPlayer(playerResponse.data)
+
+        if (rosterResponse && rosterResponse.ok) {
+          setAgentRoster(rosterResponse.data.players ?? [])
+        }
+
+        if (requestsResponse && requestsResponse.ok) {
+          setRepresentationRequests(requestsResponse.data.requests ?? [])
+        }
       } finally {
         if (isMounted) {
           setIsLoading(false)
@@ -47,7 +69,7 @@ function PlayerDetails({ playerId }: PlayerDetailsProps) {
     return () => {
       isMounted = false
     }
-  }, [playerId])
+  }, [playerId, user?.roles])
 
   const { nationalities } = useMemo(
     () => buildPlayerFilters(player ? [player] : []),
@@ -76,6 +98,12 @@ function PlayerDetails({ playerId }: PlayerDetailsProps) {
   }
 
   const nationality = nationalities.find((item) => item.label === player.nationality)
+  const isAgentView = Boolean(user?.roles.includes('ROLE_AGENT'))
+  const backLabel = isAgentView ? 'Retour a mes joueurs' : 'Retour aux résultats'
+  const isRepresentedByAgent = agentRoster.some((representedPlayer) => representedPlayer.id === player.id)
+  const pendingRepresentationRequest = representationRequests.find(
+    (request) => request.player.id === player.id && request.status === 'pending',
+  )
 
   const handleAddToList = async (showListAfterAdd = false) => {
     setIsAddingToList(true)
@@ -117,7 +145,7 @@ function PlayerDetails({ playerId }: PlayerDetailsProps) {
           className="flex items-center gap-2 text-brand-cyan hover:text-brand-cyan/80 transition-colors text-sm font-semibold mb-8"
         >
           <ArrowLeft className="h-4 w-4" />
-          Retour aux résultats
+          {backLabel}
         </button>
 
         <section className="relative mb-8 overflow-hidden rounded-2xl border-2 border-brand-cyan/35 bg-[#071722]/85 bg-gradient-to-br from-brand-cyan/18 via-[#071722]/90 to-brand-purple/18 p-6 shadow-2xl shadow-brand-cyan/10 md:p-8">
@@ -128,7 +156,7 @@ function PlayerDetails({ playerId }: PlayerDetailsProps) {
               <div>
                 <div className="mb-3 flex flex-wrap items-center gap-2">
                   <span className="rounded-full border border-brand-cyan/45 bg-brand-cyan/10 px-3 py-1 text-xs font-semibold text-brand-cyan">
-                    {player.position}
+                    {getPositionDisplayName(player.position)}
                   </span>
                   <span className="rounded-full border border-brand-purple/45 bg-brand-purple/10 px-3 py-1 text-xs font-semibold text-white/85">
                     {player.transferStatus}
@@ -181,43 +209,107 @@ function PlayerDetails({ playerId }: PlayerDetailsProps) {
           </section>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Button
-            type="button"
-            className="flex-1"
-            isLoading={isAddingToList}
-            onClick={() => handleAddToList(true)}
-          >
-            Recruter
-          </Button>
-          <Button
-            type="button"
-            variant="secondary"
-            className="flex-1"
-            isLoading={isAddingToList}
-            onClick={() => handleAddToList(false)}
-          >
-            Ajouter a la liste
-          </Button>
-          <Button
-            type="button"
-            variant="secondary"
-            className="flex-1"
-            isLoading={isAddingToList}
-            onClick={() => handleAddToList(true)}
-          >
-            Ajouter a la liste et afficher
-          </Button>
-        </div>
-        {addToListError && (
-          <p className="mt-4 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-            {addToListError}
-          </p>
+        {!isAgentView && (
+          <>
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <Button
+                type="button"
+                className="flex-1"
+                isLoading={isAddingToList}
+                onClick={() => handleAddToList(true)}
+              >
+                Recruter
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                className="flex-1"
+                isLoading={isAddingToList}
+                onClick={() => handleAddToList(false)}
+              >
+                Ajouter a la liste
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                className="flex-1"
+                isLoading={isAddingToList}
+                onClick={() => handleAddToList(true)}
+              >
+                Ajouter a la liste et afficher
+              </Button>
+            </div>
+            {addToListError && (
+              <p className="mt-4 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                {addToListError}
+              </p>
+            )}
+            {addToListSuccess && (
+              <p className="mt-4 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+                {addToListSuccess}
+              </p>
+            )}
+          </>
         )}
-        {addToListSuccess && (
-          <p className="mt-4 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
-            {addToListSuccess}
-          </p>
+
+        {isAgentView && (
+          <section className="rounded-2xl border border-brand-cyan/25 bg-[#071722]/85 p-6 shadow-2xl shadow-brand-cyan/10">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-white">
+              <UserRound className="h-5 w-5 text-brand-cyan" />
+              Actions agent
+            </h2>
+
+            {isRepresentedByAgent ? (
+              <div className="space-y-4">
+                {player.marketContext && (
+                  <div className={`rounded-xl border px-4 py-4 text-sm ${
+                    player.marketContext.canAgentProspect
+                      ? 'border-brand-cyan/30 bg-brand-cyan/10 text-white/75'
+                      : 'border-amber-400/35 bg-amber-400/10 text-amber-100'
+                  }`}>
+                    {player.marketContext.message}
+                  </div>
+                )}
+                <div className="grid gap-4 md:grid-cols-2">
+                  <Button
+                    type="button"
+                    className="w-full"
+                    icon={<ArrowRightLeft className="h-4 w-4" />}
+                    onClick={() => router.push(`/mes-joueurs/${player.id}/clubs`)}
+                    disabled={Boolean(player.marketContext && !player.marketContext.canAgentProspect)}
+                  >
+                    Rechercher un club
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="w-full"
+                    onClick={() => router.push(`/mes-joueurs?playerId=${player.id}&manage=1`)}
+                  >
+                    Gérer ce joueur
+                  </Button>
+                </div>
+              </div>
+            ) : pendingRepresentationRequest ? (
+              <div className="rounded-xl border border-brand-purple/30 bg-brand-purple/10 px-4 py-4 text-sm text-white/75">
+                Une demande de représentation est déjà en attente pour ce joueur.
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <p className="text-sm text-white/65">
+                  Ce joueur n’est pas encore dans votre portefeuille. Vous pouvez lancer une demande d’ajout avec justificatif.
+                </p>
+                <Button
+                  type="button"
+                  className="w-full md:w-auto"
+                  icon={<UserPlus className="h-4 w-4" />}
+                  onClick={() => router.push(`/mes-joueurs?add=1&query=${encodeURIComponent(`${player.firstName} ${player.lastName}`)}`)}
+                >
+                  Ajouter à mes joueurs
+                </Button>
+              </div>
+            )}
+          </section>
         )}
       </div>
     </div>

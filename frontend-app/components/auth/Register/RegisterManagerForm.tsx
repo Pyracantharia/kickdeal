@@ -36,10 +36,13 @@ function RegisterManagerForm() {
 
   async function onSubmit(data: RegisterManagerFormData) {
     try {
-      const { confirmation, agencyName, country, ...registerData } = data
-      
       const payload = {
-        ...registerData,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        agencyName: data.agencyName,
+        country: data.country,
         roles: ['ROLE_AGENT'],
         subscriptionPlan: selectedPlan,
       }

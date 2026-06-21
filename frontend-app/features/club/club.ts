@@ -1,6 +1,7 @@
 import httpClient from '../api'
 import type { ClubDetail, CreatePlayerPayload, UpdateClubBudgetPayload } from './types/club'
 import type { LeagueOption } from './types/createClub'
+import type { PlayerMarketContext } from '@/features/market/types/player'
 
 type JoinClubResponse = {
   message: string
@@ -73,6 +74,18 @@ type UpdateClubBudgetResponse = {
   club: ClubDetail
 }
 
+type ClubPlayerMarketStatusResponse = {
+  message: string
+  status: string
+  marketContext?: PlayerMarketContext
+}
+
+type ClubPlayerAuthorizationResponse = {
+  message: string
+  wasRemovedFromMarket?: boolean
+  marketContext: PlayerMarketContext
+}
+
 class ClubManager {
   async getMine() {
     const response = await httpClient.get<ClubMineResponse>('/clubs/mine')
@@ -139,6 +152,20 @@ class ClubManager {
   async updateBudget(payload: UpdateClubBudgetPayload) {
     const response = await httpClient.put<UpdateClubBudgetResponse, UpdateClubBudgetPayload>('/clubs/mine/budget', payload)
     return response
+  }
+
+  async updatePlayerMarketStatus(playerId: string, status: 'on_market' | 'loan_listed' | 'not_listed') {
+    return httpClient.put<ClubPlayerMarketStatusResponse, { status: string }>(
+      `/clubs/mine/players/${playerId}/market-status`,
+      { status },
+    )
+  }
+
+  async decidePlayerMarketAuthorization(playerId: string, decision: 'approved' | 'rejected' | 'revoked') {
+    return httpClient.put<ClubPlayerAuthorizationResponse, { decision: 'approved' | 'rejected' | 'revoked' }>(
+      `/clubs/mine/players/${playerId}/market-authorization`,
+      { decision },
+    )
   }
 }
 

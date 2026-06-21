@@ -23,9 +23,66 @@ export interface ClubDashboardHomeData {
   pendingRenewalsCount: number
 }
 
+export interface AgentDashboardPlayer {
+  id: string
+  firstName: string
+  lastName: string
+  photoUrl?: string | null
+  position: string
+  age: number
+  club: string
+  clubLogoUrl?: string | null
+  marketStatus: string
+  marketStatusValue?: string | null
+  contractEndDate?: string | null
+  marketValue: string
+}
+
+export interface AgentDashboardNegotiation {
+  id: string
+  type?: 'transfer' | 'renewal' | 'termination'
+  typeLabel?: string
+  player: AgentDashboardPlayer | null
+  club: {
+    name: string
+    logoUrl?: string | null
+  }
+  status: {
+    value?: string | null
+    label: string
+  }
+  updatedAt?: string | null
+  latestOffer?: {
+    annualSalary: string
+    displayAmount?: string
+    durationMonths?: number | null
+    status?: string | null
+    statusLabel: string
+  } | null
+}
+
+export interface AgentDashboardHomeData {
+  profile: {
+    agencyName?: string | null
+    country?: string | null
+  } | null
+  stats: {
+    representedPlayers: number
+    activeNegotiations: number
+    pendingOffers: number
+    availablePlayers: number
+  }
+  players: AgentDashboardPlayer[]
+  negotiations: AgentDashboardNegotiation[]
+}
+
 class DashboardManager {
   async getHome() {
     return httpClient.get<ClubDashboardHomeData>('/dashboard/home')
+  }
+
+  async getAgentHome() {
+    return httpClient.get<AgentDashboardHomeData>('/dashboard/agent')
   }
 }
 

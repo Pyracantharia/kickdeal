@@ -8,6 +8,7 @@ use App\Entity\Team;
 use App\Entity\Traits\BlameableTrait;
 use App\Entity\Traits\TimestampableTrait;
 use App\Entity\Transfer\TransferNegociation;
+use App\Enum\ContractNegotiationTypeEnum;
 use App\Enum\PlayerContractNegociationStatusEnum;
 use App\Repository\Contract\ContractNegociationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -35,6 +36,9 @@ class ContractNegociation
     #[Assert\NotBlank(message: 'Le statut de la négociation est requis')]
     private ?PlayerContractNegociationStatusEnum $status = PlayerContractNegociationStatusEnum::OPEN;
 
+    #[ORM\Column(length: 20, enumType: ContractNegotiationTypeEnum::class)]
+    private ContractNegotiationTypeEnum $type = ContractNegotiationTypeEnum::TRANSFER;
+
     #[ORM\ManyToOne(inversedBy: 'contractNegociations')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull(message: 'Le joueur est requis')]
@@ -51,8 +55,7 @@ class ContractNegociation
     private ?Agent $agent = null;
 
     #[ORM\ManyToOne(inversedBy: 'contractNegociations')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull(message: 'L\'agent est requis')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?TransferNegociation $transferNegociation = null;
 
     /**
@@ -87,6 +90,18 @@ class ContractNegociation
     public function setStatus(?PlayerContractNegociationStatusEnum $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getType(): ContractNegotiationTypeEnum
+    {
+        return $this->type;
+    }
+
+    public function setType(ContractNegotiationTypeEnum $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

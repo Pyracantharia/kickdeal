@@ -1,5 +1,5 @@
-import ClubDashboardHome from '@/components/dashboard/ClubDashboardHome'
+import DashboardHome from '@/components/dashboard/DashboardHome'
 
 export default function Home() {
-  return <ClubDashboardHome />
+  return <DashboardHome />
 }

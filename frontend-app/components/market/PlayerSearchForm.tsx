@@ -14,7 +14,13 @@ import ClubSearchModal from './modals/ClubSearchModal'
 import CountrySearchModal from './modals/CountrySearchModal'
 
 import type { Player } from '@/features/market/types/player'
-import { buildPlayerFilters, filterPlayers, playersManager } from '@/features/players/players'
+import {
+  buildPlayerFilters,
+  filterPlayers,
+  getTransferFilterId,
+  playersManager,
+} from '@/features/players/players'
+import { getPositionDisplayName } from '@/features/players/position'
 
 interface SearchState {
   selectedPlayer?: Player
@@ -123,10 +129,10 @@ function PlayerSearchForm() {
       return
     }
 
-    const posId = positions.find((position) => position.label === player.position)?.id
+    const posId = positions.find((position) => position.id === player.position)?.id
     const natId = nationalities.find((nationality) => nationality.label === player.nationality)?.id
     const statId = transferStatuses.find(
-      (status) => status.label === player.transferStatus
+      (status) => status.id === getTransferFilterId(player)
     )?.id
     const leagId = leagues.find((league) => league.id === player.league)?.id
     const clubId = leagId
@@ -207,7 +213,7 @@ function PlayerSearchForm() {
             }
             onClick={() => setOpenModal('player')}
             isActive={!!searchState.selectedPlayer}
-            description={searchState.selectedPlayer ? `${searchState.selectedPlayer.position} • ${searchState.selectedPlayer.age} ans` : "Consultez les derniers transferts à travers le monde"}
+            description={searchState.selectedPlayer ? `${getPositionDisplayName(searchState.selectedPlayer.position)} • ${searchState.selectedPlayer.age} ans` : "Consultez les derniers transferts à travers le monde"}
           />
 
           <SearchCard

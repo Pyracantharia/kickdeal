@@ -6,6 +6,7 @@ import { ArrowRight, Search } from 'lucide-react'
 import CircleImage from '@/components/media/CircleImage'
 import type { NegotiationTeam, OfferType, TransferHistoryItem, TransferHistoryStats } from '@/features/market/types/transfer'
 import { transfersManager } from '@/features/market/transfers'
+import { getPositionDisplayName } from '@/features/players/position'
 
 type PeriodFilter = 'today' | '7d' | '30d' | 'season'
 type TypeFilter = 'all' | OfferType | 'free'
@@ -231,7 +232,7 @@ function TransferRow({ transfer }: { transfer: TransferHistoryItem }) {
             {transfer.player.firstName} {transfer.player.lastName}
           </p>
           <p className="mt-1 text-xs text-white/45">
-            {transfer.player.position} • {transfer.type === 'loan' ? 'Prêt' : transfer.type === 'exchange' ? 'Échange' : 'Transfert'}
+            {getPositionDisplayName(transfer.player.position)} • {transfer.type === 'loan' ? 'Prêt' : transfer.type === 'exchange' ? 'Échange' : 'Transfert'}
           </p>
         </div>
       </div>

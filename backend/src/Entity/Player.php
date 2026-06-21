@@ -6,6 +6,8 @@ use App\Entity\Contract\ContractNegociation;
 use App\Entity\Traits\TimestampableTrait;
 use App\Enum\PlayerAvailabilityStatusEnum;
 use App\Enum\PlayerContractStatusEnum;
+use App\Enum\PlayerMarketAuthorizationStatusEnum;
+use App\Enum\PlayerMarketListingSourceEnum;
 use App\Enum\PlayerMarketStatusEnum;
 use App\Repository\PlayerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -81,6 +83,18 @@ class Player
     #[ORM\Column(length: 20, enumType: PlayerMarketStatusEnum::class)]
     #[Assert\NotBlank(message: 'Le statut du contrat est requis')]
     private ?PlayerMarketStatusEnum $marketStatus = PlayerMarketStatusEnum::NOT_LISTED;
+
+    #[ORM\Column(length: 20, enumType: PlayerMarketAuthorizationStatusEnum::class, nullable: true)]
+    private ?PlayerMarketAuthorizationStatusEnum $marketAuthorizationStatus = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $marketAuthorizationRequestedAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $marketAuthorizationDecidedAt = null;
+
+    #[ORM\Column(length: 20, enumType: PlayerMarketListingSourceEnum::class, nullable: true)]
+    private ?PlayerMarketListingSourceEnum $marketListingSource = null;
 
     #[ORM\Column(length: 20, enumType: PlayerAvailabilityStatusEnum::class)]
     #[Assert\NotBlank(message: 'Le statut de disponibilite du joueur est requis')]
@@ -305,6 +319,54 @@ class Player
     public function setMarketStatus(?PlayerMarketStatusEnum $marketStatus): static
     {
         $this->marketStatus = $marketStatus;
+
+        return $this;
+    }
+
+    public function getMarketAuthorizationStatus(): ?PlayerMarketAuthorizationStatusEnum
+    {
+        return $this->marketAuthorizationStatus;
+    }
+
+    public function setMarketAuthorizationStatus(?PlayerMarketAuthorizationStatusEnum $marketAuthorizationStatus): static
+    {
+        $this->marketAuthorizationStatus = $marketAuthorizationStatus;
+
+        return $this;
+    }
+
+    public function getMarketAuthorizationRequestedAt(): ?\DateTimeImmutable
+    {
+        return $this->marketAuthorizationRequestedAt;
+    }
+
+    public function setMarketAuthorizationRequestedAt(?\DateTimeImmutable $marketAuthorizationRequestedAt): static
+    {
+        $this->marketAuthorizationRequestedAt = $marketAuthorizationRequestedAt;
+
+        return $this;
+    }
+
+    public function getMarketAuthorizationDecidedAt(): ?\DateTimeImmutable
+    {
+        return $this->marketAuthorizationDecidedAt;
+    }
+
+    public function setMarketAuthorizationDecidedAt(?\DateTimeImmutable $marketAuthorizationDecidedAt): static
+    {
+        $this->marketAuthorizationDecidedAt = $marketAuthorizationDecidedAt;
+
+        return $this;
+    }
+
+    public function getMarketListingSource(): ?PlayerMarketListingSourceEnum
+    {
+        return $this->marketListingSource;
+    }
+
+    public function setMarketListingSource(?PlayerMarketListingSourceEnum $marketListingSource): static
+    {
+        $this->marketListingSource = $marketListingSource;
 
         return $this;
     }
