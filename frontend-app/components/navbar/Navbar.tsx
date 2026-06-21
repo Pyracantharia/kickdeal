@@ -16,6 +16,7 @@ interface NavbarProps {
   variant: NavbarVariant
   clubName?: string
   clubLogoUrl?: string | null
+  agentName?: string
   subscriptionPlan?: SubscriptionPlan
 }
 
@@ -24,12 +25,14 @@ const CLUB_LINKS = [
   { href: '/notifications', label: 'Notifications' },
   { href: '/market', label: 'Marché' },
   { href: '/players', label: 'Joueurs' },
+  { href: '/negociations', label: 'Négociations' },
   { href: '/messages', label: 'Messages' },
 ]
 
 const AGENT_LINKS = [
   { href: '/dashboard', label: 'Accueil' },
   { href: '/mes-joueurs', label: 'Mes joueurs' },
+  { href: '/market', label: 'Marché' },
   { href: '/negociations', label: 'Négociations' },
   { href: '/messages', label: 'Messages' },
 ]
@@ -101,14 +104,18 @@ function NavLink({ href, label }: { href: string; label: string }) {
   )
 }
 
-function ClubButton({
+function AccountDropdown({
   name,
   logoUrl,
+  profileHref,
+  profileLabel,
   onLogout,
   isLoggingOut,
 }: {
   name: string
   logoUrl?: string | null
+  profileHref: string
+  profileLabel: string
   onLogout: () => void
   isLoggingOut: boolean
 }) {
@@ -156,11 +163,11 @@ function ClubButton({
       {isOpen && (
         <div className="absolute right-0 top-full mt-2 w-48 rounded-lg border-2 border-brand-cyan/30 bg-[#0d1526] shadow-xl z-50">
           <Link
-            href="/club/detail"
+            href={profileHref}
             className="block px-4 py-3 text-sm font-medium text-white hover:bg-brand-cyan/10 border-b border-white/10 transition-colors first:rounded-t-lg"
             onClick={() => setIsOpen(false)}
           >
-            Mon club
+            {profileLabel}
           </Link>
           <button
             type="button"
@@ -270,7 +277,13 @@ function MobileMenu({
 }
 
 
-function Navbar({ variant, clubName = 'Club', clubLogoUrl = null, subscriptionPlan }: NavbarProps) {
+function Navbar({
+  variant,
+  clubName = 'Club',
+  clubLogoUrl = null,
+  agentName = 'Mon agence',
+  subscriptionPlan,
+}: NavbarProps) {
   const router = useRouter()
   const { updateUser } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -337,14 +350,25 @@ function Navbar({ variant, clubName = 'Club', clubLogoUrl = null, subscriptionPl
             <PlanBadge plan={subscriptionPlan} onClick={() => router.push('/subscription')} />
           )}
           {variant === 'club' && (
-            <ClubButton
+            <AccountDropdown
               name={clubName}
               logoUrl={clubLogoUrl}
+              profileHref="/club/detail"
+              profileLabel="Voir le profil"
               onLogout={handleLogout}
               isLoggingOut={isLoggingOut}
             />
           )}
-          {canLogout && variant !== 'club' && (
+          {variant === 'agent' && (
+            <AccountDropdown
+              name={agentName}
+              profileHref="/agent/profile"
+              profileLabel="Voir le profil"
+              onLogout={handleLogout}
+              isLoggingOut={isLoggingOut}
+            />
+          )}
+          {canLogout && variant !== 'club' && variant !== 'agent' && (
             <Button
               type="button"
               variant="secondary"

@@ -13,6 +13,7 @@ import type {
   TransferListPlayer,
 } from '@/features/market/types/transfer'
 import { transfersManager } from '@/features/market/transfers'
+import { getPositionDisplayName } from '@/features/players/position'
 
 type TabType = 'liste' | 'envoyees' | 'recues'
 
@@ -206,7 +207,7 @@ function TransferHome() {
                           {item.player.firstName.toUpperCase()}
                         </h3>
                         <p className="text-white/70 text-sm">
-                          {item.player.position} • {item.player.age} ans • {item.player.nationality}
+                          {getPositionDisplayName(item.player.position)} • {item.player.age} ans • {item.player.nationality}
                         </p>
                       </div>
                     </div>
@@ -250,7 +251,7 @@ function TransferHome() {
                           {offer.player.lastName.toUpperCase()}
                         </h3>
                         <p className="text-white/70 text-sm">
-                          {offer.player.position} • {offer.player.age} ans
+                          {getPositionDisplayName(offer.player.position)} • {offer.player.age} ans
                         </p>
                         <OfferDirection offer={offer} />
                         <p className="text-brand-cyan font-semibold mt-1">{offer.amount}</p>
@@ -297,7 +298,7 @@ function TransferHome() {
                           {offer.player.lastName.toUpperCase()}
                         </h3>
                         <p className="text-white/70 text-sm">
-                          {offer.player.position} • {offer.player.age} ans
+                          {getPositionDisplayName(offer.player.position)} • {offer.player.age} ans
                         </p>
                         <OfferDirection offer={offer} />
                         <p className="text-brand-cyan font-semibold mt-1">{offer.amount}</p>

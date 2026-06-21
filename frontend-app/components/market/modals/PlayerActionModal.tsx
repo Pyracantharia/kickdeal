@@ -10,6 +10,7 @@ import type { TransferOfferPayload, OfferType } from '@/features/market/types/tr
 import type { ClubPlayer } from '@/features/club/types/roster'
 import { playersManager } from '@/features/players/players'
 import { formatNumberInput, parseFormattedNumber, parseOptionalNumber } from '@/features/format/number'
+import { getPositionDisplayName } from '@/features/players/position'
 
 interface PlayerActionModalProps {
   isOpen: boolean
@@ -126,7 +127,7 @@ function PlayerActionModal({
                   {player.firstName} {player.lastName}
                 </p>
                 <p className="text-white/60 text-sm">
-                  {player.position} • {player.age} ans • {player.club}
+                  {getPositionDisplayName(player.position)} • {player.age} ans • {player.club}
                 </p>
               </div>
             </div>
@@ -224,7 +225,7 @@ function PlayerActionModal({
               <option value="">Sélectionner un joueur</option>
               {roster.map((rosterPlayer) => (
                 <option key={rosterPlayer.id} value={rosterPlayer.id}>
-                  {rosterPlayer.firstName} {rosterPlayer.lastName} - {rosterPlayer.position}
+                  {rosterPlayer.firstName} {rosterPlayer.lastName} - {getPositionDisplayName(rosterPlayer.position)}
                 </option>
               ))}
             </select>

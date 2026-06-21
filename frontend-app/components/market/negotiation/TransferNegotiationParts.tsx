@@ -5,6 +5,7 @@ import React from 'react'
 import CircleImage from '@/components/media/CircleImage'
 import { formatNumberInput } from '@/features/format/number'
 import type { TransferNegotiationContext } from '@/features/market/types/transfer'
+import { getPositionDisplayName } from '@/features/players/position'
 
 export function PlayerSummary({ context }: { context: TransferNegotiationContext }) {
   const player = context.player
@@ -23,7 +24,7 @@ export function PlayerSummary({ context }: { context: TransferNegotiationContext
           <div>
             <div className="flex flex-wrap items-center gap-4 text-sm text-white/65">
               <span className="text-brand-cyan">{player.nationality}</span>
-              <span>{player.position}</span>
+              <span>{getPositionDisplayName(player.position)}</span>
               <span>Âge <strong className="text-white">{player.age}</strong></span>
             </div>
             <h2 className="mt-2 text-2xl font-bold uppercase text-white">{player.firstName} {player.lastName}</h2>

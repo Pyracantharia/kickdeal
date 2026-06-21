@@ -9,6 +9,7 @@ import CircleImage from '@/components/media/CircleImage'
 import type { Player } from '@/features/market/types/player'
 import { filterPlayers, playersManager } from '@/features/players/players'
 import { getLeagueDisplayName } from '@/features/league/leagueConfig'
+import { getPositionDisplayName } from '@/features/players/position'
 
 function PlayerSearchResults() {
   const router = useRouter()
@@ -140,7 +141,7 @@ function PlayerResultCard({ player }: PlayerResultCardProps) {
                 {player.firstName} {player.lastName}
               </h3>
               <p className="mt-1 text-sm text-white/70">
-                {player.position} • {player.age} ans • {player.nationality}
+                {getPositionDisplayName(player.position)} • {player.age} ans • {player.nationality}
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <span className="rounded-full border border-brand-cyan/45 bg-brand-cyan/10 px-3 py-1 text-xs font-semibold text-brand-cyan">

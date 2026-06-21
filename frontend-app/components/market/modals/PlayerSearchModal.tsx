@@ -6,6 +6,7 @@ import Modal from '@/components/ui/Modal'
 import Input from '@/components/ui/Input'
 import CircleImage from '@/components/media/CircleImage'
 import type { Player } from '@/features/market/types/player'
+import { getPositionDisplayName } from '@/features/players/position'
 
 interface PlayerSearchModalProps {
   isOpen: boolean
@@ -87,7 +88,7 @@ function PlayerSearchModal({
                         {player.firstName} {player.lastName}
                       </p>
                       <p className="text-sm text-white/60">
-                        {player.position} • {player.age} ans
+                        {getPositionDisplayName(player.position)} • {player.age} ans
                       </p>
                       </div>
                     </div>

@@ -243,6 +243,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $teamMembership->getTeam()?->getLogoUrl();
     }
 
+    #[Groups('user:read')]
+    public function getAgencyName(): ?string
+    {
+        return $this->agentProfile?->getAgencyName();
+    }
+
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;

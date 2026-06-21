@@ -78,4 +78,25 @@ class TransferNegociationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * @return TransferNegociation[]
+     */
+    public function findAwaitingContractNegotiation(): array
+    {
+        return $this->createQueryBuilder('negociation')
+            ->addSelect('listing', 'player', 'agent', 'buyerTeam', 'offers')
+            ->join('negociation.listing', 'listing')
+            ->join('listing.player', 'player')
+            ->leftJoin('player.agent', 'agent')
+            ->join('negociation.buyerTeam', 'buyerTeam')
+            ->leftJoin('negociation.transferOffers', 'offers')
+            ->leftJoin('negociation.contractNegociations', 'contractNegociation')
+            ->andWhere('negociation.status = :status')
+            ->andWhere('agent.id IS NOT NULL')
+            ->andWhere('contractNegociation.id IS NULL')
+            ->setParameter('status', TransferNegociationStatusEnum::AGREED_CLUBS)
+            ->getQuery()
+            ->getResult();
+    }
 }

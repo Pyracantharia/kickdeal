@@ -1,3 +1,25 @@
+export type PlayerMarketContextState =
+  | 'none'
+  | 'pending'
+  | 'accepted'
+  | 'refused'
+  | 'listed_by_club'
+  | 'free'
+
+export interface PlayerMarketContext {
+  state: PlayerMarketContextState
+  contractState: 'free_agent' | 'under_contract'
+  canAgentProspect: boolean
+  canAgentSetMarketStatus: boolean
+  requiresClubAuthorization: boolean
+  authorizationStatus?: 'pending' | 'approved' | 'rejected' | null
+  listingSource?: 'agent' | 'club' | null
+  message: string
+  actionLabel?: string | null
+  isListedByClub: boolean
+  isFreePlayer: boolean
+}
+
 export interface Player {
   id: string
   firstName: string
@@ -17,6 +39,10 @@ export interface Player {
   marketValue?: string // "? M" format
   weeklySalary?: string // "? M" format
   releaseClause?: string // "? M" ou "Aucun(e)"
+  contractEndDate?: string | null
+  contractStatus?: 'free_agent' | 'under_contract'
+  marketStatusValue?: 'on_market' | 'loan_listed' | 'not_listed' | null
+  marketContext?: PlayerMarketContext
 }
 
 export interface Position {

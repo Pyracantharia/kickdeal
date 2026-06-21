@@ -25,6 +25,7 @@ function AppHeader() {
       variant={variant}
       clubName={user.clubName ?? 'Mon club'}
       clubLogoUrl={user.clubLogoUrl}
+      agentName={user.agencyName ?? `${user.firstName} ${user.lastName}`}
       subscriptionPlan={user.subscriptionPlan}
     />
   )

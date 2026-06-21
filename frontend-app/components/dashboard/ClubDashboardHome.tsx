@@ -179,7 +179,7 @@ function ClubDashboardHome() {
               />
               <InfoRow
                 icon={<FileClock className="h-5 w-5" />}
-                label={`${pendingRenewalsCount} renouvellement(s) de contrat en attente`}
+                label={`${pendingRenewalsCount} négociation(s) contractuelle(s) en cours`}
                 onClick={() => router.push('/negociations')}
               />
             </div>

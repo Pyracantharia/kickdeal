@@ -15,6 +15,7 @@ import {
   isDisplayedLeague,
   LEAGUE_CONFIG,
 } from '@/features/league/leagueConfig'
+import { getPositionDisplayName } from '@/features/players/position'
 
 const NATIONALITY_FLAGS: Record<string, string> = {
   Belgique: '🇧🇪',
@@ -30,6 +31,17 @@ interface ClubRosterResponse {
   players: ClubPlayer[]
 }
 
+const TRANSFER_STATUS_LABELS: Record<string, string> = {
+  all: 'Tout',
+  on_market: 'Sur liste des transferts',
+  loan_listed: 'Liste de prêt',
+  free_agent: 'Libre',
+  under_contract: 'Sous contrat',
+  not_listed: 'Non listé',
+}
+
+const TRANSFER_STATUS_ORDER = ['on_market', 'loan_listed', 'free_agent', 'under_contract', 'not_listed'] as const
+
 class PlayersManager {
   async getAll() {
     return httpClient.get<PlayersListResponse>('/players')
@@ -41,6 +53,10 @@ class PlayersManager {
 
   async getClubRoster() {
     return httpClient.get<ClubRosterResponse>('/players/club-roster')
+  }
+
+  async getAgentRoster() {
+    return httpClient.get<PlayersListResponse>('/players/agent-roster')
   }
 
   async getTeamRoster(teamId: string) {
@@ -60,7 +76,7 @@ export function buildPlayerFilters(players: Player[]): {
     .sort((a, b) => a.localeCompare(b))
     .map((position) => ({
       id: position,
-      label: position,
+      label: getPositionDisplayName(position),
     }))
 
   const nationalities = Array.from(new Set(players.map((player) => player.nationality)))
@@ -115,11 +131,19 @@ export function buildPlayerFilters(players: Player[]): {
     ).values(),
   ).sort((a, b) => a.label.localeCompare(b.label))
 
-  const transferStatuses = Array.from(new Set(players.map((player) => player.transferStatus)))
-    .sort((a, b) => a.localeCompare(b))
+  const transferStatusIds = new Set<string>(TRANSFER_STATUS_ORDER)
+  players.forEach((player) => {
+    transferStatusIds.add(getTransferFilterId(player))
+    if (player.contractStatus) {
+      transferStatusIds.add(player.contractStatus)
+    }
+  })
+
+  const transferStatuses = Array.from(transferStatusIds)
+    .sort((a, b) => TRANSFER_STATUS_ORDER.indexOf(a as typeof TRANSFER_STATUS_ORDER[number]) - TRANSFER_STATUS_ORDER.indexOf(b as typeof TRANSFER_STATUS_ORDER[number]))
     .map((status) => ({
       id: status,
-      label: status,
+      label: TRANSFER_STATUS_LABELS[status] ?? status,
     }))
 
   return {
@@ -163,7 +187,7 @@ export function filterPlayers(
       return false
     }
 
-    if (filters.transferStatusId && player.transferStatus !== filters.transferStatusId) {
+    if (filters.transferStatusId && !matchesTransferStatusFilter(player, filters.transferStatusId)) {
       return false
     }
 
@@ -185,6 +209,35 @@ export function filterPlayers(
 
     return true
   })
+}
+
+export function getTransferFilterId(player: Player): string {
+  if (player.contractStatus === 'free_agent') {
+    return 'free_agent'
+  }
+
+  if (player.marketStatusValue === 'loan_listed') {
+    return 'loan_listed'
+  }
+
+  if (player.marketStatusValue === 'on_market') {
+    return 'on_market'
+  }
+
+  return 'not_listed'
+}
+
+export function getTransferFilterLabel(player: Player): string {
+  return TRANSFER_STATUS_LABELS[getTransferFilterId(player)] ?? player.transferStatus
+}
+
+export function matchesTransferStatusFilter(player: Player, filterId: string): boolean {
+  if (filterId === 'all') return true
+  if (filterId === 'free_agent' || filterId === 'under_contract') {
+    return player.contractStatus === filterId
+  }
+
+  return getTransferFilterId(player) === filterId
 }
 
 export const playersManager = new PlayersManager()

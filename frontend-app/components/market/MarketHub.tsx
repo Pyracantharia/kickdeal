@@ -6,6 +6,7 @@ import Link from 'next/link'
 
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import { useAuth } from '@/context/AuthProvider'
 
 interface MarketCard {
   id: string
@@ -57,12 +58,35 @@ const MARKET_CARDS: MarketCard[] = [
   },
 ]
 
+const AGENT_MARKET_CARDS: MarketCard[] = [
+  {
+    id: 'search-clubs',
+    title: 'Rechercher un club',
+    icon: <ArrowRightLeft className="h-16 w-16" />,
+    description: 'Choisissez un joueur de votre portefeuille puis explorez les clubs les plus compatibles.',
+    buttonLabel: 'Trouver un club',
+    href: '/market/clubs',
+  },
+  {
+    id: 'search-players-agent',
+    title: 'Rechercher un joueur',
+    icon: <Search className="h-16 w-16" />,
+    description: 'Lancez une recherche de joueurs afin de les ajouter à votre liste de joueurs gérés.',
+    buttonLabel: 'Ajouter un joueur',
+    href: '/mes-joueurs?add=1',
+  },
+]
+
 function MarketHub() {
+  const { user } = useAuth()
+  const isAgent = Boolean(user?.roles.includes('ROLE_AGENT'))
+  const cards = isAgent ? AGENT_MARKET_CARDS : MARKET_CARDS
+
   return (
     <div className="auth-bg min-h-screen w-full pt-36 md:pt-40 pb-12 px-4">
       <div className="mx-auto w-full max-w-6xl">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 lg:gap-8">
-          {MARKET_CARDS.map((card, index) => (
+        <div className={`grid grid-cols-1 gap-6 lg:gap-8 ${isAgent ? 'md:grid-cols-2' : 'md:grid-cols-4'}`}>
+          {cards.map((card, index) => (
             <MarketCard key={card.id} card={card} colorIndex={index} />
           ))}
         </div>

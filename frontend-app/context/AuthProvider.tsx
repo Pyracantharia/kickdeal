@@ -9,6 +9,7 @@ export interface User {
   lastName: string;
   email: string;
   roles: string[];
+  agencyName?: string | null;
   subscriptionPlan?: 'club_free' | 'club_pro' | 'club_enterprise' | 'agent_free' | 'agent_pro';
   hasClubAccess: boolean;
   clubName: string | null;

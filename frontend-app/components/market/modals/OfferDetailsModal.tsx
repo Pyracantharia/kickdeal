@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button'
 import type { SentOffer, ReceivedOffer } from '@/features/market/types/transfer'
 import { ArrowDownLeft, ArrowUpRight, Check } from 'lucide-react'
 import CircleImage from '@/components/media/CircleImage'
+import { getPositionDisplayName } from '@/features/players/position'
 
 interface OfferDetailsModalProps {
   isOpen: boolean
@@ -62,7 +63,7 @@ function OfferDetailsModal({
                 {offer.player.firstName} {offer.player.lastName}
               </p>
               <p className="text-white/60 text-sm">
-                {offer.player.position} • {offer.player.age} ans
+                {getPositionDisplayName(offer.player.position)} • {offer.player.age} ans
               </p>
             </div>
           </div>

@@ -19,6 +19,7 @@ use App\Repository\TeamMembershipRepository;
 use App\Repository\Transfer\TransferNegociationRepository;
 use App\Repository\Transfer\TransferOfferRepository;
 use App\Service\Subscription\SubscriptionLimits;
+use App\Service\Contract\ContractNegotiationWorkflow;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -239,6 +240,7 @@ final class TransferController extends AbstractController
         TransferOffer $offer,
         #[CurrentUser] ?User $user,
         TeamMembershipRepository $teamMembershipRepository,
+        ContractNegotiationWorkflow $contractNegotiationWorkflow,
         EntityManagerInterface $entityManager,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
@@ -264,14 +266,37 @@ final class TransferController extends AbstractController
             return $this->json(['errorMessage' => 'Le club qui a emis une offre ne peut pas accepter sa propre proposition.'], 403);
         }
 
-        $offer->setStatus(OfferStatusEnum::ACCEPTED);
-        $offer->getTransferNegociation()
-            ?->setStatus(TransferNegociationStatusEnum::AGREED_CLUBS)
-            ->setAgreedAt(new \DateTimeImmutable('today'));
+        $player = $listing?->getPlayer();
+        if (null === $player?->getAgent()) {
+            return $this->json([
+                'errorMessage' => 'Ce joueur doit être rattaché à un agent avant de poursuivre la négociation contractuelle.',
+            ], 422);
+        }
 
-        $entityManager->flush();
+        $contractNegociation = $entityManager->wrapInTransaction(function () use (
+            $offer,
+            $user,
+            $contractNegotiationWorkflow,
+            $entityManager,
+        ) {
+            $offer->setStatus(OfferStatusEnum::ACCEPTED);
+            $transferNegociation = $offer->getTransferNegociation();
+            $transferNegociation
+                ?->setStatus(TransferNegociationStatusEnum::AGREED_CLUBS)
+                ->setAgreedAt(new \DateTimeImmutable('today'));
 
-        return $this->json(['offer' => $this->serializeOffer($offer, $team)]);
+            $contractNegociation = $transferNegociation && $user
+                ? $contractNegotiationWorkflow->ensureForTransfer($transferNegociation, $user)
+                : null;
+            $entityManager->flush();
+
+            return $contractNegociation;
+        });
+
+        return $this->json([
+            'offer' => $this->serializeOffer($offer, $team),
+            'contractNegociationId' => $contractNegociation?->getId()?->toRfc4122(),
+        ]);
     }
 
     #[Route('/offers/{id}/reject', name: 'app_transfer_offer_reject', methods: ['PUT', 'PATCH'])]

@@ -8,9 +8,10 @@ interface ModalProps {
   onClose: () => void
   title: string
   children: ReactNode
+  className?: string
 }
 
-function Modal({ isOpen, onClose, title, children }: ModalProps) {
+function Modal({ isOpen, onClose, title, children, className = 'max-w-md' }: ModalProps) {
   useEffect(() => {
     if (!isOpen) return
     const handleKey = (e: KeyboardEvent) => {
@@ -29,7 +30,7 @@ function Modal({ isOpen, onClose, title, children }: ModalProps) {
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="relative z-10 max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border-2 border-brand-purple bg-[#0d1526] p-6 shadow-2xl">
+      <div className={`relative z-10 max-h-[90vh] w-full overflow-y-auto rounded-2xl border-2 border-brand-purple bg-[#0d1526] p-6 shadow-2xl ${className}`}>
         <div className="flex items-center justify-between mb-5">
           <h3 className="text-lg font-bold text-white">{title}</h3>
           <button

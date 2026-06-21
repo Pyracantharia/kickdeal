@@ -26,17 +26,24 @@ class ContractOffer
     private ?Uuid $id = null;
 
     // Value in cents
-    #[ORM\Column(type: Types::INTEGER)]
-    #[Assert\NotBlank(message: 'Le montant de l\'offre est requis')]
-    private ?int $annualSalary = null;
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $annualSalary = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    #[Assert\NotBlank(message: 'La durée en mois du contrat est requise')]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $durationMonths = null;
 
     // Value in cents
-    #[ORM\Column(type: Types::INTEGER, nullable: true)]
-    private ?int $signingBonus = null;
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $signingBonus = null;
+
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $releaseClause = null;
+
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $terminationCompensation = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $effectiveDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $validUntil = null;
@@ -68,12 +75,12 @@ class ContractOffer
 
     public function getAnnualSalary(): ?int
     {
-        return $this->annualSalary;
+        return null === $this->annualSalary ? null : (int) $this->annualSalary;
     }
 
     public function setAnnualSalary(?int $annualSalary): static
     {
-        $this->annualSalary = $annualSalary;
+        $this->annualSalary = null === $annualSalary ? null : (string) $annualSalary;
 
         return $this;
     }
@@ -92,12 +99,48 @@ class ContractOffer
 
     public function getSigningBonus(): ?int
     {
-        return $this->signingBonus;
+        return null === $this->signingBonus ? null : (int) $this->signingBonus;
     }
 
     public function setSigningBonus(?int $signingBonus): static
     {
-        $this->signingBonus = $signingBonus;
+        $this->signingBonus = null === $signingBonus ? null : (string) $signingBonus;
+
+        return $this;
+    }
+
+    public function getReleaseClause(): ?int
+    {
+        return null === $this->releaseClause ? null : (int) $this->releaseClause;
+    }
+
+    public function setReleaseClause(?int $releaseClause): static
+    {
+        $this->releaseClause = null === $releaseClause ? null : (string) $releaseClause;
+
+        return $this;
+    }
+
+    public function getTerminationCompensation(): ?int
+    {
+        return null === $this->terminationCompensation ? null : (int) $this->terminationCompensation;
+    }
+
+    public function setTerminationCompensation(?int $terminationCompensation): static
+    {
+        $this->terminationCompensation = null === $terminationCompensation ? null : (string) $terminationCompensation;
+
+        return $this;
+    }
+
+    public function getEffectiveDate(): ?\DateTimeInterface
+    {
+        return $this->effectiveDate;
+    }
+
+    public function setEffectiveDate(?\DateTimeInterface $effectiveDate): static
+    {
+        $this->effectiveDate = $effectiveDate;
 
         return $this;
     }

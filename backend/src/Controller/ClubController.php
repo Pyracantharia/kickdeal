@@ -11,11 +11,14 @@ use App\Enum\ClubRequestStatusEnum;
 use App\Enum\MembershipRoleEnum;
 use App\Enum\PlayerAvailabilityStatusEnum;
 use App\Enum\PlayerContractStatusEnum;
+use App\Enum\PlayerMarketAuthorizationStatusEnum;
+use App\Enum\PlayerMarketListingSourceEnum;
 use App\Enum\PlayerMarketStatusEnum;
 use App\Enum\TeamVerificationStatusEnum;
 use App\Repository\ClubRequestRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\TeamRepository;
+use App\Service\Player\PlayerMarketContextResolver;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -31,6 +34,11 @@ use Symfony\Component\Uid\Uuid;
 final class ClubController extends AbstractController
 {
     private const string CSRF_TOKEN_ID = 'api_auth';
+
+    public function __construct(
+        private readonly PlayerMarketContextResolver $marketContextResolver,
+    ) {
+    }
 
     #[Route('/mine', name: 'app_club_mine', methods: ['GET'])]
     public function mine(
@@ -158,6 +166,145 @@ final class ClubController extends AbstractController
         return $this->json([
             'message' => 'Budget mis à jour.',
             'club' => $this->serializeClubDetail($membership),
+        ]);
+    }
+
+    #[Route('/mine/players/{id}/market-status', name: 'app_club_player_market_status', methods: ['PUT'])]
+    public function updatePlayerMarketStatus(
+        Player $player,
+        Request $request,
+        #[CurrentUser] ?User $user,
+        TeamMembershipRepository $teamMembershipRepository,
+        CsrfTokenManagerInterface $csrfTokenManager,
+        EntityManagerInterface $entityManager,
+    ): JsonResponse {
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
+        $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
+        if ($membership instanceof JsonResponse) {
+            return $membership;
+        }
+
+        if (!$this->marketContextResolver->canClubManagePlayer($player, $membership->getTeam()->getId()?->toRfc4122())) {
+            return $this->json([
+                'errorMessage' => 'Ce joueur n’appartient pas à votre club.',
+            ], 403);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        $status = PlayerMarketStatusEnum::tryFrom((string) ($payload['status'] ?? ''));
+        if (!$status instanceof PlayerMarketStatusEnum) {
+            return $this->json([
+                'errorMessage' => 'Statut de marché invalide.',
+            ], 400);
+        }
+
+        $player->setMarketStatus($status);
+        $player->setMarketListingSource(
+            PlayerMarketStatusEnum::NOT_LISTED === $status ? null : PlayerMarketListingSourceEnum::CLUB
+        );
+        $entityManager->flush();
+
+        return $this->json([
+            'message' => 'Le statut marché du joueur a été mis à jour.',
+            'status' => $status->value,
+            'marketContext' => $this->marketContextResolver->resolve($player),
+        ]);
+    }
+
+    #[Route('/mine/players/{id}/market-authorization', name: 'app_club_player_market_authorization', methods: ['PUT'])]
+    public function decidePlayerMarketAuthorization(
+        Player $player,
+        Request $request,
+        #[CurrentUser] ?User $user,
+        TeamMembershipRepository $teamMembershipRepository,
+        CsrfTokenManagerInterface $csrfTokenManager,
+        EntityManagerInterface $entityManager,
+    ): JsonResponse {
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
+        $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
+        if ($membership instanceof JsonResponse) {
+            return $membership;
+        }
+
+        if (!$this->marketContextResolver->canClubManagePlayer($player, $membership->getTeam()->getId()?->toRfc4122())) {
+            return $this->json([
+                'errorMessage' => 'Ce joueur n’appartient pas à votre club.',
+            ], 403);
+        }
+
+        if (PlayerContractStatusEnum::FREE_AGENT === $player->getContractStatus() || null === $player->getTeam()) {
+            return $this->json([
+                'errorMessage' => 'Ce joueur est libre et ne nécessite pas de validation club.',
+            ], 422);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        $decision = (string) ($payload['decision'] ?? '');
+        if ('revoked' === $decision) {
+            if (PlayerMarketAuthorizationStatusEnum::APPROVED !== $player->getMarketAuthorizationStatus()) {
+                return $this->json([
+                    'errorMessage' => 'Aucune autorisation active à retirer pour ce joueur.',
+                    'marketContext' => $this->marketContextResolver->resolve($player),
+                ], 422);
+            }
+
+            $player
+                ->setMarketAuthorizationStatus(null)
+                ->setMarketAuthorizationRequestedAt(null)
+                ->setMarketAuthorizationDecidedAt(null);
+
+            $wasRemovedFromMarket = false;
+            if (PlayerMarketListingSourceEnum::AGENT === $player->getMarketListingSource()) {
+                $player
+                    ->setMarketStatus(PlayerMarketStatusEnum::NOT_LISTED)
+                    ->setMarketListingSource(null);
+                $wasRemovedFromMarket = true;
+            }
+
+            $entityManager->flush();
+
+            return $this->json([
+                'message' => 'L’autorisation de mise sur le marché accordée à l’agent a été retirée.',
+                'wasRemovedFromMarket' => $wasRemovedFromMarket,
+                'marketContext' => $this->marketContextResolver->resolve($player),
+            ]);
+        }
+
+        $nextStatus = match ($decision) {
+            'approved' => PlayerMarketAuthorizationStatusEnum::APPROVED,
+            'rejected' => PlayerMarketAuthorizationStatusEnum::REJECTED,
+            default => null,
+        };
+
+        if (!$nextStatus instanceof PlayerMarketAuthorizationStatusEnum) {
+            return $this->json([
+                'errorMessage' => 'Décision invalide.',
+            ], 400);
+        }
+
+        if (PlayerMarketAuthorizationStatusEnum::PENDING !== $player->getMarketAuthorizationStatus()) {
+            return $this->json([
+                'errorMessage' => 'Aucune demande en attente pour ce joueur.',
+                'marketContext' => $this->marketContextResolver->resolve($player),
+            ], 422);
+        }
+
+        $player
+            ->setMarketAuthorizationStatus($nextStatus)
+            ->setMarketAuthorizationDecidedAt(new \DateTimeImmutable());
+        $entityManager->flush();
+
+        return $this->json([
+            'message' => PlayerMarketAuthorizationStatusEnum::APPROVED === $nextStatus
+                ? 'Autorisation accordée à l’agent.'
+                : 'Autorisation refusée à l’agent.',
+            'marketContext' => $this->marketContextResolver->resolve($player),
         ]);
     }
 
