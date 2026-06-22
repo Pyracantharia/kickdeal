@@ -84,6 +84,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json', nullable: true)]
     private ?array $subscriptionLimitsOverrides = null;
 
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    private ?string $stripeCustomerId = null;
+
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    private ?string $stripeSubscriptionId = null;
+
     #[ORM\OneToOne(targetEntity: Agent::class, mappedBy: 'user')]
     private Agent $agentProfile;
 
@@ -337,6 +343,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSubscriptionLimitsOverrides(?array $subscriptionLimitsOverrides): static
     {
         $this->subscriptionLimitsOverrides = $subscriptionLimitsOverrides;
+
+        return $this;
+    }
+
+    public function getStripeCustomerId(): ?string
+    {
+        return $this->stripeCustomerId;
+    }
+
+    public function setStripeCustomerId(?string $stripeCustomerId): static
+    {
+        $this->stripeCustomerId = $stripeCustomerId;
+
+        return $this;
+    }
+
+    public function getStripeSubscriptionId(): ?string
+    {
+        return $this->stripeSubscriptionId;
+    }
+
+    public function setStripeSubscriptionId(?string $stripeSubscriptionId): static
+    {
+        $this->stripeSubscriptionId = $stripeSubscriptionId;
 
         return $this;
     }

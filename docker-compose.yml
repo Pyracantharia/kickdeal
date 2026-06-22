@@ -10,6 +10,15 @@ services:
       - ./backend/docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     environment:
       DATABASE_URL: "${DATABASE_URL}"
+      CHILIZ_RPC_URL: "${CHILIZ_RPC_URL}"
+      CHILIZ_CHAIN_ID: "${CHILIZ_CHAIN_ID}"
+      CHILIZ_RECEIVER_ADDRESS: "${CHILIZ_RECEIVER_ADDRESS}"
+      CHZ_EUR_RATE: "${CHZ_EUR_RATE}"
+      STRIPE_SECRET_KEY: "${STRIPE_SECRET}"
+      STRIPE_WEBHOOK_SECRET: "${STRIPE_WEBHOOK_SECRET}"
+      STRIPE_PRICE_AGENT_PRO: "${STRIPE_PRICE_AGENT_PRO}"
+      STRIPE_PRICE_CLUB_PRO: "${STRIPE_PRICE_CLUB_PRO}"
+      STRIPE_PRICE_CLUB_ENTERPRISE: "${STRIPE_PRICE_CLUB_ENTERPRISE}"
     depends_on:
       - db
     networks:
@@ -40,6 +49,12 @@ services:
       - /app/node_modules # S'assure que node_modules n'est pas écrasé
     env_file:
       - ./frontend-app/.env.local
+    environment:
+      NEXT_PUBLIC_CHILIZ_CHAIN_ID: "${NEXT_PUBLIC_CHILIZ_CHAIN_ID}"
+      NEXT_PUBLIC_CHILIZ_RPC_URL: "${NEXT_PUBLIC_CHILIZ_RPC_URL}"
+      NEXT_PUBLIC_CHILIZ_RECEIVER_ADDRESS: "${NEXT_PUBLIC_CHILIZ_RECEIVER_ADDRESS}"
+      NEXT_PUBLIC_CHZ_EUR_RATE: "${NEXT_PUBLIC_CHZ_EUR_RATE}"
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "${STRIPE_KEY}"
     networks:
       - myapp_network
   
