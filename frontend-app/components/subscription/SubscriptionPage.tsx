@@ -115,6 +115,7 @@ function SubscriptionPage() {
   const [notice, setNotice] = useState<string | null>(null)
   const [upgradeAnimation, setUpgradeAnimation] = useState<{ from: string; to: string } | null>(null)
   const [stripeCheckout, setStripeCheckout] = useState<{ clientSecret: string; subscriptionId: string; plan: SubscriptionPlan } | null>(null)
+  const [requestedPlan, setRequestedPlan] = useState<string | null>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -138,6 +139,10 @@ function SubscriptionPage() {
     return () => {
       isMounted = false
     }
+  }, [])
+
+  useEffect(() => {
+    setRequestedPlan(new URLSearchParams(window.location.search).get('plan'))
   }, [])
 
   const audience = subscription?.audience ?? (user?.roles.includes('ROLE_AGENT') ? 'agent' : 'club')
@@ -255,6 +260,11 @@ function SubscriptionPage() {
           <p className="mt-3 max-w-2xl text-white/65">
             Démarrez gratuitement, puis débloquez les négociations et outils avancés quand votre activité s’accélère.
           </p>
+          {requestedPlan && (
+            <p className="mt-4 rounded-lg border border-brand-cyan/30 bg-brand-cyan/10 px-4 py-3 text-sm text-white">
+              Votre compte gratuit est créé. Choisissez maintenant votre moyen de paiement pour activer l’offre sélectionnée.
+            </p>
+          )}
         </header>
 
         <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">

@@ -51,7 +51,9 @@ function LoginForm() {
         return
       }
       updateUser(response.data.user)
-      router.push('/dashboard')
+      const requestedPlan = new URLSearchParams(window.location.search).get('plan')
+      const payablePlans = ['agent_pro', 'club_pro', 'club_enterprise']
+      router.push(requestedPlan && payablePlans.includes(requestedPlan) ? `/subscription?plan=${requestedPlan}` : '/dashboard')
     } catch {
       setError('root', {
         message: 'Une erreur est survenue. Veuillez réessayer.',

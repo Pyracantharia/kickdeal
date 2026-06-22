@@ -74,7 +74,7 @@ function RegisterManagerForm() {
         return
       }
 
-      router.push('/auth/login?registered=true')
+      router.push(selectedPlan === 'agent_free' ? '/auth/login?registered=true' : `/auth/login?registered=true&plan=${selectedPlan}`)
     } catch {
       setError('root', {
         message: 'Une erreur est survenue. Veuillez réessayer.',
@@ -194,7 +194,7 @@ function RegisterManagerForm() {
 
         <div>
           <Button type="submit" isLoading={isSubmitting} className='w-full' icon={<ArrowRight className="h-4 w-4" />}>
-            {selectedPlan === 'agent_free' ? 'Créer mon compte gratuit' : 'Créer mon compte et activer ce plan'}
+            {selectedPlan === 'agent_free' ? 'Créer mon compte gratuit' : 'Créer mon compte puis choisir le paiement'}
           </Button>
         </div>
       </form>
