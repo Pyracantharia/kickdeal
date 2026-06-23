@@ -96,7 +96,11 @@ final class AuthController extends AbstractController
                 ], 422);
             }
 
-            $newUser->setSubscriptionPlan($subscriptionPlan);
+            // Un plan payant ne peut être activé qu'après confirmation du paiement
+            // côté Stripe ou Chiliz. L'inscription crée donc toujours un compte Free.
+            $newUser->setSubscriptionPlan($subscriptionPlan->isAgentPlan()
+                ? SubscriptionPlanEnum::AGENT_FREE
+                : SubscriptionPlanEnum::CLUB_FREE);
         }
 
         $errors = $validator->validate($newUser);

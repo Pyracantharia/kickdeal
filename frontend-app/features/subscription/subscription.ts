@@ -54,6 +54,11 @@ interface ChilizPaymentVerificationResponse {
   subscription: SubscriptionSummary
 }
 
+interface StripeCheckoutResponse {
+  clientSecret: string
+  subscriptionId: string
+}
+
 class SubscriptionManager {
   async getCurrent() {
     return httpClient.get<SubscriptionResponse>('/subscription/me')
@@ -65,6 +70,14 @@ class SubscriptionManager {
 
   async verifyChilizPayment(payload: { txHash: string; planType: ChilizPlanType }) {
     return httpClient.post<ChilizPaymentVerificationResponse, typeof payload>('/subscription/payments/chiliz/verify', payload)
+  }
+
+  async startStripePayment(payload: { targetPlan: SubscriptionPlan }) {
+    return httpClient.post<StripeCheckoutResponse, typeof payload>('/subscription/payments/stripe/start', payload)
+  }
+
+  async completeStripePayment(payload: { subscriptionId: string }) {
+    return httpClient.post<SubscriptionResponse, typeof payload>('/subscription/payments/stripe/complete', payload)
   }
 }
 

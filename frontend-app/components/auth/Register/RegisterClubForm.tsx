@@ -92,7 +92,7 @@ function RegisterClubForm() {
 
       updateUser(loginResponse.data.user)
 
-      router.push('/club')
+      router.push(selectedPlan === 'club_free' ? '/club' : `/subscription?plan=${selectedPlan}`)
     } catch {
       setError('root', {
         message: 'Une erreur est survenue. Veuillez réessayer.',
@@ -212,7 +212,7 @@ function RegisterClubForm() {
         
         <div>
           <Button type="submit" isLoading={isSubmitting} className='w-full' icon={<ArrowRight className="h-4 w-4" />}>
-            {selectedPlan === 'club_free' ? 'Créer mon compte gratuit' : 'Créer mon compte et activer ce plan'}
+            {selectedPlan === 'club_free' ? 'Créer mon compte gratuit' : 'Créer mon compte puis choisir le paiement'}
           </Button>
         </div>
       </form>

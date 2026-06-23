@@ -65,7 +65,7 @@ function PlanSelection({ audience, selectedPlan, onChange }: PlanSelectionProps)
     <section>
       <h2 className="mb-2 text-xl font-semibold">Choix du plan</h2>
       <p className="mb-4 text-sm text-gray-300">
-        Vous pouvez rester sur le plan gratuit. Les abonnements payants sont simulés pour le moment.
+        Vous pouvez rester sur le plan gratuit. Pour un plan payant, vous choisirez ensuite votre moyen de paiement sécurisé.
       </p>
 
       <div className={`grid gap-3 ${audience === 'club' ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>

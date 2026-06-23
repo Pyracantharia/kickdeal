@@ -9,6 +9,7 @@ use App\Enum\PaymentStatusEnum;
 use App\Enum\SubscriptionPlanEnum;
 use App\Repository\PaymentRepository;
 use App\Service\Payment\ChilizPaymentVerifier;
+use App\Service\Payment\StripeSubscriptionService;
 use App\Service\Subscription\SubscriptionLimits;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,8 +17,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Psr\Log\LoggerInterface;
 
 #[Route('/api/subscription')]
 final class SubscriptionController extends AbstractController
@@ -90,6 +93,7 @@ final class SubscriptionController extends AbstractController
         $txHash = is_string($payload['txHash'] ?? null) ? $payload['txHash'] : '';
         $planType = is_string($payload['planType'] ?? null) ? strtoupper($payload['planType']) : '';
         $targetPlan = match ($planType) {
+            'AGENT_PRO' => SubscriptionPlanEnum::AGENT_PRO,
             'PRO' => SubscriptionPlanEnum::CLUB_PRO,
             'ENTERPRISE' => SubscriptionPlanEnum::CLUB_ENTERPRISE,
             default => null,
@@ -99,8 +103,8 @@ final class SubscriptionController extends AbstractController
             return $this->json(['errorMessage' => 'Plan de paiement invalide.'], 422);
         }
 
-        if ($user->getSubscriptionPlan()->isAgentPlan()) {
-            return $this->json(['errorMessage' => 'Le paiement CHZ est disponible uniquement pour les clubs.'], 422);
+        if ($user->getSubscriptionPlan()->isAgentPlan() !== $targetPlan->isAgentPlan()) {
+            return $this->json(['errorMessage' => 'Ce plan ne correspond pas au type de compte.'], 422);
         }
 
         if ($paymentRepository->findOneByTxHash($txHash) instanceof Payment) {
@@ -146,5 +150,92 @@ final class SubscriptionController extends AbstractController
             ],
             'subscription' => $subscriptionLimits->getSummary($user),
         ]);
+    }
+
+    #[Route('/payments/stripe/start', name: 'app_subscription_payment_stripe_start', methods: ['POST'])]
+    public function startStripePayment(
+        Request $request,
+        #[CurrentUser] ?User $user,
+        StripeSubscriptionService $stripeSubscriptionService,
+        EntityManagerInterface $entityManager,
+        LoggerInterface $logger,
+        KernelInterface $kernel,
+    ): JsonResponse {
+        if (!$user) {
+            return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        $targetPlan = is_array($payload) && is_string($payload['targetPlan'] ?? null)
+            ? SubscriptionPlanEnum::tryFrom($payload['targetPlan'])
+            : null;
+
+        if (!$targetPlan || !$targetPlan->isPro()) {
+            return $this->json(['errorMessage' => 'Plan Stripe invalide.'], 422);
+        }
+
+        if ($targetPlan->isAgentPlan() !== $user->getSubscriptionPlan()->isAgentPlan()) {
+            return $this->json(['errorMessage' => 'Ce plan ne correspond pas au type de compte.'], 422);
+        }
+
+        try {
+            $checkout = $stripeSubscriptionService->start($user, $targetPlan);
+            $entityManager->flush();
+        } catch (\LogicException|BadRequestException $exception) {
+            return $this->json(['errorMessage' => $exception->getMessage()], 422);
+        } catch (\Throwable $exception) {
+            $logger->error('Impossible de démarrer l’abonnement Stripe.', [
+                'exception' => $exception,
+                'userId' => $user->getId()?->toRfc4122(),
+                'targetPlan' => $targetPlan->value,
+            ]);
+            $response = ['errorMessage' => 'Stripe est momentanément indisponible. Réessayez dans quelques instants.'];
+            if ('dev' === $kernel->getEnvironment()) {
+                $response['debugMessage'] = $exception->getMessage();
+            }
+
+            return $this->json($response, 502);
+        }
+
+        return $this->json($checkout);
+    }
+
+    #[Route('/payments/stripe/complete', name: 'app_subscription_payment_stripe_complete', methods: ['POST'])]
+    public function completeStripePayment(
+        Request $request,
+        #[CurrentUser] ?User $user,
+        StripeSubscriptionService $stripeSubscriptionService,
+        SubscriptionLimits $subscriptionLimits,
+        EntityManagerInterface $entityManager,
+    ): JsonResponse {
+        if (!$user) {
+            return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        $subscriptionId = is_array($payload) && is_string($payload['subscriptionId'] ?? null) ? $payload['subscriptionId'] : '';
+        if ('' === $subscriptionId || $subscriptionId !== $user->getStripeSubscriptionId()) {
+            return $this->json(['errorMessage' => 'Abonnement Stripe invalide.'], 422);
+        }
+
+        try {
+            $stripeSubscription = $stripeSubscriptionService->retrieveSubscription($subscriptionId);
+        } catch (\Throwable) {
+            return $this->json(['errorMessage' => 'Impossible de vérifier le paiement Stripe.'], 502);
+        }
+
+        if (!in_array($stripeSubscription->status, ['active', 'trialing'], true)) {
+            return $this->json(['errorMessage' => 'Le paiement est encore en cours de confirmation.'], 409);
+        }
+
+        $plan = SubscriptionPlanEnum::tryFrom((string) ($stripeSubscription->metadata->kickdeal_plan ?? ''));
+        if (!$plan || $plan->isAgentPlan() !== $user->getSubscriptionPlan()->isAgentPlan()) {
+            return $this->json(['errorMessage' => 'Le plan Stripe ne correspond pas à ce compte.'], 422);
+        }
+
+        $user->setSubscriptionPlan($plan);
+        $entityManager->flush();
+
+        return $this->json(['subscription' => $subscriptionLimits->getSummary($user)]);
     }
 }

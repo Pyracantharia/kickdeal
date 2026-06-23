@@ -5,6 +5,7 @@ import { ArrowRight, Check, Crown, Lock, Zap } from 'lucide-react'
 
 import Button from '@/components/ui/Button'
 import { useAuth } from '@/context/AuthProvider'
+import StripeCheckout from '@/components/subscription/StripeCheckout'
 import { getChilizPaymentConfig, payWithChiliz, type ChilizPlanType } from '@/features/payments/chiliz'
 import {
   subscriptionManager,
@@ -113,6 +114,8 @@ function SubscriptionPage() {
   const [paymentStatus, setPaymentStatus] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const [upgradeAnimation, setUpgradeAnimation] = useState<{ from: string; to: string } | null>(null)
+  const [stripeCheckout, setStripeCheckout] = useState<{ clientSecret: string; subscriptionId: string; plan: SubscriptionPlan } | null>(null)
+  const [requestedPlan, setRequestedPlan] = useState<string | null>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -138,6 +141,10 @@ function SubscriptionPage() {
     }
   }, [])
 
+  useEffect(() => {
+    setRequestedPlan(new URLSearchParams(window.location.search).get('plan'))
+  }, [])
+
   const audience = subscription?.audience ?? (user?.roles.includes('ROLE_AGENT') ? 'agent' : 'club')
   const isPaid = subscription?.isPro ?? false
   const isEnterprise = subscription?.plan === 'club_enterprise'
@@ -158,10 +165,7 @@ function SubscriptionPage() {
 
   async function handleChilizPayment(targetPlan: SubscriptionPlan) {
     const planType = getChilizPlanType(targetPlan)
-
-    if (!planType) {
-      return
-    }
+    if (!planType) return
 
     setIsUpgrading(true)
     setPaymentPlan(targetPlan)
@@ -173,32 +177,65 @@ function SubscriptionPage() {
       const txHash = await payWithChiliz(planType, () => {
         setPaymentStatus('Transaction envoyée. Attente de confirmation sur Chiliz Spicy Testnet...')
       })
-
       setPaymentStatus('Transaction confirmée. Validation blockchain côté KickDeal...')
       const response = await subscriptionManager.verifyChilizPayment({ txHash, planType })
 
-      if (response.ok) {
-        const previousPlanLabel = planLabel
-        const nextPlanLabel = response.data.subscription.planLabel
-        setSubscription(response.data.subscription)
-        updateUser(user ? { ...user, subscriptionPlan: response.data.subscription.plan } : user)
-        setUpgradeAnimation({ from: previousPlanLabel, to: nextPlanLabel })
-        window.setTimeout(() => setUpgradeAnimation(null), 2600)
-        setPaymentStatus('Paiement confirmé.')
-        setNotice('Paiement CHZ confirmé. Votre abonnement est activé.')
-        return
+      if (!response.ok) {
+        const data = response.data as { errorMessage?: unknown }
+        throw new Error(typeof data.errorMessage === 'string' ? data.errorMessage : 'Erreur de paiement CHZ.')
       }
 
-      const errorData = response.data as { errorMessage?: unknown }
-      setPaymentStatus(null)
-      setNotice(typeof errorData.errorMessage === 'string' ? errorData.errorMessage : 'Erreur paiement.')
+      const previousPlanLabel = planLabel
+      setSubscription(response.data.subscription)
+      updateUser(user ? { ...user, subscriptionPlan: response.data.subscription.plan } : user)
+      setUpgradeAnimation({ from: previousPlanLabel, to: response.data.subscription.planLabel })
+      window.setTimeout(() => setUpgradeAnimation(null), 2600)
+      setNotice('Paiement CHZ confirmé. Votre abonnement est activé.')
     } catch (error) {
-      setPaymentStatus(null)
       setNotice(getPaymentErrorMessage(error))
+    } finally {
+      setPaymentStatus(null)
+      setPaymentPlan(null)
+      setIsUpgrading(false)
+    }
+  }
+
+  async function handleStripePayment(targetPlan: SubscriptionPlan) {
+    setIsUpgrading(true)
+    setPaymentPlan(targetPlan)
+    setNotice(null)
+
+    try {
+      const response = await subscriptionManager.startStripePayment({ targetPlan })
+      if (!response.ok) {
+        const data = response.data as { errorMessage?: unknown }
+        throw new Error(typeof data.errorMessage === 'string' ? data.errorMessage : 'Impossible de préparer le paiement Stripe.')
+      }
+      setStripeCheckout({ ...response.data, plan: targetPlan })
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : 'Impossible de préparer le paiement Stripe.')
     } finally {
       setPaymentPlan(null)
       setIsUpgrading(false)
     }
+  }
+
+  async function completeStripePayment() {
+    if (!stripeCheckout) return
+
+    const response = await subscriptionManager.completeStripePayment({ subscriptionId: stripeCheckout.subscriptionId })
+    if (!response.ok) {
+      const data = response.data as { errorMessage?: unknown }
+      throw new Error(typeof data.errorMessage === 'string' ? data.errorMessage : 'Paiement confirmé, activation en cours.')
+    }
+
+    const previousPlanLabel = planLabel
+    setSubscription(response.data.subscription)
+    updateUser(user ? { ...user, subscriptionPlan: response.data.subscription.plan } : user)
+    setUpgradeAnimation({ from: previousPlanLabel, to: response.data.subscription.planLabel })
+    window.setTimeout(() => setUpgradeAnimation(null), 2600)
+    setNotice('Paiement Stripe confirmé. Votre abonnement est activé.')
+    setStripeCheckout(null)
   }
 
   const seatsText = formatSeats(subscription)
@@ -223,6 +260,11 @@ function SubscriptionPage() {
           <p className="mt-3 max-w-2xl text-white/65">
             Démarrez gratuitement, puis débloquez les négociations et outils avancés quand votre activité s’accélère.
           </p>
+          {requestedPlan && (
+            <p className="mt-4 rounded-lg border border-brand-cyan/30 bg-brand-cyan/10 px-4 py-3 text-sm text-white">
+              Votre compte gratuit est créé. Choisissez maintenant votre moyen de paiement pour activer l’offre sélectionnée.
+            </p>
+          )}
         </header>
 
         <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
@@ -286,6 +328,7 @@ function SubscriptionPage() {
                 {paymentStatus}
               </p>
             )}
+
           </div>
 
           <aside className="rounded-2xl border-2 border-brand-purple/55 bg-[#111827]/90 p-6 shadow-2xl shadow-brand-purple/15">
@@ -301,9 +344,7 @@ function SubscriptionPage() {
                 </li>
               ))}
             </ul>
-            <p className="mt-3 text-xs text-white/55">
-              Paiement sur Chiliz Spicy Testnet — taux de test : 1 CHZ = {chilizConfig.chzEurRate} €.
-            </p>
+            <p className="mt-3 text-xs text-white/55">Carte sécurisée par Stripe ou paiement CHZ sur Chiliz Spicy Testnet (1 CHZ = {chilizConfig.chzEurRate} €).</p>
           </aside>
         </section>
 
@@ -320,8 +361,10 @@ function SubscriptionPage() {
               active={subscription?.plan === plan.plan || (!subscription && plan.plan.endsWith('_free'))}
               highlighted={plan.highlighted}
               isLoading={isUpgrading && paymentPlan === plan.plan}
-              paymentLabel={getPaymentLabel(plan.plan)}
-              onSelect={audience === 'club' && canUpgradeTo(subscription?.plan, plan.plan) && getChilizPlanType(plan.plan) ? () => handleChilizPayment(plan.plan) : undefined}
+              paymentLabel={getStripePaymentLabel(plan.plan)}
+              onSelect={canPayWithStripe(subscription?.plan, plan.plan) ? () => handleStripePayment(plan.plan) : undefined}
+              secondaryPaymentLabel={getChilizPaymentLabel(plan.plan)}
+              onSecondarySelect={canPayWithChiliz(subscription?.plan, plan.plan) ? () => handleChilizPayment(plan.plan) : undefined}
             />
           ))}
         </section>
@@ -329,6 +372,14 @@ function SubscriptionPage() {
 
       {upgradeAnimation && (
         <UpgradeAnimationOverlay from={upgradeAnimation.from} to={upgradeAnimation.to} />
+      )}
+      {stripeCheckout && (
+        <StripeCheckout
+          clientSecret={stripeCheckout.clientSecret}
+          planLabel={plans.find((plan) => plan.plan === stripeCheckout.plan)?.title ?? 'Abonnement KickDeal'}
+          onComplete={completeStripePayment}
+          onClose={() => setStripeCheckout(null)}
+        />
       )}
     </div>
   )
@@ -370,6 +421,8 @@ function PlanColumn({
   isLoading = false,
   paymentLabel,
   onSelect,
+  secondaryPaymentLabel,
+  onSecondarySelect,
 }: {
   title: string
   price: string
@@ -380,6 +433,8 @@ function PlanColumn({
   isLoading?: boolean
   paymentLabel?: string
   onSelect?: () => void
+  secondaryPaymentLabel?: string
+  onSecondarySelect?: () => void
 }) {
   return (
     <div className={`rounded-2xl border p-6 shadow-2xl ${
@@ -412,6 +467,11 @@ function PlanColumn({
           {paymentLabel ?? 'Choisir ce plan'}
         </Button>
       )}
+      {onSecondarySelect && (
+        <Button type="button" className="mt-3 w-full" variant="secondary" isLoading={isLoading} onClick={onSecondarySelect}>
+          {secondaryPaymentLabel}
+        </Button>
+      )}
     </div>
   )
 }
@@ -436,50 +496,41 @@ function canUpgradeTo(currentPlan: SubscriptionPlan | undefined, targetPlan: Sub
   return getPlanRank(targetPlan) > getPlanRank(currentPlan)
 }
 
+function getStripePaymentLabel(plan: SubscriptionPlan): string | undefined {
+  return plan.endsWith('_pro') || plan === 'club_enterprise' ? 'Payer par carte' : undefined
+}
+
+function canPayWithStripe(currentPlan: SubscriptionPlan | undefined, targetPlan: SubscriptionPlan): boolean {
+  return canUpgradeTo(currentPlan, targetPlan) && getStripePaymentLabel(targetPlan) !== undefined
+}
+
 function getChilizPlanType(plan: SubscriptionPlan): ChilizPlanType | null {
+  if (plan === 'agent_pro') return 'AGENT_PRO'
   if (plan === 'club_pro') return 'PRO'
   if (plan === 'club_enterprise') return 'ENTERPRISE'
   return null
 }
 
-function getPaymentLabel(plan: SubscriptionPlan): string | undefined {
-  const planType = getChilizPlanType(plan)
+function getChilizPaymentLabel(plan: SubscriptionPlan): string | undefined {
+  const type = getChilizPlanType(plan)
+  return type ? `Payer en CHZ (${type === 'ENTERPRISE' ? '2' : '1'} CHZ)` : undefined
+}
 
-  if (!planType) {
-    return undefined
-  }
-
-  return `Payer en CHZ (${planType === 'PRO' ? '1' : '2'} CHZ)`
+function canPayWithChiliz(currentPlan: SubscriptionPlan | undefined, targetPlan: SubscriptionPlan): boolean {
+  return canUpgradeTo(currentPlan, targetPlan) && getChilizPlanType(targetPlan) !== null
 }
 
 function getPaymentErrorMessage(error: unknown): string {
-  const paymentError = error as {
-    code?: number | string
-    message?: string
-    shortMessage?: string
-    info?: {
-      error?: {
-        code?: number | string
-        message?: string
-      }
-    }
-  }
-  const code = paymentError.code ?? paymentError.info?.error?.code
-  const message = `${paymentError.shortMessage ?? ''} ${paymentError.message ?? ''} ${paymentError.info?.error?.message ?? ''}`.toLowerCase()
+  const paymentError = error as { code?: number | string; message?: string; shortMessage?: string }
+  const message = `${paymentError.shortMessage ?? ''} ${paymentError.message ?? ''}`.toLowerCase()
 
-  if (code === 4001 || code === 'ACTION_REJECTED' || message.includes('user rejected')) {
+  if (paymentError.code === 4001 || paymentError.code === 'ACTION_REJECTED' || message.includes('user rejected')) {
     return 'Paiement annulé. Aucune transaction n’a été envoyée.'
   }
-
   if (message.includes('insufficient funds')) {
     return 'Solde CHZ insuffisant pour finaliser cette transaction.'
   }
-
-  if (error instanceof Error && error.message && !error.message.includes('{')) {
-    return error.message
-  }
-
-  return 'Le paiement n’a pas pu être finalisé. Réessayez dans quelques instants.'
+  return error instanceof Error && error.message ? error.message : 'Le paiement CHZ n’a pas pu être finalisé.'
 }
 
 function getPlanRank(plan: SubscriptionPlan): number {

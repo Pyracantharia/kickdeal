@@ -9,8 +9,10 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class ChilizPaymentVerifier
 {
     private const string PLAN_PRO = 'PRO';
+    private const string PLAN_AGENT_PRO = 'AGENT_PRO';
     private const string PLAN_ENTERPRISE = 'ENTERPRISE';
     private const array REQUIRED_AMOUNTS_WEI = [
+        self::PLAN_AGENT_PRO => '1000000000000000000',
         self::PLAN_PRO => '1000000000000000000',
         self::PLAN_ENTERPRISE => '2000000000000000000',
     ];

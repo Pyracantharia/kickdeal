@@ -1,6 +1,6 @@
 import { BrowserProvider, parseEther } from 'ethers'
 
-export type ChilizPlanType = 'PRO' | 'ENTERPRISE'
+export type ChilizPlanType = 'AGENT_PRO' | 'PRO' | 'ENTERPRISE'
 
 type EthereumProvider = {
   request: (args: { method: string; params?: unknown[] }) => Promise<unknown>
@@ -18,6 +18,7 @@ const DEFAULT_RPC_URL = 'https://spicy-rpc.chiliz.com/'
 const DEFAULT_CHZ_EUR_RATE = 200
 
 export const CHILIZ_AMOUNTS: Record<ChilizPlanType, string> = {
+  AGENT_PRO: '1',
   PRO: '1',
   ENTERPRISE: '2',
 }
