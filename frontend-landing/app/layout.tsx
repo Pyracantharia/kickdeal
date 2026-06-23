@@ -34,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" suppressHydrationWarning>
       <body className={`min-h-screen ${rajdhani.variable} ${rajdhani.className}`}>
         <div className="fixed-bg" aria-hidden="true" />
         {children}
