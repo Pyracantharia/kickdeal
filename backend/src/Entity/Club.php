@@ -35,10 +35,20 @@ class Club
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'temporaryClub')]
     private Collection $temporaryPlayers;
 
+    /**
+     * @var Collection<int, ClubProfile>
+     */
+    #[ORM\OneToMany(targetEntity: ClubProfile::class, mappedBy: 'club')]
+    private Collection $clubProfiles;
+
+    #[ORM\OneToOne(inversedBy: 'club', cascade: ['persist', 'remove'])]
+    private ?Team $team = null;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
         $this->temporaryPlayers = new ArrayCollection();
+        $this->clubProfiles = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -96,6 +106,48 @@ class Club
         if ($this->temporaryPlayers->removeElement($temporaryPlayer)) {
             $temporaryPlayer->setClub(null);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ClubProfile>
+     */
+    public function getClubProfiles(): Collection
+    {
+        return $this->clubProfiles;
+    }
+
+    public function addClubProfile(ClubProfile $clubProfile): static
+    {
+        if (!$this->clubProfiles->contains($clubProfile)) {
+            $this->clubProfiles->add($clubProfile);
+            $clubProfile->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClubProfile(ClubProfile $clubProfile): static
+    {
+        if ($this->clubProfiles->removeElement($clubProfile)) {
+            // set the owning side to null (unless already changed)
+            if ($clubProfile->getClub() === $this) {
+                $clubProfile->setClub(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTeam(): ?Team
+    {
+        return $this->team;
+    }
+
+    public function setTeam(?Team $team): static
+    {
+        $this->team = $team;
 
         return $this;
     }

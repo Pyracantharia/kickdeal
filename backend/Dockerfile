@@ -11,16 +11,26 @@ COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
 
 # Config Supervisor (pour lancer PHP-FPM et Nginx ensemble)
-RUN printf "[supervisord]\nnodaemon=true\n\n[program:nginx]\ncommand=nginx -g 'daemon off;'\n\n[program:php-fpm]\ncommand=php-fpm\n" > /etc/supervisord.conf
+RUN printf "[supervisord]\nnodaemon=true\n\n[program:nginx]\ncommand=nginx -g 'daemon off;'\n\n[program:php-fpm]\ncommand=php-fpm\n" > /etc/supervisord.conf \
+	&& chmod 644 /etc/supervisord.conf
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+ARG UID=1000
+ARG GID=1000
+ARG USERNAME=kickdeal-user
+RUN addgroup -g ${GID} -S ${USERNAME} \
+	&& adduser -S -D -u ${UID} -G ${USERNAME} ${USERNAME}
+
 WORKDIR /var/www/html
 COPY . .
-RUN composer install --optimize-autoloader
+
+RUN composer install --optimize-autoloader --no-interaction
 
 # Permissions
-RUN chown -R www-data:www-data /var/www/html/var
+RUN chown -R ${USERNAME}:${USERNAME} /var/www/html
 
-EXPOSE 80
+USER ${USERNAME}
+
+EXPOSE 8080
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

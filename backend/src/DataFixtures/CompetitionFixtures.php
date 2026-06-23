@@ -44,8 +44,7 @@ class CompetitionFixtures extends Fixture
 
                 // Chaque bloc de joueurs d'un fichier a besoin d'un Club technique
                 $club = new Club();
-                $manager->persist($club);
-
+                
                 // On vérifie si l'équipe (ex: "Germany") existe déjà globalement en BDD
                 $team = $manager->getRepository(Team::class)->findOneBy(['name' => $teamName]);
                 
@@ -58,8 +57,11 @@ class CompetitionFixtures extends Fixture
                     $team->setLeague($data['competition']['name'] ?? $code);
                     $team->setTransferBudget($faker->numberBetween(15000000, 300000000));
                     $team->setVerificationStatus(TeamVerificationStatusEnum::VERIFIED);
-                    
+                    $team->setClub($club);
                     $manager->persist($team);
+
+                    $club->setTeam($team);
+                    $manager->persist($club);
                 }
 
                 // 3. Création des Joueurs de cette effectif

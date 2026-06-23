@@ -10,7 +10,7 @@ import { useAuth } from '@/context/AuthProvider'
 import { authManager } from '@/features/auth/auth'
 import type { SubscriptionPlan } from '@/features/subscription/subscription'
 
-export type NavbarVariant = 'club' | 'agent' | 'sans-club' | 'creation'
+export type NavbarVariant = 'club' | 'agent' | 'sans-club' | 'creation' | 'admin'
 
 interface NavbarProps {
   variant: NavbarVariant
@@ -39,10 +39,16 @@ const AGENT_LINKS = [
 
 const NO_CLUB_LINKS = [{ href: '/club', label: 'Mon club' }]
 
+const ADMIN_LINKS = [
+  { href: '/dashboard', label: 'Accueil' },
+  { href: '/admin', label: 'Admin' }
+]
+
 function getLinksByVariant(variant: NavbarVariant) {
   if (variant === 'club') return CLUB_LINKS
   if (variant === 'agent') return AGENT_LINKS
   if (variant === 'sans-club') return NO_CLUB_LINKS
+  if (variant === 'admin') return ADMIN_LINKS
   return []
 }
 

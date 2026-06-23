@@ -8,6 +8,7 @@ import Navbar, { type NavbarVariant } from '@/components/navbar/Navbar'
 function getVariantFromRoles(roles: string[]): NavbarVariant {
   if (roles.includes('ROLE_CLUB')) return 'club'
   if (roles.includes('ROLE_AGENT') || roles.includes('ROLE_MANAGER')) return 'agent'
+  if(roles.includes('ROLE_ADMIN')) return 'admin'
   return 'sans-club'
 }
 

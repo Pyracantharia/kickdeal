@@ -75,7 +75,9 @@ final class AuthController extends AbstractController
             'json',
         );
 
-        if (isset($payload['subscriptionPlan'])) {
+        $isAgentAccount = in_array(User::ROLE_AGENT, $newUser->getRoles(), true);
+
+        if (is_array($payload) && isset($payload['subscriptionPlan'])) {
             $subscriptionPlan = is_string($payload['subscriptionPlan']) ? SubscriptionPlanEnum::tryFrom($payload['subscriptionPlan']) : null;
 
             if (!$subscriptionPlan instanceof SubscriptionPlanEnum) {
@@ -85,8 +87,6 @@ final class AuthController extends AbstractController
                     ],
                 ], 422);
             }
-
-            $isAgentAccount = in_array(User::ROLE_AGENT, $newUser->getRoles(), true);
 
             if ($isAgentAccount !== $subscriptionPlan->isAgentPlan()) {
                 return $this->json([
@@ -105,7 +105,7 @@ final class AuthController extends AbstractController
 
         $errors = $validator->validate($newUser);
 
-        if (0 !== \count($errors)) {
+        if (0 !== count($errors)) {
             $errorsArr = [];
             foreach ($errors as $error) {
                 $errorsArr[$error->getPropertyPath()] = $error->getMessage();
@@ -116,6 +116,7 @@ final class AuthController extends AbstractController
 
         $hashedPassword = $passwordHasher->hashPassword($newUser, $newUser->getPassword());
         $newUser->setPassword($hashedPassword);
+
         try {
             $entityManager->persist($newUser);
 
@@ -130,6 +131,21 @@ final class AuthController extends AbstractController
             }
 
             $entityManager->flush();
+
+            if($isAgentAccount) {
+                $newAgent = (new Agent())
+                    ->setAgencyName($request->getPayload()->get('agencyName'))
+                    ->setCountry($request->getPayload()->get('country'))
+                    ->setUser($newUser);
+
+                $newUser->setAgentProfile($newAgent);
+
+                $entityManager->persist($newAgent);
+                $entityManager->persist($newUser);
+
+                $entityManager->flush();
+            }
+            
         } catch (UniqueConstraintViolationException $exception) {
             return $this->json([
                 'errors' => [

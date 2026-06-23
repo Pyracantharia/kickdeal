@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -28,19 +29,24 @@ class Team
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    #[Groups(['admin:club_request:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank(message: 'Le nom est requis')]
+    #[Groups(['admin:club_request:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['admin:club_request:read'])]
     private ?string $country = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['admin:club_request:read'])]
     private ?string $league = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['admin:club_request:read'])]
     private ?string $logoUrl = null;
 
     // Value in cents
@@ -80,6 +86,9 @@ class Team
      */
     #[ORM\OneToMany(targetEntity: ContractNegociation::class, mappedBy: 'buyerTeam')]
     private Collection $contractNegociations;
+
+    #[ORM\OneToOne(mappedBy: 'team', cascade: ['persist', 'remove'])]
+    private ?Club $club = null;
 
     public function __construct()
     {
@@ -310,6 +319,28 @@ class Team
                 $contractNegociation->setBuyerTeam(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(?Club $club): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($club === null && $this->club !== null) {
+            $this->club->setTeam(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($club !== null && $club->getTeam() !== $this) {
+            $club->setTeam($this);
+        }
+
+        $this->club = $club;
 
         return $this;
     }

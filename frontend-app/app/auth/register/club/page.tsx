@@ -1,10 +1,10 @@
-import RegisterPlayerCard from '@/components/auth/Register/RegisterClubCard'
-import React from 'react'
+import RegisterClubCard from '@/components/auth/Register/RegisterClubCard'
+
 
 function page() {
   return (
     <>
-      <RegisterPlayerCard />
+      <RegisterClubCard />
     </>
   )
 }
