@@ -39,6 +39,9 @@ class ContractNegociation
     #[ORM\Column(length: 20, enumType: ContractNegotiationTypeEnum::class)]
     private ContractNegotiationTypeEnum $type = ContractNegotiationTypeEnum::TRANSFER;
 
+    #[ORM\Column(options: ['default' => false])]
+    private bool $publicFeedEnabled = false;
+
     #[ORM\ManyToOne(inversedBy: 'contractNegociations')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull(message: 'Le joueur est requis')]
@@ -102,6 +105,18 @@ class ContractNegociation
     public function setType(ContractNegotiationTypeEnum $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function isPublicFeedEnabled(): bool
+    {
+        return $this->publicFeedEnabled;
+    }
+
+    public function setPublicFeedEnabled(bool $publicFeedEnabled): static
+    {
+        $this->publicFeedEnabled = $publicFeedEnabled;
 
         return $this;
     }

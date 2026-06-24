@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "KickDeal Feed",
+    "slug": "kickdeal-feed",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/logo.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/images/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#06111c"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logo.png",
+        "backgroundColor": "#06111c"
+      }
+    },
+    "web": {
+      "favicon": "./assets/images/logo.png"
+    },
+    "extra": {
+      "apiUrl": "http://localhost:8000/api"
+    }
+  }
+}

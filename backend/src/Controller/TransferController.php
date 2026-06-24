@@ -20,6 +20,7 @@ use App\Repository\Transfer\TransferNegociationRepository;
 use App\Repository\Transfer\TransferOfferRepository;
 use App\Service\Subscription\SubscriptionLimits;
 use App\Service\Contract\ContractNegotiationWorkflow;
+use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -164,6 +165,49 @@ final class TransferController extends AbstractController
         ]);
     }
 
+    #[Route('/negotiations/{id}/public-feed', name: 'app_transfer_negotiation_public_feed', methods: ['PUT', 'PATCH'])]
+    public function updateNegotiationPublicFeed(
+        TransferNegociation $negociation,
+        Request $request,
+        #[CurrentUser] ?User $user,
+        TeamMembershipRepository $teamMembershipRepository,
+        EntityManagerInterface $entityManager,
+        PublicFeedPublisher $publicFeedPublisher,
+    ): JsonResponse {
+        $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
+
+        if ($membership instanceof JsonResponse) {
+            return $membership;
+        }
+
+        $team = $membership->getTeam();
+        $listing = $negociation->getListing();
+        $isSeller = $listing?->getSellerTeam()?->getId()?->toRfc4122() === $team->getId()?->toRfc4122();
+        $isBuyer = $negociation->getBuyerTeam()?->getId()?->toRfc4122() === $team->getId()?->toRfc4122();
+
+        if (!$isSeller && !$isBuyer) {
+            return $this->json(['errorMessage' => 'Vous ne pouvez pas modifier cette négociation.'], 403);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        $enabled = true === (is_array($payload) ? ($payload['enabled'] ?? false) : false);
+
+        $negociation->setPublicFeedEnabled($enabled);
+        if ($enabled) {
+            foreach ($negociation->getTransferOffers() as $offer) {
+                $publicFeedPublisher->publishTransferOffer($offer);
+                if (OfferStatusEnum::ACCEPTED === $offer->getStatus()) {
+                    $publicFeedPublisher->publishTransferAgreement($offer);
+                }
+            }
+        }
+        $entityManager->flush();
+
+        return $this->json([
+            'publicFeedEnabled' => $negociation->isPublicFeedEnabled(),
+        ]);
+    }
+
     #[Route('/offers', name: 'app_transfer_offer_create', methods: ['POST'])]
     public function createOffer(
         Request $request,
@@ -174,6 +218,7 @@ final class TransferController extends AbstractController
         TransferNegociationRepository $transferNegociationRepository,
         SubscriptionLimits $subscriptionLimits,
         EntityManagerInterface $entityManager,
+        PublicFeedPublisher $publicFeedPublisher,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -228,6 +273,7 @@ final class TransferController extends AbstractController
         }
 
         $entityManager->persist($offer);
+        $publicFeedPublisher->publishTransferOffer($offer);
         $entityManager->flush();
 
         return $this->json([
@@ -242,6 +288,7 @@ final class TransferController extends AbstractController
         TeamMembershipRepository $teamMembershipRepository,
         ContractNegotiationWorkflow $contractNegotiationWorkflow,
         EntityManagerInterface $entityManager,
+        PublicFeedPublisher $publicFeedPublisher,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -278,6 +325,7 @@ final class TransferController extends AbstractController
             $user,
             $contractNegotiationWorkflow,
             $entityManager,
+            $publicFeedPublisher,
         ) {
             $offer->setStatus(OfferStatusEnum::ACCEPTED);
             $transferNegociation = $offer->getTransferNegociation();
@@ -288,6 +336,7 @@ final class TransferController extends AbstractController
             $contractNegociation = $transferNegociation && $user
                 ? $contractNegotiationWorkflow->ensureForTransfer($transferNegociation, $user)
                 : null;
+            $publicFeedPublisher->publishTransferAgreement($offer);
             $entityManager->flush();
 
             return $contractNegociation;
@@ -305,6 +354,7 @@ final class TransferController extends AbstractController
         #[CurrentUser] ?User $user,
         TeamMembershipRepository $teamMembershipRepository,
         EntityManagerInterface $entityManager,
+        PublicFeedPublisher $publicFeedPublisher,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -323,6 +373,7 @@ final class TransferController extends AbstractController
 
         $offer->setStatus(OfferStatusEnum::REJECTED);
         $offer->getTransferNegociation()?->setStatus(TransferNegociationStatusEnum::REJECTED);
+        $publicFeedPublisher->publishTransferOffer($offer);
 
         $entityManager->flush();
 
@@ -338,6 +389,7 @@ final class TransferController extends AbstractController
         PlayerRepository $playerRepository,
         SubscriptionLimits $subscriptionLimits,
         EntityManagerInterface $entityManager,
+        PublicFeedPublisher $publicFeedPublisher,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -384,6 +436,7 @@ final class TransferController extends AbstractController
         }
 
         $entityManager->persist($counterOffer);
+        $publicFeedPublisher->publishTransferOffer($counterOffer);
         $entityManager->flush();
 
         return $this->json(['offer' => $this->serializeOffer($counterOffer, $team)], 201);

@@ -1,5 +1,12 @@
 # kickdeal
 
+KickDeal est composé de plusieurs applications :
+
+- `backend/` : API Symfony 7 exposée via Docker/Nginx sur `http://localhost:8000/api`.
+- `frontend-app/` : application web Next.js TypeScript pour les clubs et agents.
+- `frontend-landing/` : landing page Next.js TypeScript.
+- `mobile-feed/` : application mobile Expo React Native TypeScript publique, en lecture seule, pour le futur feed KickDeal.
+
 
 # Prise en main du projet
 

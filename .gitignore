@@ -44,6 +44,10 @@
 
 # Build data
 /build/
+node_modules/
+.expo/
+android/
+ios/
 
 # Composer PHAR
 /composer.phar

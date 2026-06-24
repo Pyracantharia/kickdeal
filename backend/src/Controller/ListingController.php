@@ -14,6 +14,7 @@ use App\Repository\ListingRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\TransferTargetRepository;
+use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -56,6 +57,7 @@ final class ListingController extends AbstractController
         ListingRepository $listingRepository,
         TransferTargetRepository $transferTargetRepository,
         EntityManagerInterface $entityManager,
+        PublicFeedPublisher $publicFeedPublisher,
     ): JsonResponse {
         $team = $this->getCurrentTeam($user, $teamMembershipRepository);
 
@@ -124,6 +126,7 @@ final class ListingController extends AbstractController
         $entityManager->persist($listing);
         $entityManager->persist($target);
         $entityManager->persist($player);
+        $publicFeedPublisher->publishListing($listing);
         $entityManager->flush();
 
         return $this->json([
