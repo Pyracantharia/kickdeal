@@ -10,6 +10,9 @@ services:
       - ./backend/docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     environment:
       DATABASE_URL: "${DATABASE_URL}"
+      MERCURE_INTERNAL_URL: "http://mercure/.well-known/mercure"
+      MERCURE_PUBLIC_URL: "http://localhost:3002/.well-known/mercure"
+      MERCURE_JWT_SECRET: "${MERCURE_JWT_SECRET}"
       CHILIZ_RPC_URL: "${CHILIZ_RPC_URL}"
       CHILIZ_CHAIN_ID: "${CHILIZ_CHAIN_ID}"
       CHILIZ_RECEIVER_ADDRESS: "${CHILIZ_RECEIVER_ADDRESS}"
@@ -21,6 +24,7 @@ services:
       STRIPE_PRICE_CLUB_ENTERPRISE: "${STRIPE_PRICE_CLUB_ENTERPRISE}"
     depends_on:
       - db
+      - mercure
     networks:
       - myapp_network
 
@@ -50,11 +54,27 @@ services:
     env_file:
       - ./frontend-app/.env.local
     environment:
+      NEXT_PUBLIC_MERCURE_URL: "http://localhost:3002/.well-known/mercure"
       NEXT_PUBLIC_CHILIZ_CHAIN_ID: "${NEXT_PUBLIC_CHILIZ_CHAIN_ID}"
       NEXT_PUBLIC_CHILIZ_RPC_URL: "${NEXT_PUBLIC_CHILIZ_RPC_URL}"
       NEXT_PUBLIC_CHILIZ_RECEIVER_ADDRESS: "${NEXT_PUBLIC_CHILIZ_RECEIVER_ADDRESS}"
       NEXT_PUBLIC_CHZ_EUR_RATE: "${NEXT_PUBLIC_CHZ_EUR_RATE}"
       NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "${STRIPE_KEY}"
+    networks:
+      - myapp_network
+
+  mercure:
+    image: dunglas/mercure
+    container_name: mercure
+    restart: unless-stopped
+    ports:
+      - "3002:80"
+    environment:
+      SERVER_NAME: ":80"
+      MERCURE_PUBLISHER_JWT_KEY: "${MERCURE_JWT_SECRET}"
+      MERCURE_SUBSCRIBER_JWT_KEY: "${MERCURE_JWT_SECRET}"
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins http://localhost:3000
     networks:
       - myapp_network
   
