@@ -5,12 +5,8 @@ export interface AgentOrClubUser {
   email: string;
   firstname: string;
   lastname: string;
-  agentProfile?: {
-
-  },
-  clubProfiles?: {
-
-  }[]
+  agentProfile?: object | null,
+  clubProfiles?: object[]
 }
 
 interface AgentAndClubUserResponse {
@@ -20,6 +16,15 @@ interface AgentAndClubUserResponse {
 class UsersManager {
   async getAgentAndClubUsers() {
     const response = await httpClient.get<AgentAndClubUserResponse>("/users/agents-and-clubs");
+    if (Array.isArray(response.data)) {
+      return {
+        ...response,
+        data: {
+          users: response.data,
+        },
+      };
+    }
+
     return response;
   }
 }

@@ -1,50 +1,115 @@
 'use client';
-import { Plus, Search } from 'lucide-react'
+import { MessageCircle, Plus, Search } from 'lucide-react'
 import Link from 'next/link';
 import React from 'react'
 import CreateDiscussionModal from './CreateDiscussionModal';
+import { useAuth } from '@/context/AuthProvider';
+import {
+  DirectConversation,
+  MessageEventPayload,
+  formatMessageDate,
+  getOtherParticipant,
+  messagesManager,
+} from '@/features/messages/messages';
 
-const mockConversations = [
-  {
-    id: 1,
-    name: 'John Doe',
-    lastMessage: 'Hey, how are you?',
-    timestamp: '2h ago',
-    newMessages: 3
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    lastMessage: 'Can we reschedule our meeting?',
-    timestamp: '5h ago',
-    newMessages: 0
-  },
-  {
-    id: 3,
-    name: 'Bob Johnson',
-    lastMessage: 'I sent you the files.',
-    timestamp: '1d ago',
-    newMessages: 3
-  },
-]
+function upsertConversation(currentConversations: DirectConversation[], conversation: DirectConversation) {
+  const withoutConversation = currentConversations.filter((item) => item.id !== conversation.id)
+
+  return sortConversations([conversation, ...withoutConversation])
+}
+
+function sortConversations(items: DirectConversation[]) {
+  return [...items].sort(
+    (first, second) =>
+      new Date(second.updatedAt ?? second.lastMessage?.createdAt ?? 0).getTime() -
+      new Date(first.updatedAt ?? first.lastMessage?.createdAt ?? 0).getTime()
+  )
+}
 
 function ConversationsTable() {
-  const [filteredConversations, setFilteredConversations] = React.useState(mockConversations)
+  const { user } = useAuth()
+  const [conversations, setConversations] = React.useState<DirectConversation[]>([])
   const [searchTerm, setSearchTerm] = React.useState('')
+  const [isLoading, setIsLoading] = React.useState(true)
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null)
 
   React.useEffect(() => {
-    if (searchTerm.trim() === '') {
-      setFilteredConversations(mockConversations)
-    } else {
-      const lowercasedTerm = searchTerm.toLowerCase()
-      setFilteredConversations(
-        mockConversations.filter((conversation) =>
-          conversation.name.toLowerCase().includes(lowercasedTerm) ||
-          conversation.lastMessage.toLowerCase().includes(lowercasedTerm)
-        )
-      )
+    let isMounted = true
+
+    messagesManager.getConversations()
+      .then((response) => {
+        if (!isMounted) return
+
+        if (response.ok) {
+          setConversations(sortConversations(response.data.conversations))
+          setErrorMessage(null)
+          return
+        }
+
+        setErrorMessage('Impossible de charger les conversations.')
+      })
+      .catch(() => {
+        if (isMounted) setErrorMessage('Impossible de charger les conversations.')
+      })
+      .finally(() => {
+        if (isMounted) setIsLoading(false)
+      })
+
+    return () => {
+      isMounted = false
     }
-  }, [searchTerm])
+  }, [])
+
+  React.useEffect(() => {
+    if (!user) return
+
+    let eventSource: EventSource | null = null
+    let isActive = true
+
+    messagesManager.prepareMercureSubscription()
+      .then((response) => {
+        if (!isActive || !response.ok || !response.data.hubUrl || !response.data.topic) return
+
+        const url = new URL(response.data.hubUrl)
+        url.searchParams.append('topic', response.data.topic)
+        eventSource = new EventSource(url.toString(), { withCredentials: true })
+
+        const handleEvent = (event: MessageEvent<string>) => {
+          const payload = JSON.parse(event.data) as MessageEventPayload
+          setConversations((current) => upsertConversation(current, payload.conversation))
+        }
+
+        eventSource.addEventListener('message.created', handleEvent as EventListener)
+        eventSource.onmessage = handleEvent
+      })
+      .catch(() => undefined)
+
+    return () => {
+      isActive = false
+      eventSource?.close()
+    }
+  }, [user])
+
+  const filteredConversations = React.useMemo(() => {
+    const normalizedSearchTerm = searchTerm.trim().toLocaleLowerCase('fr')
+
+    if (!user || normalizedSearchTerm === '') return conversations
+
+    return conversations.filter((conversation) => {
+      const otherParticipant = getOtherParticipant(conversation, user.id)
+      const participantName = otherParticipant
+        ? `${otherParticipant.firstName} ${otherParticipant.lastName}`.toLocaleLowerCase('fr')
+        : ''
+      const lastMessage = conversation.lastMessage?.content.toLocaleLowerCase('fr') ?? ''
+
+      return participantName.includes(normalizedSearchTerm) || lastMessage.includes(normalizedSearchTerm)
+    })
+  }, [conversations, searchTerm, user])
+
+  function handleConversationCreated(conversation: DirectConversation) {
+    setConversations((current) => upsertConversation(current, conversation))
+    setIsModalOpen(false)
+  }
 
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 
@@ -53,7 +118,7 @@ function ConversationsTable() {
   }
   return (
     <>
-      <CreateDiscussionModal isOpen={isModalOpen} onClose={onCloseModal} />
+      <CreateDiscussionModal isOpen={isModalOpen} onClose={onCloseModal} onConversationCreated={handleConversationCreated} />
       <div>
         <div className="relative">
           <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-white/60" />
@@ -78,27 +143,44 @@ function ConversationsTable() {
 
         <div className="mt-6">
           <ul className="border border-white/10 bg-white/5 rounded-lg">
-            {filteredConversations.map((conversation) => (
-              <li key={conversation.id} className="border-b border-white/10 p-4 hover:bg-white/10 cursor-pointer last:border-b-0 transition-all duration-100">
-                <Link href={`/messages/conversation/${conversation.id}`} className="flex items-center gap-4 flex-1">
-                  <div className="relative min-w-6">
-                    {conversation.newMessages > 0 && (
-                      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded-full bg-brand-purple text-xs font-bold text-white">
-                        {conversation.newMessages}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center justify-between flex-1">
-                    <div>
-                      <p className="text-lg font-semibold text-white">{conversation.name}</p>
-                      <p className="text-sm text-white/60">{conversation.lastMessage}</p>
-                    </div>
-                    <span className="text-sm text-white/60">{conversation.timestamp}</span>
-                  </div>
-                
-                </Link>
+            {isLoading && (
+              <li className="p-6 text-center text-white/60">Chargement des conversations...</li>
+            )}
+
+            {!isLoading && errorMessage && (
+              <li className="p-6 text-center text-red-300">{errorMessage}</li>
+            )}
+
+            {!isLoading && !errorMessage && filteredConversations.length === 0 && (
+              <li className="p-8 text-center text-white/60">
+                <MessageCircle className="mx-auto mb-3 h-8 w-8 text-white/40" />
+                Aucune conversation pour le moment.
               </li>
-            ))}
+            )}
+
+            {!isLoading && !errorMessage && user && filteredConversations.map((conversation) => {
+              const otherParticipant = getOtherParticipant(conversation, user.id)
+              const participantName = otherParticipant
+                ? `${otherParticipant.firstName} ${otherParticipant.lastName}`
+                : 'Discussion'
+
+              return (
+                <li key={conversation.id} className="border-b border-white/10 p-4 hover:bg-white/10 cursor-pointer last:border-b-0 transition-all duration-100">
+                  <Link href={`/messages/conversation/${conversation.id}`} className="flex items-center gap-4 flex-1">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-purple text-sm font-bold text-white">
+                      {participantName.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex items-center justify-between flex-1 min-w-0">
+                      <div className="min-w-0">
+                        <p className="truncate text-lg font-semibold text-white">{participantName}</p>
+                        <p className="truncate text-sm text-white/60">{conversation.lastMessage?.content ?? 'Nouvelle discussion'}</p>
+                      </div>
+                      <span className="shrink-0 text-sm text-white/60">{formatMessageDate(conversation.lastMessage?.createdAt ?? conversation.updatedAt)}</span>
+                    </div>
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
         </div>
       </div>

@@ -42,6 +42,7 @@ security:
         - { path: ^/api/clubs, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/agents, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/contracts, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/messages, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/subscription, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/transfers, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/auth/me$, roles: IS_AUTHENTICATED_FULLY }
