@@ -20,6 +20,7 @@ use App\Repository\PlayerAgentRequestRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\TeamRepository;
 use App\Service\Player\PlayerMarketContextResolver;
+use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -42,6 +43,7 @@ final class AgentPlayerController extends AbstractController
         private readonly PlayerAgentRequestRepository $requestRepository,
         private readonly TeamRepository $teamRepository,
         private readonly PlayerMarketContextResolver $marketContextResolver,
+        private readonly PublicFeedPublisher $publicFeedPublisher,
         private readonly CsrfTokenManagerInterface $csrfTokenManager,
         private readonly SluggerInterface $slugger,
         #[Autowire('%kernel.project_dir%/public/uploads/player-agent-verifications')]
@@ -425,12 +427,16 @@ final class AgentPlayerController extends AbstractController
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        $previousStatus = $player->getMarketStatus();
         $player->setMarketStatus($status);
         $player->setMarketListingSource(
             PlayerMarketStatusEnum::NOT_LISTED === $status
                 ? null
                 : PlayerMarketListingSourceEnum::AGENT
         );
+        if ($previousStatus !== $status) {
+            $this->publicFeedPublisher->publishPlayerMarketStatus($player, $previousStatus);
+        }
         $this->entityManager->flush();
 
         return $this->json([

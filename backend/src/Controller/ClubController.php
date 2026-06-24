@@ -19,6 +19,7 @@ use App\Repository\ClubRequestRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\TeamRepository;
 use App\Service\Player\PlayerMarketContextResolver;
+use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -37,6 +38,7 @@ final class ClubController extends AbstractController
 
     public function __construct(
         private readonly PlayerMarketContextResolver $marketContextResolver,
+        private readonly PublicFeedPublisher $publicFeedPublisher,
     ) {
     }
 
@@ -201,10 +203,14 @@ final class ClubController extends AbstractController
             ], 400);
         }
 
+        $previousStatus = $player->getMarketStatus();
         $player->setMarketStatus($status);
         $player->setMarketListingSource(
             PlayerMarketStatusEnum::NOT_LISTED === $status ? null : PlayerMarketListingSourceEnum::CLUB
         );
+        if ($previousStatus !== $status) {
+            $this->publicFeedPublisher->publishPlayerMarketStatus($player, $previousStatus);
+        }
         $entityManager->flush();
 
         return $this->json([
@@ -261,9 +267,11 @@ final class ClubController extends AbstractController
 
             $wasRemovedFromMarket = false;
             if (PlayerMarketListingSourceEnum::AGENT === $player->getMarketListingSource()) {
+                $previousStatus = $player->getMarketStatus();
                 $player
                     ->setMarketStatus(PlayerMarketStatusEnum::NOT_LISTED)
                     ->setMarketListingSource(null);
+                $this->publicFeedPublisher->publishPlayerMarketStatus($player, $previousStatus);
                 $wasRemovedFromMarket = true;
             }
 

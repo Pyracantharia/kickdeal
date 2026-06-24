@@ -43,6 +43,9 @@ class TransferNegociation
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $agreedAt = null;
 
+    #[ORM\Column(options: ['default' => false])]
+    private bool $publicFeedEnabled = false;
+
     #[ORM\ManyToOne(inversedBy: 'transferNegociations')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull(message: 'Le listing est requis')]
@@ -122,6 +125,18 @@ class TransferNegociation
     public function setAgreedAt(?\DateTimeInterface $agreedAt): static
     {
         $this->agreedAt = $agreedAt;
+
+        return $this;
+    }
+
+    public function isPublicFeedEnabled(): bool
+    {
+        return $this->publicFeedEnabled;
+    }
+
+    public function setPublicFeedEnabled(bool $publicFeedEnabled): static
+    {
+        $this->publicFeedEnabled = $publicFeedEnabled;
 
         return $this;
     }

@@ -21,6 +21,7 @@ use App\Enum\TransferTypeEnum;
 use App\Repository\Contract\ContractNegociationRepository;
 use App\Repository\Contract\ContractPackageRepository;
 use App\Repository\Transfer\TransferAgreementRepository;
+use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class ContractNegotiationWorkflow
@@ -30,6 +31,7 @@ final class ContractNegotiationWorkflow
         private readonly ContractNegociationRepository $contractNegociationRepository,
         private readonly ContractPackageRepository $contractPackageRepository,
         private readonly TransferAgreementRepository $transferAgreementRepository,
+        private readonly PublicFeedPublisher $publicFeedPublisher,
     ) {
     }
 
@@ -108,6 +110,7 @@ final class ContractNegotiationWorkflow
         };
 
         $this->expireConcurrentNegotiations($contractNegociation);
+        $this->publicFeedPublisher->publishContractFinalized($contractNegociation);
     }
 
     private function finalizeTransfer(ContractNegociation $contractNegociation, ContractOffer $acceptedOffer): void

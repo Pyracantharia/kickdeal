@@ -16,6 +16,7 @@ use App\Repository\Contract\ContractNegociationRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\Transfer\TransferNegociationRepository;
 use App\Service\Contract\ContractNegotiationWorkflow;
+use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -153,6 +154,40 @@ final class ContractNegotiationController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/public-feed', name: 'api_contract_negotiation_public_feed', methods: ['PUT', 'PATCH'])]
+    public function updatePublicFeed(
+        ContractNegociation $negociation,
+        Request $request,
+        #[CurrentUser] ?User $user,
+        AgentRepository $agentRepository,
+        TeamMembershipRepository $teamMembershipRepository,
+        CsrfTokenManagerInterface $csrfTokenManager,
+        PublicFeedPublisher $publicFeedPublisher,
+        EntityManagerInterface $entityManager,
+    ): JsonResponse {
+        if ($csrfError = $this->validateCsrf($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
+        $viewerRole = $this->resolveViewerRole($user, $negociation, $agentRepository, $teamMembershipRepository);
+        if ('club' !== $viewerRole) {
+            return $this->json(['errorMessage' => 'Seul le club concerné peut publier cette négociation.'], 403);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        $enabled = true === (is_array($payload) ? ($payload['enabled'] ?? false) : false);
+
+        $negociation->setPublicFeedEnabled($enabled);
+        if ($enabled) {
+            $publicFeedPublisher->publishContractNegotiation($negociation);
+        }
+        $entityManager->flush();
+
+        return $this->json([
+            'publicFeedEnabled' => $negociation->isPublicFeedEnabled(),
+        ]);
+    }
+
     #[Route('/{id}/offers', name: 'api_contract_negotiation_offer_create', methods: ['POST'])]
     public function createOffer(
         ContractNegociation $negociation,
@@ -162,6 +197,7 @@ final class ContractNegotiationController extends AbstractController
         TeamMembershipRepository $teamMembershipRepository,
         CsrfTokenManagerInterface $csrfTokenManager,
         EntityManagerInterface $entityManager,
+        PublicFeedPublisher $publicFeedPublisher,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrf($request, $csrfTokenManager)) {
             return $csrfError;
@@ -258,6 +294,7 @@ final class ContractNegotiationController extends AbstractController
         $negociation->addContractOffer($offer);
 
         $entityManager->persist($offer);
+        $publicFeedPublisher->publishContractNegotiation($negociation);
         $entityManager->flush();
 
         return $this->json([
@@ -275,6 +312,7 @@ final class ContractNegotiationController extends AbstractController
         TeamMembershipRepository $teamMembershipRepository,
         CsrfTokenManagerInterface $csrfTokenManager,
         EntityManagerInterface $entityManager,
+        PublicFeedPublisher $publicFeedPublisher,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrf($request, $csrfTokenManager)) {
             return $csrfError;
@@ -386,6 +424,7 @@ final class ContractNegotiationController extends AbstractController
         $negociation
             ->setStatus(PlayerContractNegociationStatusEnum::OPEN)
             ->setUpdatedAt(new \DateTimeImmutable());
+        $publicFeedPublisher->publishContractNegotiation($negociation);
         $entityManager->flush();
 
         return $this->json([
