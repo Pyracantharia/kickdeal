@@ -7,6 +7,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { Menu, X, ArrowLeft, ChevronDown, LogOut } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { useAuth } from '@/context/AuthProvider'
+import { useMessagesUnread } from '@/context/MessagesUnreadProvider'
 import { authManager } from '@/features/auth/auth'
 import type { SubscriptionPlan } from '@/features/subscription/subscription'
 
@@ -95,16 +96,21 @@ function Separator() {
   return <span className="h-6 w-px bg-white/25 mx-6 shrink-0" aria-hidden="true" />
 }
 
-function NavLink({ href, label }: { href: string; label: string }) {
+function UnreadDot() {
+  return <span className="absolute -left-1 -top-1 h-2.5 w-2.5 rounded-full bg-sky-400 ring-2 ring-[#07111d]" />
+}
+
+function NavLink({ href, label, hasUnreadMessages = false }: { href: string; label: string; hasUnreadMessages?: boolean }) {
   const pathname = usePathname()
   const isActive = pathname === href || pathname.startsWith(href + '/')
   return (
     <Link
       href={href}
-      className={`text-sm font-medium transition-colors ${
+      className={`relative text-sm font-medium transition-colors ${
         isActive ? 'text-white' : 'text-gray-400 hover:text-white'
       }`}
     >
+      {hasUnreadMessages && <UnreadDot />}
       {label}
     </Link>
   )
@@ -227,12 +233,14 @@ function MobileMenu({
   onLogout,
   isLoggingOut,
   subscriptionPlan,
+  hasUnreadMessages,
 }: {
   links: { href: string; label: string }[]
   onClose: () => void
   onLogout: () => void
   isLoggingOut: boolean
   subscriptionPlan?: SubscriptionPlan
+  hasUnreadMessages: boolean
 }) {
   const pathname = usePathname()
   const badgeLabel = getPlanBadgeLabel(subscriptionPlan)
@@ -248,12 +256,15 @@ function MobileMenu({
             key={href}
             href={href}
             onClick={onClose}
-            className={`px-6 py-3 text-base font-medium transition-colors ${
+            className={`relative px-6 py-3 text-base font-medium transition-colors ${
               pathname === href || pathname.startsWith(href + '/')
                 ? 'text-white'
                 : 'text-gray-400 hover:text-white'
             }`}
           >
+            {href === '/messages' && hasUnreadMessages && (
+              <span className="absolute left-3 top-3.5 h-2.5 w-2.5 rounded-full bg-sky-400 ring-2 ring-[#07111d]" />
+            )}
             {label}
           </Link>
         ))}
@@ -292,6 +303,7 @@ function Navbar({
 }: NavbarProps) {
   const router = useRouter()
   const { updateUser } = useAuth()
+  const { hasUnreadMessages } = useMessagesUnread()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const links = getLinksByVariant(variant)
@@ -336,7 +348,12 @@ function Navbar({
                   <Separator />
                   <nav className="flex items-center gap-8">
                     {links.map(({ href, label }) => (
-                      <NavLink key={href} href={href} label={label} />
+                      <NavLink
+                        key={href}
+                        href={href}
+                        label={label}
+                        hasUnreadMessages={href === '/messages' && hasUnreadMessages}
+                      />
                     ))}
                   </nav>
                 </>
@@ -395,9 +412,10 @@ function Navbar({
           {hasMobileMenu && (
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-300 hover:text-white transition-colors p-1"
+              className="relative p-1 text-gray-300 transition-colors hover:text-white"
               aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             >
+              {hasUnreadMessages && !isMenuOpen && <UnreadDot />}
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           )}
@@ -435,6 +453,7 @@ function Navbar({
           onLogout={handleLogout}
           isLoggingOut={isLoggingOut}
           subscriptionPlan={subscriptionPlan}
+          hasUnreadMessages={hasUnreadMessages}
         />
       )}
     </header>

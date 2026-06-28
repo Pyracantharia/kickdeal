@@ -12,6 +12,14 @@ import {
   messagesManager,
 } from '@/features/messages/messages';
 
+interface ConversationsTableProps {
+  selectedConversationId?: string | null
+  unreadConversationIds?: Set<string>
+  onSelectConversation?: (conversationId: string) => void
+  onConversationCreated?: (conversation: DirectConversation) => void
+  onIncomingMessage?: (payload: MessageEventPayload) => void
+}
+
 function upsertConversation(currentConversations: DirectConversation[], conversation: DirectConversation) {
   const withoutConversation = currentConversations.filter((item) => item.id !== conversation.id)
 
@@ -26,7 +34,13 @@ function sortConversations(items: DirectConversation[]) {
   )
 }
 
-function ConversationsTable() {
+function ConversationsTable({
+  selectedConversationId = null,
+  unreadConversationIds = new Set(),
+  onSelectConversation,
+  onConversationCreated,
+  onIncomingMessage,
+}: ConversationsTableProps) {
   const { user } = useAuth()
   const [conversations, setConversations] = React.useState<DirectConversation[]>([])
   const [searchTerm, setSearchTerm] = React.useState('')
@@ -77,6 +91,7 @@ function ConversationsTable() {
         const handleEvent = (event: MessageEvent<string>) => {
           const payload = JSON.parse(event.data) as MessageEventPayload
           setConversations((current) => upsertConversation(current, payload.conversation))
+          onIncomingMessage?.(payload)
         }
 
         eventSource.addEventListener('message.created', handleEvent as EventListener)
@@ -88,7 +103,7 @@ function ConversationsTable() {
       isActive = false
       eventSource?.close()
     }
-  }, [user])
+  }, [onIncomingMessage, user])
 
   const filteredConversations = React.useMemo(() => {
     const normalizedSearchTerm = searchTerm.trim().toLocaleLowerCase('fr')
@@ -108,6 +123,7 @@ function ConversationsTable() {
 
   function handleConversationCreated(conversation: DirectConversation) {
     setConversations((current) => upsertConversation(current, conversation))
+    onConversationCreated?.(conversation)
     setIsModalOpen(false)
   }
 
@@ -133,16 +149,16 @@ function ConversationsTable() {
 
         <div className="mt-4 flex items-center justify-end">
           <button
-            className="flex items-center gap-2 rounded-lg bg-linear-to-r from-brand-purple to-brand-cyan px-4 py-2 text-sm font-medium text-white hover:bg-brand-purple/90 transition-colors duration-100 cursor-pointer"
+            className="flex min-h-10 items-center gap-2 rounded-lg bg-linear-to-r from-brand-purple to-brand-cyan px-3 py-2 text-sm font-medium text-white transition-colors duration-100 hover:bg-brand-purple/90 sm:px-4"
             onClick={() => setIsModalOpen(true)}
           >
-            <Plus />
-            <span className="text-white font-semibold">Nouvelle discussion</span>
+            <Plus className="h-4 w-4 shrink-0" />
+            <span className="font-semibold">Nouvelle discussion</span>
           </button>
         </div>
 
         <div className="mt-6">
-          <ul className="border border-white/10 bg-white/5 rounded-lg">
+          <ul className="overflow-hidden rounded-lg border border-white/10 bg-white/5">
             {isLoading && (
               <li className="p-6 text-center text-white/60">Chargement des conversations...</li>
             )}
@@ -164,20 +180,51 @@ function ConversationsTable() {
                 ? `${otherParticipant.firstName} ${otherParticipant.lastName}`
                 : 'Discussion'
 
-              return (
-                <li key={conversation.id} className="border-b border-white/10 p-4 hover:bg-white/10 cursor-pointer last:border-b-0 transition-all duration-100">
-                  <Link href={`/messages/conversation/${conversation.id}`} className="flex items-center gap-4 flex-1">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-purple text-sm font-bold text-white">
+              const isSelected = selectedConversationId === conversation.id
+              const hasUnreadMessages = unreadConversationIds.has(conversation.id)
+              const content = (
+                <>
+                    <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-purple text-sm font-bold text-white">
+                      {hasUnreadMessages && (
+                        <span className="absolute -left-1 -top-1 h-3 w-3 rounded-full bg-sky-400 ring-2 ring-[#07111d]" />
+                      )}
                       {participantName.charAt(0).toUpperCase()}
                     </div>
                     <div className="flex items-center justify-between flex-1 min-w-0">
                       <div className="min-w-0">
-                        <p className="truncate text-lg font-semibold text-white">{participantName}</p>
-                        <p className="truncate text-sm text-white/60">{conversation.lastMessage?.content ?? 'Nouvelle discussion'}</p>
+                        <p className={`truncate text-base font-semibold sm:text-lg ${hasUnreadMessages ? 'text-sky-100' : 'text-white'}`}>
+                          {participantName}
+                        </p>
+                        <p className={`truncate text-sm ${hasUnreadMessages ? 'font-medium text-white/80' : 'text-white/60'}`}>
+                          {conversation.lastMessage?.content ?? 'Nouvelle discussion'}
+                        </p>
                       </div>
-                      <span className="shrink-0 text-sm text-white/60">{formatMessageDate(conversation.lastMessage?.createdAt ?? conversation.updatedAt)}</span>
+                      <span className="ml-3 shrink-0 text-xs text-white/60 sm:text-sm">{formatMessageDate(conversation.lastMessage?.createdAt ?? conversation.updatedAt)}</span>
                     </div>
-                  </Link>
+                </>
+              )
+
+              return (
+                <li
+                  key={conversation.id}
+                  className={`border-b border-white/10 last:border-b-0 transition-all duration-100 ${
+                    isSelected ? 'bg-brand-cyan/10' : 'hover:bg-white/10'
+                  }`}
+                >
+                  {onSelectConversation ? (
+                    <button
+                      type="button"
+                      onClick={() => onSelectConversation(conversation.id)}
+                      className="flex w-full items-center gap-4 p-4 text-left"
+                      aria-current={isSelected ? 'page' : undefined}
+                    >
+                      {content}
+                    </button>
+                  ) : (
+                    <Link href={`/messages/conversation/${conversation.id}`} className="flex items-center gap-4 p-4">
+                      {content}
+                    </Link>
+                  )}
                 </li>
               )
             })}

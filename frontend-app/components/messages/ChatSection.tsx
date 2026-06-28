@@ -1,5 +1,5 @@
 'use client';
-import { ArrowLeft, SendHorizonal } from 'lucide-react'
+import { ArrowLeft, PanelLeftOpen, SendHorizonal } from 'lucide-react'
 import { useAuth } from '@/context/AuthProvider';
 import {
   DirectConversation,
@@ -12,7 +12,14 @@ import {
 import Link from 'next/link';
 import React from 'react'
 
-function ChatSection({ conversationId }: { conversationId: string }) {
+interface ChatSectionProps {
+  conversationId: string
+  onBack?: () => void
+  onOpenSidebar?: () => void
+  hasUnreadMessages?: boolean
+}
+
+function ChatSection({ conversationId, onBack, onOpenSidebar, hasUnreadMessages = false }: ChatSectionProps) {
   const { user } = useAuth()
   const [conversation, setConversation] = React.useState<DirectConversation | null>(null)
   const [masterMessagesList, setMasterMessagesList] = React.useState<DirectMessage[]>([])
@@ -129,13 +136,41 @@ function ChatSection({ conversationId }: { conversationId: string }) {
 
   return (
     <div className="flex h-full min-h-0 w-full flex-1 flex-col items-stretch">
-      <div className="border-y border-white/10 py-4 px-4 bg-black/30 flex items-center gap-4 w-full">
-        <Link href="/messages">
-          <ArrowLeft className="text-white"/>
-        </Link>
-        <div className="flex items-center gap-4">
-          <h1 className="text-3xl font-bold text-white md:text-4xl">{participantName}</h1>
-          <span className="text-white/60">Messagerie</span>
+      <div className="flex w-full items-center gap-3 border-y border-white/10 bg-black/30 px-3 py-3 sm:px-4 sm:py-4">
+        {onOpenSidebar && (
+          <button
+            type="button"
+            onClick={onOpenSidebar}
+            className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white transition-colors hover:bg-white/10"
+            aria-label="Ouvrir la liste des conversations"
+          >
+            {hasUnreadMessages && (
+              <span className="absolute -left-1 -top-1 h-3 w-3 rounded-full bg-sky-400 ring-2 ring-[#07111d]" />
+            )}
+            <PanelLeftOpen className="h-5 w-5" />
+          </button>
+        )}
+        {onBack ? (
+          <button
+            type="button"
+            onClick={onBack}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white transition-colors hover:bg-white/10 lg:hidden"
+            aria-label="Retour aux conversations"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+        ) : (
+          <Link
+            href="/messages"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white transition-colors hover:bg-white/10"
+            aria-label="Retour aux conversations"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </Link>
+        )}
+        <div className="min-w-0">
+          <h1 className="truncate text-xl font-bold text-white sm:text-2xl md:text-3xl">{participantName}</h1>
+          <span className="text-sm text-white/60">Messagerie</span>
         </div>
       </div>
 
@@ -158,14 +193,14 @@ function ChatSection({ conversationId }: { conversationId: string }) {
 
             return (
               <div key={message.id} className={`flex flex-col gap-2 mb-4 ${isMine ? 'items-end' : 'items-start'}`}>
-                <div className={`${isMine ? 'bg-brand-cyan/20 text-white self-end' : 'bg-white/10 text-white'} rounded-lg p-4 max-w-md`}>
+                <div className={`${isMine ? 'bg-brand-cyan/20 text-white self-end' : 'bg-white/10 text-white'} max-w-[min(34rem,85vw)] rounded-lg p-3 sm:p-4`}>
                   <div className="flex items-start gap-3">
-                    <div className="bg-brand-purple text-white rounded-full w-8 h-8 flex items-center justify-center">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-purple text-white">
                       {senderName.charAt(0).toUpperCase()}
                     </div>
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                       <p className="text-white font-semibold">{senderName}</p>
-                      <p className="text-white">{message.content}</p>
+                      <p className="break-words text-white">{message.content}</p>
                     </div>
                   </div>
                   <span className="text-white/60 text-sm">{formatMessageDate(message.createdAt)}</span>
@@ -181,7 +216,7 @@ function ChatSection({ conversationId }: { conversationId: string }) {
               {errorMessage}
             </p>
           )}
-          <div className="flex items-center gap-4 w-full max-w-5xl mx-auto">
+          <div className="mx-auto flex w-full max-w-5xl items-center gap-3 sm:gap-4">
             <div className="flex-1">
               <input
                 type="text"
@@ -199,12 +234,13 @@ function ChatSection({ conversationId }: { conversationId: string }) {
             </div>
 
             <button 
-              className="text-white flex items-center gap-3 bg-brand-purple px-4 py-3 rounded-lg hover:bg-brand-purple/90 transition-colors duration-150 disabled:cursor-wait disabled:opacity-60"
+              className="flex h-12 shrink-0 items-center gap-2 rounded-lg bg-brand-purple px-3 text-white transition-colors duration-150 hover:bg-brand-purple/90 disabled:cursor-wait disabled:opacity-60 sm:px-4"
               onClick={handleSendMessage}
               disabled={isSending}
+              aria-label="Envoyer le message"
             >
-              <span>Envoyer</span>
-              <SendHorizonal />
+              <span className="hidden font-semibold sm:inline">Envoyer</span>
+              <SendHorizonal className="h-5 w-5" />
             </button>
           </div>
         </div>
