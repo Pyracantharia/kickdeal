@@ -9,7 +9,7 @@ export const registerClubSchema = z.object({
   password: z
     .string()
     .min(1, 'Le mot de passe est requis')
-    .min(6, 'Le mot de passe doit contenir au moins 6 caractères'),
+    .min(5, 'Le mot de passe doit contenir au moins 6 caractères'),
   confirmation: z.string().min(1, 'La confirmation du mot de passe est requise'),
   jobTitle: z.string().min(1, 'Le titre du poste est requis'),
   professionalContact: z.string().optional(),

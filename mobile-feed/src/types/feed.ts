@@ -63,11 +63,37 @@ export type PublicFeedPost = {
   country?: string | null
   publishedAt: string
   isOfficial?: boolean
+  clubLogos?: string[]
 }
 
 export type PublicFeedPostDetail = PublicFeedPost & {
   details?: Record<string, unknown> | null
   history?: Array<Record<string, unknown>> | null
+}
+
+export type FeedLeagueOption = {
+  name: string
+  country?: string | null
+  clubCount?: number
+}
+
+export type FeedCountryOption = {
+  name: string
+}
+
+export type FeedClubOption = {
+  id: string | null
+  name: string | null
+  logoUrl?: string | null
+  league?: string | null
+  country?: string | null
+}
+
+export type FeedFilterOptions = {
+  leagues: FeedLeagueOption[]
+  countries: FeedCountryOption[]
+  clubs: FeedClubOption[]
+  eventTypes?: Array<{ value: PublicFeedPostType }>
 }
 
 export type PublicFeedResponse = {

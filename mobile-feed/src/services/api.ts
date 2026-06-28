@@ -1,6 +1,7 @@
 import { API_URL, PUBLIC_FEED_ENDPOINT } from '../constants/api'
 import type {
   FeedFilter,
+  FeedFilterOptions,
   FeedTab,
   PublicFeedDetailResponse,
   PublicFeedPost,
@@ -79,4 +80,18 @@ export async function getFeedPost(postId: string): Promise<PublicFeedPostDetail>
   const payload = (await response.json()) as PublicFeedDetailResponse
 
   return payload.post
+}
+
+export async function getFeedFilterOptions(): Promise<FeedFilterOptions> {
+  const response = await fetch(buildUrl(`${PUBLIC_FEED_ENDPOINT}/filters/options`), {
+    headers: {
+      Accept: 'application/json',
+    },
+  })
+
+  if (!response.ok) {
+    throw new Error(`Erreur API ${response.status}`)
+  }
+
+  return (await response.json()) as FeedFilterOptions
 }

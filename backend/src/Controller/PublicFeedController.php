@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\PublicFeedPost;
 use App\Repository\PublicFeedPostRepository;
+use App\Repository\TeamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,6 +74,57 @@ final class PublicFeedController extends AbstractController
         ]);
     }
 
+    #[Route('/filters/options', name: 'api_public_feed_filter_options', methods: ['GET'])]
+    public function filterOptions(TeamRepository $teamRepository): JsonResponse
+    {
+        $teams = $teamRepository->searchByQuery(null, 500);
+        $leagues = [];
+        $countries = [];
+        $clubs = [];
+
+        foreach ($teams as $team) {
+            $league = trim((string) $team->getLeague());
+            $country = trim((string) $team->getCountry());
+
+            if ('' !== $league) {
+                $leagues[$league] = [
+                    'name' => $league,
+                    'country' => '' !== $country ? $country : null,
+                    'clubCount' => ($leagues[$league]['clubCount'] ?? 0) + 1,
+                ];
+            }
+
+            if ('' !== $country) {
+                $countries[$country] = $country;
+            }
+
+            $clubs[] = [
+                'id' => $team->getId()?->toRfc4122(),
+                'name' => $team->getName(),
+                'logoUrl' => $team->getLogoUrl(),
+                'league' => $team->getLeague(),
+                'country' => $team->getCountry(),
+            ];
+        }
+
+        usort($clubs, static fn (array $a, array $b): int => strcmp((string) $a['name'], (string) $b['name']));
+        ksort($leagues);
+        sort($countries);
+
+        return $this->json([
+            'leagues' => array_values($leagues),
+            'countries' => array_values(array_map(
+                static fn (string $country): array => ['name' => $country],
+                $countries,
+            )),
+            'clubs' => $clubs,
+            'eventTypes' => array_map(
+                static fn (string $type): array => ['value' => $type],
+                self::ALLOWED_TYPES,
+            ),
+        ]);
+    }
+
     private function optionalQuery(Request $request, string $key): string
     {
         return trim($request->query->getString($key, ''));
@@ -116,6 +168,10 @@ final class PublicFeedController extends AbstractController
             ],
             'sellerTeam' => $this->serializeTeam($sellerTeam),
             'buyerTeam' => $this->serializeTeam($buyerTeam),
+            'clubLogos' => array_values(array_filter([
+                $sellerTeam?->getLogoUrl(),
+                $buyerTeam?->getLogoUrl(),
+            ])),
             'fromClubName' => $sellerTeam?->getName(),
             'toClubName' => $buyerTeam?->getName(),
             'details' => $withDetails ? $details : null,

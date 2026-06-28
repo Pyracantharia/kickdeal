@@ -17,8 +17,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { FeedFiltersModal } from '../components/FeedFiltersModal'
 import { FeedPostCard } from '../components/FeedPostCard'
 import { colors, spacing } from '../constants/theme'
-import { getFeedPreview } from '../services/api'
-import type { FeedFilter, FeedTab, PublicFeedPost } from '../types/feed'
+import { getFeedFilterOptions, getFeedPreview } from '../services/api'
+import type { FeedFilter, FeedFilterOptions, FeedTab, PublicFeedPost } from '../types/feed'
 import type { RootStackParamList } from '../types/navigation'
 
 const backgroundImage = require('../../assets/images/app-bg.png')
@@ -83,6 +83,7 @@ export function FeedScreen({ navigation }: FeedScreenProps) {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [isEndpointAvailable, setIsEndpointAvailable] = useState(true)
+  const [filterOptions, setFilterOptions] = useState<FeedFilterOptions | null>(null)
 
   const activeFilterCount = useMemo(
     () => Object.values(filters).filter((value) => Boolean(String(value ?? '').trim())).length,
@@ -115,6 +116,29 @@ export function FeedScreen({ navigation }: FeedScreenProps) {
     loadFeed()
   }, [loadFeed])
 
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadFilterOptions() {
+      try {
+        const options = await getFeedFilterOptions()
+        if (isMounted) {
+          setFilterOptions(options)
+        }
+      } catch {
+        if (isMounted) {
+          setFilterOptions(null)
+        }
+      }
+    }
+
+    loadFilterOptions()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
   const usesMockPosts = !isLoading && !errorMessage && !isEndpointAvailable
   const isEmpty = !isLoading && !errorMessage && isEndpointAvailable && posts.length === 0
   const visiblePosts = usesMockPosts ? MOCK_POSTS : posts
@@ -140,9 +164,9 @@ export function FeedScreen({ navigation }: FeedScreenProps) {
             </Pressable>
           </View>
 
-          <Text style={styles.title}>Mercato live</Text>
+          <Text style={styles.title}>Le mercato en direct.</Text>
           <Text style={styles.subtitle}>
-            Transferts officialisés, accords et signaux publics générés par KickDeal.
+            Officiels, négociations et joueurs disponibles, racontés comme un vrai média foot.
           </Text>
 
           {errorMessage ? (
@@ -171,10 +195,11 @@ export function FeedScreen({ navigation }: FeedScreenProps) {
             return (
               <Pressable
                 key={tab.value}
-                style={[styles.tab, isActive && styles.tabActive]}
+                style={styles.tab}
                 onPress={() => setActiveTab(tab.value)}
               >
                 <Text style={[styles.tabText, isActive && styles.tabTextActive]}>{tab.label}</Text>
+                {isActive ? <View style={styles.tabIndicator} /> : null}
               </Pressable>
             )
           })}
@@ -226,6 +251,7 @@ export function FeedScreen({ navigation }: FeedScreenProps) {
         <FeedFiltersModal
           visible={isFilterOpen}
           filters={filters}
+          options={filterOptions}
           onChange={setFilters}
           onClose={() => setIsFilterOpen(false)}
           onReset={() => setFilters({})}
@@ -242,7 +268,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(3, 10, 17, 0.72)',
+    backgroundColor: 'rgba(0, 0, 0, 0.78)',
   },
   safeArea: {
     flex: 1,
@@ -252,9 +278,9 @@ const styles = StyleSheet.create({
   },
   hero: {
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.md,
-    paddingBottom: spacing.md,
-    gap: spacing.md,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.sm,
+    gap: spacing.sm,
   },
   brandRow: {
     flexDirection: 'row',
@@ -262,8 +288,8 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   logo: {
-    width: 42,
-    height: 42,
+    width: 38,
+    height: 38,
   },
   brandText: {
     flex: 1,
@@ -286,9 +312,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 21,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: 'rgba(255,255,255,0.06)',
+    backgroundColor: 'rgba(255,255,255,0.1)',
   },
   filterBadge: {
     position: 'absolute',
@@ -308,8 +332,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.text,
-    fontSize: 30,
-    lineHeight: 34,
+    fontSize: 28,
+    lineHeight: 32,
     fontWeight: '900',
   },
   subtitle: {
@@ -320,29 +344,34 @@ const styles = StyleSheet.create({
   },
   tabsBar: {
     flexDirection: 'row',
-    gap: spacing.sm,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: 'rgba(6,17,28,0.96)',
+    borderColor: 'rgba(255,255,255,0.11)',
+    backgroundColor: 'rgba(0,0,0,0.88)',
   },
   tab: {
     flex: 1,
     alignItems: 'center',
-    borderRadius: 999,
-    paddingVertical: spacing.sm,
-  },
-  tabActive: {
-    backgroundColor: 'rgba(0,245,212,0.14)',
+    justifyContent: 'center',
+    minHeight: 52,
+    gap: 8,
   },
   tabText: {
     color: colors.muted,
+    fontSize: 15,
     fontWeight: '900',
   },
   tabTextActive: {
-    color: colors.cyan,
+    color: colors.text,
+  },
+  tabIndicator: {
+    position: 'absolute',
+    bottom: 0,
+    width: 54,
+    height: 4,
+    borderRadius: 999,
+    backgroundColor: colors.cyan,
   },
   errorBox: {
     borderWidth: 1,
