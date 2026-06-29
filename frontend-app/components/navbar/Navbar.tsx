@@ -181,6 +181,13 @@ function AccountDropdown({
           >
             {profileLabel}
           </Link>
+          <Link
+            href="/account"
+            className="block border-b border-white/10 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-cyan/10"
+            onClick={() => setIsOpen(false)}
+          >
+            Securite du compte
+          </Link>
           <button
             type="button"
             onClick={() => {
@@ -275,6 +282,13 @@ function MobileMenu({
         >
           <span>Abonnement</span>
           <span className={isPaid ? 'text-brand-purple' : 'text-brand-cyan'}>{badgeLabel}</span>
+        </Link>
+        <Link
+          href="/account"
+          onClick={onClose}
+          className="mx-6 mt-2 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+        >
+          Securite du compte
         </Link>
         <div className="px-6 pt-3">
           <Button

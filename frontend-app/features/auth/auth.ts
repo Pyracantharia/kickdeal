@@ -6,6 +6,7 @@ import { RegisterDTO } from "./register.dto";
 type LoginResponse = {
   message: string;
   user: User;
+  requiresTwoFactor?: boolean;
 }
 
 type RegisterResponse = {

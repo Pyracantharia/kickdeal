@@ -4,7 +4,7 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import { authManager } from '@/features/auth/auth'
 import { useAuth } from '@/context/AuthProvider'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import Input from '@/components/ui/Input'
@@ -13,6 +13,7 @@ import Button from '@/components/ui/Button'
 import { RegisterClubFormData, registerClubSchema } from '@/features/auth/schemas/registerClub.schemea'
 import PlanSelection from './PlanSelection'
 import type { SubscriptionPlan } from '@/features/subscription/subscription'
+import PasswordStrengthMeter from '@/components/account/PasswordStrengthMeter'
 
 function RegisterClubForm() {
   const router = useRouter()
@@ -24,6 +25,7 @@ function RegisterClubForm() {
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
+    control,
   } = useForm<RegisterClubFormData>({
     resolver: zodResolver(registerClubSchema),
     defaultValues: {
@@ -36,6 +38,7 @@ function RegisterClubForm() {
       professionalContact: '',
     },
   })
+  const password = useWatch({ control, name: 'password' }) ?? ''
 
   async function onSubmit(data: RegisterClubFormData) {
     try {
@@ -44,6 +47,7 @@ function RegisterClubForm() {
         lastName: data.lastName,
         email: data.email,
         password: data.password,
+        confirmation: data.confirmation,
         roles: ['ROLE_CLUB'],
         subscriptionPlan: selectedPlan,
       }
@@ -163,6 +167,7 @@ function RegisterClubForm() {
                 autoComplete="new-password"
                 {...register('password')}
               />
+              <PasswordStrengthMeter password={password} />
             </div>
 
             <div>

@@ -8,16 +8,19 @@ use App\Enum\SubscriptionPlanEnum;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\Security\PasswordPolicy;
+use App\Service\Security\TwoFactorAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -48,6 +51,7 @@ final class AuthController extends AbstractController
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator,
         CsrfTokenManagerInterface $csrfTokenManager,
+        PasswordPolicy $passwordPolicy,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
             return $csrfError;
@@ -59,6 +63,25 @@ final class AuthController extends AbstractController
             return $this->json([
                 'errorMessage' => 'Payload invalide.',
             ], 400);
+        }
+
+        $password = $payload['password'] ?? null;
+        $passwordConfirmation = $payload['confirmation'] ?? null;
+
+        if (!is_string($passwordConfirmation) || '' === $passwordConfirmation) {
+            return $this->json([
+                'errors' => [
+                    'confirmation' => 'La confirmation du mot de passe est requise.',
+                ],
+            ], 422);
+        }
+
+        if (!is_string($password) || $password !== $passwordConfirmation) {
+            return $this->json([
+                'errors' => [
+                    'confirmation' => 'Les mots de passe ne correspondent pas.',
+                ],
+            ], 422);
         }
 
         $userPayload = array_intersect_key($payload, array_flip([
@@ -77,7 +100,7 @@ final class AuthController extends AbstractController
 
         $isAgentAccount = in_array(User::ROLE_AGENT, $newUser->getRoles(), true);
 
-        if (is_array($payload) && isset($payload['subscriptionPlan'])) {
+        if (isset($payload['subscriptionPlan'])) {
             $subscriptionPlan = is_string($payload['subscriptionPlan']) ? SubscriptionPlanEnum::tryFrom($payload['subscriptionPlan']) : null;
 
             if (!$subscriptionPlan instanceof SubscriptionPlanEnum) {
@@ -114,6 +137,14 @@ final class AuthController extends AbstractController
             return $this->json(['errors' => $errorsArr], 422);
         }
 
+        if (!$passwordPolicy->isValid($newUser->getPassword())) {
+            return $this->json([
+                'errors' => [
+                    'password' => PasswordPolicy::MESSAGE,
+                ],
+            ], 422);
+        }
+
         $hashedPassword = $passwordHasher->hashPassword($newUser, $newUser->getPassword());
         $newUser->setPassword($hashedPassword);
 
@@ -131,21 +162,6 @@ final class AuthController extends AbstractController
             }
 
             $entityManager->flush();
-
-            if($isAgentAccount) {
-                $newAgent = (new Agent())
-                    ->setAgencyName($request->getPayload()->get('agencyName'))
-                    ->setCountry($request->getPayload()->get('country'))
-                    ->setUser($newUser);
-
-                $newUser->setAgentProfile($newAgent);
-
-                $entityManager->persist($newAgent);
-                $entityManager->persist($newUser);
-
-                $entityManager->flush();
-            }
-            
         } catch (UniqueConstraintViolationException $exception) {
             return $this->json([
                 'errors' => [
@@ -176,6 +192,8 @@ final class AuthController extends AbstractController
         Request $request,
         #[CurrentUser] ?User $user,
         CsrfTokenManagerInterface $csrfTokenManager,
+        TwoFactorAuthenticator $twoFactorAuthenticator,
+        TokenStorageInterface $tokenStorage,
     ): JsonResponse
     {
         if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
@@ -186,6 +204,35 @@ final class AuthController extends AbstractController
             return $this->json([
                 'errorMessage' => 'Identifiants invalides.',
             ], 401);
+        }
+
+        if ($user->isTwoFactorEnabled()) {
+            $payload = json_decode($request->getContent(), true);
+            $payload = is_array($payload) ? $payload : [];
+            $twoFactorCode = $payload['twoFactorCode'] ?? null;
+            $twoFactorSecret = $user->getTwoFASecret();
+
+            if (null === $twoFactorSecret || !$twoFactorAuthenticator->verify($twoFactorSecret, $twoFactorCode)) {
+                $tokenStorage->setToken(null);
+
+                if ($request->hasSession() && $request->getSession()->isStarted()) {
+                    $request->getSession()->invalidate();
+                }
+
+                if (!is_string($twoFactorCode) || '' === trim($twoFactorCode)) {
+                    return $this->json([
+                        'requiresTwoFactor' => true,
+                        'message' => 'Code 2FA requis.',
+                    ], 202);
+                }
+
+                return $this->json([
+                    'requiresTwoFactor' => true,
+                    'errors' => [
+                        'twoFactorCode' => 'Code 2FA invalide.',
+                    ],
+                ], 401);
+            }
         }
 
         return $this->json([
@@ -236,6 +283,7 @@ final class AuthController extends AbstractController
         }
 
         $data = json_decode($request->getContent(), true);
+        $data = is_array($data) ? $data : [];
         $email = $data['email'] ?? null;
 
         if (!$email) {
@@ -288,6 +336,7 @@ final class AuthController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager,
         CsrfTokenManagerInterface $csrfTokenManager,
+        PasswordPolicy $passwordPolicy,
     ): JsonResponse
     {
         if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
@@ -312,6 +361,14 @@ final class AuthController extends AbstractController
             return $this->json([
                 'errorMessage' => 'Les mots de passe ne correspondent pas.',
             ], 400);
+        }
+
+        if (!$passwordPolicy->isValid($newPassword)) {
+            return $this->json([
+                'errors' => [
+                    'newPassword' => PasswordPolicy::MESSAGE,
+                ],
+            ], 422);
         }
 
         $user = $userRepository->findOneBy(['resetTokenSelector' => $selector]);

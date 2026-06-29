@@ -162,13 +162,23 @@ class HttpClient {
     }));
   }
 
-  async remove<T>(endpoint: string): Promise<HttpClientResponse<T>> {
+  async patch<T, U = unknown>(endpoint: string, data: U): Promise<HttpClientResponse<T>> {
+    return this.requestWithCsrf<T>(endpoint, (headers) => ({
+      method: "PATCH",
+      headers,
+      body: JSON.stringify(data),
+    }));
+  }
+
+  async remove<T, U = undefined>(endpoint: string, data?: U): Promise<HttpClientResponse<T>> {
     const result = await this.requestWithCsrf<T>(endpoint, (headers) => ({
       method: "DELETE",
       headers: {
         "Accept": "application/json",
+        ...(data === undefined ? {} : { "Content-Type": "application/json" }),
         "X-CSRF-TOKEN": headers["X-CSRF-TOKEN"],
       },
+      ...(data === undefined ? {} : { body: JSON.stringify(data) }),
     }));
 
     if (endpoint === "/auth/logout") {

@@ -3,7 +3,7 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { authManager } from '@/features/auth/auth'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RegisterManagerFormData, registerManagerSchema } from '@/features/auth/schemas/registerManager.schema'
 import Input from '@/components/ui/Input'
@@ -11,6 +11,7 @@ import { ArrowRight, Building2, Mail, MapPin, User } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import PlanSelection from './PlanSelection'
 import type { SubscriptionPlan } from '@/features/subscription/subscription'
+import PasswordStrengthMeter from '@/components/account/PasswordStrengthMeter'
 
 function RegisterManagerForm() {
   const router = useRouter()
@@ -21,6 +22,7 @@ function RegisterManagerForm() {
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
+    control,
   } = useForm<RegisterManagerFormData>({
     resolver: zodResolver(registerManagerSchema),
     defaultValues: {
@@ -33,6 +35,7 @@ function RegisterManagerForm() {
       country: '',
     },
   })
+  const password = useWatch({ control, name: 'password' }) ?? ''
 
   async function onSubmit(data: RegisterManagerFormData) {
     try {
@@ -141,6 +144,7 @@ function RegisterManagerForm() {
                 autoComplete="new-password"
                 {...register('password')}
               />
+              <PasswordStrengthMeter password={password} />
             </div>
 
             <div>
