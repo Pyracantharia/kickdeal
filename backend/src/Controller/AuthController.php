@@ -312,7 +312,7 @@ final class AuthController extends AbstractController
 
         $frontendUrl = $this->getParameter('frontend_url');
         $resetTokenString = $tokenSelector.$hashedToken;
-        $resetLink = "{$frontendUrl}/auth/reset-password?token={$resetTokenString}";
+        $resetLink = "{$frontendUrl}/auth/reset-password?token=".rawurlencode($resetTokenString);
 
         $mailResult = $this->sendResetPasswordEmail($email, $resetLink, $mailer);
 
@@ -413,14 +413,15 @@ final class AuthController extends AbstractController
 
     public function sendResetPasswordEmail(string $email, string $resetLink, MailerInterface $mailer): array
     {
-        $email = (new Email())
+        $message = (new Email())
             ->from('kickdeal@no-reply.com')
             ->to($email)
-            ->subject('Réinitialisation de mot de passe')
-            ->html("<p>CLiquez <a href={$resetLink}>ici<a> pour réinitialiser votre mot de passe</p>");
+            ->subject('Réinitialisation de votre mot de passe KickDeal')
+            ->text($this->buildResetPasswordEmailText($resetLink))
+            ->html($this->buildResetPasswordEmailHtml($resetLink));
 
         try {
-            $mailer->send($email);
+            $mailer->send($message);
 
             return ['success' => true];
         } catch (\Exception $exception) {
@@ -429,5 +430,88 @@ final class AuthController extends AbstractController
                 'message' => $exception->getMessage(),
             ];
         }
+    }
+
+    private function buildResetPasswordEmailText(string $resetLink): string
+    {
+        return <<<TEXT
+Bonjour,
+
+Vous avez demandé à réinitialiser votre mot de passe KickDeal.
+
+Ouvrez ce lien pour choisir un nouveau mot de passe :
+{$resetLink}
+
+Ce lien expire dans 1 heure. Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet email.
+
+L'équipe KickDeal
+TEXT;
+    }
+
+    private function buildResetPasswordEmailHtml(string $resetLink): string
+    {
+        $escapedResetLink = htmlspecialchars($resetLink, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+
+        return <<<HTML
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réinitialisation de mot de passe</title>
+  </head>
+  <body style="margin:0;padding:0;background:#07111d;font-family:Arial,Helvetica,sans-serif;color:#ffffff;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#07111d;padding:32px 16px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:560px;border:1px solid rgba(0,245,212,0.25);border-radius:14px;overflow:hidden;background:#0b1726;">
+            <tr>
+              <td style="padding:28px 28px 18px;border-top:4px solid #00f5d4;">
+                <p style="margin:0 0 8px;color:#00f5d4;font-size:12px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;">KickDeal</p>
+                <h1 style="margin:0;color:#ffffff;font-size:26px;line-height:1.25;">Réinitialisez votre mot de passe</h1>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0 28px 28px;">
+                <p style="margin:0 0 18px;color:#cbd5e1;font-size:15px;line-height:1.6;">
+                  Nous avons reçu une demande de changement de mot de passe pour votre compte KickDeal.
+                </p>
+                <p style="margin:0 0 24px;color:#cbd5e1;font-size:15px;line-height:1.6;">
+                  Cliquez sur le bouton ci-dessous pour choisir un nouveau mot de passe fort. Ce lien expire dans <strong style="color:#ffffff;">1 heure</strong>.
+                </p>
+                <table role="presentation" cellspacing="0" cellpadding="0" style="margin:0 0 24px;">
+                  <tr>
+                    <td>
+                      <a href="{$escapedResetLink}" style="display:inline-block;border-radius:10px;background:linear-gradient(135deg,#00f5d4,#9b5de5);padding:14px 22px;color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;">
+                        Changer mon mot de passe
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+                <p style="margin:0 0 8px;color:#94a3b8;font-size:13px;line-height:1.5;">
+                  Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :
+                </p>
+                <p style="margin:0 0 22px;word-break:break-all;color:#00f5d4;font-size:12px;line-height:1.5;">
+                  <a href="{$escapedResetLink}" style="color:#00f5d4;text-decoration:none;">{$escapedResetLink}</a>
+                </p>
+                <p style="margin:0;color:#94a3b8;font-size:13px;line-height:1.5;">
+                  Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet email.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:18px 28px;background:#08101c;border-top:1px solid rgba(255,255,255,0.08);">
+                <p style="margin:0;color:#64748b;font-size:12px;line-height:1.5;">
+                  KickDeal · Plateforme de transferts footballistiques
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+HTML;
     }
 }
