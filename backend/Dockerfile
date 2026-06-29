@@ -11,7 +11,7 @@ COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
 
 # Config Supervisor (pour lancer PHP-FPM et Nginx ensemble)
-RUN printf "[supervisord]\nnodaemon=true\n\n[program:nginx]\ncommand=nginx -g 'daemon off;'\n\n[program:php-fpm]\ncommand=php-fpm\n" > /etc/supervisord.conf \
+RUN printf "[supervisord]\nnodaemon=true\nlogfile=/dev/null\nlogfile_maxbytes=0\n\n[program:nginx]\ncommand=nginx -g 'daemon off;'\n\n[program:php-fpm]\ncommand=php-fpm\n" > /etc/supervisord.conf \
 	&& chmod 644 /etc/supervisord.conf
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

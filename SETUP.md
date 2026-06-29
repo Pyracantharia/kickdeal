@@ -171,3 +171,10 @@ php -d memory_limit=-1 bin/console doctrine:fixtures:load
 ### Stripe CLI
 
 stripe listen --forward-to http://localhost:8000/api/webhooks/stripe
+
+### Mercure
+
+openssl rand -hex 32
+
+backend\.env
+MERCURE_JWT_SECRET=ChangeThisMercureSecretInProduction
