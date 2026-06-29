@@ -14,6 +14,10 @@ type RegisterResponse = {
   user: User;
 }
 
+type MessageResponse = {
+  message: string;
+}
+
 
 
 class AuthManager {
@@ -36,6 +40,19 @@ class AuthManager {
 
   async logout(){
     const response = await httpClient.remove("/auth/logout");
+    return response;
+  }
+
+  async forgotPassword(email: string){
+    const response = await httpClient.post<MessageResponse>("/auth/forgot-password", { email });
+    return response;
+  }
+
+  async resetPassword(token: string, data: { newPassword: string; newPasswordConfirm: string }){
+    const response = await httpClient.patch<MessageResponse>(
+      `/auth/reset-password?token=${encodeURIComponent(token)}`,
+      data,
+    );
     return response;
   }
 
