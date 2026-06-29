@@ -70,6 +70,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $twoFASecret = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    private ?string $twoFAPendingSecret = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $twoFAEnabledAt = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $resetPasswordToken = null;
 
     #[ORM\Column(nullable: true)]
@@ -284,6 +290,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->twoFASecret = $twoFASecret;
 
         return $this;
+    }
+
+    public function getTwoFAPendingSecret(): ?string
+    {
+        return $this->twoFAPendingSecret;
+    }
+
+    public function setTwoFAPendingSecret(?string $twoFAPendingSecret): static
+    {
+        $this->twoFAPendingSecret = $twoFAPendingSecret;
+
+        return $this;
+    }
+
+    public function getTwoFAEnabledAt(): ?\DateTimeImmutable
+    {
+        return $this->twoFAEnabledAt;
+    }
+
+    public function setTwoFAEnabledAt(?\DateTimeImmutable $twoFAEnabledAt): static
+    {
+        $this->twoFAEnabledAt = $twoFAEnabledAt;
+
+        return $this;
+    }
+
+    #[Groups('user:read')]
+    public function isTwoFactorEnabled(): bool
+    {
+        return null !== $this->twoFASecret && null !== $this->twoFAEnabledAt;
     }
 
     public function getResetPasswordToken(): ?string

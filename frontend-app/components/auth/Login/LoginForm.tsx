@@ -4,7 +4,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { Mail, Lock, ArrowRight } from 'lucide-react'
+import { Mail, Lock, ArrowRight, ShieldCheck } from 'lucide-react'
 
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
@@ -16,26 +16,52 @@ import Link from 'next/link'
 function LoginForm() {
   const router = useRouter()
   const { updateUser } = useAuth()
+  const [requiresTwoFactor, setRequiresTwoFactor] = React.useState(false)
 
   const {
     register,
     handleSubmit,
     setError,
+    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
       password: '',
+      twoFactorCode: '',
     },
   })
 
   async function onSubmit(data: LoginFormData) {
     try {
-      const response = await authManager.login(data)
+      const payload = {
+        email: data.email,
+        password: data.password,
+        ...(requiresTwoFactor ? { twoFactorCode: data.twoFactorCode } : {}),
+      }
+      const response = await authManager.login(payload)
+
+      if (response.status === 202 && response.data.requiresTwoFactor) {
+        setRequiresTwoFactor(true)
+        clearErrors('root')
+        return
+      }
 
       if (!response.ok) {
-        const errorData = response.data as unknown as Record<string, string>
+        const errorData = response.data as unknown as {
+          errors?: Record<string, string>
+          errorMessage?: string
+          message?: string
+          error?: string
+        }
+
+        if (errorData.errors?.twoFactorCode) {
+          setRequiresTwoFactor(true)
+          setError('twoFactorCode', { message: errorData.errors.twoFactorCode })
+          return
+        }
+
         const rawServerMessage =
           errorData?.errorMessage ||
           errorData?.message ||
@@ -50,6 +76,7 @@ function LoginForm() {
         setError('root', { message: serverMessage })
         return
       }
+
       updateUser(response.data.user)
       const requestedPlan = new URLSearchParams(window.location.search).get('plan')
       const payablePlans = ['agent_pro', 'club_pro', 'club_enterprise']
@@ -93,6 +120,20 @@ function LoginForm() {
         {...register('password')}
       />
 
+      {requiresTwoFactor && (
+        <Input
+          label="Code 2FA"
+          type="text"
+          inputMode="numeric"
+          placeholder="123456"
+          icon={<ShieldCheck className="h-5 w-5" />}
+          error={errors.twoFactorCode?.message}
+          autoComplete="one-time-code"
+          autoFocus
+          {...register('twoFactorCode')}
+        />
+      )}
+
       <div className="flex justify-end">
         <Link href="/auth/forgot-password" className="text-sm font-semibold text-brand-purple transition-colors hover:opacity-80 focus:outline-none focus-visible:underline">
           Mot de passe oublié ?
@@ -100,7 +141,7 @@ function LoginForm() {
       </div>
 
       <Button type="submit" isLoading={isSubmitting} icon={<ArrowRight className="h-4 w-4" />} className="w-full mt-1">
-        Se connecter
+        {requiresTwoFactor ? 'Valider le code' : 'Se connecter'}
       </Button>
     </form>
   )

@@ -162,6 +162,12 @@ server {
 En production, toutes les images doivent être construites avant le déploiement car Docker Swarm ne supporte pas la directive `build`.
 
 
+### la bdd
+
+Aller dans le container backend et joué la commande:
+
+php bin/console doctrine:mig:mig
+
 ### Les fixtures avec Alice
 
 bypass les restrictions de mémoire pour charger les fixtures avec beaucoup de données :

@@ -3,6 +3,7 @@ export type RegisterDTO = {
   lastName: string;
   email: string;
   password: string;
+  confirmation?: string;
   roles?: string[];
   agencyName?: string;
   country?: string;
