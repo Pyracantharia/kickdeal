@@ -147,6 +147,7 @@ final class AuthController extends AbstractController
 
         $hashedPassword = $passwordHasher->hashPassword($newUser, $newUser->getPassword());
         $newUser->setPassword($hashedPassword);
+        $newUser->markPasswordChanged();
 
         try {
             $entityManager->persist($newUser);
@@ -388,6 +389,7 @@ final class AuthController extends AbstractController
 
         $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
         $user->setPassword($hashedPassword);
+        $user->markPasswordChanged();
         $user->setResetPasswordToken(null);
         $user->setResetPasswordTokenExpiry(null);
         $entityManager->persist($user);

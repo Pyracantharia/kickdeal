@@ -15,6 +15,7 @@ export interface User {
   clubName: string | null;
   clubLogoUrl: string | null;
   twoFactorEnabled?: boolean;
+  passwordExpired?: boolean;
 }
 
 interface AuthContextType {

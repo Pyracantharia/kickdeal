@@ -34,6 +34,11 @@ function AppAccessGuard({ children }: { children: ReactNode }) {
     hasActiveClubRequest === true &&
     pathname !== '/club/pending'
 
+  const mustChangeExpiredPassword =
+    !isLoading &&
+    Boolean(user?.passwordExpired) &&
+    pathname !== '/account'
+
   useEffect(() => {
     if (isUnauthenticated) {
       router.replace('/auth/login')
@@ -74,6 +79,11 @@ function AppAccessGuard({ children }: { children: ReactNode }) {
       return
     }
 
+    if (mustChangeExpiredPassword) {
+      router.replace('/account')
+      return
+    }
+
     if (mustCompleteClubSetup && hasActiveClubRequest === false) {
       router.replace('/club')
     }
@@ -81,6 +91,7 @@ function AppAccessGuard({ children }: { children: ReactNode }) {
     hasActiveClubRequest,
     isUnauthenticated,
     mustCompleteClubSetup,
+    mustChangeExpiredPassword,
     mustStayOnPending,
     router,
     shouldCheckClubAccess,
@@ -91,6 +102,7 @@ function AppAccessGuard({ children }: { children: ReactNode }) {
     isLoading ||
     isUnauthenticated ||
     (shouldCheckClubAccess && hasActiveClubRequest === null) ||
+    mustChangeExpiredPassword ||
     mustCompleteClubSetup ||
     mustStayOnPending
   ) {

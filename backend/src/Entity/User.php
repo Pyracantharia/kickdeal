@@ -28,6 +28,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableTrait;
 
+    private const int PASSWORD_EXPIRATION_DAYS = 60;
+
     public const string ROLE_ADMIN = 'ROLE_ADMIN';
     public const string ROLE_AGENT = 'ROLE_AGENT';
     public const string ROLE_CLUB = 'ROLE_CLUB';
@@ -59,6 +61,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Le mot de passe es requis')]
     private ?string $password = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $passwordChangedAt = null;
 
     #[ORM\Column(type: 'json')]
     private array $roles = [];
@@ -196,6 +201,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = $password;
 
         return $this;
+    }
+
+    public function getPasswordChangedAt(): ?\DateTimeImmutable
+    {
+        return $this->passwordChangedAt;
+    }
+
+    public function setPasswordChangedAt(?\DateTimeImmutable $passwordChangedAt): static
+    {
+        $this->passwordChangedAt = $passwordChangedAt;
+
+        return $this;
+    }
+
+    public function markPasswordChanged(): static
+    {
+        $this->passwordChangedAt = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    #[Groups('user:read')]
+    public function isPasswordExpired(): bool
+    {
+        if (null === $this->passwordChangedAt) {
+            return true;
+        }
+
+        return $this->passwordChangedAt <= new \DateTimeImmutable(sprintf('-%d days', self::PASSWORD_EXPIRATION_DAYS));
     }
 
     public function getUserIdentifier(): string

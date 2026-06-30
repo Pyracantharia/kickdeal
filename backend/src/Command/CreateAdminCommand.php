@@ -52,6 +52,7 @@ class CreateAdminCommand extends Command
         $admin->setEmail($_ENV['ADMIN_EMAIL']);
         $admin->setRoles(['ROLE_ADMIN']);
         $admin->setPassword($this->passwordHasher->hashPassword($admin, $_ENV['ADMIN_PASSWORD']));
+        $admin->markPasswordChanged();
 
         $this->entityManager->persist($admin);
         $this->entityManager->flush();

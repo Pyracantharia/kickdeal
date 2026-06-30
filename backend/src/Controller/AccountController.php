@@ -54,6 +54,7 @@ final class AccountController extends AbstractController
         }
 
         $user->setPassword($passwordHasher->hashPassword($user, $newPassword));
+        $user->markPasswordChanged();
         $entityManager->flush();
 
         return $this->json(['message' => 'Mot de passe modifie avec succes.']);
