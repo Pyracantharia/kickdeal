@@ -49,6 +49,13 @@ function LoginForm() {
       }
 
       if (!response.ok) {
+        if (response.status === 429) {
+          setError('root', {
+            message: 'Trop de tentatives de connexion echouees. Veuillez patienter quelques minutes avant de reessayer.',
+          })
+          return
+        }
+
         const errorData = response.data as unknown as {
           errors?: Record<string, string>
           errorMessage?: string
@@ -68,10 +75,7 @@ function LoginForm() {
           errorData?.error ||
           'Identifiants invalides'
 
-        const serverMessage =
-          rawServerMessage === 'Invalid credentials.'
-            ? 'Identifiants invalides.'
-            : rawServerMessage
+        const serverMessage = getLoginErrorMessage(rawServerMessage)
 
         setError('root', { message: serverMessage })
         return
@@ -145,6 +149,18 @@ function LoginForm() {
       </Button>
     </form>
   )
+}
+
+function getLoginErrorMessage(message: string): string {
+  if (message === 'Invalid credentials.') {
+    return 'Identifiants invalides.'
+  }
+
+  if (message.toLowerCase().includes('too many failed login attempts')) {
+    return 'Trop de tentatives de connexion echouees. Veuillez reessayer dans 15 minutes.'
+  }
+
+  return message
 }
 
 export default LoginForm
