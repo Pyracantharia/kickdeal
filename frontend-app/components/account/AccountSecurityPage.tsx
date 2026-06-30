@@ -89,6 +89,11 @@ function AccountSecurityPage() {
       return
     }
 
+    if (passwordForm.currentPassword === passwordForm.newPassword) {
+      setPasswordErrors({ newPassword: 'Le nouveau mot de passe doit etre different de l ancien.' })
+      return
+    }
+
     if (!isStrongPassword(passwordForm.newPassword)) {
       setPasswordErrors({
         newPassword: 'Le mot de passe doit contenir au moins 12 caracteres, une minuscule, une majuscule, un chiffre et un caractere special.',

@@ -380,6 +380,14 @@ final class AuthController extends AbstractController
             ], 400);
         }
 
+        if ($passwordHasher->isPasswordValid($user, $newPassword)) {
+            return $this->json([
+                'errors' => [
+                    'newPassword' => 'Le nouveau mot de passe doit etre different de l ancien.',
+                ],
+            ], 422);
+        }
+
         if (!hash_equals($verifier, $user->getResetPasswordToken())) {
             return $this->json([
                 'errorMessage' => 'Token invalide.',
