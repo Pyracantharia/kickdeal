@@ -49,11 +49,16 @@ final class AccountController extends AbstractController
             return $this->json(['errors' => ['newPasswordConfirm' => 'Les mots de passe ne correspondent pas.']], 422);
         }
 
+        if ($passwordHasher->isPasswordValid($user, $newPassword)) {
+            return $this->json(['errors' => ['newPassword' => 'Le nouveau mot de passe doit etre different de l ancien.']], 422);
+        }
+
         if (!$passwordPolicy->isValid($newPassword)) {
             return $this->json(['errors' => ['newPassword' => PasswordPolicy::MESSAGE]], 422);
         }
 
         $user->setPassword($passwordHasher->hashPassword($user, $newPassword));
+        $user->markPasswordChanged();
         $entityManager->flush();
 
         return $this->json(['message' => 'Mot de passe modifie avec succes.']);

@@ -8,10 +8,13 @@ import Input from '@/components/ui/Input'
 import PasswordStrengthMeter from '@/components/account/PasswordStrengthMeter'
 import { accountManager, type TwoFactorSetup } from '@/features/account/account'
 import { isStrongPassword } from '@/features/account/passwordPolicy'
+import { authManager } from '@/features/auth/auth'
+import { useAuth } from '@/context/AuthProvider'
 
 type FieldErrors = Record<string, string>
 
 function AccountSecurityPage() {
+  const { user, updateUser } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false)
   const [setup, setSetup] = useState<TwoFactorSetup | null>(null)
@@ -86,6 +89,11 @@ function AccountSecurityPage() {
       return
     }
 
+    if (passwordForm.currentPassword === passwordForm.newPassword) {
+      setPasswordErrors({ newPassword: 'Le nouveau mot de passe doit etre different de l ancien.' })
+      return
+    }
+
     if (!isStrongPassword(passwordForm.newPassword)) {
       setPasswordErrors({
         newPassword: 'Le mot de passe doit contenir au moins 12 caracteres, une minuscule, une majuscule, un chiffre et un caractere special.',
@@ -104,6 +112,12 @@ function AccountSecurityPage() {
       }
 
       setPasswordForm({ currentPassword: '', newPassword: '', newPasswordConfirm: '' })
+      const meResponse = await authManager.me()
+
+      if (meResponse.ok) {
+        updateUser(meResponse.data)
+      }
+
       setSuccessMessage('Mot de passe modifie avec succes.')
     } catch {
       setPasswordErrors({ root: 'Impossible de modifier le mot de passe.' })
@@ -202,6 +216,12 @@ function AccountSecurityPage() {
         {successMessage && (
           <div className="mb-6 rounded-lg border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
             {successMessage}
+          </div>
+        )}
+
+        {user?.passwordExpired && (
+          <div className="mb-6 rounded-lg border border-amber-300/35 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">
+            Votre mot de passe a expiré. Veuillez le modifier pour continuer a utiliser votre compte.
           </div>
         )}
 
