@@ -35,7 +35,7 @@ jobs:
             image_name: pyra-landing
             dockerfile: ./frontend-landing/Dockerfile.prod
             build_args: |
-              NEXT_PUBLIC_APP_URL=https://app.kickdeal.space
+              NEXT_PUBLIC_APP_URL=https://kickdeal.space
 
     steps:
       - name: Checkout code
