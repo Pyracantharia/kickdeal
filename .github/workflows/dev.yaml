@@ -18,12 +18,24 @@ jobs:
           - context: ./backend
             image_name: pyra-backend
             dockerfile: ./backend/Dockerfile.prod
+            build_args: ""
+
           - context: ./frontend-app
             image_name: pyra-app
             dockerfile: ./frontend-app/Dockerfile.prod
+            build_args: |
+              NEXT_PUBLIC_API_URL=https://api.kickdeal.space/api
+              NEXT_PUBLIC_MERCURE_URL=https://api.kickdeal.space/.well-known/mercure
+              NEXT_PUBLIC_CHILIZ_CHAIN_ID=88882
+              NEXT_PUBLIC_CHILIZ_RPC_URL=https://spicy-rpc.chiliz.com/
+              NEXT_PUBLIC_CHILIZ_RECEIVER_ADDRESS=0xC1f41598380e6c2E84EbD77BC1f12E0487f1905e
+              NEXT_PUBLIC_CHZ_EUR_RATE=200
+
           - context: ./frontend-landing
             image_name: pyra-landing
             dockerfile: ./frontend-landing/Dockerfile.prod
+            build_args: |
+              NEXT_PUBLIC_APP_URL=https://app.kickdeal.space
 
     steps:
       - name: Checkout code
@@ -53,3 +65,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: ${{ matrix.build_args }}
