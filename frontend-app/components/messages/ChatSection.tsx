@@ -1,5 +1,6 @@
 'use client';
 import { ArrowLeft, PanelLeftOpen, SendHorizonal } from 'lucide-react'
+import CircleImage from '@/components/media/CircleImage';
 import { useAuth } from '@/context/AuthProvider';
 import {
   DirectConversation,
@@ -168,9 +169,24 @@ function ChatSection({ conversationId, onBack, onOpenSidebar, hasUnreadMessages 
             <ArrowLeft className="h-5 w-5" />
           </Link>
         )}
+        <CircleImage
+          src={otherParticipant?.clubLogoUrl}
+          alt={otherParticipant?.clubName ? `Logo ${otherParticipant.clubName}` : participantName}
+          sizes="44px"
+          imageClassName="object-cover"
+          className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-purple text-base font-bold text-white"
+          fallback={participantName.charAt(0).toUpperCase()}
+        />
         <div className="min-w-0">
-          <h1 className="truncate text-xl font-bold text-white sm:text-2xl md:text-3xl">{participantName}</h1>
-          <span className="text-sm text-white/60">Messagerie</span>
+          <div className="flex min-w-0 items-center gap-2">
+            <h1 className="truncate text-xl font-bold text-white sm:text-2xl md:text-3xl">{participantName}</h1>
+            {otherParticipant?.agencyName && (
+              <span className="shrink-0 rounded-full bg-white/10 px-2.5 py-1 text-xs font-semibold text-white/70 ring-1 ring-white/15 sm:text-sm">
+                {otherParticipant.agencyName}
+              </span>
+            )}
+          </div>
+          <span className="truncate text-sm text-white/60">{otherParticipant?.clubName ?? 'Messagerie'}</span>
         </div>
       </div>
 
@@ -195,11 +211,16 @@ function ChatSection({ conversationId, onBack, onOpenSidebar, hasUnreadMessages 
               <div key={message.id} className={`flex flex-col gap-2 mb-4 ${isMine ? 'items-end' : 'items-start'}`}>
                 <div className={`${isMine ? 'bg-brand-cyan/20 text-white self-end' : 'bg-white/10 text-white'} max-w-[min(34rem,85vw)] rounded-lg p-3 sm:p-4`}>
                   <div className="flex items-start gap-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-purple text-white">
-                      {senderName.charAt(0).toUpperCase()}
-                    </div>
+                    <CircleImage
+                      src={message.sender?.clubLogoUrl}
+                      alt={message.sender?.clubName ? `Logo ${message.sender.clubName}` : senderName}
+                      sizes="32px"
+                      imageClassName="object-cover"
+                      className="relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-purple text-xs font-bold text-white"
+                      fallback={senderName.charAt(0).toUpperCase()}
+                    />
                     <div className="min-w-0 flex-1">
-                      <p className="text-white font-semibold">{senderName}</p>
+                      <p className="truncate text-white font-semibold">{senderName}</p>
                       <p className="break-words text-white">{message.content}</p>
                     </div>
                   </div>

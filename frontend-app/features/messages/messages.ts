@@ -5,6 +5,9 @@ export interface MessageUser {
   firstName: string
   lastName: string
   email: string
+  clubName: string | null
+  clubLogoUrl: string | null
+  agencyName: string | null
 }
 
 export interface DirectMessage {

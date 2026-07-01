@@ -2,10 +2,12 @@
 import { MessageCircle, Plus, Search } from 'lucide-react'
 import Link from 'next/link';
 import React from 'react'
+import CircleImage from '@/components/media/CircleImage';
 import CreateDiscussionModal from './CreateDiscussionModal';
 import { useAuth } from '@/context/AuthProvider';
 import {
   DirectConversation,
+  MessageUser,
   MessageEventPayload,
   formatMessageDate,
   getOtherParticipant,
@@ -31,6 +33,19 @@ function sortConversations(items: DirectConversation[]) {
     (first, second) =>
       new Date(second.updatedAt ?? second.lastMessage?.createdAt ?? 0).getTime() -
       new Date(first.updatedAt ?? first.lastMessage?.createdAt ?? 0).getTime()
+  )
+}
+
+function ParticipantClubLogo({ participant, participantName }: { participant: MessageUser | null; participantName: string }) {
+  return (
+    <CircleImage
+      src={participant?.clubLogoUrl}
+      alt={participant?.clubName ? `Logo ${participant.clubName}` : participantName}
+      sizes="40px"
+      imageClassName="object-cover"
+      className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-purple text-sm font-bold text-white"
+      fallback={participantName.charAt(0).toUpperCase()}
+    />
   )
 }
 
@@ -115,9 +130,11 @@ function ConversationsTable({
       const participantName = otherParticipant
         ? `${otherParticipant.firstName} ${otherParticipant.lastName}`.toLocaleLowerCase('fr')
         : ''
+      const clubName = otherParticipant?.clubName?.toLocaleLowerCase('fr') ?? ''
+      const agencyName = otherParticipant?.agencyName?.toLocaleLowerCase('fr') ?? ''
       const lastMessage = conversation.lastMessage?.content.toLocaleLowerCase('fr') ?? ''
 
-      return participantName.includes(normalizedSearchTerm) || lastMessage.includes(normalizedSearchTerm)
+      return participantName.includes(normalizedSearchTerm) || clubName.includes(normalizedSearchTerm) || agencyName.includes(normalizedSearchTerm) || lastMessage.includes(normalizedSearchTerm)
     })
   }, [conversations, searchTerm, user])
 
@@ -184,17 +201,27 @@ function ConversationsTable({
               const hasUnreadMessages = unreadConversationIds.has(conversation.id)
               const content = (
                 <>
-                    <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-purple text-sm font-bold text-white">
+                    <div className="relative shrink-0">
                       {hasUnreadMessages && (
                         <span className="absolute -left-1 -top-1 h-3 w-3 rounded-full bg-sky-400 ring-2 ring-[#07111d]" />
                       )}
-                      {participantName.charAt(0).toUpperCase()}
+                      <ParticipantClubLogo
+                        participant={otherParticipant}
+                        participantName={participantName}
+                      />
                     </div>
                     <div className="flex items-center justify-between flex-1 min-w-0">
                       <div className="min-w-0">
-                        <p className={`truncate text-base font-semibold sm:text-lg ${hasUnreadMessages ? 'text-sky-100' : 'text-white'}`}>
-                          {participantName}
-                        </p>
+                        <div className="flex min-w-0 items-center gap-2">
+                          <p className={`truncate text-base font-semibold sm:text-lg ${hasUnreadMessages ? 'text-sky-100' : 'text-white'}`}>
+                            {participantName}
+                          </p>
+                          {otherParticipant?.agencyName && (
+                            <span className="shrink-0 rounded-full bg-white/10 px-2 py-0.5 text-xs font-semibold text-white/70 ring-1 ring-white/15">
+                              {otherParticipant.agencyName}
+                            </span>
+                          )}
+                        </div>
                         <p className={`truncate text-sm ${hasUnreadMessages ? 'font-medium text-white/80' : 'text-white/60'}`}>
                           {conversation.lastMessage?.content ?? 'Nouvelle discussion'}
                         </p>
