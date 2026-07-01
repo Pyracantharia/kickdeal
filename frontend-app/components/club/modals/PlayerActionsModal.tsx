@@ -33,10 +33,11 @@ function PlayerActionsModal({ isOpen, onClose, player, onPlayerUpdated }: Player
   })
 
   if (!player) return null
-  const playerId = player.id
-  const marketContext = player.marketContext
-  const marketStatus = player.marketStatusValue ?? 'not_listed'
-  const marketMessage = getClubMarketMessage(player)
+  const currentPlayer = player
+  const playerId = currentPlayer.id
+  const marketContext = currentPlayer.marketContext
+  const marketStatus = currentPlayer.marketStatusValue ?? 'not_listed'
+  const marketMessage = getClubMarketMessage(currentPlayer)
 
   async function openContractNegotiation(
     type: Exclude<ContractNegotiationType, 'transfer'>,
@@ -98,7 +99,7 @@ function PlayerActionsModal({ isOpen, onClose, player, onPlayerUpdated }: Player
       if (decision === 'revoked' && response.data.wasRemovedFromMarket) {
         setRevocationNotice({
           isOpen: true,
-          playerName: `${player.firstName} ${player.lastName}`,
+          playerName: `${currentPlayer.firstName} ${currentPlayer.lastName}`,
         })
       }
       onPlayerUpdated()

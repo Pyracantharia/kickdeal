@@ -42,6 +42,11 @@ const TRANSFER_STATUS_LABELS: Record<string, string> = {
 
 const TRANSFER_STATUS_ORDER = ['on_market', 'loan_listed', 'free_agent', 'under_contract', 'not_listed'] as const
 
+type TransferStatusSource = {
+  contractStatus?: 'free_agent' | 'under_contract'
+  marketStatusValue?: 'on_market' | 'loan_listed' | 'not_listed' | null
+}
+
 class PlayersManager {
   async getAll() {
     return httpClient.get<PlayersListResponse>('/players')
@@ -211,9 +216,15 @@ export function filterPlayers(
   })
 }
 
-export function getTransferFilterId(player: Player): string {
+export function getTransferFilterId(
+  player: TransferStatusSource,
+): 'on_market' | 'loan_listed' | 'free_agent' | 'under_contract' | 'not_listed' {
   if (player.contractStatus === 'free_agent') {
     return 'free_agent'
+  }
+
+  if (player.contractStatus === 'under_contract') {
+    return 'under_contract'
   }
 
   if (player.marketStatusValue === 'loan_listed') {
@@ -227,11 +238,11 @@ export function getTransferFilterId(player: Player): string {
   return 'not_listed'
 }
 
-export function getTransferFilterLabel(player: Player): string {
-  return TRANSFER_STATUS_LABELS[getTransferFilterId(player)] ?? player.transferStatus
+export function getTransferFilterLabel(player: TransferStatusSource): string {
+  return TRANSFER_STATUS_LABELS[getTransferFilterId(player)] ?? 'Non listé'
 }
 
-export function matchesTransferStatusFilter(player: Player, filterId: string): boolean {
+export function matchesTransferStatusFilter(player: TransferStatusSource, filterId: string): boolean {
   if (filterId === 'all') return true
   if (filterId === 'free_agent' || filterId === 'under_contract') {
     return player.contractStatus === filterId
