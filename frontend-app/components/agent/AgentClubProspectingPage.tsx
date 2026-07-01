@@ -21,6 +21,7 @@ import ClubProposalModal from '@/components/agent/ClubProposalModal'
 import {
   agentPlayersManager,
   type ClubProspectingResponse,
+  type ClubProspectStatus,
   type ProspectClub,
 } from '@/features/agent/agentPlayers'
 import type { Player } from '@/features/market/types/player'

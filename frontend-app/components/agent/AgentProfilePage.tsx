@@ -233,7 +233,11 @@ function AgentProfilePage() {
                   <button
                     key={priority.title}
                     type="button"
-                    onClick={priority.onClick ? () => router.push(priority.onClick) : undefined}
+                    onClick={() => {
+                      if (priority.onClick) {
+                        router.push(priority.onClick)
+                      }
+                    }}
                     className={`w-full rounded-xl border border-white/10 bg-white/5 p-4 text-left transition-colors ${
                       priority.onClick ? 'hover:border-brand-cyan/35 hover:bg-white/[0.07]' : ''
                     }`}
