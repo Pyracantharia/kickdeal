@@ -8,7 +8,30 @@ RUN docker-php-ext-install intl pdo pdo_pgsql zip
 # Config Nginx sera assurer pas le patch k3s
 
 # Config Supervisor (pour lancer PHP-FPM et Nginx ensemble)
-RUN printf "[supervisord]\nnodaemon=true\nlogfile=/dev/null\nlogfile_maxbytes=0\n\n[program:nginx]\ncommand=nginx -g 'daemon off;'\n\n[program:php-fpm]\ncommand=php-fpm\n" > /etc/supervisord.conf
+RUN printf '%s\n' \
+'[supervisord]' \
+'nodaemon=true' \
+'logfile=/dev/null' \
+'logfile_maxbytes=0' \
+'' \
+'[program:nginx]' \
+'command=nginx -g "daemon off;"' \
+'autostart=true' \
+'autorestart=true' \
+'stdout_logfile=/dev/fd/1' \
+'stdout_logfile_maxbytes=0' \
+'stderr_logfile=/dev/fd/2' \
+'stderr_logfile_maxbytes=0' \
+'' \
+'[program:php-fpm]' \
+'command=php-fpm -F' \
+'autostart=true' \
+'autorestart=true' \
+'stdout_logfile=/dev/fd/1' \
+'stdout_logfile_maxbytes=0' \
+'stderr_logfile=/dev/fd/2' \
+'stderr_logfile_maxbytes=0' \
+> /etc/supervisord.conf
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
