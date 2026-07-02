@@ -274,6 +274,9 @@ final class MessageController extends AbstractController
             'firstName' => $user->getFirstName(),
             'lastName' => $user->getLastName(),
             'email' => $user->getEmail(),
+            'clubName' => $user->getClubName(),
+            'clubLogoUrl' => $user->getClubLogoUrl(),
+            'agencyName' => $user->getAgencyName(),
         ];
     }
 }
