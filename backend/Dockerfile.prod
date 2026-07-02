@@ -7,6 +7,8 @@ RUN docker-php-ext-install intl pdo pdo_pgsql zip
 
 # Config Nginx sera assurer pas le patch k3s
 
+COPY docker/php-fpm/zz-logging.conf /usr/local/etc/php-fpm.d/zz-logging.conf
+
 # Config Supervisor (pour lancer PHP-FPM et Nginx ensemble)
 RUN printf '%s\n' \
 '[supervisord]' \
