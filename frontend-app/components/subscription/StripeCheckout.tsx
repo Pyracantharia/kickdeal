@@ -18,8 +18,29 @@ interface StripeCheckoutProps {
 }
 
 export default function StripeCheckout(props: StripeCheckoutProps) {
+
   if (!stripePromise) {
-    return null
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#020712]/80 p-4 backdrop-blur-sm">
+        <div className="w-full max-w-lg rounded-2xl border border-red-400/50 bg-[#0c1a25] p-6 text-white">
+          <p className="font-bold text-red-300">
+            Impossible de charger Stripe.
+          </p>
+
+          <p className="mt-2 text-sm text-white/70">
+            La clé publique Stripe est absente de la configuration frontend.
+          </p>
+
+          <button
+            type="button"
+            onClick={props.onClose}
+            className="mt-5 rounded-lg border border-white/20 px-4 py-2 text-sm"
+          >
+            Fermer
+          </button>
+        </div>
+      </div>
+    )
   }
 
   return (
