@@ -5,6 +5,7 @@ import { BriefcaseBusiness, CalendarDays, ShieldCheck, UsersRound } from 'lucide
 
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
+import { CountryFlag } from '@/components/media/CountryFlag'
 import type { Player } from '@/features/market/types/player'
 import { getLeagueDisplayName } from '@/features/league/leagueConfig'
 import { getPositionDisplayName } from '@/features/players/position'
@@ -63,7 +64,15 @@ function AgentPlayerDetailsCard({ player, onManage }: AgentPlayerDetailsCardProp
             <div className="space-y-3">
               <Detail label="Club actuel" value={player.club || 'Sans club'} />
               <Detail label="Ligue" value={getLeagueDisplayName(player.league)} />
-              <Detail label="Nationalité" value={player.nationality} />
+              <Detail
+                label="Nationalité"
+                value={(
+                  <span className="inline-flex items-center justify-end gap-1.5">
+                    <CountryFlag country={player.nationality} className="h-3.5 w-5" />
+                    {player.nationality}
+                  </span>
+                )}
+              />
               <Detail label="Marché" value={player.transferStatus || 'Non listé'} />
             </div>
           </section>
@@ -102,7 +111,7 @@ function PlayerAvatar({ player }: { player: Player }) {
   )
 }
 
-function Detail({ label, value, highlight = false }: { label: string; value: string; highlight?: boolean }) {
+function Detail({ label, value, highlight = false }: { label: string; value: React.ReactNode; highlight?: boolean }) {
   return (
     <div className="flex items-start justify-between gap-4">
       <span className="flex items-center gap-1.5 text-sm text-white/55">

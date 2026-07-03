@@ -200,25 +200,25 @@ export const MOCK_POSITIONS: Position[] = [
 ]
 
 export const MOCK_NATIONALITIES: Nationality[] = [
-  { id: '1', label: 'France', flag: '🇫🇷' },
-  { id: '2', label: 'Brésil', flag: '🇧🇷' },
-  { id: '3', label: 'Angleterre', flag: '🇬🇧' },
-  { id: '4', label: 'Espagne', flag: '🇪🇸' },
-  { id: '5', label: 'Allemagne', flag: '🇩🇪' },
-  { id: '6', label: 'Italie', flag: '🇮🇹' },
-  { id: '7', label: 'Colombie', flag: '🇨🇴' },
-  { id: '8', label: 'Uruguay', flag: '🇺🇾' },
-  { id: '9', label: 'Égypte', flag: '🇪🇬' },
-  { id: '10', label: 'Portugal', flag: '🇵🇹' },
+  { id: '1', label: 'France', flag: 'FR', countryCode: 'FR' },
+  { id: '2', label: 'Brésil', flag: 'BR', countryCode: 'BR' },
+  { id: '3', label: 'Angleterre', flag: 'GB', countryCode: 'GB' },
+  { id: '4', label: 'Espagne', flag: 'ES', countryCode: 'ES' },
+  { id: '5', label: 'Allemagne', flag: 'DE', countryCode: 'DE' },
+  { id: '6', label: 'Italie', flag: 'IT', countryCode: 'IT' },
+  { id: '7', label: 'Colombie', flag: 'CO', countryCode: 'CO' },
+  { id: '8', label: 'Uruguay', flag: 'UY', countryCode: 'UY' },
+  { id: '9', label: 'Égypte', flag: 'EG', countryCode: 'EG' },
+  { id: '10', label: 'Portugal', flag: 'PT', countryCode: 'PT' },
 ]
 
 export const MOCK_LEAGUES: League[] = [
-  { id: '1', label: 'Liga', country: 'Spain' },
-  { id: '2', label: 'Premier League', country: 'England' },
-  { id: '3', label: 'Ligue 1', country: 'France' },
-  { id: '4', label: 'Serie A', country: 'Italy' },
-  { id: '5', label: 'Bundesliga', country: 'Germany' },
-  { id: '6', label: 'Saudi Pro League', country: 'Saudi Arabia' },
+  { id: '1', label: 'Liga', country: 'Spain', countryCode: 'ES' },
+  { id: '2', label: 'Premier League', country: 'England', countryCode: 'GB' },
+  { id: '3', label: 'Ligue 1', country: 'France', countryCode: 'FR' },
+  { id: '4', label: 'Serie A', country: 'Italy', countryCode: 'IT' },
+  { id: '5', label: 'Bundesliga', country: 'Germany', countryCode: 'DE' },
+  { id: '6', label: 'Saudi Pro League', country: 'Saudi Arabia', countryCode: 'SA' },
 ]
 
 export const MOCK_CLUBS: Club[] = [

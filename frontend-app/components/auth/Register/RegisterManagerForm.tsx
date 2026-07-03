@@ -3,15 +3,16 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { authManager } from '@/features/auth/auth'
-import { useForm, useWatch } from 'react-hook-form'
+import { Controller, useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RegisterManagerFormData, registerManagerSchema } from '@/features/auth/schemas/registerManager.schema'
 import Input from '@/components/ui/Input'
-import { ArrowRight, Building2, Mail, MapPin, User } from 'lucide-react'
+import { ArrowRight, Building2, Mail, User } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import PlanSelection from './PlanSelection'
 import type { SubscriptionPlan } from '@/features/subscription/subscription'
 import PasswordStrengthMeter from '@/components/account/PasswordStrengthMeter'
+import CountrySelect from '@/components/country/CountrySelect'
 
 function RegisterManagerForm() {
   const router = useRouter()
@@ -177,14 +178,18 @@ function RegisterManagerForm() {
             </div>
 
             <div>
-              <Input
-                label="Pays"
-                type="text"
-                placeholder="Pays"
-                icon={<MapPin className="h-5 w-5" />}
-                error={errors.country?.message}
-                autoComplete="country"
-                {...register('country')}
+              <Controller
+                control={control}
+                name="country"
+                render={({ field }) => (
+                  <CountrySelect
+                    label="Pays"
+                    value={field.value ?? ''}
+                    onChange={field.onChange}
+                    error={errors.country?.message}
+                    placeholder="Choisir le pays de votre agence"
+                  />
+                )}
               />
             </div>
           </div>

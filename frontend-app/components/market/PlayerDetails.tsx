@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRightLeft, BadgeEuro, Dumbbell, Footprints, Ruler, Shie
 
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
+import { CountryFlag } from '@/components/media/CountryFlag'
 import { useAuth } from '@/context/AuthProvider'
 import type { Player } from '@/features/market/types/player'
 import { agentPlayersManager, type RepresentationRequest } from '@/features/agent/agentPlayers'
@@ -165,9 +166,13 @@ function PlayerDetails({ playerId }: PlayerDetailsProps) {
                 <h1 className="text-4xl font-bold uppercase text-white md:text-5xl">
                   {player.firstName} {player.lastName}
                 </h1>
-                <p className="mt-2 text-lg text-white/65">
-                  {nationality?.flag ? `${nationality.flag} ` : ''}
-                  {player.nationality} • {player.age} ans • {getLeagueDisplayName(player.league)}
+                <p className="mt-2 inline-flex flex-wrap items-center gap-2 text-lg text-white/65">
+                  <CountryFlag
+                    code={nationality?.countryCode}
+                    country={player.nationality}
+                    className="h-4 w-6"
+                  />
+                  <span>{player.nationality} • {player.age} ans • {getLeagueDisplayName(player.league)}</span>
                 </p>
               </div>
             </div>

@@ -5,6 +5,7 @@ import { ReceiptText, Send, Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
+import { CountryFlag } from '@/components/media/CountryFlag'
 import OfferDetailsModal from './modals/OfferDetailsModal'
 import { ClubLogo, EmptyState, ErrorMessage, OfferDirection, PlayerAvatar } from './TransferHomeParts'
 import type {
@@ -206,8 +207,10 @@ function TransferHome() {
                         <h3 className="text-xl font-bold text-white">
                           {item.player.firstName.toUpperCase()}
                         </h3>
-                        <p className="text-white/70 text-sm">
-                          {getPositionDisplayName(item.player.position)} • {item.player.age} ans • {item.player.nationality}
+                        <p className="flex flex-wrap items-center gap-1.5 text-sm text-white/70">
+                          <span>{getPositionDisplayName(item.player.position)} • {item.player.age} ans •</span>
+                          <CountryFlag country={item.player.nationality} className="h-3.5 w-5" />
+                          <span>{item.player.nationality}</span>
                         </p>
                       </div>
                     </div>

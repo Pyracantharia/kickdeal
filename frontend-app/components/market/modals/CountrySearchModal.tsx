@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+import { CountryFlag } from '@/components/media/CountryFlag'
 import Modal from '@/components/ui/Modal'
 import type { LeagueCountry } from '@/features/market/types/player'
 
@@ -39,7 +40,7 @@ function CountrySearchModal({
                 : 'border-white/10 bg-white/5 text-white/80 hover:border-brand-cyan/50 hover:bg-white/10'
             }`}
           >
-            <span className="text-xl" aria-hidden="true">{country.flag}</span>
+            <CountryFlag code={country.countryCode} country={country.label} className="h-5 w-7" />
             <span className="font-semibold">{country.label}</span>
           </button>
         ))}

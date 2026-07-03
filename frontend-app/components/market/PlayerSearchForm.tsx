@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { User, Flag, Shirt, TrendingUp, MapPin, Trophy, Users } from 'lucide-react'
 
 import Button from '@/components/ui/Button'
+import { CountryFlag } from '@/components/media/CountryFlag'
 import PlayerSearchModal from './modals/PlayerSearchModal'
 import PositionSearchModal from './modals/PositionSearchModal'
 import NationalitySearchModal from './modals/NationalitySearchModal'
@@ -233,7 +234,20 @@ function PlayerSearchForm() {
             subtitle={selectedNationality ? 'Drapeau' : 'Tout'}
             onClick={() => setOpenModal('nationality')}
             isActive={!!selectedNationality}
-            description={selectedNationality ? `${selectedNationality.flag} Sélectionné` : "Tout"}
+            description={
+              selectedNationality ? (
+                <span className="inline-flex items-center justify-center gap-2">
+                  <CountryFlag
+                    code={selectedNationality.countryCode}
+                    country={selectedNationality.label}
+                    className="h-3.5 w-5"
+                  />
+                  Sélectionné
+                </span>
+              ) : (
+                'Tout'
+              )
+            }
           />
 
           <SearchCard
@@ -257,10 +271,23 @@ function PlayerSearchForm() {
             title="Pays/Région"
             icon={<MapPin className="h-12 w-12" />}
             value={selectedCountry?.label || 'Tout'}
-            subtitle={selectedCountry ? selectedCountry.flag : 'Tout'}
+            subtitle={selectedCountry ? 'Pays' : 'Tout'}
             onClick={() => setOpenModal('country')}
             isActive={!!selectedCountry}
-            description={selectedCountry ? 'Pays sélectionné' : 'Tout'}
+            description={
+              selectedCountry ? (
+                <span className="inline-flex items-center justify-center gap-2">
+                  <CountryFlag
+                    code={selectedCountry.countryCode}
+                    country={selectedCountry.label}
+                    className="h-3.5 w-5"
+                  />
+                  Pays sélectionné
+                </span>
+              ) : (
+                'Tout'
+              )
+            }
           />
 
           <SearchCard
@@ -413,11 +440,11 @@ interface SearchCardProps {
   title: string
   icon: React.ReactNode
   value?: string
-  subtitle: string
+  subtitle: React.ReactNode
   onClick: () => void
   isActive?: boolean
   disabled?: boolean
-  description: string
+  description: React.ReactNode
 }
 
 function SearchCard({
@@ -460,7 +487,7 @@ function SearchCard({
           {subtitle}
         </p>
       </div>
-      <p className="text-xs text-white/50 line-clamp-2">{description}</p>
+      <div className="text-xs text-white/50 line-clamp-2">{description}</div>
     </button>
   )
 }

@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import { Search } from 'lucide-react'
+import { CountryFlag } from '@/components/media/CountryFlag'
 import Modal from '@/components/ui/Modal'
 import Input from '@/components/ui/Input'
 import type { Nationality } from '@/features/market/types/player'
@@ -58,7 +59,11 @@ function NationalitySearchModal({
                   : 'border-white/10 bg-white/5 text-white/80 hover:border-brand-cyan/50 hover:bg-white/10'
               }`}
             >
-              <span className="text-xl">{nationality.flag}</span>
+              <CountryFlag
+                code={nationality.countryCode}
+                country={nationality.label}
+                className="h-5 w-7"
+              />
               <p className="font-semibold">{nationality.label}</p>
             </button>
           ))}

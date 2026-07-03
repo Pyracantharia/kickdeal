@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
+import { CountryFlag } from '@/components/media/CountryFlag'
 import AgentPlayerDetailsCard from '@/components/agent/AgentPlayerDetailsCard'
 import AddRepresentedPlayerModal from '@/components/agent/AddRepresentedPlayerModal'
 import AgentPlayerManagementModal from '@/components/agent/AgentPlayerManagementModal'
@@ -257,7 +258,10 @@ function AgentPlayersPage() {
                           <PlayerAvatar player={player} />
                           <div>
                             <p className="font-semibold text-white">{player.firstName} {player.lastName}</p>
-                            <p className="mt-0.5 text-xs text-white/45">{player.nationality}</p>
+                            <p className="mt-0.5 inline-flex items-center gap-1.5 text-xs text-white/45">
+                              <CountryFlag country={player.nationality} className="h-3 w-5" />
+                              {player.nationality}
+                            </p>
                           </div>
                         </div>
                       </td>

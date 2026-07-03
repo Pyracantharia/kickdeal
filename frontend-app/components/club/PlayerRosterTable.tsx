@@ -6,6 +6,7 @@ import type { ClubPlayer } from '@/features/club/types/roster'
 import PlayerActionsModal from './modals/PlayerActionsModal'
 import PlayerDetailsCard from './PlayerDetailsCard'
 import CircleImage from '@/components/media/CircleImage'
+import { CountryFlag } from '@/components/media/CountryFlag'
 import {
   getTransferFilterId,
   getTransferFilterLabel,
@@ -156,7 +157,10 @@ function PlayerRosterTable() {
                         <PlayerAvatar player={player} />
                         <div>
                           <p className="font-semibold text-white">{player.firstName} {player.lastName}</p>
-                          <p className="mt-0.5 text-xs text-white/45">{player.nationality}</p>
+                          <p className="mt-0.5 inline-flex items-center gap-1.5 text-xs text-white/45">
+                            <CountryFlag country={player.nationality} className="h-3 w-5" />
+                            {player.nationality}
+                          </p>
                         </div>
                       </div>
                     </td>

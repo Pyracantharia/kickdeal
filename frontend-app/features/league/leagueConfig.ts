@@ -4,6 +4,7 @@ type LeagueDisplayConfig = {
   countryId: string
   countryName: string
   countryFlag: string
+  countryCode: string
 }
 
 /**
@@ -16,49 +17,56 @@ export const LEAGUE_CONFIG: Record<string, LeagueDisplayConfig> = {
     logoUrl: '/images/leagues/logo-ligue1.svg',
     countryId: 'France',
     countryName: 'France',
-    countryFlag: '🇫🇷',
+    countryFlag: 'FR',
+    countryCode: 'FR',
   },
   'Premier League': {
     displayName: 'Premier League',
     logoUrl: '/images/leagues/logo-premier-league.png',
     countryId: 'England',
     countryName: 'Angleterre',
-    countryFlag: '🇬🇧',
+    countryFlag: 'GB',
+    countryCode: 'GB',
   },
   Bundesliga: {
     displayName: 'Bundesliga',
     logoUrl: '/images/leagues/logo-bundesliga.png',
     countryId: 'Germany',
     countryName: 'Allemagne',
-    countryFlag: '🇩🇪',
+    countryFlag: 'DE',
+    countryCode: 'DE',
   },
   'Primera Division': {
     displayName: 'La Liga',
     logoUrl: '/images/leagues/logo-laliga.png',
     countryId: 'Spain',
     countryName: 'Espagne',
-    countryFlag: '🇪🇸',
+    countryFlag: 'ES',
+    countryCode: 'ES',
   },
   'Serie A': {
     displayName: 'Serie A',
     logoUrl: '/images/leagues/logo-serie-a.png',
     countryId: 'Italy',
     countryName: 'Italie',
-    countryFlag: '🇮🇹',
+    countryFlag: 'IT',
+    countryCode: 'IT',
   },
   Eredivisie: {
     displayName: 'Eredivisie',
     logoUrl: '/images/leagues/logo-eredivisie.png',
     countryId: 'Netherlands',
     countryName: 'Pays-Bas',
-    countryFlag: '🇳🇱',
+    countryFlag: 'NL',
+    countryCode: 'NL',
   },
   'Primeira Liga': {
     displayName: 'Liga Portugal',
     logoUrl: '/images/leagues/logo-liga-portugal.png',
     countryId: 'Portugal',
     countryName: 'Portugal',
-    countryFlag: '🇵🇹',
+    countryFlag: 'PT',
+    countryCode: 'PT',
   },
 }
 
@@ -72,4 +80,8 @@ export function isDisplayedLeague(leagueName: string): boolean {
 
 export function getLeagueCountryId(leagueName: string): string | undefined {
   return LEAGUE_CONFIG[leagueName]?.countryId
+}
+
+export function getLeagueCountryCode(leagueName: string): string | undefined {
+  return LEAGUE_CONFIG[leagueName]?.countryCode
 }

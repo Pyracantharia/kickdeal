@@ -3,6 +3,7 @@
 import React from 'react'
 
 import CircleImage from '@/components/media/CircleImage'
+import { CountryFlag } from '@/components/media/CountryFlag'
 import { formatNumberInput } from '@/features/format/number'
 import type { TransferNegotiationContext } from '@/features/market/types/transfer'
 import { getPositionDisplayName } from '@/features/players/position'
@@ -23,7 +24,10 @@ export function PlayerSummary({ context }: { context: TransferNegotiationContext
           />
           <div>
             <div className="flex flex-wrap items-center gap-4 text-sm text-white/65">
-              <span className="text-brand-cyan">{player.nationality}</span>
+              <span className="inline-flex items-center gap-1.5 text-brand-cyan">
+                <CountryFlag country={player.nationality} className="h-3.5 w-5" />
+                {player.nationality}
+              </span>
               <span>{getPositionDisplayName(player.position)}</span>
               <span>Âge <strong className="text-white">{player.age}</strong></span>
             </div>
