@@ -6,6 +6,7 @@ import { ArrowLeft, ChevronRight } from 'lucide-react'
 
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
+import { CountryFlag } from '@/components/media/CountryFlag'
 import type { Player } from '@/features/market/types/player'
 import { filterPlayers, playersManager } from '@/features/players/players'
 import { getLeagueDisplayName } from '@/features/league/leagueConfig'
@@ -140,8 +141,10 @@ function PlayerResultCard({ player }: PlayerResultCardProps) {
               <h3 className="text-xl font-bold uppercase text-white">
                 {player.firstName} {player.lastName}
               </h3>
-              <p className="mt-1 text-sm text-white/70">
-                {getPositionDisplayName(player.position)} • {player.age} ans • {player.nationality}
+              <p className="mt-1 flex flex-wrap items-center gap-1.5 text-sm text-white/70">
+                <span>{getPositionDisplayName(player.position)} • {player.age} ans •</span>
+                <CountryFlag country={player.nationality} className="h-3.5 w-5" />
+                <span>{player.nationality}</span>
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <span className="rounded-full border border-brand-cyan/45 bg-brand-cyan/10 px-3 py-1 text-xs font-semibold text-brand-cyan">
@@ -163,7 +166,10 @@ function PlayerResultCard({ player }: PlayerResultCardProps) {
             <p className="truncate text-sm text-brand-cyan">
               {getLeagueDisplayName(player.league)}
             </p>
-            <p className="mt-1 text-xs text-white/55">{player.country}</p>
+            <p className="mt-1 inline-flex items-center justify-end gap-1.5 text-xs text-white/55">
+              <CountryFlag country={player.country} className="h-3.5 w-5" />
+              {player.country}
+            </p>
           </div>
           <ClubLogo player={player} />
           <ChevronRight className="hidden h-5 w-5 shrink-0 text-brand-cyan opacity-0 transition-opacity group-hover:opacity-100 md:block" />

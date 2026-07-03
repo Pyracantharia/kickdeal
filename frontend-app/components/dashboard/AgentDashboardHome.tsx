@@ -25,6 +25,12 @@ import {
   type AgentDashboardNegotiation,
   type AgentDashboardPlayer,
 } from '@/features/dashboard/dashboard'
+import {
+  formatMessageDate,
+  getOtherParticipant,
+  messagesManager,
+  type DirectConversation,
+} from '@/features/messages/messages'
 import { getPositionDisplayName } from '@/features/players/position'
 
 const EMPTY_DASHBOARD: AgentDashboardHomeData = {
@@ -67,6 +73,7 @@ function AgentDashboardHome() {
   const router = useRouter()
   const { user } = useAuth()
   const [dashboard, setDashboard] = useState<AgentDashboardHomeData>(EMPTY_DASHBOARD)
+  const [recentConversations, setRecentConversations] = useState<DirectConversation[]>([])
   const [expandedPlayers, setExpandedPlayers] = useState<Record<string, boolean>>({})
   const [isLoading, setIsLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -104,16 +111,26 @@ function AgentDashboardHome() {
 
     async function loadDashboard() {
       try {
-        const response = await dashboardManager.getAgentHome()
+        const [dashboardResponse, conversationsResponse] = await Promise.all([
+          dashboardManager.getAgentHome(),
+          messagesManager.getConversations(),
+        ])
 
         if (!isMounted) return
 
-        if (!response.ok) {
+        if (!dashboardResponse.ok) {
           setErrorMessage('Impossible de charger votre espace agent pour le moment.')
           return
         }
 
-        setDashboard(response.data)
+        setDashboard(dashboardResponse.data)
+        setRecentConversations(
+          conversationsResponse.ok
+            ? conversationsResponse.data.conversations
+              .filter((conversation) => conversation.lastMessage)
+              .slice(0, 4)
+            : [],
+        )
       } catch {
         if (isMounted) {
           setErrorMessage('Impossible de charger votre espace agent pour le moment.')
@@ -224,7 +241,7 @@ function AgentDashboardHome() {
                 {groupedNegotiations.map((group) => (
                   <article
                     key={group.key}
-                    className="relative overflow-hidden rounded-2xl border border-white/20 bg-[#071722]/85 p-5 shadow-xl transition-colors hover:border-brand-cyan/45"
+                    className="relative overflow-hidden rounded-2xl border border-white/25 bg-[#071722] p-5 shadow-xl transition-colors hover:border-brand-cyan/55"
                   >
                     <NegotiationCard
                       negotiation={group.primaryNegotiation}
@@ -236,7 +253,7 @@ function AgentDashboardHome() {
                         <button
                           type="button"
                           onClick={() => togglePlayerGroup(group.key)}
-                          className="flex w-full items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-left transition-colors hover:border-brand-cyan/30 hover:bg-white/[0.05]"
+                          className="flex w-full items-center justify-between gap-3 rounded-xl border border-white/15 bg-[#0a1e2b] px-4 py-3 text-left transition-colors hover:border-brand-cyan/40 hover:bg-[#0d2738]"
                         >
                           <div>
                             <p className="text-sm font-semibold text-white">
@@ -256,7 +273,7 @@ function AgentDashboardHome() {
                             {group.otherNegotiations.map((negotiation) => (
                               <div
                                 key={negotiation.id}
-                                className="rounded-xl border border-white/10 bg-black/10 p-4"
+                                className="rounded-xl border border-white/15 bg-[#06111c] p-4"
                               >
                                 <NegotiationCard
                                   negotiation={negotiation}
@@ -281,10 +298,49 @@ function AgentDashboardHome() {
                 onAction={() => router.push('/market')}
               />
             )}
+
+            <section className="mt-7">
+              <div className="mb-4 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <Mail className="h-6 w-6 text-brand-cyan" />
+                  <h2 className="text-2xl font-bold text-white">Messages récents</h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => router.push('/messages')}
+                  className="text-sm font-semibold text-brand-cyan transition-colors hover:text-white"
+                >
+                  Ouvrir la messagerie
+                </button>
+              </div>
+
+              {isLoading ? (
+                <LoadingCards count={2} compact />
+              ) : recentConversations.length > 0 ? (
+                <div className="space-y-3">
+                  {recentConversations.map((conversation) => (
+                    <RecentMessageCard
+                      key={conversation.id}
+                      conversation={conversation}
+                      currentUserId={user?.id}
+                      onOpen={() => router.push(`/messages?conversation=${conversation.id}`)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <EmptyPanel
+                  icon={<Mail className="h-7 w-7" />}
+                  title="Aucun message récent"
+                  description="Vos derniers échanges avec les clubs apparaîtront ici dès qu’une conversation sera active."
+                  actionLabel="Accéder aux messages"
+                  onAction={() => router.push('/messages')}
+                />
+              )}
+            </section>
           </section>
 
           <aside className="space-y-6">
-            <section className="relative overflow-hidden rounded-2xl border border-brand-cyan/25 bg-[#071722]/85 p-5 shadow-2xl shadow-brand-cyan/10">
+            <section className="relative overflow-hidden rounded-2xl border border-brand-cyan/30 bg-[#071722] p-5 shadow-2xl shadow-brand-cyan/10">
               <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-cyan to-brand-purple" />
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -309,7 +365,7 @@ function AgentDashboardHome() {
                   ))}
                 </div>
               ) : (
-                <p className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-relaxed text-white/65">
+                <p className="rounded-xl border border-white/15 bg-[#0a1e2b] p-4 text-sm leading-relaxed text-white/75">
                   Aucun joueur n’est encore rattaché à votre profil agent.
                 </p>
               )}
@@ -325,7 +381,7 @@ function AgentDashboardHome() {
               </Button>
             </section>
 
-            <section className="relative overflow-hidden rounded-2xl border border-brand-purple/30 bg-gradient-to-br from-brand-purple/15 via-[#071722]/90 to-brand-cyan/10 p-5 shadow-2xl shadow-brand-purple/10">
+            <section className="relative overflow-hidden rounded-2xl border border-brand-purple/35 bg-[#071722] p-5 shadow-2xl shadow-brand-purple/10">
               <CalendarClock className="h-7 w-7 text-brand-purple" />
               <h2 className="mt-3 text-xl font-bold text-white">Priorités du jour</h2>
               <div className="mt-4 space-y-3">
@@ -375,7 +431,7 @@ function MetricCard({
   }
 
   return (
-    <article className="rounded-2xl border border-white/15 bg-[#071722]/80 p-5 shadow-xl">
+    <article className="rounded-2xl border border-white/20 bg-[#071722] p-5 shadow-xl">
       <div className={`flex h-10 w-10 items-center justify-center rounded-xl border ${tones[tone]}`}>
         {icon}
       </div>
@@ -462,7 +518,7 @@ function PlayerSummary({
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3 text-left transition-colors hover:border-brand-cyan/40 hover:bg-brand-cyan/10"
+      className="flex w-full items-center gap-3 rounded-xl border border-white/15 bg-[#0a1e2b] p-3 text-left transition-colors hover:border-brand-cyan/45 hover:bg-[#0d2738]"
     >
       <PlayerAvatar player={player} />
       <div className="min-w-0 flex-1">
@@ -480,6 +536,78 @@ function PlayerSummary({
         </div>
       </div>
     </button>
+  )
+}
+
+function RecentMessageCard({
+  conversation,
+  currentUserId,
+  onOpen,
+}: {
+  conversation: DirectConversation
+  currentUserId?: string
+  onOpen: () => void
+}) {
+  const participant = currentUserId
+    ? getOtherParticipant(conversation, currentUserId)
+    : conversation.otherParticipant
+  const lastMessage = conversation.lastMessage
+  const displayName = participant
+    ? [participant.firstName, participant.lastName].filter(Boolean).join(' ') || participant.email
+    : 'Conversation KickDeal'
+  const contextLabel = participant?.clubName ?? participant?.agencyName ?? participant?.email ?? 'Interlocuteur'
+  const senderLabel = lastMessage?.sender?.id === currentUserId
+    ? 'Vous'
+    : [lastMessage?.sender?.firstName, lastMessage?.sender?.lastName].filter(Boolean).join(' ') || 'Message'
+
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      className="group flex w-full items-center gap-4 rounded-2xl border border-white/20 bg-[#071722] p-4 text-left shadow-xl transition-colors hover:border-brand-cyan/55 hover:bg-[#0a1e2b]"
+    >
+      <MessageAvatar participant={participant} />
+      <div className="min-w-0 flex-1">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0">
+            <p className="truncate text-base font-bold text-white">{displayName}</p>
+            <p className="truncate text-xs font-semibold text-brand-cyan/80">{contextLabel}</p>
+          </div>
+          <span className="shrink-0 text-xs font-semibold text-white/40">
+            {formatMessageDate(lastMessage?.createdAt ?? conversation.updatedAt)}
+          </span>
+        </div>
+        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-white/65">
+          <span className="font-semibold text-white/85">{senderLabel} : </span>
+          {lastMessage?.content ?? 'Aucun message pour le moment.'}
+        </p>
+      </div>
+      <ArrowRight className="hidden h-4 w-4 shrink-0 text-white/35 transition-colors group-hover:text-brand-cyan sm:block" />
+    </button>
+  )
+}
+
+function MessageAvatar({ participant }: { participant: DirectConversation['otherParticipant'] }) {
+  const label = participant?.clubName ?? participant?.agencyName ?? participant?.firstName ?? 'K'
+  const logoUrl = participant?.clubLogoUrl
+
+  if (logoUrl) {
+    return (
+      <CircleImage
+        src={logoUrl}
+        alt={label}
+        className="relative h-12 w-12 shrink-0"
+        sizes="48px"
+        imageClassName="object-contain"
+        fallback={null}
+      />
+    )
+  }
+
+  return (
+    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-purple to-brand-cyan text-sm font-bold text-white">
+      {label.charAt(0).toUpperCase()}
+    </div>
   )
 }
 
@@ -545,7 +673,7 @@ function PriorityRow({
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left transition-colors hover:border-brand-purple/40 hover:bg-brand-purple/10"
+      className="flex w-full items-center justify-between rounded-xl border border-white/15 bg-[#0a1e2b] px-4 py-3 text-left transition-colors hover:border-brand-purple/45 hover:bg-[#0d2738]"
     >
       <span className="text-sm text-white/70">{label}</span>
       <span className="text-lg font-bold text-white">{value}</span>
@@ -567,7 +695,7 @@ function EmptyPanel({
   onAction: () => void
 }) {
   return (
-    <div className="rounded-2xl border border-brand-cyan/25 bg-[#071722]/80 p-8 text-center shadow-xl">
+    <div className="rounded-2xl border border-brand-cyan/30 bg-[#071722] p-8 text-center shadow-xl">
       <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan">
         {icon}
       </div>
@@ -586,7 +714,7 @@ function LoadingCards({ count, compact = false }: { count: number; compact?: boo
       {Array.from({ length: count }).map((_, index) => (
         <div
           key={index}
-          className={`${compact ? 'h-20' : 'h-40'} animate-pulse rounded-xl border border-white/10 bg-white/5`}
+          className={`${compact ? 'h-20' : 'h-40'} animate-pulse rounded-xl border border-white/15 bg-[#071722]`}
         />
       ))}
     </div>

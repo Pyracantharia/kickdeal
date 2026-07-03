@@ -54,18 +54,21 @@ export interface Nationality {
   id: string
   label: string
   flag: string
+  countryCode?: string
 }
 
 export interface League {
   id: string
   label: string
   country: string
+  countryCode?: string
 }
 
 export interface LeagueCountry {
   id: string
   label: string
   flag: string
+  countryCode?: string
 }
 
 export interface Club {

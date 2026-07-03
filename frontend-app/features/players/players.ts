@@ -11,17 +11,13 @@ import type {
 } from '@/features/market/types/player'
 import {
   getLeagueDisplayName,
+  getLeagueCountryCode,
   getLeagueCountryId,
   isDisplayedLeague,
   LEAGUE_CONFIG,
 } from '@/features/league/leagueConfig'
 import { getPositionDisplayName } from '@/features/players/position'
-
-const NATIONALITY_FLAGS: Record<string, string> = {
-  Belgique: '🇧🇪',
-  France: '🇫🇷',
-  Uruguay: '🇺🇾',
-}
+import { getCountryCode } from '@/features/country/countryCodes'
 
 interface PlayersListResponse {
   players: Player[]
@@ -89,7 +85,8 @@ export function buildPlayerFilters(players: Player[]): {
     .map((nationality) => ({
       id: nationality,
       label: nationality,
-      flag: NATIONALITY_FLAGS[nationality] ?? '🌍',
+      flag: getCountryCode(nationality) ?? '',
+      countryCode: getCountryCode(nationality),
     }))
 
   const leagues = Array.from(
@@ -102,6 +99,7 @@ export function buildPlayerFilters(players: Player[]): {
             id: player.league,
             label: getLeagueDisplayName(player.league),
             country: getLeagueCountryId(player.league) ?? player.country,
+            countryCode: getLeagueCountryCode(player.league),
           },
         ]),
     ).values(),
@@ -115,6 +113,7 @@ export function buildPlayerFilters(players: Player[]): {
           id: league.countryId,
           label: league.countryName,
           flag: league.countryFlag,
+          countryCode: league.countryCode,
         },
       ]),
     ).values(),
