@@ -927,7 +927,13 @@ final class ClubController extends AbstractController
 
         try {
             $file->move($uploadDirectory, $fileName);
-        } catch (\Throwable) {
+        } catch (\Throwable $exception) {
+            error_log(sprintf(
+                'Upload document club impossible: %s | dossier=%s',
+                $exception->getMessage(),
+                $uploadDirectory,
+            ));
+        
             return null;
         }
 
