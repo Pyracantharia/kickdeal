@@ -10,7 +10,7 @@
         "bacon/bacon-qr-code": "^3.1",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.16",
-        "doctrine/doctrine-fixtures-bundle": "4.3.1",
+        "doctrine/doctrine-fixtures-bundle": "4.2.0",
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.5",
         "fakerphp/faker": "^1.24",
