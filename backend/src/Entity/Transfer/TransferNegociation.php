@@ -43,6 +43,15 @@ class TransferNegociation
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $agreedAt = null;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $externalContractBuyerConfirmedAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $externalContractSellerConfirmedAt = null;
+
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $externalContractWeeklySalary = null;
+
     #[ORM\Column(options: ['default' => false])]
     private bool $publicFeedEnabled = false;
 
@@ -80,12 +89,19 @@ class TransferNegociation
     #[ORM\OneToMany(targetEntity: ContractNegociation::class, mappedBy: 'transferNegociation')]
     private Collection $contractNegociations;
 
+    /**
+     * @var Collection<int, TransferAgentInvitation>
+     */
+    #[ORM\OneToMany(targetEntity: TransferAgentInvitation::class, mappedBy: 'transferNegociation')]
+    private Collection $agentInvitations;
+
     public function __construct()
     {
         $this->transferOffers = new ArrayCollection();
         $this->transferMessages = new ArrayCollection();
         $this->transferAgreements = new ArrayCollection();
         $this->contractNegociations = new ArrayCollection();
+        $this->agentInvitations = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -125,6 +141,42 @@ class TransferNegociation
     public function setAgreedAt(?\DateTimeInterface $agreedAt): static
     {
         $this->agreedAt = $agreedAt;
+
+        return $this;
+    }
+
+    public function getExternalContractBuyerConfirmedAt(): ?\DateTimeImmutable
+    {
+        return $this->externalContractBuyerConfirmedAt;
+    }
+
+    public function setExternalContractBuyerConfirmedAt(?\DateTimeImmutable $externalContractBuyerConfirmedAt): static
+    {
+        $this->externalContractBuyerConfirmedAt = $externalContractBuyerConfirmedAt;
+
+        return $this;
+    }
+
+    public function getExternalContractSellerConfirmedAt(): ?\DateTimeImmutable
+    {
+        return $this->externalContractSellerConfirmedAt;
+    }
+
+    public function setExternalContractSellerConfirmedAt(?\DateTimeImmutable $externalContractSellerConfirmedAt): static
+    {
+        $this->externalContractSellerConfirmedAt = $externalContractSellerConfirmedAt;
+
+        return $this;
+    }
+
+    public function getExternalContractWeeklySalary(): ?int
+    {
+        return null === $this->externalContractWeeklySalary ? null : (int) $this->externalContractWeeklySalary;
+    }
+
+    public function setExternalContractWeeklySalary(?int $externalContractWeeklySalary): static
+    {
+        $this->externalContractWeeklySalary = null === $externalContractWeeklySalary ? null : (string) $externalContractWeeklySalary;
 
         return $this;
     }
@@ -279,6 +331,35 @@ class TransferNegociation
             // set the owning side to null (unless already changed)
             if ($contractNegociation->getTransferNegociation() === $this) {
                 $contractNegociation->setTransferNegociation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TransferAgentInvitation>
+     */
+    public function getAgentInvitations(): Collection
+    {
+        return $this->agentInvitations;
+    }
+
+    public function addAgentInvitation(TransferAgentInvitation $agentInvitation): static
+    {
+        if (!$this->agentInvitations->contains($agentInvitation)) {
+            $this->agentInvitations->add($agentInvitation);
+            $agentInvitation->setTransferNegociation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgentInvitation(TransferAgentInvitation $agentInvitation): static
+    {
+        if ($this->agentInvitations->removeElement($agentInvitation)) {
+            if ($agentInvitation->getTransferNegociation() === $this) {
+                $agentInvitation->setTransferNegociation(null);
             }
         }
 

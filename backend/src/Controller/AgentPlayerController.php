@@ -10,6 +10,7 @@ use App\Entity\Team;
 use App\Entity\User;
 use App\Enum\AgentClubProspectStatusEnum;
 use App\Enum\PlayerAgentRequestStatusEnum;
+use App\Enum\PlayerAgentRequestTypeEnum;
 use App\Enum\PlayerContractStatusEnum;
 use App\Enum\PlayerMarketAuthorizationStatusEnum;
 use App\Enum\PlayerMarketListingSourceEnum;
@@ -60,7 +61,9 @@ final class AgentPlayerController extends AbstractController
         }
 
         $players = $this->playerRepository->searchAvailableForAgent(
-            (string) $request->query->get('query', '')
+            (string) $request->query->get('query', ''),
+            30,
+            $agent,
         );
 
         return $this->json([
@@ -77,11 +80,13 @@ final class AgentPlayerController extends AbstractController
         }
 
         $requests = $this->requestRepository->findRecentForAgent($agent);
+        $receivedHandoverRequests = $this->requestRepository->findHandoverRequestsForCurrentAgent($agent);
         $mustFlush = false;
 
         foreach ($requests as $representationRequest) {
             if (
                 PlayerAgentRequestStatusEnum::APPROVED === $representationRequest->getStatus()
+                && PlayerAgentRequestTypeEnum::REPRESENTATION === $representationRequest->getType()
                 && null === $representationRequest->getPlayer()?->getAgent()
             ) {
                 $representationRequest->getPlayer()?->setAgent($agent);
@@ -94,16 +99,8 @@ final class AgentPlayerController extends AbstractController
         }
 
         return $this->json([
-            'requests' => array_map(static fn (PlayerAgentRequest $representationRequest): array => [
-                'id' => $representationRequest->getId()?->toRfc4122(),
-                'status' => $representationRequest->getStatus()->value,
-                'createdAt' => $representationRequest->getCreatedAt()?->format(DATE_ATOM),
-                'player' => [
-                    'id' => $representationRequest->getPlayer()?->getId()?->toRfc4122(),
-                    'firstName' => $representationRequest->getPlayer()?->getFirstName(),
-                    'lastName' => $representationRequest->getPlayer()?->getLastName(),
-                ],
-            ], $requests),
+            'requests' => array_map($this->serializeAgentRequest(...), $requests),
+            'receivedHandoverRequests' => array_map($this->serializeAgentRequest(...), $receivedHandoverRequests),
         ]);
     }
 
@@ -125,20 +122,25 @@ final class AgentPlayerController extends AbstractController
             return $this->json(['message' => 'Joueur introuvable.'], JsonResponse::HTTP_NOT_FOUND);
         }
 
-        if (null !== $player->getAgent()) {
-            $sameAgent = $player->getAgent()?->getId()?->toRfc4122() === $agent->getId()?->toRfc4122();
-
+        if ($this->requestRepository->hasPendingRequest($agent, $player)) {
             return $this->json(
-                ['message' => $sameAgent
-                    ? 'Ce joueur fait déjà partie de votre portefeuille.'
-                    : 'Ce joueur est déjà représenté par un autre agent.'],
+                ['message' => 'Une demande est déjà en cours pour ce joueur.'],
                 JsonResponse::HTTP_CONFLICT
             );
         }
 
-        if ($this->requestRepository->hasPendingRequest($agent, $player)) {
+        $currentAgent = $player->getAgent();
+        $sameAgent = $currentAgent?->getId()?->toRfc4122() === $agent->getId()?->toRfc4122();
+        if ($sameAgent) {
             return $this->json(
-                ['message' => 'Une demande est déjà en cours pour ce joueur.'],
+                ['message' => 'Ce joueur fait déjà partie de votre portefeuille.'],
+                JsonResponse::HTTP_CONFLICT
+            );
+        }
+
+        if ($currentAgent instanceof Agent && $this->requestRepository->hasPendingHandoverForPlayer($player)) {
+            return $this->json(
+                ['message' => 'Une demande de passation est déjà en attente pour ce joueur.'],
                 JsonResponse::HTTP_CONFLICT
             );
         }
@@ -177,6 +179,8 @@ final class AgentPlayerController extends AbstractController
         $representationRequest = (new PlayerAgentRequest())
             ->setAgent($agent)
             ->setPlayer($player)
+            ->setType($currentAgent instanceof Agent ? PlayerAgentRequestTypeEnum::AGENT_HANDOVER : PlayerAgentRequestTypeEnum::REPRESENTATION)
+            ->setCurrentAgent($currentAgent)
             ->setVerificationDocumentPath('/uploads/player-agent-verifications/'.$fileName)
             ->setVerificationDocumentOriginalName($document->getClientOriginalName())
             ->setMessage($this->nullableString($request->request->get('message')));
@@ -185,10 +189,70 @@ final class AgentPlayerController extends AbstractController
         $this->entityManager->flush();
 
         return $this->json([
-            'message' => 'Votre demande a été transmise à un administrateur.',
+            'message' => $currentAgent instanceof Agent
+                ? 'Votre demande de passation a été transmise à l’administration. L’agent actuel pourra se prononcer après validation.'
+                : 'Votre demande a été transmise à un administrateur.',
             'requestId' => $representationRequest->getId()?->toRfc4122(),
             'status' => $representationRequest->getStatus()->value,
         ], JsonResponse::HTTP_CREATED);
+    }
+
+    #[Route('/player-requests/{id}/approve', name: 'api_agent_player_request_approve_handover', methods: ['POST'])]
+    public function approveHandover(PlayerAgentRequest $representationRequest): JsonResponse
+    {
+        $agent = $this->getOrCreateAgent();
+        if ($agent instanceof JsonResponse) {
+            return $agent;
+        }
+
+        $decisionGuard = $this->guardHandoverDecision($representationRequest, $agent);
+        if ($decisionGuard instanceof JsonResponse) {
+            return $decisionGuard;
+        }
+
+        $player = $representationRequest->getPlayer();
+        $newAgent = $representationRequest->getAgent();
+
+        if (!$player instanceof Player || !$newAgent instanceof Agent) {
+            return $this->json(['message' => 'Demande incomplète.'], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $player->setAgent($newAgent);
+        $representationRequest
+            ->setStatus(PlayerAgentRequestStatusEnum::APPROVED)
+            ->setDecidedAt(new \DateTimeImmutable());
+
+        $this->entityManager->flush();
+
+        return $this->json([
+            'message' => 'Passation validée. Le joueur a été transféré au nouvel agent.',
+            'request' => $this->serializeAgentRequest($representationRequest),
+        ]);
+    }
+
+    #[Route('/player-requests/{id}/reject', name: 'api_agent_player_request_reject_handover', methods: ['POST'])]
+    public function rejectHandover(PlayerAgentRequest $representationRequest): JsonResponse
+    {
+        $agent = $this->getOrCreateAgent();
+        if ($agent instanceof JsonResponse) {
+            return $agent;
+        }
+
+        $decisionGuard = $this->guardHandoverDecision($representationRequest, $agent);
+        if ($decisionGuard instanceof JsonResponse) {
+            return $decisionGuard;
+        }
+
+        $representationRequest
+            ->setStatus(PlayerAgentRequestStatusEnum::REJECTED)
+            ->setDecidedAt(new \DateTimeImmutable());
+
+        $this->entityManager->flush();
+
+        return $this->json([
+            'message' => 'Demande de passation refusée.',
+            'request' => $this->serializeAgentRequest($representationRequest),
+        ]);
     }
 
     #[Route('/players/{id}/market-authorization-request', name: 'api_agent_player_market_authorization_request', methods: ['POST'])]
@@ -616,12 +680,71 @@ final class AgentPlayerController extends AbstractController
         return '' === $value ? null : $value;
     }
 
+    private function guardHandoverDecision(PlayerAgentRequest $representationRequest, Agent $agent): ?JsonResponse
+    {
+        if (PlayerAgentRequestTypeEnum::AGENT_HANDOVER !== $representationRequest->getType()) {
+            return $this->json(['message' => 'Cette demande n’est pas une passation agent.'], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        if (PlayerAgentRequestStatusEnum::PENDING === $representationRequest->getStatus()) {
+            return $this->json(['message' => 'Cette demande attend encore la validation de l’administration.'], JsonResponse::HTTP_CONFLICT);
+        }
+
+        if (PlayerAgentRequestStatusEnum::ADMIN_APPROVED !== $representationRequest->getStatus()) {
+            return $this->json(['message' => 'Cette demande a déjà été traitée.'], JsonResponse::HTTP_CONFLICT);
+        }
+
+        if ($representationRequest->getCurrentAgent()?->getId()?->toRfc4122() !== $agent->getId()?->toRfc4122()) {
+            return $this->json(['message' => 'Vous ne pouvez pas traiter cette demande.'], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        if ($representationRequest->getPlayer()?->getAgent()?->getId()?->toRfc4122() !== $agent->getId()?->toRfc4122()) {
+            return $this->json(['message' => 'Vous ne représentez plus ce joueur.'], JsonResponse::HTTP_CONFLICT);
+        }
+
+        return null;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function serializeAgentRequest(PlayerAgentRequest $representationRequest): array
+    {
+        $requestingAgent = $representationRequest->getAgent();
+        $currentAgent = $representationRequest->getCurrentAgent();
+
+        return [
+            'id' => $representationRequest->getId()?->toRfc4122(),
+            'type' => $representationRequest->getType()->value,
+            'status' => $representationRequest->getStatus()->value,
+            'createdAt' => $representationRequest->getCreatedAt()?->format(DATE_ATOM),
+            'decidedAt' => $representationRequest->getDecidedAt()?->format(DATE_ATOM),
+            'message' => $representationRequest->getMessage(),
+            'player' => [
+                'id' => $representationRequest->getPlayer()?->getId()?->toRfc4122(),
+                'firstName' => $representationRequest->getPlayer()?->getFirstName(),
+                'lastName' => $representationRequest->getPlayer()?->getLastName(),
+            ],
+            'requestingAgent' => $requestingAgent ? [
+                'id' => $requestingAgent->getId()?->toRfc4122(),
+                'name' => $requestingAgent->getAgencyName()
+                    ?: trim(sprintf('%s %s', $requestingAgent->getUser()?->getFirstName(), $requestingAgent->getUser()?->getLastName())),
+            ] : null,
+            'currentAgent' => $currentAgent ? [
+                'id' => $currentAgent->getId()?->toRfc4122(),
+                'name' => $currentAgent->getAgencyName()
+                    ?: trim(sprintf('%s %s', $currentAgent->getUser()?->getFirstName(), $currentAgent->getUser()?->getLastName())),
+            ] : null,
+        ];
+    }
+
     /**
      * @return array<string, mixed>
      */
     private function serializePlayer(Player $player): array
     {
         $team = $player->getTeam();
+        $agent = $player->getAgent();
         $birthDate = $player->getBirthDate();
 
         return [
@@ -636,6 +759,11 @@ final class AgentPlayerController extends AbstractController
             'league' => $team?->getLeague() ?? '',
             'club' => $team?->getName() ?? 'Sans club',
             'clubLogoUrl' => $team?->getLogoUrl(),
+            'agent' => $agent ? [
+                'id' => $agent->getId()?->toRfc4122(),
+                'name' => $agent->getAgencyName()
+                    ?: trim(sprintf('%s %s', $agent->getUser()?->getFirstName(), $agent->getUser()?->getLastName())),
+            ] : null,
             'transferStatus' => $this->marketStatusLabel($player->getMarketStatus()),
             'marketValue' => $this->formatMoney($player->getMarketValue()),
             'weeklySalary' => $this->formatMoney($player->getWeeklySalary()),

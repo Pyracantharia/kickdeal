@@ -6,6 +6,8 @@ use App\Entity\Listing;
 use App\Entity\Player;
 use App\Entity\Team;
 use App\Entity\TeamMembership;
+use App\Entity\Transfer\TransferAgentInvitation;
+use App\Entity\Transfer\TransferAgreement;
 use App\Entity\Transfer\TransferNegociation;
 use App\Entity\Transfer\TransferOffer;
 use App\Entity\User;
@@ -18,6 +20,7 @@ use App\Repository\PlayerRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\Transfer\TransferNegociationRepository;
 use App\Repository\Transfer\TransferOfferRepository;
+use App\Repository\Transfer\TransferAgentInvitationRepository;
 use App\Service\Subscription\SubscriptionLimits;
 use App\Service\Contract\ContractNegotiationWorkflow;
 use App\Service\PublicFeed\PublicFeedPublisher;
@@ -25,6 +28,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
@@ -272,6 +277,13 @@ final class TransferController extends AbstractController
             return $offer;
         }
 
+        $latestOffer = $this->getLatestOffer($negociation);
+        if ($latestOffer instanceof TransferOffer && $this->isSameTransferOffer($offer, $latestOffer)) {
+            return $this->json([
+                'errorMessage' => 'Cette proposition est identique à la dernière offre. Acceptez-la directement ou modifiez au moins un élément.',
+            ], 422);
+        }
+
         $entityManager->persist($offer);
         $publicFeedPublisher->publishTransferOffer($offer);
         $entityManager->flush();
@@ -313,13 +325,6 @@ final class TransferController extends AbstractController
             return $this->json(['errorMessage' => 'Le club qui a emis une offre ne peut pas accepter sa propre proposition.'], 403);
         }
 
-        $player = $listing?->getPlayer();
-        if (null === $player?->getAgent()) {
-            return $this->json([
-                'errorMessage' => 'Ce joueur doit être rattaché à un agent avant de poursuivre la négociation contractuelle.',
-            ], 422);
-        }
-
         $contractNegociation = $entityManager->wrapInTransaction(function () use (
             $offer,
             $user,
@@ -329,11 +334,19 @@ final class TransferController extends AbstractController
         ) {
             $offer->setStatus(OfferStatusEnum::ACCEPTED);
             $transferNegociation = $offer->getTransferNegociation();
+            $player = $transferNegociation?->getListing()?->getPlayer();
+            $nextStatus = null === $player?->getAgent()
+                ? TransferNegociationStatusEnum::PENDING_AGENT
+                : TransferNegociationStatusEnum::AGREED_CLUBS;
             $transferNegociation
-                ?->setStatus(TransferNegociationStatusEnum::AGREED_CLUBS)
+                ?->setStatus($nextStatus)
                 ->setAgreedAt(new \DateTimeImmutable('today'));
 
-            $contractNegociation = $transferNegociation && $user
+            if ($transferNegociation) {
+                $this->ensureTransferAgreement($transferNegociation, $offer, $entityManager);
+            }
+
+            $contractNegociation = $transferNegociation && $user && TransferNegociationStatusEnum::AGREED_CLUBS === $nextStatus
                 ? $contractNegotiationWorkflow->ensureForTransfer($transferNegociation, $user)
                 : null;
             $publicFeedPublisher->publishTransferAgreement($offer);
@@ -345,6 +358,188 @@ final class TransferController extends AbstractController
         return $this->json([
             'offer' => $this->serializeOffer($offer, $team),
             'contractNegociationId' => $contractNegociation?->getId()?->toRfc4122(),
+        ]);
+    }
+
+    #[Route('/negotiations/{id}/agent-invitations', name: 'app_transfer_agent_invitation_create', methods: ['POST'])]
+    public function inviteAgent(
+        TransferNegociation $negociation,
+        Request $request,
+        #[CurrentUser] ?User $user,
+        TeamMembershipRepository $teamMembershipRepository,
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer,
+    ): JsonResponse {
+        $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
+
+        if ($membership instanceof JsonResponse) {
+            return $membership;
+        }
+
+        $team = $membership->getTeam();
+        if ($negociation->getBuyerTeam()?->getId()?->toRfc4122() !== $team->getId()?->toRfc4122()) {
+            return $this->json(['errorMessage' => 'Seul le club acheteur peut inviter l’agent.'], 403);
+        }
+
+        if (TransferNegociationStatusEnum::PENDING_AGENT !== $negociation->getStatus()) {
+            return $this->json(['errorMessage' => 'Cette négociation n’est pas en attente d’agent.'], 422);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        $email = is_array($payload) ? mb_strtolower(trim((string) ($payload['email'] ?? ''))) : '';
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $this->json(['errorMessage' => 'Adresse email invalide.'], 422);
+        }
+
+        $token = bin2hex(random_bytes(24));
+        $invitation = (new TransferAgentInvitation())
+            ->setTransferNegociation($negociation)
+            ->setInvitedBy($user)
+            ->setEmail($email)
+            ->setToken($token)
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
+
+        $entityManager->persist($invitation);
+        $entityManager->flush();
+
+        $invitationUrl = rtrim((string) $this->getParameter('frontend_url'), '/').'/agent/invitation?token='.rawurlencode($token);
+        $this->sendAgentInvitationEmail($email, $invitationUrl, $negociation, $mailer);
+
+        return $this->json([
+            'message' => 'Invitation envoyée à l’agent.',
+            'invitationUrl' => $invitationUrl,
+        ], 201);
+    }
+
+    #[Route('/agent-invitations/{token}', name: 'app_transfer_agent_invitation_show', methods: ['GET'])]
+    public function invitation(
+        string $token,
+        TransferAgentInvitationRepository $invitationRepository,
+    ): JsonResponse {
+        $invitation = $invitationRepository->findActiveByToken($token);
+
+        if (!$invitation instanceof TransferAgentInvitation) {
+            return $this->json(['errorMessage' => 'Invitation introuvable.'], 404);
+        }
+
+        return $this->json(['invitation' => $this->serializeAgentInvitation($invitation)]);
+    }
+
+    #[Route('/agent-invitations/{token}/claim', name: 'app_transfer_agent_invitation_claim', methods: ['POST'])]
+    public function claimInvitation(
+        string $token,
+        #[CurrentUser] ?User $user,
+        TransferAgentInvitationRepository $invitationRepository,
+        ContractNegotiationWorkflow $contractNegotiationWorkflow,
+        EntityManagerInterface $entityManager,
+    ): JsonResponse {
+        if (!$user) {
+            return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
+        }
+
+        $agent = $user->getAgentProfile();
+        if (null === $agent) {
+            return $this->json(['errorMessage' => 'Cette invitation doit être acceptée avec un compte agent.'], 403);
+        }
+
+        $invitation = $invitationRepository->findActiveByToken($token);
+        if (!$invitation instanceof TransferAgentInvitation) {
+            return $this->json(['errorMessage' => 'Invitation introuvable.'], 404);
+        }
+
+        $player = $invitation->getTransferNegociation()?->getListing()?->getPlayer();
+        if (!$player instanceof Player) {
+            return $this->json(['errorMessage' => 'Joueur introuvable.'], 404);
+        }
+
+        if (null !== $player->getAgent() && $player->getAgent()?->getId()?->toRfc4122() !== $agent->getId()?->toRfc4122()) {
+            return $this->json(['errorMessage' => 'Ce joueur est déjà rattaché à un autre agent.'], 409);
+        }
+
+        $contractNegociations = $entityManager->wrapInTransaction(function () use (
+            $agent,
+            $contractNegotiationWorkflow,
+            $entityManager,
+            $invitation,
+            $player,
+            $user,
+        ): array {
+            $player->setAgent($agent);
+            $invitation
+                ->setAcceptedBy($agent)
+                ->setAcceptedAt(new \DateTimeImmutable())
+                ->setUpdatedAt(new \DateTimeImmutable());
+            $contractNegociations = $contractNegotiationWorkflow->ensurePendingAgentNegotiationsForPlayer($player, $user);
+            $entityManager->flush();
+
+            return $contractNegociations;
+        });
+
+        return $this->json([
+            'message' => 'Représentation confirmée. La négociation contractuelle est prête.',
+            'contractNegociationIds' => array_map(
+                static fn ($negociation): ?string => $negociation->getId()?->toRfc4122(),
+                $contractNegociations,
+            ),
+        ]);
+    }
+
+    #[Route('/negotiations/{id}/external-contract-agreement', name: 'app_transfer_external_contract_agreement', methods: ['POST'])]
+    public function confirmExternalContractAgreement(
+        TransferNegociation $negociation,
+        Request $request,
+        #[CurrentUser] ?User $user,
+        TeamMembershipRepository $teamMembershipRepository,
+        ContractNegotiationWorkflow $contractNegotiationWorkflow,
+        EntityManagerInterface $entityManager,
+    ): JsonResponse {
+        $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
+
+        if ($membership instanceof JsonResponse) {
+            return $membership;
+        }
+
+        $team = $membership->getTeam();
+        $listing = $negociation->getListing();
+        $isSeller = $listing?->getSellerTeam()?->getId()?->toRfc4122() === $team->getId()?->toRfc4122();
+        $isBuyer = $negociation->getBuyerTeam()?->getId()?->toRfc4122() === $team->getId()?->toRfc4122();
+
+        if (!$isSeller && !$isBuyer) {
+            return $this->json(['errorMessage' => 'Vous ne pouvez pas valider cet accord.'], 403);
+        }
+
+        if (!in_array($negociation->getStatus(), [TransferNegociationStatusEnum::PENDING_AGENT, TransferNegociationStatusEnum::AGREED_CLUBS], true)) {
+            return $this->json(['errorMessage' => 'Cette négociation ne peut pas être finalisée par accord externe.'], 422);
+        }
+
+        $now = new \DateTimeImmutable();
+        if ($isBuyer) {
+            $payload = json_decode($request->getContent(), true);
+            $weeklySalary = $this->moneyToCents(is_array($payload) ? ($payload['weeklySalary'] ?? null) : null);
+
+            if (null === $weeklySalary || $weeklySalary <= 0) {
+                return $this->json(['errorMessage' => 'Le salaire hebdomadaire convenu est requis.'], 422);
+            }
+
+            $negociation->setExternalContractWeeklySalary($weeklySalary);
+            $negociation->setExternalContractBuyerConfirmedAt($now);
+        }
+        if ($isSeller) {
+            $negociation->setExternalContractSellerConfirmedAt($now);
+        }
+
+        if (
+            null !== $negociation->getExternalContractBuyerConfirmedAt()
+            && null !== $negociation->getExternalContractSellerConfirmedAt()
+        ) {
+            $contractNegotiationWorkflow->finalizeExternalTransfer($negociation);
+        }
+
+        $entityManager->flush();
+
+        return $this->json([
+            'negociation' => $this->serializeNegotiationState($negociation, $team),
         ]);
     }
 
@@ -420,9 +615,6 @@ final class TransferController extends AbstractController
             return $this->json(['errorMessage' => 'Payload invalide.'], 400);
         }
 
-        $sourceOffer->setStatus(OfferStatusEnum::REJECTED);
-        $negociation?->setStatus(TransferNegociationStatusEnum::COUNTER_OFFER);
-
         $counterOffer = $this->buildOfferFromPayload(
             $payload,
             $negociation,
@@ -434,6 +626,15 @@ final class TransferController extends AbstractController
         if ($counterOffer instanceof JsonResponse) {
             return $counterOffer;
         }
+
+        if ($this->isSameTransferOffer($counterOffer, $sourceOffer)) {
+            return $this->json([
+                'errorMessage' => 'Cette proposition est identique à la dernière offre. Acceptez-la directement ou modifiez au moins un élément.',
+            ], 422);
+        }
+
+        $sourceOffer->setStatus(OfferStatusEnum::REJECTED);
+        $negociation?->setStatus(TransferNegociationStatusEnum::COUNTER_OFFER);
 
         $entityManager->persist($counterOffer);
         $publicFeedPublisher->publishTransferOffer($counterOffer);
@@ -546,6 +747,38 @@ final class TransferController extends AbstractController
         };
     }
 
+    private function getLatestOffer(TransferNegociation $negociation): ?TransferOffer
+    {
+        $offers = $negociation->getTransferOffers()->toArray();
+
+        usort(
+            $offers,
+            static fn (TransferOffer $a, TransferOffer $b): int => ($b->getCreatedAt()?->getTimestamp() ?? 0) <=> ($a->getCreatedAt()?->getTimestamp() ?? 0),
+        );
+
+        return $offers[0] ?? null;
+    }
+
+    private function isSameTransferOffer(TransferOffer $nextOffer, TransferOffer $previousOffer): bool
+    {
+        return $nextOffer->getKind() === $previousOffer->getKind()
+            && $nextOffer->getAmount() === $previousOffer->getAmount()
+            && $nextOffer->getDurationMonths() === $previousOffer->getDurationMonths()
+            && $nextOffer->getPaymentInstallments() === $previousOffer->getPaymentInstallments()
+            && $nextOffer->getPerformanceBonus() === $previousOffer->getPerformanceBonus()
+            && $this->normalizeComparableString($nextOffer->getPerformanceBonusCondition()) === $this->normalizeComparableString($previousOffer->getPerformanceBonusCondition())
+            && $nextOffer->getResalePercentage() === $previousOffer->getResalePercentage()
+            && $nextOffer->hasBuyBackPriority() === $previousOffer->hasBuyBackPriority()
+            && $nextOffer->hasFutureTransferPriority() === $previousOffer->hasFutureTransferPriority()
+            && $nextOffer->getExchangePlayer()?->getId()?->toRfc4122() === $previousOffer->getExchangePlayer()?->getId()?->toRfc4122()
+            && $this->normalizeComparableString($nextOffer->getMessage()) === $this->normalizeComparableString($previousOffer->getMessage());
+    }
+
+    private function normalizeComparableString(?string $value): string
+    {
+        return trim($value ?? '');
+    }
+
     private function serializeOffer(TransferOffer $offer, Team $viewerTeam): array
     {
         $negociation = $offer->getTransferNegociation();
@@ -561,9 +794,11 @@ final class TransferController extends AbstractController
             'negociationId' => $negociation?->getId()?->toRfc4122(),
             'listingId' => $listing?->getId()?->toRfc4122(),
             'playerId' => $player?->getId()?->toRfc4122(),
+            'negociationStatus' => $negociation?->getStatus()?->value,
             'buyerTeamId' => $buyerTeam?->getId()?->toRfc4122(),
             'sellerTeamId' => $sellerTeam?->getId()?->toRfc4122(),
             'viewerRole' => $viewerRole,
+            'contractResolution' => $negociation ? $this->serializeContractResolution($negociation, $viewerTeam) : null,
             'player' => $player ? $this->serializePlayer($player) : null,
             'type' => $this->serializeOfferType($offer->getKind()),
             'kind' => $offer->getKind()?->value,
@@ -623,8 +858,10 @@ final class TransferController extends AbstractController
             'listingId' => $listing->getId()?->toRfc4122(),
             'sourceOfferId' => $sourceOffer?->getId()?->toRfc4122(),
             'negociationId' => $negociation?->getId()?->toRfc4122(),
+            'negociationStatus' => $negociation?->getStatus()?->value,
             'viewerRole' => $viewerRole,
             'exchangeTeamId' => 'seller' === $viewerRole ? $buyerTeam->getId()?->toRfc4122() : $viewerTeam->getId()?->toRfc4122(),
+            'contractResolution' => $negociation ? $this->serializeContractResolution($negociation, $viewerTeam) : null,
             'player' => $player ? $this->serializePlayer($player) : null,
             'sellerTeam' => $sellerTeam ? $this->serializeTeam($sellerTeam) : null,
             'buyerTeam' => $this->serializeTeam($buyerTeam),
@@ -697,6 +934,107 @@ final class TransferController extends AbstractController
             'transferBudgetValue' => null !== $team->getTransferBudget() ? $team->getTransferBudget() / 100 : null,
             'transferBudget' => null !== $team->getTransferBudget() ? $this->formatMoney($team->getTransferBudget()) : null,
         ];
+    }
+
+    private function serializeNegotiationState(TransferNegociation $negociation, Team $viewerTeam): array
+    {
+        return [
+            'id' => $negociation->getId()?->toRfc4122(),
+            'status' => $negociation->getStatus()?->value,
+            'contractResolution' => $this->serializeContractResolution($negociation, $viewerTeam),
+        ];
+    }
+
+    private function serializeContractResolution(TransferNegociation $negociation, Team $viewerTeam): array
+    {
+        $listing = $negociation->getListing();
+        $sellerTeam = $listing?->getSellerTeam();
+        $buyerTeam = $negociation->getBuyerTeam();
+        $viewerRole = $sellerTeam?->getId()?->toRfc4122() === $viewerTeam->getId()?->toRfc4122() ? 'seller' : 'buyer';
+
+        return [
+            'requiresAction' => TransferNegociationStatusEnum::PENDING_AGENT === $negociation->getStatus(),
+            'playerHasAgent' => null !== $listing?->getPlayer()?->getAgent(),
+            'buyerConfirmedExternalAgreement' => null !== $negociation->getExternalContractBuyerConfirmedAt(),
+            'sellerConfirmedExternalAgreement' => null !== $negociation->getExternalContractSellerConfirmedAt(),
+            'viewerConfirmedExternalAgreement' => 'buyer' === $viewerRole
+                ? null !== $negociation->getExternalContractBuyerConfirmedAt()
+                : null !== $negociation->getExternalContractSellerConfirmedAt(),
+            'viewerRole' => $viewerRole,
+            'canInviteAgent' => 'buyer' === $viewerRole && TransferNegociationStatusEnum::PENDING_AGENT === $negociation->getStatus(),
+            'canConfirmExternalAgreement' => in_array($negociation->getStatus(), [TransferNegociationStatusEnum::PENDING_AGENT, TransferNegociationStatusEnum::AGREED_CLUBS], true),
+            'buyerTeamName' => $buyerTeam?->getName(),
+            'sellerTeamName' => $sellerTeam?->getName(),
+        ];
+    }
+
+    private function serializeAgentInvitation(TransferAgentInvitation $invitation): array
+    {
+        $negociation = $invitation->getTransferNegociation();
+        $listing = $negociation?->getListing();
+        $player = $listing?->getPlayer();
+        $buyerTeam = $negociation?->getBuyerTeam();
+        $sellerTeam = $listing?->getSellerTeam();
+
+        return [
+            'email' => $invitation->getEmail(),
+            'acceptedAt' => $invitation->getAcceptedAt()?->format(\DateTimeInterface::ATOM),
+            'player' => $player ? $this->serializePlayer($player) : null,
+            'buyerTeam' => $buyerTeam ? $this->serializeTeam($buyerTeam) : null,
+            'sellerTeam' => $sellerTeam ? $this->serializeTeam($sellerTeam) : null,
+            'negociationStatus' => $negociation?->getStatus()?->value,
+        ];
+    }
+
+    private function ensureTransferAgreement(
+        TransferNegociation $transferNegociation,
+        TransferOffer $acceptedOffer,
+        EntityManagerInterface $entityManager,
+    ): void {
+        foreach ($transferNegociation->getTransferAgreements() as $agreement) {
+            if ($agreement->getAcceptedOffer()?->getId()?->toRfc4122() === $acceptedOffer->getId()?->toRfc4122()) {
+                return;
+            }
+        }
+
+        $agreement = (new TransferAgreement())
+            ->setTransferNegociation($transferNegociation)
+            ->setAcceptedOffer($acceptedOffer)
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
+        $entityManager->persist($agreement);
+    }
+
+    private function sendAgentInvitationEmail(
+        string $email,
+        string $invitationUrl,
+        TransferNegociation $negociation,
+        MailerInterface $mailer,
+    ): void {
+        $player = $negociation->getListing()?->getPlayer();
+        $sellerTeam = $negociation->getListing()?->getSellerTeam();
+        $buyerTeam = $negociation->getBuyerTeam();
+        $playerName = trim(($player?->getFirstName() ?? '').' '.($player?->getLastName() ?? '')) ?: 'un joueur';
+        $subject = sprintf('KickDeal - transfert en attente pour %s', $playerName);
+        $text = sprintf(
+            "Bonjour,\n\nUn transfert impliquant %s est en attente sur KickDeal. %s et %s ont déjà trouvé un accord entre clubs.\n\nRejoignez KickDeal pour confirmer que vous représentez le joueur et négocier son contrat directement sur la plateforme :\n%s\n\nL'équipe KickDeal",
+            $playerName,
+            $buyerTeam?->getName() ?? 'le club acheteur',
+            $sellerTeam?->getName() ?? 'le club vendeur',
+            $invitationUrl,
+        );
+
+        $message = (new Email())
+            ->from('kickdeal@no-reply.com')
+            ->to($email)
+            ->subject($subject)
+            ->text($text);
+
+        try {
+            $mailer->send($message);
+        } catch (\Throwable) {
+            // In local environments MAILER_DSN may be null; the invitation URL is still returned by the API.
+        }
     }
 
     private function serializeOfferType(?TransferOfferKindEnum $kind): string
