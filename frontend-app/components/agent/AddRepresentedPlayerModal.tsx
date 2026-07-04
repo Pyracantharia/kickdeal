@@ -77,6 +77,7 @@ function AddRepresentedPlayerModal({
     () => selectedPlayer ? `${selectedPlayer.firstName} ${selectedPlayer.lastName}` : '',
     [selectedPlayer],
   )
+  const isHandoverRequest = Boolean(selectedPlayer?.agent)
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -145,10 +146,13 @@ function AddRepresentedPlayerModal({
             <div className="flex gap-3">
               <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-brand-purple" />
               <div>
-                <p className="font-semibold text-white">Vérification obligatoire</p>
+                <p className="font-semibold text-white">
+                  {isHandoverRequest ? 'Passation entre agents' : 'Vérification obligatoire'}
+                </p>
                 <p className="mt-1 text-sm leading-6 text-white/60">
-                  Fournissez un mandat de représentation, un contrat d’agent ou tout document officiel
-                  prouvant que vous représentez ce joueur. Un administrateur vérifiera la demande.
+                  {isHandoverRequest
+                    ? `Ce joueur est actuellement représenté par ${selectedPlayer?.agent?.name ?? 'un autre agent'}. Votre demande sera transmise à cet agent pour validation de la passation.`
+                    : 'Fournissez un mandat de représentation, un contrat d’agent ou tout document officiel prouvant que vous représentez ce joueur. Un administrateur vérifiera la demande.'}
                 </p>
               </div>
             </div>
@@ -180,12 +184,14 @@ function AddRepresentedPlayerModal({
           </label>
 
           <label className="block">
-            <span className="mb-2 block text-sm font-semibold text-white">Message à l’administrateur</span>
+            <span className="mb-2 block text-sm font-semibold text-white">
+              Message {isHandoverRequest ? 'à l’agent actuel' : 'à l’administrateur'}
+            </span>
             <textarea
               value={message}
               onChange={(event) => setMessage(event.target.value)}
               rows={3}
-              placeholder="Précisez le contexte de votre mandat si nécessaire..."
+              placeholder={isHandoverRequest ? 'Expliquez le contexte de la passation...' : 'Précisez le contexte de votre mandat si nécessaire...'}
               className="w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-brand-cyan focus:outline-none"
             />
           </label>
@@ -199,13 +205,14 @@ function AddRepresentedPlayerModal({
             className="w-full"
             icon={<UserPlus className="h-4 w-4" />}
           >
-            Envoyer la demande
+            {isHandoverRequest ? 'Demander la passation' : 'Envoyer la demande'}
           </Button>
         </form>
       ) : (
         <div className="space-y-4">
           <p className="text-sm leading-6 text-white/60">
-            Recherchez un joueur qui n’est pas encore rattaché à un agent sur KickDeal.
+            Recherchez un joueur à ajouter à votre portefeuille. Si le joueur a déjà un agent,
+            une demande de passation sera envoyée à l’agent actuel.
           </p>
 
           <div className="relative">
@@ -246,7 +253,7 @@ function AddRepresentedPlayerModal({
                     </p>
                   </div>
                   <span className="shrink-0 text-xs font-semibold text-brand-cyan">
-                    {isPending ? 'Demande en cours' : 'Sélectionner'}
+                    {isPending ? 'Demande en cours' : player.agent ? 'Demander passation' : 'Sélectionner'}
                   </span>
                 </button>
               )

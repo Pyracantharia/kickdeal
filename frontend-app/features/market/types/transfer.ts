@@ -2,6 +2,20 @@ import type { Player } from './player'
 
 export type OfferStatus = 'pending' | 'accepted' | 'rejected' | 'expired'
 export type OfferType = 'purchase' | 'loan' | 'exchange'
+export type TransferNegotiationStatus = 'open' | 'counter_offer' | 'permission_to_speak' | 'agreed_clubs' | 'pending_agent' | 'completed' | 'expired' | 'rejected'
+
+export interface ContractResolution {
+  requiresAction: boolean
+  playerHasAgent: boolean
+  buyerConfirmedExternalAgreement: boolean
+  sellerConfirmedExternalAgreement: boolean
+  viewerConfirmedExternalAgreement: boolean
+  viewerRole: 'buyer' | 'seller'
+  canInviteAgent: boolean
+  canConfirmExternalAgreement: boolean
+  buyerTeamName?: string | null
+  sellerTeamName?: string | null
+}
 
 export interface TransferListPlayer {
   id?: string
@@ -20,9 +34,11 @@ export interface TransferOffer {
   negociationId?: string
   listingId?: string
   playerId: string
+  negociationStatus?: TransferNegotiationStatus | null
   buyerTeamId?: string | null
   sellerTeamId?: string | null
   viewerRole?: 'buyer' | 'seller'
+  contractResolution?: ContractResolution | null
   player: Player
   type: OfferType
   kind?: string
@@ -83,14 +99,25 @@ export interface TransferNegotiationContext {
   listingId: string
   sourceOfferId?: string | null
   negociationId?: string | null
+  negociationStatus?: TransferNegotiationStatus | null
   viewerRole: 'buyer' | 'seller'
   exchangeTeamId?: string | null
+  contractResolution?: ContractResolution | null
   player: Player
   sellerTeam: NegotiationTeam
   buyerTeam: NegotiationTeam
   viewerTeam: NegotiationTeam
   latestOffer?: TransferOffer | null
   history: NegotiationHistoryItem[]
+}
+
+export interface TransferAgentInvitation {
+  email: string
+  acceptedAt?: string | null
+  player: Player
+  buyerTeam: NegotiationTeam
+  sellerTeam: NegotiationTeam
+  negociationStatus?: TransferNegotiationStatus | null
 }
 
 export interface TransferHistoryItem {

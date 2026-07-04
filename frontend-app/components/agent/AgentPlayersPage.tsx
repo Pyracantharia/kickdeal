@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Clock3, Plus, Search, UsersRound } from 'lucide-react'
+import { Check, Clock3, Plus, Search, UserRoundCheck, UsersRound, X } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
@@ -26,6 +26,7 @@ function AgentPlayersPage() {
   const searchParams = useSearchParams()
   const [players, setPlayers] = useState<Player[]>([])
   const [requests, setRequests] = useState<RepresentationRequest[]>([])
+  const [receivedHandoverRequests, setReceivedHandoverRequests] = useState<RepresentationRequest[]>([])
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedPosition, setSelectedPosition] = useState('')
@@ -46,6 +47,7 @@ function AgentPlayersPage() {
       const requestResponse = await agentPlayersManager.getRepresentationRequests()
       if (requestResponse.ok) {
         setRequests(requestResponse.data.requests ?? [])
+        setReceivedHandoverRequests(requestResponse.data.receivedHandoverRequests ?? [])
       }
 
       const rosterResponse = await playersManager.getAgentRoster()
@@ -134,8 +136,16 @@ function AgentPlayersPage() {
   }, [players, searchTerm, selectedPosition, selectedStatus])
 
   const pendingRequests = useMemo(
-    () => requests.filter((request) => request.status === 'pending'),
+    () => requests.filter((request) => ['pending', 'admin_approved'].includes(request.status)),
     [requests],
+  )
+  const pendingReceivedHandoverRequests = useMemo(
+    () => receivedHandoverRequests.filter((request) => request.status === 'admin_approved'),
+    [receivedHandoverRequests],
+  )
+  const selectedPlayerHandoverRequest = useMemo(
+    () => pendingReceivedHandoverRequests.find((request) => request.player.id === selectedPlayer?.id) ?? null,
+    [pendingReceivedHandoverRequests, selectedPlayer],
   )
   const pendingPlayerIds = useMemo(
     () => new Set(pendingRequests.map((request) => request.player.id)),
@@ -143,7 +153,25 @@ function AgentPlayersPage() {
   )
 
   function handleRequestSubmitted() {
-    setSuccessMessage('Demande envoyée. Un administrateur doit maintenant vérifier votre justificatif.')
+    setSuccessMessage('Demande envoyée. Elle sera traitée par la bonne partie avant ajout à votre portefeuille.')
+    void loadData()
+  }
+
+  async function decideHandover(requestId: string, decision: 'approve' | 'reject') {
+    setErrorMessage(null)
+    setSuccessMessage(null)
+
+    const response = decision === 'approve'
+      ? await agentPlayersManager.approveRepresentationHandover(requestId)
+      : await agentPlayersManager.rejectRepresentationHandover(requestId)
+
+    if (!response.ok) {
+      setErrorMessage(readError(response.data, 'Impossible de traiter la demande de passation.'))
+      return
+    }
+
+    setSuccessMessage(response.data.message)
+    setIsManagementModalOpen(false)
     void loadData()
   }
 
@@ -182,15 +210,67 @@ function AgentPlayersPage() {
           </div>
         )}
 
+        {pendingReceivedHandoverRequests.length > 0 && (
+          <div className="mb-6 space-y-3 rounded-xl border border-brand-cyan/30 bg-brand-cyan/10 p-4">
+            <div className="flex items-center gap-3">
+              <UserRoundCheck className="h-5 w-5 text-brand-cyan" />
+              <div>
+                <p className="font-semibold text-white">Demandes de passation reçues</p>
+                <p className="text-sm text-white/60">
+                  Ces demandes ont été validées par l’administration et attendent votre décision.
+                </p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              {pendingReceivedHandoverRequests.map((request) => (
+                <div
+                  key={request.id}
+                  className="flex flex-col gap-3 rounded-lg border border-white/10 bg-[#071722]/80 p-3 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div>
+                    <p className="font-semibold text-white">
+                      {request.player.firstName} {request.player.lastName}
+                    </p>
+                    <p className="text-sm text-white/55">
+                      Demande de {request.requestingAgent?.name ?? 'Nouvel agent'}
+                    </p>
+                    {request.message && (
+                      <p className="mt-1 text-sm text-white/45">{request.message}</p>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      onClick={() => decideHandover(request.id, 'reject')}
+                      icon={<X className="h-4 w-4" />}
+                    >
+                      Refuser
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => decideHandover(request.id, 'approve')}
+                      icon={<Check className="h-4 w-4" />}
+                    >
+                      Accepter
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {pendingRequests.length > 0 && (
           <div className="mb-6 flex flex-wrap items-center gap-3 rounded-xl border border-brand-purple/30 bg-brand-purple/10 px-4 py-3">
             <Clock3 className="h-5 w-5 text-brand-purple" />
             <p className="text-sm text-white/75">
-              {pendingRequests.length} demande{pendingRequests.length > 1 ? 's' : ''} de représentation en attente :
+              {pendingRequests.length} demande{pendingRequests.length > 1 ? 's' : ''} joueur en attente :
             </p>
             {pendingRequests.map((request) => (
               <span key={request.id} className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white">
                 {request.player.firstName} {request.player.lastName}
+                <span className="ml-2 text-white/50">{agentRequestStatusLabel(request)}</span>
               </span>
             ))}
           </div>
@@ -311,7 +391,9 @@ function AgentPlayersPage() {
           {selectedPlayer && (
             <AgentPlayerDetailsCard
               player={selectedPlayer}
+              handoverRequest={selectedPlayerHandoverRequest}
               onManage={() => setIsManagementModalOpen(true)}
+              onDecideHandover={decideHandover}
             />
           )}
         </div>
@@ -329,7 +411,9 @@ function AgentPlayersPage() {
         isOpen={isManagementModalOpen}
         onClose={() => setIsManagementModalOpen(false)}
         player={selectedPlayer}
+        handoverRequest={selectedPlayerHandoverRequest}
         onPlayerUpdated={() => void loadData()}
+        onDecideHandover={decideHandover}
       />
     </div>
   )
@@ -411,6 +495,31 @@ function StatusBadge({
 function formatContractYear(value?: string | null): string {
   if (!value) return '-'
   return new Date(`${value}T00:00:00`).getFullYear().toString()
+}
+
+function readError(data: unknown, fallback: string): string {
+  if (data && typeof data === 'object') {
+    const message = (data as { errorMessage?: unknown; message?: unknown }).errorMessage
+      ?? (data as { message?: unknown }).message
+
+    if (typeof message === 'string') {
+      return message
+    }
+  }
+
+  return fallback
+}
+
+function agentRequestStatusLabel(request: RepresentationRequest): string {
+  if (request.type === 'agent_handover' && request.status === 'pending') {
+    return 'Validation admin'
+  }
+
+  if (request.type === 'agent_handover' && request.status === 'admin_approved') {
+    return 'Avis agent actuel'
+  }
+
+  return 'Validation admin'
 }
 
 export default AgentPlayersPage

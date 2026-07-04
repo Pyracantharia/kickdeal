@@ -1,17 +1,29 @@
 import httpClient from '@/features/api'
 import type { Player, PlayerMarketContext } from '@/features/market/types/player'
 
-export type RepresentationRequestStatus = 'pending' | 'approved' | 'rejected'
+export type RepresentationRequestStatus = 'pending' | 'admin_approved' | 'approved' | 'rejected'
+export type RepresentationRequestType = 'representation' | 'agent_handover'
 
 export interface RepresentationRequest {
   id: string
+  type: RepresentationRequestType
   status: RepresentationRequestStatus
   createdAt: string
+  decidedAt?: string | null
+  message?: string | null
   player: {
     id: string
     firstName: string
     lastName: string
   }
+  requestingAgent?: {
+    id: string
+    name: string
+  } | null
+  currentAgent?: {
+    id: string
+    name: string
+  } | null
 }
 
 interface PlayerCandidatesResponse {
@@ -20,6 +32,7 @@ interface PlayerCandidatesResponse {
 
 interface RepresentationRequestsResponse {
   requests: RepresentationRequest[]
+  receivedHandoverRequests: RepresentationRequest[]
 }
 
 interface RepresentationRequestResponse {
@@ -114,6 +127,20 @@ class AgentPlayersManager {
     if (message?.trim()) formData.append('message', message.trim())
 
     return httpClient.postFormData<RepresentationRequestResponse>('/agents/player-requests', formData)
+  }
+
+  async approveRepresentationHandover(requestId: string) {
+    return httpClient.post<{ message: string; request: RepresentationRequest }>(
+      `/agents/player-requests/${requestId}/approve`,
+      {},
+    )
+  }
+
+  async rejectRepresentationHandover(requestId: string) {
+    return httpClient.post<{ message: string; request: RepresentationRequest }>(
+      `/agents/player-requests/${requestId}/reject`,
+      {},
+    )
   }
 
   async updateMarketStatus(playerId: string, status: 'on_market' | 'loan_listed' | 'not_listed') {

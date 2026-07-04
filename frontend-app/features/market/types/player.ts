@@ -32,6 +32,10 @@ export interface Player {
   league: string
   club: string
   clubLogoUrl?: string | null
+  agent?: {
+    id: string
+    name: string
+  } | null
   transferStatus: string
   height?: number // cm
   weight?: number // kg

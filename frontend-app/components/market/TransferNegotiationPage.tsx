@@ -145,6 +145,24 @@ function TransferNegotiationPage() {
   const counterparty = isSeller ? context?.buyerTeam : context?.sellerTeam
   const operationLabel = type === 'loan' ? 'Prêt' : type === 'exchange' ? 'Échange' : isSeller ? 'Vente' : 'Transfert définitif'
   const canShowAdvancedTransferTerms = type !== 'loan'
+  const isSameAsLatestOffer = context?.latestOffer
+    ? isPayloadSameAsOffer(
+      {
+        type,
+        amount: amountValue,
+        durationMonths: type === 'loan' ? parseOptionalNumber(durationMonths) : undefined,
+        paymentInstallments: type !== 'loan' && paymentMode === 'installments' ? parseOptionalNumber(paymentInstallments) : undefined,
+        performanceBonus: canShowAdvancedTransferTerms && hasBonus ? bonusValue : undefined,
+        performanceBonusCondition: canShowAdvancedTransferTerms && hasBonus ? performanceBonusCondition || undefined : undefined,
+        resalePercentage: canShowAdvancedTransferTerms && hasResale ? parseOptionalNumber(resalePercentage) : undefined,
+        exchangePlayerId: type === 'exchange' ? exchangePlayerId || undefined : undefined,
+        buyBackPriority: canShowAdvancedTransferTerms ? buyBackPriority : false,
+        futureTransferPriority: canShowAdvancedTransferTerms ? futureTransferPriority : false,
+        message: message || undefined,
+      },
+      context.latestOffer,
+    )
+    : false
 
   const history = useMemo(() => context?.history ?? [], [context?.history])
 
@@ -157,6 +175,11 @@ function TransferNegotiationPage() {
 
     if (subscription && !subscription.canCreateOffer) {
       setErrorMessage('Vous avez atteint la limite du plan gratuit.')
+      return
+    }
+
+    if (isSameAsLatestOffer) {
+      setErrorMessage("Cette proposition est identique à la dernière offre reçue. Vous pouvez l'accepter directement ou modifier au moins un élément avant de renvoyer une offre.")
       return
     }
 
@@ -379,7 +402,13 @@ function TransferNegotiationPage() {
                 </div>
               )}
 
-              <Button type="submit" className="mt-5 w-full" isLoading={isSubmitting} disabled={Boolean(subscription && !subscription.canCreateOffer)} icon={<Send className="h-4 w-4" />}>
+              {isSameAsLatestOffer && (
+                <p className="mt-4 rounded-lg border border-amber-400/40 bg-amber-400/10 px-3 py-2 text-sm text-amber-100">
+                  Offre identique à la dernière proposition : acceptez-la directement ou modifiez un élément pour contre-proposer.
+                </p>
+              )}
+
+              <Button type="submit" className="mt-5 w-full" isLoading={isSubmitting} disabled={Boolean(subscription && !subscription.canCreateOffer) || isSameAsLatestOffer} icon={<Send className="h-4 w-4" />}>
                 Envoyer l&apos;offre
               </Button>
               <Button type="button" variant="secondary" className="mt-3 w-full" onClick={() => router.push('/market/transfers')}>
@@ -425,6 +454,47 @@ function formatHistoryDate(value?: string | null): string {
     hour: '2-digit',
     minute: '2-digit',
   }).format(new Date(value))
+}
+
+function isPayloadSameAsOffer(
+  payload: Omit<TransferOfferPayload, 'listingId'>,
+  offer: TransferNegotiationContext['latestOffer'],
+): boolean {
+  if (!offer) return false
+
+  return (
+    payload.type === offer.type
+    && normalizeNumber(payload.amount) === normalizeNumber(offer.amountValue)
+    && normalizeNumber(payload.durationMonths) === normalizeNumber(offer.duration)
+    && normalizeNumber(payload.paymentInstallments) === normalizeInstallments(offer.paymentStructure)
+    && normalizeNumber(payload.performanceBonus) === normalizeNumber(offer.performanceBonusValue)
+    && normalizeText(payload.performanceBonusCondition) === normalizeText(offer.performanceBonusCondition)
+    && normalizeNumber(payload.resalePercentage) === normalizeNumber(offer.resalePercentageValue)
+    && normalizeBoolean(payload.buyBackPriority) === normalizeBoolean(offer.buyBackPriority)
+    && normalizeBoolean(payload.futureTransferPriority) === normalizeBoolean(offer.futureTransferPriority)
+    && normalizeText(payload.message) === normalizeText(offer.customMessage)
+  )
+}
+
+function normalizeNumber(value: number | null | undefined): number | null {
+  return typeof value === 'number' && Number.isFinite(value) ? value : null
+}
+
+function normalizeText(value: string | null | undefined): string {
+  return value?.trim() ?? ''
+}
+
+function normalizeBoolean(value: boolean | null | undefined): boolean {
+  return value === true
+}
+
+function normalizeInstallments(paymentStructure?: string | null): number | null {
+  if (!paymentStructure || paymentStructure === 'Paiement comptant') {
+    return null
+  }
+
+  const match = paymentStructure.match(/\d+/)
+  return match ? Number(match[0]) : null
 }
 
 export default TransferNegotiationPage
