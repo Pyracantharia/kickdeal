@@ -1,10 +1,11 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { ReceiptText, Send, Users } from 'lucide-react'
+import { BadgeEuro, CheckCircle2, Clock3, Mail, ReceiptText, Send, Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
+import Modal from '@/components/ui/Modal'
 import { CountryFlag } from '@/components/media/CountryFlag'
 import OfferDetailsModal from './modals/OfferDetailsModal'
 import { ClubLogo, EmptyState, ErrorMessage, OfferDirection, PlayerAvatar } from './TransferHomeParts'
@@ -15,6 +16,7 @@ import type {
 } from '@/features/market/types/transfer'
 import { transfersManager } from '@/features/market/transfers'
 import { getPositionDisplayName } from '@/features/players/position'
+import { formatNumberInput, parseFormattedNumber } from '@/features/format/number'
 
 type TabType = 'liste' | 'envoyees' | 'recues'
 
@@ -30,6 +32,10 @@ function TransferHome() {
   const [isLoadingOffers, setIsLoadingOffers] = useState(true)
   const [listError, setListError] = useState<string | null>(null)
   const [offersError, setOffersError] = useState<string | null>(null)
+  const [agentEmails, setAgentEmails] = useState<Record<string, string>>({})
+  const [actionMessage, setActionMessage] = useState<string | null>(null)
+  const [pendingActionId, setPendingActionId] = useState<string | null>(null)
+  const [externalAgreementOffer, setExternalAgreementOffer] = useState<SentOffer | ReceivedOffer | null>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -94,11 +100,70 @@ function TransferHome() {
       : await transfersManager.rejectOffer(offer.id)
 
     if (!response.ok) {
-      setOffersError("Impossible de mettre à jour l'offre.")
+      setOffersError(readError(response.data, "Impossible de mettre à jour l'offre."))
       return
     }
 
     setSelectedOffer(null)
+    if (action === 'accept' && response.data.contractNegociationId) {
+      setActionMessage("Accord entre clubs trouvé. La négociation contractuelle est prête.")
+    }
+    await refreshOffers()
+  }
+
+  const inviteAgent = async (offer: SentOffer | ReceivedOffer) => {
+    if (!offer.negociationId) return
+
+    const email = (agentEmails[offer.id] ?? '').trim()
+    if (!email) {
+      setOffersError("Renseignez l'adresse email de l'agent.")
+      return
+    }
+
+    setPendingActionId(`invite-${offer.id}`)
+    setOffersError(null)
+    setActionMessage(null)
+
+    const response = await transfersManager.inviteAgent(offer.negociationId, email)
+    setPendingActionId(null)
+
+    if (!response.ok) {
+      setOffersError(readError(response.data, "Impossible d'envoyer l'invitation."))
+      return
+    }
+
+    setActionMessage("Invitation envoyée. L'agent pourra rejoindre KickDeal et reprendre la négociation contractuelle.")
+  }
+
+  const handleExternalAgreementRequest = (offer: SentOffer | ReceivedOffer) => {
+    if (offer.contractResolution?.viewerRole === 'buyer') {
+      setExternalAgreementOffer(offer)
+      return
+    }
+
+    confirmExternalAgreement(offer)
+  }
+
+  const confirmExternalAgreement = async (offer: SentOffer | ReceivedOffer, weeklySalary?: number) => {
+    if (!offer.negociationId) return
+
+    setPendingActionId(`external-${offer.id}`)
+    setOffersError(null)
+    setActionMessage(null)
+
+    const response = await transfersManager.confirmExternalContractAgreement(
+      offer.negociationId,
+      weeklySalary ? { weeklySalary } : {},
+    )
+    setPendingActionId(null)
+
+    if (!response.ok) {
+      setOffersError(readError(response.data, "Impossible de valider l'accord externe."))
+      return
+    }
+
+    setExternalAgreementOffer(null)
+    setActionMessage("Validation enregistrée. Le transfert sera finalisé dès que l'autre club aura confirmé.")
     await refreshOffers()
   }
 
@@ -238,6 +303,7 @@ function TransferHome() {
               {isLoadingOffers ? 'Chargement des offres...' : `${sentOffers.length} offre(s) émise(s)`}
             </p>
             {offersError && <ErrorMessage message={offersError} />}
+            {actionMessage && <SuccessMessage message={actionMessage} />}
             {!isLoadingOffers && !offersError && sentOffers.length === 0 && <EmptyState message="Aucune offre émise pour le moment." />}
             {sentOffers.map((offer) => (
               <div
@@ -274,6 +340,15 @@ function TransferHome() {
                     </Button>
                   </div>
                 </div>
+                <ContractResolutionPanel
+                  offer={offer}
+                  email={agentEmails[offer.id] ?? ''}
+                  onEmailChange={(email) => setAgentEmails((current) => ({ ...current, [offer.id]: email }))}
+                  onInvite={() => inviteAgent(offer)}
+                  onExternalAgreement={() => handleExternalAgreementRequest(offer)}
+                  isInviting={pendingActionId === `invite-${offer.id}`}
+                  isConfirmingExternal={pendingActionId === `external-${offer.id}`}
+                />
               </div>
             ))}
           </div>
@@ -285,6 +360,7 @@ function TransferHome() {
               {isLoadingOffers ? 'Chargement des offres...' : `${receivedOffers.length} offre(s) reçue(s)`}
             </p>
             {offersError && <ErrorMessage message={offersError} />}
+            {actionMessage && <SuccessMessage message={actionMessage} />}
             {!isLoadingOffers && !offersError && receivedOffers.length === 0 && <EmptyState message="Aucune offre reçue pour le moment." />}
             {receivedOffers.map((offer) => (
               <div
@@ -360,6 +436,15 @@ function TransferHome() {
                     </Button>
                   </div>
                 )}
+                <ContractResolutionPanel
+                  offer={offer}
+                  email={agentEmails[offer.id] ?? ''}
+                  onEmailChange={(email) => setAgentEmails((current) => ({ ...current, [offer.id]: email }))}
+                  onInvite={() => inviteAgent(offer)}
+                  onExternalAgreement={() => handleExternalAgreementRequest(offer)}
+                  isInviting={pendingActionId === `invite-${offer.id}`}
+                  isConfirmingExternal={pendingActionId === `external-${offer.id}`}
+                />
               </div>
             ))}
           </div>
@@ -384,8 +469,208 @@ function TransferHome() {
           onReject={() => updateOfferStatus(selectedOffer, 'reject')}
         />
       )}
+
+      <ExternalAgreementSalaryModal
+        key={externalAgreementOffer?.id ?? 'closed'}
+        offer={externalAgreementOffer}
+        isLoading={externalAgreementOffer ? pendingActionId === `external-${externalAgreementOffer.id}` : false}
+        onClose={() => setExternalAgreementOffer(null)}
+        onConfirm={(weeklySalary) => {
+          if (externalAgreementOffer) {
+            confirmExternalAgreement(externalAgreementOffer, weeklySalary)
+          }
+        }}
+      />
     </div>
   )
+}
+
+function SuccessMessage({ message }: { message: string }) {
+  return (
+    <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">
+      {message}
+    </div>
+  )
+}
+
+function ContractResolutionPanel({
+  offer,
+  email,
+  onEmailChange,
+  onInvite,
+  onExternalAgreement,
+  isInviting,
+  isConfirmingExternal,
+}: {
+  offer: SentOffer | ReceivedOffer
+  email: string
+  onEmailChange: (email: string) => void
+  onInvite: () => void
+  onExternalAgreement: () => void
+  isInviting: boolean
+  isConfirmingExternal: boolean
+}) {
+  const resolution = offer.contractResolution
+
+  if (offer.negociationStatus !== 'pending_agent' || !resolution) {
+    return null
+  }
+
+  return (
+    <div className="mt-5 rounded-xl border border-amber-300/35 bg-amber-300/10 p-4">
+      <div className="flex gap-3">
+        <Clock3 className="mt-0.5 h-5 w-5 shrink-0 text-amber-200" />
+        <div className="min-w-0 flex-1">
+          <p className="font-semibold text-white">Accord entre clubs trouvé</p>
+          <p className="mt-1 text-sm text-white/65">
+            L’agent du joueur n’est pas encore présent sur KickDeal. La finalisation attend la résolution du contrat joueur.
+          </p>
+
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
+            {resolution.canInviteAgent && (
+              <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+                <label className="text-xs font-semibold uppercase tracking-wide text-white/55">Email de l’agent</label>
+                <div className="mt-2 flex flex-col gap-2 sm:flex-row">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(event) => onEmailChange(event.target.value)}
+                    placeholder="agent@email.com"
+                    className="min-w-0 flex-1 rounded-lg border border-white/15 bg-[#071722] px-3 py-2 text-sm text-white outline-none focus:border-brand-cyan"
+                  />
+                  <Button type="button" onClick={onInvite} isLoading={isInviting} icon={<Mail className="h-4 w-4" />}>
+                    Inviter
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+              <p className="text-sm text-white/70">
+                Accord contractuel trouvé hors plateforme
+              </p>
+              <div className="mt-2 flex flex-wrap gap-2 text-xs text-white/55">
+                <span className={resolution.buyerConfirmedExternalAgreement ? 'text-emerald-300' : ''}>
+                  <CheckCircle2 className="mr-1 inline h-3.5 w-3.5" />
+                  {resolution.buyerTeamName}: {resolution.buyerConfirmedExternalAgreement ? 'validé' : 'en attente'}
+                </span>
+                <span className={resolution.sellerConfirmedExternalAgreement ? 'text-emerald-300' : ''}>
+                  <CheckCircle2 className="mr-1 inline h-3.5 w-3.5" />
+                  {resolution.sellerTeamName}: {resolution.sellerConfirmedExternalAgreement ? 'validé' : 'en attente'}
+                </span>
+              </div>
+              <Button
+                type="button"
+                variant="secondary"
+                className="mt-3 w-full"
+                onClick={onExternalAgreement}
+                isLoading={isConfirmingExternal}
+                disabled={resolution.viewerConfirmedExternalAgreement}
+              >
+                {resolution.viewerConfirmedExternalAgreement ? 'Votre validation est enregistrée' : 'Valider l’accord externe'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ExternalAgreementSalaryModal({
+  offer,
+  isLoading,
+  onClose,
+  onConfirm,
+}: {
+  offer: SentOffer | ReceivedOffer | null
+  isLoading: boolean
+  onClose: () => void
+  onConfirm: (weeklySalary: number) => void
+}) {
+  const [weeklySalary, setWeeklySalary] = useState('')
+  const weeklySalaryValue = parseFormattedNumber(weeklySalary)
+
+  if (!offer) return null
+
+  const playerName = `${offer.player.firstName} ${offer.player.lastName}`
+  const canSubmit = typeof weeklySalaryValue === 'number' && weeklySalaryValue > 0
+
+  return (
+    <Modal
+      isOpen={!!offer}
+      onClose={onClose}
+      title="Salaire convenu avec le joueur"
+      className="max-w-lg"
+    >
+      <div className="space-y-5">
+        <div className="rounded-xl border border-brand-cyan/25 bg-brand-cyan/10 px-4 py-3">
+          <p className="text-sm text-white/70">
+            Avant de valider l’accord externe, indiquez le salaire hebdomadaire convenu avec{' '}
+            <span className="font-semibold text-white">{playerName}</span>. Ce montant sera appliqué au joueur
+            uniquement lorsque les deux clubs auront confirmé l’accord.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4">
+          <PlayerAvatar player={offer.player} />
+          <div className="min-w-0">
+            <p className="truncate text-lg font-bold text-white">{playerName}</p>
+            <p className="text-sm text-white/55">Salaire actuel : {offer.player.weeklySalary ?? '-'}</p>
+          </div>
+        </div>
+
+        <label className="block">
+          <span className="mb-2 block text-sm font-medium text-white/80">
+            Salaire hebdomadaire convenu
+          </span>
+          <div className="flex items-center gap-3 rounded-xl border border-white/15 bg-[#071722] px-4 py-3 focus-within:border-brand-cyan">
+            <BadgeEuro className="h-5 w-5 shrink-0 text-brand-cyan" />
+            <input
+              type="text"
+              inputMode="decimal"
+              value={weeklySalary}
+              onChange={(event) => setWeeklySalary(formatNumberInput(event.target.value))}
+              placeholder="Ex : 125 000"
+              className="min-w-0 flex-1 bg-transparent text-white outline-none placeholder:text-white/35"
+              autoFocus
+            />
+            <span className="shrink-0 text-sm font-semibold text-white/45">EUR / semaine</span>
+          </div>
+        </label>
+
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button type="button" variant="secondary" className="flex-1" onClick={onClose}>
+            Annuler
+          </Button>
+          <Button
+            type="button"
+            className="flex-1"
+            disabled={!canSubmit}
+            isLoading={isLoading}
+            onClick={() => {
+              if (canSubmit) {
+                onConfirm(weeklySalaryValue)
+              }
+            }}
+          >
+            Valider l’accord
+          </Button>
+        </div>
+      </div>
+    </Modal>
+  )
+}
+
+function readError(data: unknown, fallback: string): string {
+  if (data && typeof data === 'object') {
+    const maybeError = (data as { errorMessage?: unknown; message?: unknown }).errorMessage ?? (data as { message?: unknown }).message
+    if (typeof maybeError === 'string') {
+      return maybeError
+    }
+  }
+
+  return fallback
 }
 
 export default TransferHome

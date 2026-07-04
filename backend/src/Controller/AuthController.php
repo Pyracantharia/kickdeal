@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Agent;
+use App\Entity\Player;
+use App\Entity\Transfer\TransferAgentInvitation;
 use App\Entity\User;
 use App\Enum\SubscriptionPlanEnum;
+use App\Repository\Transfer\TransferAgentInvitationRepository;
 use App\Repository\UserRepository;
+use App\Service\Contract\ContractNegotiationWorkflow;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\Security\PasswordPolicy;
@@ -52,6 +56,8 @@ final class AuthController extends AbstractController
         ValidatorInterface $validator,
         CsrfTokenManagerInterface $csrfTokenManager,
         PasswordPolicy $passwordPolicy,
+        TransferAgentInvitationRepository $transferAgentInvitationRepository,
+        ContractNegotiationWorkflow $contractNegotiationWorkflow,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
             return $csrfError;
@@ -152,6 +158,7 @@ final class AuthController extends AbstractController
         try {
             $entityManager->persist($newUser);
 
+            $agent = null;
             if (in_array(User::ROLE_AGENT, $newUser->getRoles(), true)) {
                 $agent = (new Agent())
                     ->setUser($newUser)
@@ -160,6 +167,21 @@ final class AuthController extends AbstractController
 
                 $newUser->setAgentProfile($agent);
                 $entityManager->persist($agent);
+            }
+
+            $invitationToken = $this->optionalString($payload['invitationToken'] ?? null);
+            if ($agent instanceof Agent && null !== $invitationToken) {
+                $invitation = $transferAgentInvitationRepository->findActiveByToken($invitationToken);
+                $player = $invitation?->getTransferNegociation()?->getListing()?->getPlayer();
+
+                if ($invitation instanceof TransferAgentInvitation && $player instanceof Player && null === $player->getAgent()) {
+                    $player->setAgent($agent);
+                    $invitation
+                        ->setAcceptedBy($agent)
+                        ->setAcceptedAt(new \DateTimeImmutable())
+                        ->setUpdatedAt(new \DateTimeImmutable());
+                    $contractNegotiationWorkflow->ensurePendingAgentNegotiationsForPlayer($player, $newUser);
+                }
             }
 
             $entityManager->flush();

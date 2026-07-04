@@ -1,21 +1,29 @@
 'use client'
 
 import React from 'react'
-import { BriefcaseBusiness, CalendarDays, ShieldCheck, UsersRound } from 'lucide-react'
+import { BriefcaseBusiness, CalendarDays, Check, ShieldCheck, UserRoundCheck, UsersRound, X } from 'lucide-react'
 
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
 import { CountryFlag } from '@/components/media/CountryFlag'
 import type { Player } from '@/features/market/types/player'
+import type { RepresentationRequest } from '@/features/agent/agentPlayers'
 import { getLeagueDisplayName } from '@/features/league/leagueConfig'
 import { getPositionDisplayName } from '@/features/players/position'
 
 interface AgentPlayerDetailsCardProps {
   player: Player
+  handoverRequest?: RepresentationRequest | null
   onManage: () => void
+  onDecideHandover?: (requestId: string, decision: 'approve' | 'reject') => void
 }
 
-function AgentPlayerDetailsCard({ player, onManage }: AgentPlayerDetailsCardProps) {
+function AgentPlayerDetailsCard({
+  player,
+  handoverRequest = null,
+  onManage,
+  onDecideHandover,
+}: AgentPlayerDetailsCardProps) {
   return (
     <aside className="w-full shrink-0 lg:sticky lg:top-32 lg:w-[340px] lg:self-start">
       <div className="overflow-hidden rounded-2xl border border-brand-cyan/25 bg-[#071722]/90 shadow-2xl backdrop-blur">
@@ -76,6 +84,47 @@ function AgentPlayerDetailsCard({ player, onManage }: AgentPlayerDetailsCardProp
               <Detail label="Marché" value={player.transferStatus || 'Non listé'} />
             </div>
           </section>
+
+          {handoverRequest && (
+            <>
+              <div className="h-px bg-white/10" />
+
+              <section className="rounded-xl border border-brand-cyan/30 bg-brand-cyan/10 p-4">
+                <h3 className="mb-2 flex items-center gap-2 text-sm font-bold uppercase text-brand-cyan">
+                  <UserRoundCheck className="h-4 w-4" />
+                  Passation demandée
+                </h3>
+                <p className="text-sm text-white/70">
+                  {handoverRequest.requestingAgent?.name ?? 'Un autre agent'} souhaite récupérer ce joueur.
+                  La demande a été validée par l’administration et attend votre décision.
+                </p>
+                {handoverRequest.message && (
+                  <p className="mt-3 rounded-lg border border-white/10 bg-[#071722]/70 px-3 py-2 text-sm text-white/55">
+                    {handoverRequest.message}
+                  </p>
+                )}
+                {onDecideHandover && (
+                  <div className="mt-4 grid grid-cols-2 gap-2">
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      onClick={() => onDecideHandover(handoverRequest.id, 'reject')}
+                      icon={<X className="h-4 w-4" />}
+                    >
+                      Refuser
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => onDecideHandover(handoverRequest.id, 'approve')}
+                      icon={<Check className="h-4 w-4" />}
+                    >
+                      Accepter
+                    </Button>
+                  </div>
+                )}
+              </section>
+            </>
+          )}
 
           <Button
             type="button"

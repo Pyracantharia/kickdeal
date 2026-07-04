@@ -41,4 +41,16 @@ class TransferTargetRepository extends ServiceEntityRepository
             'player' => $player,
         ]);
     }
+
+    public function removeForTeamAndPlayer(Team $team, Player $player): void
+    {
+        $this->createQueryBuilder('target')
+            ->delete()
+            ->andWhere('target.team = :team')
+            ->andWhere('target.player = :player')
+            ->setParameter('team', $team)
+            ->setParameter('player', $player)
+            ->getQuery()
+            ->execute();
+    }
 }

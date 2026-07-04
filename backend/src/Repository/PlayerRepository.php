@@ -74,15 +74,23 @@ class PlayerRepository extends ServiceEntityRepository
     /**
      * @return Player[]
      */
-    public function searchAvailableForAgent(string $query = '', int $limit = 30): array
+    public function searchAvailableForAgent(string $query = '', int $limit = 30, ?Agent $requestingAgent = null): array
     {
         $queryBuilder = $this->createQueryBuilder('player')
             ->leftJoin('player.team', 'team')
-            ->addSelect('team')
-            ->andWhere('player.agent IS NULL')
+            ->leftJoin('player.agent', 'agent')
+            ->addSelect('team', 'agent')
             ->orderBy('player.lastName', 'ASC')
             ->addOrderBy('player.firstName', 'ASC')
             ->setMaxResults($limit);
+
+        if ($requestingAgent instanceof Agent) {
+            $queryBuilder
+                ->andWhere('player.agent IS NULL OR player.agent != :requestingAgent')
+                ->setParameter('requestingAgent', $requestingAgent);
+        } else {
+            $queryBuilder->andWhere('player.agent IS NULL');
+        }
 
         if ('' !== trim($query)) {
             $normalizedQuery = '%'.mb_strtolower(trim($query)).'%';

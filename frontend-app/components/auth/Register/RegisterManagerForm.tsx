@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { authManager } from '@/features/auth/auth'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,6 +17,8 @@ import CountrySelect from '@/components/country/CountrySelect'
 
 function RegisterManagerForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const invitationToken = searchParams.get('invitationToken')
   const [selectedPlan, setSelectedPlan] = React.useState<SubscriptionPlan>('agent_free')
 
   const {
@@ -45,6 +48,7 @@ function RegisterManagerForm() {
         ...data,
         roles: ['ROLE_AGENT'],
         subscriptionPlan: selectedPlan,
+        invitationToken: invitationToken ?? undefined,
       }
 
       const response = await authManager.register(payload)
@@ -74,7 +78,8 @@ function RegisterManagerForm() {
         return
       }
 
-      router.push(selectedPlan === 'agent_free' ? '/auth/login?registered=true' : `/auth/login?registered=true&plan=${selectedPlan}`)
+      const invitationQuery = invitationToken ? `&invitationToken=${encodeURIComponent(invitationToken)}` : ''
+      router.push(selectedPlan === 'agent_free' ? `/auth/login?registered=true${invitationQuery}` : `/auth/login?registered=true&plan=${selectedPlan}${invitationQuery}`)
     } catch {
       setError('root', {
         message: 'Une erreur est survenue. Veuillez réessayer.',

@@ -10,4 +10,5 @@ export type RegisterDTO = {
   subscriptionPlan?: 'club_free' | 'club_pro' | 'club_enterprise' | 'agent_free' | 'agent_pro';
   jobTitle?: string;
   professionalContact?: string;
+  invitationToken?: string;
 }

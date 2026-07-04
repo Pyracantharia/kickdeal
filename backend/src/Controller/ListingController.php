@@ -38,10 +38,15 @@ final class ListingController extends AbstractController
             return $team;
         }
 
-        $targets = array_map(
-            fn (TransferTarget $target): array => $this->serializeTarget($target, $listingRepository),
-            $transferTargetRepository->findForTeam($team),
-        );
+        $targets = [];
+        foreach ($transferTargetRepository->findForTeam($team) as $target) {
+            if ($target->getPlayer()?->getTeam()?->getId()?->toRfc4122() === $team->getId()?->toRfc4122()) {
+                $transferTargetRepository->remove($target, true);
+                continue;
+            }
+
+            $targets[] = $this->serializeTarget($target, $listingRepository);
+        }
 
         return $this->json([
             'listings' => $targets,

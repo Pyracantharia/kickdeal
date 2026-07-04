@@ -4,6 +4,7 @@ import type {
   SentOffer,
   TransferHistoryItem,
   TransferHistoryStats,
+  TransferAgentInvitation,
   TransferListPlayer,
   TransferNegotiationContext,
   TransferOfferPayload,
@@ -24,6 +25,16 @@ interface TransferOffersResponse {
 
 interface TransferOfferResponse {
   offer: SentOffer | ReceivedOffer
+  contractNegociationId?: string | null
+}
+
+interface AgentInvitationResponse {
+  message: string
+  invitationUrl: string
+}
+
+interface AgentInvitationContextResponse {
+  invitation: TransferAgentInvitation
 }
 
 interface TransferNegotiationContextResponse {
@@ -83,6 +94,25 @@ class TransfersManager {
 
   async counterOffer(offerId: string, payload: TransferOfferPayload) {
     return httpClient.post<TransferOfferResponse>(`/transfers/offers/${offerId}/counter`, payload)
+  }
+
+  async inviteAgent(negociationId: string, email: string) {
+    return httpClient.post<AgentInvitationResponse>(`/transfers/negotiations/${negociationId}/agent-invitations`, { email })
+  }
+
+  async getAgentInvitation(token: string) {
+    return httpClient.get<AgentInvitationContextResponse>(`/transfers/agent-invitations/${encodeURIComponent(token)}`)
+  }
+
+  async claimAgentInvitation(token: string) {
+    return httpClient.post<{ message: string; contractNegociationIds: string[] }>(`/transfers/agent-invitations/${encodeURIComponent(token)}/claim`, {})
+  }
+
+  async confirmExternalContractAgreement(negociationId: string, payload: { weeklySalary?: number } = {}) {
+    return httpClient.post<{ negociation: { id: string; status: string; contractResolution: unknown } }>(
+      `/transfers/negotiations/${negociationId}/external-contract-agreement`,
+      payload,
+    )
   }
 }
 

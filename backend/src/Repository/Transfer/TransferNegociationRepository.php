@@ -37,6 +37,7 @@ class TransferNegociationRepository extends ServiceEntityRepository
                 TransferNegociationStatusEnum::COUNTER_OFFER,
                 TransferNegociationStatusEnum::PERMISSION_TO_SPEAK,
                 TransferNegociationStatusEnum::AGREED_CLUBS,
+                TransferNegociationStatusEnum::PENDING_AGENT,
             ])
             ->orderBy('negociation.updatedAt', 'DESC')
             ->addOrderBy('negociation.createdAt', 'DESC')
@@ -63,6 +64,7 @@ class TransferNegociationRepository extends ServiceEntityRepository
                 TransferNegociationStatusEnum::COUNTER_OFFER,
                 TransferNegociationStatusEnum::PERMISSION_TO_SPEAK,
                 TransferNegociationStatusEnum::AGREED_CLUBS,
+                TransferNegociationStatusEnum::PENDING_AGENT,
             ]);
 
         return (int) $queryBuilder->getQuery()->getSingleScalarResult();
@@ -92,10 +94,33 @@ class TransferNegociationRepository extends ServiceEntityRepository
             ->join('negociation.buyerTeam', 'buyerTeam')
             ->leftJoin('negociation.transferOffers', 'offers')
             ->leftJoin('negociation.contractNegociations', 'contractNegociation')
-            ->andWhere('negociation.status = :status')
+            ->andWhere('negociation.status IN (:status)')
             ->andWhere('agent.id IS NOT NULL')
             ->andWhere('contractNegociation.id IS NULL')
-            ->setParameter('status', TransferNegociationStatusEnum::AGREED_CLUBS)
+            ->setParameter('status', [
+                TransferNegociationStatusEnum::AGREED_CLUBS,
+                TransferNegociationStatusEnum::PENDING_AGENT,
+            ])
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return TransferNegociation[]
+     */
+    public function findPendingAgentForPlayer(mixed $player): array
+    {
+        return $this->createQueryBuilder('negociation')
+            ->addSelect('listing', 'buyerTeam', 'offers')
+            ->innerJoin('negociation.listing', 'listing')
+            ->innerJoin('negociation.buyerTeam', 'buyerTeam')
+            ->leftJoin('negociation.transferOffers', 'offers')
+            ->leftJoin('negociation.contractNegociations', 'contractNegociation')
+            ->andWhere('listing.player = :player')
+            ->andWhere('negociation.status = :status')
+            ->andWhere('contractNegociation.id IS NULL')
+            ->setParameter('player', $player)
+            ->setParameter('status', TransferNegociationStatusEnum::PENDING_AGENT)
             ->getQuery()
             ->getResult();
     }

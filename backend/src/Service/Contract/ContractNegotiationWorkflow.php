@@ -21,6 +21,8 @@ use App\Enum\TransferTypeEnum;
 use App\Repository\Contract\ContractNegociationRepository;
 use App\Repository\Contract\ContractPackageRepository;
 use App\Repository\Transfer\TransferAgreementRepository;
+use App\Repository\Transfer\TransferNegociationRepository;
+use App\Repository\TransferTargetRepository;
 use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -31,6 +33,8 @@ final class ContractNegotiationWorkflow
         private readonly ContractNegociationRepository $contractNegociationRepository,
         private readonly ContractPackageRepository $contractPackageRepository,
         private readonly TransferAgreementRepository $transferAgreementRepository,
+        private readonly TransferNegociationRepository $transferNegociationRepository,
+        private readonly TransferTargetRepository $transferTargetRepository,
         private readonly PublicFeedPublisher $publicFeedPublisher,
     ) {
     }
@@ -79,6 +83,69 @@ final class ContractNegotiationWorkflow
         $this->entityManager->persist($contractNegociation);
 
         return $contractNegociation;
+    }
+
+    /**
+     * @return ContractNegociation[]
+     */
+    public function ensurePendingAgentNegotiationsForPlayer(\App\Entity\Player $player, User $createdBy): array
+    {
+        $created = [];
+        foreach ($this->transferNegociationRepository->findPendingAgentForPlayer($player) as $transferNegociation) {
+            $transferNegociation->setStatus(TransferNegociationStatusEnum::AGREED_CLUBS);
+            $contractNegociation = $this->ensureForTransfer($transferNegociation, $createdBy);
+            if ($contractNegociation instanceof ContractNegociation) {
+                $created[] = $contractNegociation;
+            }
+        }
+
+        return $created;
+    }
+
+    public function finalizeExternalTransfer(TransferNegociation $transferNegociation): void
+    {
+        if (TransferNegociationStatusEnum::COMPLETED === $transferNegociation->getStatus()) {
+            return;
+        }
+
+        $listing = $transferNegociation->getListing();
+        $player = $listing?->getPlayer();
+        $buyerTeam = $transferNegociation->getBuyerTeam();
+        $sellerTeam = $listing?->getSellerTeam();
+
+        if (null === $listing || null === $player || null === $buyerTeam) {
+            throw new \LogicException('La négociation de transfert est incomplète.');
+        }
+
+        if (TransferTypeEnum::LOAN === $listing->getTransferType()) {
+            throw new \LogicException('La finalisation automatique des prêts n’est pas encore disponible.');
+        }
+
+        $weeklySalary = $transferNegociation->getExternalContractWeeklySalary();
+        if (null === $weeklySalary || $weeklySalary <= 0) {
+            throw new \LogicException('Le salaire hebdomadaire convenu est requis pour finaliser ce transfert.');
+        }
+
+        $transferNegociation
+            ->setStatus(TransferNegociationStatusEnum::COMPLETED)
+            ->setAgreedAt(new \DateTimeImmutable('today'));
+        $listing->setStatus(ListingStatusEnum::CLOSED);
+        $player
+            ->setTeam($buyerTeam)
+            ->setWeeklySalary($weeklySalary)
+            ->setContractStatus(PlayerContractStatusEnum::UNDER_CONTRACT)
+            ->setMarketStatus(PlayerMarketStatusEnum::NOT_LISTED)
+            ->setUpdatedAt(new \DateTimeImmutable());
+        $this->transferTargetRepository->removeForTeamAndPlayer($buyerTeam, $player);
+
+        $transferOffer = $this->findAcceptedTransferOffer($transferNegociation);
+        $transferAmount = $transferOffer?->getAmount() ?? 0;
+        if ($transferAmount > 0) {
+            $buyerTeam->setTransferBudget(max(0, ($buyerTeam->getTransferBudget() ?? 0) - $transferAmount));
+            if (null !== $sellerTeam) {
+                $sellerTeam->setTransferBudget(($sellerTeam->getTransferBudget() ?? 0) + $transferAmount);
+            }
+        }
     }
 
     public function finalize(ContractNegociation $contractNegociation, ContractOffer $acceptedOffer): void
@@ -143,6 +210,7 @@ final class ContractNegotiationWorkflow
             ->setReleaseClause($acceptedOffer->getReleaseClause())
             ->setContractStatus(PlayerContractStatusEnum::UNDER_CONTRACT)
             ->setMarketStatus(PlayerMarketStatusEnum::NOT_LISTED);
+        $this->transferTargetRepository->removeForTeamAndPlayer($buyerTeam, $player);
 
         $transferOffer = $this->findAcceptedTransferOffer($transferNegociation);
         $transferAmount = $transferOffer?->getAmount() ?? 0;

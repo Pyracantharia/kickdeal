@@ -12,6 +12,7 @@ import { loginSchema, type LoginFormData } from '@/features/auth/schemas/login.s
 import { authManager } from '@/features/auth/auth'
 import { useAuth } from '@/context/AuthProvider'
 import Link from 'next/link'
+import { transfersManager } from '@/features/market/transfers'
 
 function LoginForm() {
   const router = useRouter()
@@ -83,7 +84,14 @@ function LoginForm() {
 
       updateUser(response.data.user)
       const requestedPlan = new URLSearchParams(window.location.search).get('plan')
+      const invitationToken = new URLSearchParams(window.location.search).get('invitationToken')
       const payablePlans = ['agent_pro', 'club_pro', 'club_enterprise']
+      if (invitationToken && response.data.user.roles.includes('ROLE_AGENT')) {
+        await transfersManager.claimAgentInvitation(invitationToken)
+        router.push('/negociations')
+        return
+      }
+
       router.push(response.data.user.passwordExpired
         ? '/account'
         : requestedPlan && payablePlans.includes(requestedPlan)

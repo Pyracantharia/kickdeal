@@ -1,19 +1,21 @@
 'use client'
 
 import React, { useState } from 'react'
-import { ArrowRightLeft, BriefcaseBusiness, Eye, Search, ShieldAlert, ShieldCheck } from 'lucide-react'
+import { ArrowRightLeft, BriefcaseBusiness, Check, Eye, Search, ShieldAlert, ShieldCheck, UserRoundCheck, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import Modal from '@/components/ui/Modal'
 import Button from '@/components/ui/Button'
 import type { Player } from '@/features/market/types/player'
-import { agentPlayersManager } from '@/features/agent/agentPlayers'
+import { agentPlayersManager, type RepresentationRequest } from '@/features/agent/agentPlayers'
 
 interface AgentPlayerManagementModalProps {
   isOpen: boolean
   onClose: () => void
   player: Player | null
+  handoverRequest?: RepresentationRequest | null
   onPlayerUpdated: () => void
+  onDecideHandover?: (requestId: string, decision: 'approve' | 'reject') => void
 }
 
 type MarketStatus = 'on_market' | 'loan_listed' | 'not_listed'
@@ -22,7 +24,9 @@ function AgentPlayerManagementModal({
   isOpen,
   onClose,
   player,
+  handoverRequest = null,
   onPlayerUpdated,
+  onDecideHandover,
 }: AgentPlayerManagementModalProps) {
   const router = useRouter()
   const [updatingStatus, setUpdatingStatus] = useState<MarketStatus | null>(null)
@@ -87,6 +91,45 @@ function AgentPlayerManagementModal({
       className="max-w-2xl"
     >
       <div className="space-y-6">
+        {handoverRequest && (
+          <div className="rounded-xl border border-brand-cyan/35 bg-brand-cyan/10 px-4 py-4 text-sm">
+            <div className="flex items-start gap-3">
+              <UserRoundCheck className="mt-0.5 h-5 w-5 shrink-0 text-brand-cyan" />
+              <div className="min-w-0 flex-1">
+                <p className="font-semibold text-white">Demande de passation validée par l’administration</p>
+                <p className="mt-1 text-white/65">
+                  {handoverRequest.requestingAgent?.name ?? 'Un autre agent'} souhaite récupérer ce joueur.
+                  Vous pouvez accepter la passation ou la refuser.
+                </p>
+                {handoverRequest.message && (
+                  <p className="mt-3 rounded-lg border border-white/10 bg-[#071722]/70 px-3 py-2 text-white/55">
+                    {handoverRequest.message}
+                  </p>
+                )}
+                {onDecideHandover && (
+                  <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      onClick={() => onDecideHandover(handoverRequest.id, 'reject')}
+                      icon={<X className="h-4 w-4" />}
+                    >
+                      Refuser la passation
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => onDecideHandover(handoverRequest.id, 'approve')}
+                      icon={<Check className="h-4 w-4" />}
+                    >
+                      Accepter la passation
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {marketContext && (
           <div className={`rounded-xl border px-4 py-4 text-sm ${
             marketContext.canAgentProspect

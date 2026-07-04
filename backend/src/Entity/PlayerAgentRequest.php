@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\PlayerAgentRequestStatusEnum;
+use App\Enum\PlayerAgentRequestTypeEnum;
 use App\Repository\PlayerAgentRequestRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -26,6 +27,13 @@ class PlayerAgentRequest
     #[ORM\Column(enumType: PlayerAgentRequestStatusEnum::class)]
     private PlayerAgentRequestStatusEnum $status = PlayerAgentRequestStatusEnum::PENDING;
 
+    #[ORM\Column(length: 30, enumType: PlayerAgentRequestTypeEnum::class, options: ['default' => 'representation'])]
+    private PlayerAgentRequestTypeEnum $type = PlayerAgentRequestTypeEnum::REPRESENTATION;
+
+    #[ORM\ManyToOne(targetEntity: Agent::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    private ?Agent $currentAgent = null;
+
     #[ORM\Column(length: 255)]
     private ?string $verificationDocumentPath = null;
 
@@ -40,6 +48,9 @@ class PlayerAgentRequest
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $decidedAt = null;
 
     public function __construct()
     {
@@ -101,6 +112,30 @@ class PlayerAgentRequest
         return $this;
     }
 
+    public function getType(): PlayerAgentRequestTypeEnum
+    {
+        return $this->type;
+    }
+
+    public function setType(PlayerAgentRequestTypeEnum $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getCurrentAgent(): ?Agent
+    {
+        return $this->currentAgent;
+    }
+
+    public function setCurrentAgent(?Agent $currentAgent): static
+    {
+        $this->currentAgent = $currentAgent;
+
+        return $this;
+    }
+
     public function getVerificationDocumentPath(): ?string
     {
         return $this->verificationDocumentPath;
@@ -145,5 +180,17 @@ class PlayerAgentRequest
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    public function getDecidedAt(): ?\DateTimeImmutable
+    {
+        return $this->decidedAt;
+    }
+
+    public function setDecidedAt(?\DateTimeImmutable $decidedAt): static
+    {
+        $this->decidedAt = $decidedAt;
+
+        return $this;
     }
 }
