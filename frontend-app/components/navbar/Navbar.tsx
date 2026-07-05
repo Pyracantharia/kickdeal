@@ -8,6 +8,7 @@ import { Menu, X, ArrowLeft, ChevronDown, LogOut } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { useAuth } from '@/context/AuthProvider'
 import { useMessagesUnread } from '@/context/MessagesUnreadProvider'
+import { useNotifications } from '@/context/NotificationsProvider'
 import { authManager } from '@/features/auth/auth'
 import type { SubscriptionPlan } from '@/features/subscription/subscription'
 
@@ -32,6 +33,7 @@ const CLUB_LINKS = [
 
 const AGENT_LINKS = [
   { href: '/dashboard', label: 'Accueil' },
+  { href: '/notifications', label: 'Notifications' },
   { href: '/mes-joueurs', label: 'Mes joueurs' },
   { href: '/market', label: 'Marché' },
   { href: '/negociations', label: 'Négociations' },
@@ -100,7 +102,17 @@ function UnreadDot() {
   return <span className="absolute -left-1 -top-1 h-2.5 w-2.5 rounded-full bg-sky-400 ring-2 ring-[#07111d]" />
 }
 
-function NavLink({ href, label, hasUnreadMessages = false }: { href: string; label: string; hasUnreadMessages?: boolean }) {
+function NavLink({
+  href,
+  label,
+  hasUnreadMessages = false,
+  attentionCount = 0,
+}: {
+  href: string
+  label: string
+  hasUnreadMessages?: boolean
+  attentionCount?: number
+}) {
   const pathname = usePathname()
   const isActive = pathname === href || pathname.startsWith(href + '/')
   return (
@@ -110,7 +122,7 @@ function NavLink({ href, label, hasUnreadMessages = false }: { href: string; lab
         isActive ? 'text-white' : 'text-gray-400 hover:text-white'
       }`}
     >
-      {hasUnreadMessages && <UnreadDot />}
+      {(hasUnreadMessages || attentionCount > 0) && <UnreadDot />}
       {label}
     </Link>
   )
@@ -241,6 +253,9 @@ function MobileMenu({
   isLoggingOut,
   subscriptionPlan,
   hasUnreadMessages,
+  getActionCount,
+  getUnreadCount,
+  unreadNotificationsCount,
 }: {
   links: { href: string; label: string }[]
   onClose: () => void
@@ -248,6 +263,9 @@ function MobileMenu({
   isLoggingOut: boolean
   subscriptionPlan?: SubscriptionPlan
   hasUnreadMessages: boolean
+  getActionCount: (route: string) => number
+  getUnreadCount: (route: string) => number
+  unreadNotificationsCount: number
 }) {
   const pathname = usePathname()
   const badgeLabel = getPlanBadgeLabel(subscriptionPlan)
@@ -269,7 +287,7 @@ function MobileMenu({
                 : 'text-gray-400 hover:text-white'
             }`}
           >
-            {href === '/messages' && hasUnreadMessages && (
+            {(href === '/messages' && hasUnreadMessages || getMobileAttentionCount(href, getActionCount, getUnreadCount, unreadNotificationsCount) > 0) && (
               <span className="absolute left-3 top-3.5 h-2.5 w-2.5 rounded-full bg-sky-400 ring-2 ring-[#07111d]" />
             )}
             {label}
@@ -318,6 +336,7 @@ function Navbar({
   const router = useRouter()
   const { updateUser } = useAuth()
   const { hasUnreadMessages } = useMessagesUnread()
+  const { getActionCount, getUnreadCount, unreadCount } = useNotifications()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const links = getLinksByVariant(variant)
@@ -367,6 +386,7 @@ function Navbar({
                         href={href}
                         label={label}
                         hasUnreadMessages={href === '/messages' && hasUnreadMessages}
+                        attentionCount={getNavAttentionCount(href, getActionCount, getUnreadCount, unreadCount)}
                       />
                     ))}
                   </nav>
@@ -468,6 +488,9 @@ function Navbar({
           isLoggingOut={isLoggingOut}
           subscriptionPlan={subscriptionPlan}
           hasUnreadMessages={hasUnreadMessages}
+          getActionCount={getActionCount}
+          getUnreadCount={getUnreadCount}
+          unreadNotificationsCount={unreadCount}
         />
       )}
     </header>
@@ -475,3 +498,24 @@ function Navbar({
 }
 
 export default Navbar
+
+function getNavAttentionCount(
+  href: string,
+  getActionCount: (route: string) => number,
+  getUnreadCount: (route: string) => number,
+  unreadNotificationsCount: number,
+): number {
+  if (href === '/notifications') return unreadNotificationsCount
+  if (href === '/messages') return getUnreadCount('/messages')
+
+  return getActionCount(href)
+}
+
+function getMobileAttentionCount(
+  href: string,
+  getActionCount: (route: string) => number,
+  getUnreadCount: (route: string) => number,
+  unreadNotificationsCount: number,
+): number {
+  return getNavAttentionCount(href, getActionCount, getUnreadCount, unreadNotificationsCount)
+}

@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Search, UsersRound } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
 import type { ClubPlayer } from '@/features/club/types/roster'
 import PlayerActionsModal from './modals/PlayerActionsModal'
 import PlayerDetailsCard from './PlayerDetailsCard'
@@ -15,6 +16,9 @@ import {
 import { getPositionDisplayName } from '@/features/players/position'
 
 function PlayerRosterTable() {
+  const searchParams = useSearchParams()
+  const focusedPlayerId = searchParams.get('playerId')
+  const shouldOpenManage = searchParams.get('manage') === '1'
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedPosition, setSelectedPosition] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('')
@@ -23,6 +27,7 @@ function PlayerRosterTable() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [selectedPlayer, setSelectedPlayer] = useState<ClubPlayer | null>(null)
   const [isActionsModalOpen, setIsActionsModalOpen] = useState(false)
+  const handledDeepLinkRef = React.useRef<string | null>(null)
 
   const loadRoster = useCallback(async () => {
     setIsLoading(true)
@@ -36,16 +41,30 @@ function PlayerRosterTable() {
       }
 
       const nextPlayers = response.data.players ?? []
+      const focusedPlayer = focusedPlayerId
+        ? nextPlayers.find((player) => player.id === focusedPlayerId)
+        : null
+      const deepLinkKey = `${focusedPlayerId ?? ''}:${shouldOpenManage ? 'manage' : 'view'}`
+
       setPlayers(nextPlayers)
       setSelectedPlayer((current) => (
-        nextPlayers.find((player) => player.id === current?.id) ?? nextPlayers[0] ?? null
+        focusedPlayer ?? nextPlayers.find((player) => player.id === current?.id) ?? nextPlayers[0] ?? null
       ))
+
+      if (focusedPlayer && shouldOpenManage && handledDeepLinkRef.current !== deepLinkKey) {
+        handledDeepLinkRef.current = deepLinkKey
+        setIsActionsModalOpen(true)
+      }
+
+      if (focusedPlayerId && !focusedPlayer) {
+        setErrorMessage('La demande concerne un joueur qui n’est pas visible dans cet effectif.')
+      }
     } catch {
       setErrorMessage('Impossible de charger l’effectif du club.')
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [focusedPlayerId, shouldOpenManage])
 
   useEffect(() => {
     void loadRoster()

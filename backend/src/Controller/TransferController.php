@@ -23,6 +23,7 @@ use App\Repository\Transfer\TransferOfferRepository;
 use App\Repository\Transfer\TransferAgentInvitationRepository;
 use App\Service\Subscription\SubscriptionLimits;
 use App\Service\Contract\ContractNegotiationWorkflow;
+use App\Service\Notification\NotificationService;
 use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -178,6 +179,7 @@ final class TransferController extends AbstractController
         TeamMembershipRepository $teamMembershipRepository,
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
+        NotificationService $notificationService,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -224,6 +226,7 @@ final class TransferController extends AbstractController
         SubscriptionLimits $subscriptionLimits,
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
+        NotificationService $notificationService,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -288,6 +291,25 @@ final class TransferController extends AbstractController
         $publicFeedPublisher->publishTransferOffer($offer);
         $entityManager->flush();
 
+        if ($listing->getSellerTeam() instanceof Team) {
+            foreach ($teamMembershipRepository->findUsersByTeam($listing->getSellerTeam()) as $recipient) {
+                $notificationService->notify(
+                    recipient: $recipient,
+                    type: 'transfer_offer.received',
+                    category: 'negotiations',
+                    title: 'Nouvelle offre de transfert',
+                    body: sprintf('%s a transmis une offre pour %s.', $buyerTeam->getName(), $this->playerName($listing->getPlayer())),
+                    actionUrl: sprintf('/market/transfers?offerId=%s', $offer->getId()?->toRfc4122()),
+                    targetRoute: '/market',
+                    requiresAction: true,
+                    severity: 'warning',
+                    actor: $user,
+                    sourceType: 'transfer_offer',
+                    sourceId: $offer->getId()?->toRfc4122(),
+                );
+            }
+        }
+
         return $this->json([
             'offer' => $this->serializeOffer($offer, $buyerTeam),
         ], 201);
@@ -301,6 +323,7 @@ final class TransferController extends AbstractController
         ContractNegotiationWorkflow $contractNegotiationWorkflow,
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
+        NotificationService $notificationService,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -342,7 +365,7 @@ final class TransferController extends AbstractController
                 ?->setStatus($nextStatus)
                 ->setAgreedAt(new \DateTimeImmutable('today'));
 
-            if ($transferNegociation) {
+            if ($transferNegociation && TransferNegociationStatusEnum::PENDING_AGENT === $nextStatus) {
                 $this->ensureTransferAgreement($transferNegociation, $offer, $entityManager);
             }
 
@@ -354,6 +377,24 @@ final class TransferController extends AbstractController
 
             return $contractNegociation;
         });
+
+        $notificationService->resolveSource('transfer_offer', $offer->getId()?->toRfc4122() ?? '');
+        if ($offer->getAuthor() instanceof User) {
+            $notificationService->notify(
+                recipient: $offer->getAuthor(),
+                type: 'transfer_offer.accepted',
+                category: 'negotiations',
+                title: 'Offre de transfert acceptée',
+                body: sprintf('Votre offre pour %s a été acceptée.', $this->playerName($listing?->getPlayer())),
+                actionUrl: sprintf('/market/transfers?offerId=%s', $offer->getId()?->toRfc4122()),
+                targetRoute: '/market',
+                requiresAction: false,
+                severity: 'success',
+                actor: $user,
+                sourceType: 'transfer_offer',
+                sourceId: $offer->getId()?->toRfc4122(),
+            );
+        }
 
         return $this->json([
             'offer' => $this->serializeOffer($offer, $team),
@@ -550,6 +591,7 @@ final class TransferController extends AbstractController
         TeamMembershipRepository $teamMembershipRepository,
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
+        NotificationService $notificationService,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -572,6 +614,24 @@ final class TransferController extends AbstractController
 
         $entityManager->flush();
 
+        $notificationService->resolveSource('transfer_offer', $offer->getId()?->toRfc4122() ?? '');
+        if ($offer->getAuthor() instanceof User) {
+            $notificationService->notify(
+                recipient: $offer->getAuthor(),
+                type: 'transfer_offer.rejected',
+                category: 'negotiations',
+                title: 'Offre de transfert refusée',
+                body: sprintf('Votre offre pour %s a été refusée.', $this->playerName($listing?->getPlayer())),
+                actionUrl: sprintf('/market/transfers?offerId=%s', $offer->getId()?->toRfc4122()),
+                targetRoute: '/market',
+                requiresAction: false,
+                severity: 'danger',
+                actor: $user,
+                sourceType: 'transfer_offer',
+                sourceId: $offer->getId()?->toRfc4122(),
+            );
+        }
+
         return $this->json(['offer' => $this->serializeOffer($offer, $team)]);
     }
 
@@ -585,6 +645,7 @@ final class TransferController extends AbstractController
         SubscriptionLimits $subscriptionLimits,
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
+        NotificationService $notificationService,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -639,6 +700,27 @@ final class TransferController extends AbstractController
         $entityManager->persist($counterOffer);
         $publicFeedPublisher->publishTransferOffer($counterOffer);
         $entityManager->flush();
+
+        $notificationService->resolveSource('transfer_offer', $sourceOffer->getId()?->toRfc4122() ?? '');
+        $targetTeam = $isSeller ? $negociation?->getBuyerTeam() : $listing?->getSellerTeam();
+        if ($targetTeam instanceof Team) {
+            foreach ($teamMembershipRepository->findUsersByTeam($targetTeam) as $recipient) {
+                $notificationService->notify(
+                    recipient: $recipient,
+                    type: 'transfer_offer.counter_received',
+                    category: 'negotiations',
+                    title: 'Contre-offre reçue',
+                    body: sprintf('%s a envoyé une contre-offre pour %s.', $team->getName(), $this->playerName($listing?->getPlayer())),
+                    actionUrl: sprintf('/market/transfers?offerId=%s', $counterOffer->getId()?->toRfc4122()),
+                    targetRoute: '/market',
+                    requiresAction: true,
+                    severity: 'warning',
+                    actor: $user,
+                    sourceType: 'transfer_offer',
+                    sourceId: $counterOffer->getId()?->toRfc4122(),
+                );
+            }
+        }
 
         return $this->json(['offer' => $this->serializeOffer($counterOffer, $team)], 201);
     }
@@ -991,6 +1073,10 @@ final class TransferController extends AbstractController
         TransferOffer $acceptedOffer,
         EntityManagerInterface $entityManager,
     ): void {
+        if ($acceptedOffer->getTransferAgreement() instanceof TransferAgreement) {
+            return;
+        }
+
         foreach ($transferNegociation->getTransferAgreements() as $agreement) {
             if ($agreement->getAcceptedOffer()?->getId()?->toRfc4122() === $acceptedOffer->getId()?->toRfc4122()) {
                 return;
@@ -1112,6 +1198,17 @@ final class TransferController extends AbstractController
         } catch (\Throwable) {
             return null;
         }
+    }
+
+    private function playerName(?Player $player): string
+    {
+        if (!$player instanceof Player) {
+            return 'ce joueur';
+        }
+
+        $name = trim(sprintf('%s %s', $player->getFirstName(), $player->getLastName()));
+
+        return '' !== $name ? $name : 'ce joueur';
     }
 
     private function formatMoney(int|string|null $amountInCents, bool $allowNone = false): string

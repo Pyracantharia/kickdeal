@@ -20,6 +20,9 @@ use App\Repository\AgentRepository;
 use App\Repository\PlayerAgentRequestRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\TeamRepository;
+use App\Repository\TeamMembershipRepository;
+use App\Repository\UserRepository;
+use App\Service\Notification\NotificationService;
 use App\Service\Player\PlayerMarketContextResolver;
 use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,8 +46,10 @@ final class AgentPlayerController extends AbstractController
         private readonly PlayerRepository $playerRepository,
         private readonly PlayerAgentRequestRepository $requestRepository,
         private readonly TeamRepository $teamRepository,
+        private readonly UserRepository $userRepository,
         private readonly PlayerMarketContextResolver $marketContextResolver,
         private readonly PublicFeedPublisher $publicFeedPublisher,
+        private readonly NotificationService $notificationService,
         private readonly CsrfTokenManagerInterface $csrfTokenManager,
         private readonly SluggerInterface $slugger,
         #[Autowire('%kernel.project_dir%/public/uploads/player-agent-verifications')]
@@ -188,6 +193,28 @@ final class AgentPlayerController extends AbstractController
         $this->entityManager->persist($representationRequest);
         $this->entityManager->flush();
 
+        foreach ($this->userRepository->findAdminUsers() as $adminUser) {
+            $this->notificationService->notify(
+                recipient: $adminUser,
+                type: $currentAgent instanceof Agent ? 'agent_handover.admin_requested' : 'player_representation.admin_requested',
+                category: 'admin',
+                title: $currentAgent instanceof Agent ? 'Passation agent à valider' : 'Demande joueur à valider',
+                body: sprintf(
+                    '%s souhaite %s %s.',
+                    $this->agentName($agent),
+                    $currentAgent instanceof Agent ? 'récupérer' : 'représenter',
+                    $this->playerName($player),
+                ),
+                actionUrl: '/admin',
+                targetRoute: '/admin',
+                requiresAction: true,
+                severity: 'warning',
+                actor: $agent->getUser(),
+                sourceType: 'player_agent_request',
+                sourceId: $representationRequest->getId()?->toRfc4122(),
+            );
+        }
+
         return $this->json([
             'message' => $currentAgent instanceof Agent
                 ? 'Votre demande de passation a été transmise à l’administration. L’agent actuel pourra se prononcer après validation.'
@@ -224,6 +251,24 @@ final class AgentPlayerController extends AbstractController
 
         $this->entityManager->flush();
 
+        $this->notificationService->resolveSource('player_agent_request', (string) $representationRequest->getId());
+        if ($newAgent->getUser() instanceof User) {
+            $this->notificationService->notify(
+                recipient: $newAgent->getUser(),
+                type: 'agent_handover.approved',
+                category: 'players',
+                title: 'Passation acceptée',
+                body: sprintf('%s fait maintenant partie de votre portefeuille.', $this->playerName($player)),
+                actionUrl: '/mes-joueurs',
+                targetRoute: '/mes-joueurs',
+                requiresAction: false,
+                severity: 'success',
+                actor: $agent->getUser(),
+                sourceType: 'player_agent_request',
+                sourceId: $representationRequest->getId()?->toRfc4122(),
+            );
+        }
+
         return $this->json([
             'message' => 'Passation validée. Le joueur a été transféré au nouvel agent.',
             'request' => $this->serializeAgentRequest($representationRequest),
@@ -249,6 +294,25 @@ final class AgentPlayerController extends AbstractController
 
         $this->entityManager->flush();
 
+        $this->notificationService->resolveSource('player_agent_request', (string) $representationRequest->getId());
+        $newAgent = $representationRequest->getAgent();
+        if ($newAgent?->getUser() instanceof User) {
+            $this->notificationService->notify(
+                recipient: $newAgent->getUser(),
+                type: 'agent_handover.rejected',
+                category: 'players',
+                title: 'Passation refusée',
+                body: sprintf('La demande de passation pour %s a été refusée.', $this->playerName($representationRequest->getPlayer())),
+                actionUrl: '/mes-joueurs',
+                targetRoute: '/mes-joueurs',
+                requiresAction: false,
+                severity: 'danger',
+                actor: $agent->getUser(),
+                sourceType: 'player_agent_request',
+                sourceId: $representationRequest->getId()?->toRfc4122(),
+            );
+        }
+
         return $this->json([
             'message' => 'Demande de passation refusée.',
             'request' => $this->serializeAgentRequest($representationRequest),
@@ -256,7 +320,11 @@ final class AgentPlayerController extends AbstractController
     }
 
     #[Route('/players/{id}/market-authorization-request', name: 'api_agent_player_market_authorization_request', methods: ['POST'])]
-    public function requestMarketAuthorization(Player $player, Request $request): JsonResponse
+    public function requestMarketAuthorization(
+        Player $player,
+        Request $request,
+        TeamMembershipRepository $teamMembershipRepository,
+    ): JsonResponse
     {
         if (!$this->isCsrfValid($request)) {
             return $this->json(['errorMessage' => 'Token CSRF invalide.'], JsonResponse::HTTP_FORBIDDEN);
@@ -309,6 +377,26 @@ final class AgentPlayerController extends AbstractController
             ->setMarketAuthorizationDecidedAt(null);
 
         $this->entityManager->flush();
+
+        if ($player->getTeam() instanceof Team) {
+            $playerId = $player->getId()?->toRfc4122();
+            foreach ($teamMembershipRepository->findUsersByTeam($player->getTeam()) as $clubUser) {
+                $this->notificationService->notify(
+                    recipient: $clubUser,
+                    type: 'market_authorization.requested',
+                    category: 'players',
+                    title: 'Autorisation marché demandée',
+                    body: sprintf('%s souhaite proposer %s à d’autres clubs.', $this->agentName($agent), $this->playerName($player)),
+                    actionUrl: '/players?playerId='.$playerId.'&manage=1',
+                    targetRoute: '/players',
+                    requiresAction: true,
+                    severity: 'warning',
+                    actor: $agent->getUser(),
+                    sourceType: 'player_market_authorization',
+                    sourceId: $playerId,
+                );
+            }
+        }
 
         return $this->json([
             'message' => 'La demande d’autorisation a été envoyée au club.',
@@ -373,7 +461,11 @@ final class AgentPlayerController extends AbstractController
     }
 
     #[Route('/players/{id}/club-prospects', name: 'api_agent_player_club_prospect_create', methods: ['POST'])]
-    public function createClubProspect(Player $player, Request $request): JsonResponse
+    public function createClubProspect(
+        Player $player,
+        Request $request,
+        TeamMembershipRepository $teamMembershipRepository,
+    ): JsonResponse
     {
         if (!$this->isCsrfValid($request)) {
             return $this->json(['errorMessage' => 'Token CSRF invalide.'], JsonResponse::HTTP_FORBIDDEN);
@@ -441,6 +533,23 @@ final class AgentPlayerController extends AbstractController
 
         $this->entityManager->persist($prospect);
         $this->entityManager->flush();
+
+        foreach ($teamMembershipRepository->findUsersByTeam($team) as $clubUser) {
+            $this->notificationService->notify(
+                recipient: $clubUser,
+                type: 'agent_prospect.created',
+                category: 'market',
+                title: 'Joueur proposé par un agent',
+                body: sprintf('%s vous propose %s.', $this->agentName($agent), $this->playerName($player)),
+                actionUrl: '/market',
+                targetRoute: '/market',
+                requiresAction: true,
+                severity: 'info',
+                actor: $agent->getUser(),
+                sourceType: 'agent_club_prospect',
+                sourceId: $prospect->getId()?->toRfc4122(),
+            );
+        }
 
         return $this->json([
             'message' => 'La proposition a été enregistrée et transmise au club.',
@@ -783,6 +892,25 @@ final class AgentPlayerController extends AbstractController
             PlayerMarketStatusEnum::NOT_LISTED => 'Non listé',
             default => 'Non listé',
         };
+    }
+
+    private function playerName(?Player $player): string
+    {
+        if (!$player instanceof Player) {
+            return 'ce joueur';
+        }
+
+        $name = trim(sprintf('%s %s', $player->getFirstName(), $player->getLastName()));
+
+        return '' !== $name ? $name : 'ce joueur';
+    }
+
+    private function agentName(Agent $agent): string
+    {
+        $name = $agent->getAgencyName()
+            ?: trim(sprintf('%s %s', $agent->getUser()?->getFirstName(), $agent->getUser()?->getLastName()));
+
+        return '' !== $name ? $name : 'Un agent';
     }
 
     private function formatMoney(?int $amountInCents, bool $allowNone = false): string

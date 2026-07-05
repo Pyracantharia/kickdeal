@@ -15,6 +15,7 @@ import {
   TextInput,
   ToggleRow,
 } from '@/components/market/negotiation/TransferNegotiationParts'
+import { useNotifications } from '@/context/NotificationsProvider'
 import type { ClubPlayer } from '@/features/club/types/roster'
 import { formatCurrency, formatNumberInput, parseFormattedNumber, parseOptionalNumber } from '@/features/format/number'
 import { transfersManager } from '@/features/market/transfers'
@@ -28,6 +29,7 @@ type PaymentMode = 'single' | 'installments'
 function TransferNegotiationPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { refreshSummary } = useNotifications()
   const listingId = searchParams.get('listingId') ?? undefined
   const offerId = searchParams.get('offerId') ?? undefined
 
@@ -212,6 +214,7 @@ function TransferNegotiationPage() {
         return
       }
 
+      await refreshSummary()
       router.push('/market/transfers')
     } catch {
       setErrorMessage("Impossible d'envoyer l'offre.")

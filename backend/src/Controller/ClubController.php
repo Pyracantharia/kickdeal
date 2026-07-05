@@ -18,6 +18,8 @@ use App\Enum\TeamVerificationStatusEnum;
 use App\Repository\ClubRequestRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\TeamRepository;
+use App\Repository\UserRepository;
+use App\Service\Notification\NotificationService;
 use App\Service\Player\PlayerMarketContextResolver;
 use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,6 +41,7 @@ final class ClubController extends AbstractController
     public function __construct(
         private readonly PlayerMarketContextResolver $marketContextResolver,
         private readonly PublicFeedPublisher $publicFeedPublisher,
+        private readonly NotificationService $notificationService,
     ) {
     }
 
@@ -213,6 +216,27 @@ final class ClubController extends AbstractController
         }
         $entityManager->flush();
 
+        if (
+            PlayerMarketListingSourceEnum::CLUB === $player->getMarketListingSource()
+            && PlayerMarketStatusEnum::NOT_LISTED !== $status
+            && $player->getAgent()?->getUser() instanceof User
+        ) {
+            $this->notificationService->notify(
+                recipient: $player->getAgent()->getUser(),
+                type: 'player_market.club_listed',
+                category: 'players',
+                title: 'Votre joueur est sur le marché',
+                body: sprintf('%s a été listé par son club.', $this->playerName($player)),
+                actionUrl: '/mes-joueurs',
+                targetRoute: '/mes-joueurs',
+                requiresAction: false,
+                severity: 'info',
+                actor: $user,
+                sourceType: 'player_market_status',
+                sourceId: $player->getId()?->toRfc4122(),
+            );
+        }
+
         return $this->json([
             'message' => 'Le statut marché du joueur a été mis à jour.',
             'status' => $status->value,
@@ -277,6 +301,26 @@ final class ClubController extends AbstractController
 
             $entityManager->flush();
 
+            $this->notificationService->resolveSource('player_market_authorization', $player->getId()?->toRfc4122() ?? '');
+            if ($player->getAgent()?->getUser() instanceof User) {
+                $this->notificationService->notify(
+                    recipient: $player->getAgent()->getUser(),
+                    type: 'market_authorization.revoked',
+                    category: 'players',
+                    title: 'Autorisation marché retirée',
+                    body: $wasRemovedFromMarket
+                        ? sprintf('Le club a retiré l’autorisation pour %s. Le joueur a été retiré du marché.', $this->playerName($player))
+                        : sprintf('Le club a retiré l’autorisation de proposer %s.', $this->playerName($player)),
+                    actionUrl: '/mes-joueurs',
+                    targetRoute: '/mes-joueurs',
+                    requiresAction: false,
+                    severity: 'warning',
+                    actor: $user,
+                    sourceType: 'player_market_authorization',
+                    sourceId: $player->getId()?->toRfc4122(),
+                );
+            }
+
             return $this->json([
                 'message' => 'L’autorisation de mise sur le marché accordée à l’agent a été retirée.',
                 'wasRemovedFromMarket' => $wasRemovedFromMarket,
@@ -307,6 +351,30 @@ final class ClubController extends AbstractController
             ->setMarketAuthorizationStatus($nextStatus)
             ->setMarketAuthorizationDecidedAt(new \DateTimeImmutable());
         $entityManager->flush();
+
+        $this->notificationService->resolveSource('player_market_authorization', $player->getId()?->toRfc4122() ?? '');
+        if ($player->getAgent()?->getUser() instanceof User) {
+            $this->notificationService->notify(
+                recipient: $player->getAgent()->getUser(),
+                type: PlayerMarketAuthorizationStatusEnum::APPROVED === $nextStatus
+                    ? 'market_authorization.approved'
+                    : 'market_authorization.rejected',
+                category: 'players',
+                title: PlayerMarketAuthorizationStatusEnum::APPROVED === $nextStatus
+                    ? 'Autorisation marché accordée'
+                    : 'Autorisation marché refusée',
+                body: PlayerMarketAuthorizationStatusEnum::APPROVED === $nextStatus
+                    ? sprintf('Vous pouvez maintenant proposer %s aux clubs.', $this->playerName($player))
+                    : sprintf('Le club a refusé la demande pour %s.', $this->playerName($player)),
+                actionUrl: '/mes-joueurs',
+                targetRoute: '/mes-joueurs',
+                requiresAction: false,
+                severity: PlayerMarketAuthorizationStatusEnum::APPROVED === $nextStatus ? 'success' : 'danger',
+                actor: $user,
+                sourceType: 'player_market_authorization',
+                sourceId: $player->getId()?->toRfc4122(),
+            );
+        }
 
         return $this->json([
             'message' => PlayerMarketAuthorizationStatusEnum::APPROVED === $nextStatus
@@ -455,6 +523,7 @@ final class ClubController extends AbstractController
         TeamRepository $teamRepository,
         TeamMembershipRepository $teamMembershipRepository,
         ClubRequestRepository $clubRequestRepository,
+        UserRepository $userRepository,
         EntityManagerInterface $entityManager,
         CsrfTokenManagerInterface $csrfTokenManager,
     ): JsonResponse {
@@ -560,6 +629,23 @@ final class ClubController extends AbstractController
 
         $entityManager->persist($clubRequest);
         $entityManager->flush();
+
+        foreach ($userRepository->findAdminUsers() as $adminUser) {
+            $this->notificationService->notify(
+                recipient: $adminUser,
+                type: 'club_request.created',
+                category: 'admin',
+                title: 'Demande de gestion de club',
+                body: sprintf('%s souhaite gérer %s.', $this->userName($user), $team->getName()),
+                actionUrl: '/admin',
+                targetRoute: '/admin',
+                requiresAction: true,
+                severity: 'warning',
+                actor: $user,
+                sourceType: 'club_request',
+                sourceId: $clubRequest->getId()?->toRfc4122(),
+            );
+        }
 
         return $this->json([
             'message' => 'Demande de gestion soumise avec succès.',
@@ -908,6 +994,22 @@ final class ClubController extends AbstractController
         }
 
         return count($memberships) < $seatsIncluded;
+    }
+
+    private function playerName(Player $player): string
+    {
+        $name = trim(sprintf('%s %s', $player->getFirstName(), $player->getLastName()));
+
+        return '' !== $name ? $name : 'ce joueur';
+    }
+
+    private function userName(User $user): string
+    {
+        $name = $user->getAgencyName()
+            ?: $user->getClubName()
+            ?: trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
+
+        return '' !== $name ? $name : 'Un utilisateur';
     }
 
     /**

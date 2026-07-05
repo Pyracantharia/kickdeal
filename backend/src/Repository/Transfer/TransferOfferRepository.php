@@ -35,6 +35,23 @@ class TransferOfferRepository extends ServiceEntityRepository
         return (int) $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
+    public function countPendingReceivedByTeam(Team $team): int
+    {
+        return (int) $this->createQueryBuilder('transferOffer')
+            ->select('COUNT(transferOffer.id)')
+            ->innerJoin('transferOffer.author', 'author')
+            ->leftJoin('author.teamMemberships', 'authorMembership', 'WITH', 'authorMembership.team = :team')
+            ->innerJoin('transferOffer.transferNegociation', 'negociation')
+            ->innerJoin('negociation.listing', 'listing')
+            ->andWhere('(listing.sellerTeam = :team OR negociation.buyerTeam = :team)')
+            ->andWhere('authorMembership.id IS NULL')
+            ->andWhere('transferOffer.status = :pendingStatus')
+            ->setParameter('team', $team)
+            ->setParameter('pendingStatus', OfferStatusEnum::PENDING)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     public function countSentByTeam(Team $team): int
     {
         return (int) $this->createQueryBuilder('transferOffer')

@@ -10,6 +10,7 @@ use App\Repository\DirectMessageRepository;
 use App\Repository\UserRepository;
 use App\Service\MercurePublisher;
 use App\Service\MercureSubscriberTokenFactory;
+use App\Service\Notification\NotificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -150,6 +151,36 @@ final class MessageController extends AbstractController
         ]);
     }
 
+    #[Route('/conversations/{id}/read', name: 'api_messages_conversation_read', methods: ['POST'])]
+    public function markConversationRead(
+        string $id,
+        #[CurrentUser] ?User $user,
+        DirectConversationRepository $conversationRepository,
+        NotificationService $notificationService,
+        CsrfTokenManagerInterface $csrfTokenManager,
+        Request $request,
+    ): JsonResponse {
+        if (!$user instanceof User) {
+            return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
+        }
+
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
+        $conversation = $conversationRepository->find($id);
+
+        if (!$conversation instanceof DirectConversation || !$conversation->hasParticipant($user)) {
+            return $this->json(['errorMessage' => 'Discussion introuvable.'], 404);
+        }
+
+        $notificationService->markSourceRead($user, 'direct_conversation', (string) $conversation->getId());
+
+        return $this->json([
+            'summary' => $notificationService->summary($user),
+        ]);
+    }
+
     #[Route('/conversations/{id}/messages', name: 'api_messages_send', methods: ['POST'])]
     public function sendMessage(
         string $id,
@@ -158,6 +189,7 @@ final class MessageController extends AbstractController
         DirectConversationRepository $conversationRepository,
         EntityManagerInterface $entityManager,
         MercurePublisher $mercurePublisher,
+        NotificationService $notificationService,
         CsrfTokenManagerInterface $csrfTokenManager,
     ): JsonResponse {
         if (!$user instanceof User) {
@@ -203,6 +235,19 @@ final class MessageController extends AbstractController
             array_map(fn (User $participant) => $this->userTopic($participant), $participants),
             $payload,
         );
+
+        foreach ($participants as $participant) {
+            if ($participant->getId()?->toRfc4122() === $user->getId()?->toRfc4122()) {
+                continue;
+            }
+
+            $notificationService->notifyMessageReceived(
+                recipient: $participant,
+                sender: $user,
+                conversationId: (string) $conversation->getId(),
+                senderName: $this->userDisplayName($user),
+            );
+        }
 
         return $this->json($payload, 201);
     }
@@ -278,5 +323,14 @@ final class MessageController extends AbstractController
             'clubLogoUrl' => $user->getClubLogoUrl(),
             'agencyName' => $user->getAgencyName(),
         ];
+    }
+
+    private function userDisplayName(User $user): string
+    {
+        $name = $user->getAgencyName()
+            ?: $user->getClubName()
+            ?: trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
+
+        return '' !== $name ? $name : 'Un utilisateur';
     }
 }

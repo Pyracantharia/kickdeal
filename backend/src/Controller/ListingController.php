@@ -40,8 +40,10 @@ final class ListingController extends AbstractController
 
         $targets = [];
         foreach ($transferTargetRepository->findForTeam($team) as $target) {
-            if ($target->getPlayer()?->getTeam()?->getId()?->toRfc4122() === $team->getId()?->toRfc4122()) {
-                $transferTargetRepository->remove($target, true);
+            $player = $target->getPlayer();
+
+            if ($player?->getTeam()?->getId()?->toRfc4122() === $team->getId()?->toRfc4122()) {
+                $transferTargetRepository->removeForTeamAndPlayer($team, $player);
                 continue;
             }
 

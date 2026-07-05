@@ -6,7 +6,8 @@ import React from 'react'
 import ChatSection from './ChatSection'
 import ConversationsTable from './ConversationsTable'
 import { useMessagesUnread } from '@/context/MessagesUnreadProvider'
-import type { DirectConversation } from '@/features/messages/messages'
+import { useNotifications } from '@/context/NotificationsProvider'
+import { messagesManager, type DirectConversation } from '@/features/messages/messages'
 
 function MessagesWorkspace() {
   const router = useRouter()
@@ -15,6 +16,7 @@ function MessagesWorkspace() {
   const [isSidebarVisible, setIsSidebarVisible] = React.useState(true)
   const [isLargeScreen, setIsLargeScreen] = React.useState(false)
   const { hasUnreadMessages, markConversationRead, setActiveConversationId, unreadConversationIds } = useMessagesUnread()
+  const { refreshSummary } = useNotifications()
 
   React.useEffect(() => {
     const mediaQuery = window.matchMedia('(min-width: 1024px)')
@@ -31,6 +33,25 @@ function MessagesWorkspace() {
 
     return () => setActiveConversationId(null)
   }, [selectedConversationId, setActiveConversationId])
+
+  React.useEffect(() => {
+    if (!selectedConversationId) return
+
+    let isActive = true
+
+    messagesManager.markConversationRead(selectedConversationId)
+      .then(async (response) => {
+        if (!isActive || !response.ok) return
+
+        markConversationRead(selectedConversationId)
+        await refreshSummary()
+      })
+      .catch(() => undefined)
+
+    return () => {
+      isActive = false
+    }
+  }, [markConversationRead, refreshSummary, selectedConversationId])
 
   function selectConversation(conversationId: string) {
     const params = new URLSearchParams(searchParams.toString())

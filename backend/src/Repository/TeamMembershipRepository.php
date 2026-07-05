@@ -55,6 +55,19 @@ class TeamMembershipRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return User[]
+     */
+    public function findUsersByTeam(Team $team): array
+    {
+        $memberships = $this->findByTeamOrdered($team);
+
+        return array_values(array_filter(array_map(
+            static fn (TeamMembership $membership): ?User => $membership->getUser(),
+            $memberships,
+        )));
+    }
+
+    /**
      * @return string[]
      */
     public function findUserIdsByTeam(Team $team): array
