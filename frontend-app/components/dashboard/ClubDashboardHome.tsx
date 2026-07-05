@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
+import { useMessagesUnread } from '@/context/MessagesUnreadProvider'
+import { useNotifications } from '@/context/NotificationsProvider'
 import {
   MOCK_GLOBAL_TRANSFER_NEWS,
   getDaysUntilNextTransferWindow,
@@ -39,6 +41,8 @@ function formatEventDate(dateValue: string | null): string {
 
 function ClubDashboardHome() {
   const router = useRouter()
+  const { unreadConversationIds } = useMessagesUnread()
+  const { getActionCount, getUnreadCount } = useNotifications()
   const [activeNewsIndex, setActiveNewsIndex] = useState(0)
   const [activeDeal, setActiveDeal] = useState<DashboardActiveDeal | null>(null)
   const [pendingOffersCount, setPendingOffersCount] = useState(0)
@@ -54,6 +58,16 @@ function ClubDashboardHome() {
   const activeDealDateLabel = useMemo(
     () => formatEventDate(activeDeal?.eventDate ?? null),
     [activeDeal?.eventDate],
+  )
+  const displayedUnreadMessagesCount = Math.max(
+    unreadMessagesCount,
+    unreadConversationIds.size,
+    getUnreadCount('/messages'),
+  )
+  const displayedPendingOffersCount = Math.max(
+    pendingOffersCount,
+    getActionCount('/market'),
+    getUnreadCount('/market'),
   )
 
   useEffect(() => {
@@ -169,13 +183,13 @@ function ClubDashboardHome() {
             <div className="mt-4 space-y-3">
               <InfoRow
                 icon={<ArrowRightLeft className="h-5 w-5" />}
-                label={`${pendingOffersCount} offre(s)`}
+                label={`${displayedPendingOffersCount} offre(s)`}
                 onClick={() => router.push('/market/transfers')}
               />
               <InfoRow
                 icon={<Mail className="h-5 w-5" />}
-                label={`${unreadMessagesCount} message(s) non lu(s)`}
-                onClick={() => router.push('/notifications')}
+                label={`${displayedUnreadMessagesCount} message(s) non lu(s)`}
+                onClick={() => router.push('/messages')}
               />
               <InfoRow
                 icon={<FileClock className="h-5 w-5" />}

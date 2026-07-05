@@ -15,6 +15,7 @@ use App\Enum\PlayerAgentRequestStatusEnum;
 use App\Enum\PlayerAgentRequestTypeEnum;
 use App\Repository\ClubRequestRepository;
 use App\Repository\PlayerAgentRequestRepository;
+use App\Service\Notification\NotificationService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,7 +54,8 @@ final class AdminController extends AbstractController
     public function approveClubRequest(
         #[CurrentUser] ?User $user,
         ClubRequest $clubRequest,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        NotificationService $notificationService,
     ): JsonResponse
     {
 
@@ -95,6 +97,23 @@ final class AdminController extends AbstractController
 
         $entityManager->persist($clubProfile);
         $entityManager->flush();
+
+        $notificationService->resolveSource('club_request', $clubRequest->getId()?->toRfc4122() ?? '');
+        $notificationService->notify(
+            recipient: $clubRequest->getRequester(),
+            type: 'club_request.approved',
+            category: 'account',
+            title: 'Demande de club acceptée',
+            body: sprintf('Vous êtes maintenant gestionnaire de %s.', $clubRequest->getTeam()?->getName() ?? 'votre club'),
+            actionUrl: '/dashboard',
+            targetRoute: '/dashboard',
+            requiresAction: false,
+            severity: 'success',
+            actor: $user,
+            sourceType: 'club_request',
+            sourceId: $clubRequest->getId()?->toRfc4122(),
+        );
+
         return $this->json([
             "message" => "Club request approved successfully",
             "approvedClubRequest" => [
@@ -133,6 +152,7 @@ final class AdminController extends AbstractController
         #[CurrentUser] ?User $user,
         PlayerAgentRequest $playerAgentRequest,
         EntityManagerInterface $entityManager,
+        NotificationService $notificationService,
     ): JsonResponse {
         if (!$this->isAdmin($user)) {
             return $this->json([
@@ -155,6 +175,8 @@ final class AdminController extends AbstractController
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        $notificationService->resolveSource('player_agent_request', $playerAgentRequest->getId()?->toRfc4122() ?? '', false);
+
         if (PlayerAgentRequestTypeEnum::AGENT_HANDOVER === $playerAgentRequest->getType()) {
             $currentAgent = $playerAgentRequest->getCurrentAgent();
             if (
@@ -168,6 +190,23 @@ final class AdminController extends AbstractController
 
             $playerAgentRequest->setStatus(PlayerAgentRequestStatusEnum::ADMIN_APPROVED);
             $message = 'Demande validée par l’administration. Elle est maintenant transmise à l’agent actuel.';
+
+            if ($currentAgent->getUser() instanceof User) {
+                $notificationService->notify(
+                    recipient: $currentAgent->getUser(),
+                    type: 'agent_handover.agent_decision_required',
+                    category: 'players',
+                    title: 'Passation agent à traiter',
+                    body: sprintf('%s souhaite récupérer %s.', $this->agentName($requestingAgent), $this->playerName($player)),
+                    actionUrl: '/mes-joueurs',
+                    targetRoute: '/mes-joueurs',
+                    requiresAction: true,
+                    severity: 'warning',
+                    actor: $user,
+                    sourceType: 'player_agent_request',
+                    sourceId: $playerAgentRequest->getId()?->toRfc4122(),
+                );
+            }
         } else {
             if (null !== $player->getAgent()) {
                 return $this->json([
@@ -182,6 +221,23 @@ final class AdminController extends AbstractController
                 ->setStatus(PlayerAgentRequestStatusEnum::APPROVED)
                 ->setDecidedAt(new DateTimeImmutable());
             $message = 'Demande validée. Le joueur a été ajouté au portefeuille de l’agent.';
+
+            if ($requestingAgent->getUser() instanceof User) {
+                $notificationService->notify(
+                    recipient: $requestingAgent->getUser(),
+                    type: 'player_representation.approved',
+                    category: 'players',
+                    title: 'Demande joueur acceptée',
+                    body: sprintf('%s a été ajouté à votre portefeuille.', $this->playerName($player)),
+                    actionUrl: '/mes-joueurs',
+                    targetRoute: '/mes-joueurs',
+                    requiresAction: false,
+                    severity: 'success',
+                    actor: $user,
+                    sourceType: 'player_agent_request',
+                    sourceId: $playerAgentRequest->getId()?->toRfc4122(),
+                );
+            }
         }
 
         $entityManager->flush();
@@ -197,6 +253,7 @@ final class AdminController extends AbstractController
         #[CurrentUser] ?User $user,
         PlayerAgentRequest $playerAgentRequest,
         EntityManagerInterface $entityManager,
+        NotificationService $notificationService,
     ): JsonResponse {
         if (!$this->isAdmin($user)) {
             return $this->json([
@@ -213,6 +270,25 @@ final class AdminController extends AbstractController
         $playerAgentRequest
             ->setStatus(PlayerAgentRequestStatusEnum::REJECTED)
             ->setDecidedAt(new DateTimeImmutable());
+
+        $notificationService->resolveSource('player_agent_request', $playerAgentRequest->getId()?->toRfc4122() ?? '', false);
+        $requestingAgent = $playerAgentRequest->getAgent();
+        if ($requestingAgent?->getUser() instanceof User) {
+            $notificationService->notify(
+                recipient: $requestingAgent->getUser(),
+                type: 'player_agent_request.rejected',
+                category: 'players',
+                title: 'Demande joueur refusée',
+                body: sprintf('La demande pour %s a été refusée par l’administration.', $this->playerName($playerAgentRequest->getPlayer())),
+                actionUrl: '/mes-joueurs',
+                targetRoute: '/mes-joueurs',
+                requiresAction: false,
+                severity: 'danger',
+                actor: $user,
+                sourceType: 'player_agent_request',
+                sourceId: $playerAgentRequest->getId()?->toRfc4122(),
+            );
+        }
 
         $entityManager->flush();
 
@@ -277,5 +353,16 @@ final class AdminController extends AbstractController
             ?: trim(sprintf('%s %s', $agent->getUser()?->getFirstName(), $agent->getUser()?->getLastName()));
 
         return '' !== $name ? $name : 'Agent sans nom';
+    }
+
+    private function playerName(?Player $player): string
+    {
+        if (!$player instanceof Player) {
+            return 'ce joueur';
+        }
+
+        $name = trim(sprintf('%s %s', $player->getFirstName(), $player->getLastName()));
+
+        return '' !== $name ? $name : 'ce joueur';
     }
 }

@@ -7,6 +7,7 @@ import Modal from '@/components/ui/Modal'
 import Button from '@/components/ui/Button'
 import type { ClubPlayer } from '@/features/club/types/roster'
 import { clubManager } from '@/features/club/club'
+import { useNotifications } from '@/context/NotificationsProvider'
 import {
   contractsManager,
   type ContractNegotiationType,
@@ -21,6 +22,7 @@ interface PlayerActionsModalProps {
 
 function PlayerActionsModal({ isOpen, onClose, player, onPlayerUpdated }: PlayerActionsModalProps) {
   const router = useRouter()
+  const { refreshSummary } = useNotifications()
   const [pendingAction, setPendingAction] = useState<string | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
@@ -103,6 +105,7 @@ function PlayerActionsModal({ isOpen, onClose, player, onPlayerUpdated }: Player
         })
       }
       onPlayerUpdated()
+      await refreshSummary()
     } catch {
       setErrorMessage('Impossible de traiter cette demande.')
     } finally {
@@ -122,6 +125,33 @@ function PlayerActionsModal({ isOpen, onClose, player, onPlayerUpdated }: Player
           <h4 className="text-brand-cyan font-bold mb-3 flex items-center gap-2 uppercase text-sm">
             Transferts
           </h4>
+          {marketContext?.state === 'pending' && (
+            <div className="mb-3 rounded-xl border border-amber-400/30 bg-amber-400/10 p-3 text-sm text-amber-100">
+              <div className="flex items-start gap-2">
+                <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" />
+                <div className="min-w-0">
+                  <p className="font-semibold text-white">Demande d’autorisation en attente</p>
+                  <p className="mt-1 text-xs leading-5 text-white/65">
+                    L’agent souhaite proposer activement ce joueur à d’autres clubs. Vous pouvez accorder ou refuser cette autorisation maintenant.
+                  </p>
+                  <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                    <ActionButton
+                      label="Accorder l’autorisation"
+                      icon={<CheckCircle2 className="h-4 w-4" />}
+                      onClick={() => decideAuthorization('approved')}
+                      isLoading={pendingAction === 'approved'}
+                    />
+                    <ActionButton
+                      label="Refuser l’autorisation"
+                      icon={<XCircle className="h-4 w-4" />}
+                      onClick={() => decideAuthorization('rejected')}
+                      isLoading={pendingAction === 'rejected'}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-2">
             {marketStatus === 'on_market' ? (
               <ActionButton
@@ -197,33 +227,6 @@ function PlayerActionsModal({ isOpen, onClose, player, onPlayerUpdated }: Player
             <Users className="h-4 w-4" />
             Agent
           </h4>
-          {marketContext?.state === 'pending' && (
-            <div className="mb-3 rounded-xl border border-amber-400/30 bg-amber-400/10 p-3 text-sm text-amber-100">
-              <div className="flex items-start gap-2">
-                <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" />
-                <div className="min-w-0">
-                  <p className="font-semibold text-white">Demande d’autorisation en attente</p>
-                  <p className="mt-1 text-xs leading-5 text-white/65">
-                    L’agent souhaite pouvoir proposer activement ce joueur à d’autres clubs.
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    <ActionButton
-                      label="Accorder l’autorisation"
-                      icon={<CheckCircle2 className="h-4 w-4" />}
-                      onClick={() => decideAuthorization('approved')}
-                      isLoading={pendingAction === 'approved'}
-                    />
-                    <ActionButton
-                      label="Refuser l’autorisation"
-                      icon={<XCircle className="h-4 w-4" />}
-                      onClick={() => decideAuthorization('rejected')}
-                      isLoading={pendingAction === 'rejected'}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
           {marketContext?.authorizationStatus === 'approved' && (
             <div className="mb-3 rounded-xl border border-brand-cyan/25 bg-brand-cyan/10 p-3 text-sm text-white/80">
               <div className="flex items-start gap-2">

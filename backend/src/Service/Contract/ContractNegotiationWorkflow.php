@@ -23,6 +23,7 @@ use App\Repository\Contract\ContractPackageRepository;
 use App\Repository\Transfer\TransferAgreementRepository;
 use App\Repository\Transfer\TransferNegociationRepository;
 use App\Repository\TransferTargetRepository;
+use App\Service\Notification\NotificationService;
 use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -36,6 +37,7 @@ final class ContractNegotiationWorkflow
         private readonly TransferNegociationRepository $transferNegociationRepository,
         private readonly TransferTargetRepository $transferTargetRepository,
         private readonly PublicFeedPublisher $publicFeedPublisher,
+        private readonly NotificationService $notificationService,
     ) {
     }
 
@@ -81,8 +83,37 @@ final class ContractNegotiationWorkflow
             ->setUpdatedAt(new \DateTimeImmutable());
 
         $this->entityManager->persist($contractNegociation);
+        $this->entityManager->flush();
+        $this->notifyAgentNegotiationOpened($contractNegociation, $createdBy);
 
         return $contractNegociation;
+    }
+
+    private function notifyAgentNegotiationOpened(ContractNegociation $contractNegociation, User $createdBy): void
+    {
+        $agentUser = $contractNegociation->getAgent()?->getUser();
+        if (!$agentUser instanceof User) {
+            return;
+        }
+
+        $player = $contractNegociation->getPlayer();
+        $playerName = trim(sprintf('%s %s', $player?->getFirstName() ?? '', $player?->getLastName() ?? '')) ?: 'un joueur';
+        $clubName = $contractNegociation->getBuyerTeam()?->getName() ?? 'un club';
+
+        $this->notificationService->notify(
+            recipient: $agentUser,
+            type: 'contract_negociation.opened',
+            category: 'negotiations',
+            title: 'Discussion contractuelle ouverte',
+            body: sprintf('%s attend une première proposition pour %s.', $clubName, $playerName),
+            actionUrl: '/negociations/'.$contractNegociation->getId()?->toRfc4122(),
+            targetRoute: '/negociations',
+            requiresAction: true,
+            severity: 'warning',
+            actor: $createdBy,
+            sourceType: 'contract_negociation',
+            sourceId: $contractNegociation->getId()?->toRfc4122(),
+        );
     }
 
     /**

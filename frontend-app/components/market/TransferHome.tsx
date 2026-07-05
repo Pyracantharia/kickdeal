@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from 'react'
 import { BadgeEuro, CheckCircle2, Clock3, Mail, ReceiptText, Send, Users } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
 import Modal from '@/components/ui/Modal'
 import { CountryFlag } from '@/components/media/CountryFlag'
+import { useNotifications } from '@/context/NotificationsProvider'
 import OfferDetailsModal from './modals/OfferDetailsModal'
 import { ClubLogo, EmptyState, ErrorMessage, OfferDirection, PlayerAvatar } from './TransferHomeParts'
 import type {
@@ -22,7 +23,12 @@ type TabType = 'liste' | 'envoyees' | 'recues'
 
 function TransferHome() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const { refreshSummary } = useNotifications()
+  const focusedOfferId = searchParams.get('offerId')
+  const offerRefs = React.useRef<Record<string, HTMLDivElement | null>>({})
   const [activeTab, setActiveTab] = useState<TabType>('liste')
+  const [highlightedOfferId, setHighlightedOfferId] = useState<string | null>(null)
   const [transferList, setTransferList] = useState<TransferListPlayer[]>([])
   const [selectedOffer, setSelectedOffer] = useState<SentOffer | ReceivedOffer | null>(null)
   const [offerModalType, setOfferModalType] = useState<'sent' | 'received'>('sent')
@@ -85,6 +91,38 @@ function TransferHome() {
     }
   }, [])
 
+  useEffect(() => {
+    if (!focusedOfferId || isLoadingOffers) {
+      return
+    }
+
+    const isReceivedOffer = receivedOffers.some((offer) => offer.id === focusedOfferId)
+    const isSentOffer = sentOffers.some((offer) => offer.id === focusedOfferId)
+
+    if (!isReceivedOffer && !isSentOffer) {
+      return
+    }
+
+    setActiveTab(isReceivedOffer ? 'recues' : 'envoyees')
+    setHighlightedOfferId(focusedOfferId)
+
+    const scrollTimeout = window.setTimeout(() => {
+      offerRefs.current[focusedOfferId]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      })
+    }, 120)
+
+    const highlightTimeout = window.setTimeout(() => {
+      setHighlightedOfferId((current) => current === focusedOfferId ? null : current)
+    }, 3500)
+
+    return () => {
+      window.clearTimeout(scrollTimeout)
+      window.clearTimeout(highlightTimeout)
+    }
+  }, [focusedOfferId, isLoadingOffers, receivedOffers, sentOffers])
+
   const refreshOffers = async () => {
     const response = await transfersManager.getMyOffers()
 
@@ -109,6 +147,7 @@ function TransferHome() {
       setActionMessage("Accord entre clubs trouvé. La négociation contractuelle est prête.")
     }
     await refreshOffers()
+    await refreshSummary()
   }
 
   const inviteAgent = async (offer: SentOffer | ReceivedOffer) => {
@@ -165,6 +204,7 @@ function TransferHome() {
     setExternalAgreementOffer(null)
     setActionMessage("Validation enregistrée. Le transfert sera finalisé dès que l'autre club aura confirmé.")
     await refreshOffers()
+    await refreshSummary()
   }
 
   const handleOfferSelect = (
@@ -308,7 +348,12 @@ function TransferHome() {
             {sentOffers.map((offer) => (
               <div
                 key={offer.id}
-                className="rounded-2xl border-2 border-white/25 bg-[#071722]/85 bg-gradient-to-r from-brand-purple/20 to-[#071722]/85 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.22)] hover:border-brand-purple/60 transition-all"
+                ref={(element) => { offerRefs.current[offer.id] = element }}
+                className={`rounded-2xl border-2 bg-[#071722]/85 bg-gradient-to-r from-brand-purple/20 to-[#071722]/85 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.22)] transition-all ${
+                  highlightedOfferId === offer.id
+                    ? 'border-brand-cyan shadow-[0_0_42px_rgba(0,245,212,0.24)]'
+                    : 'border-white/25 hover:border-brand-purple/60'
+                }`}
               >
                 <div className="flex items-center justify-between gap-6">
                   <div className="flex-1">
@@ -365,7 +410,12 @@ function TransferHome() {
             {receivedOffers.map((offer) => (
               <div
                 key={offer.id}
-                className="rounded-2xl border-2 border-white/25 bg-[#071722]/85 bg-gradient-to-r from-brand-cyan/20 to-[#071722]/85 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.22)] hover:border-brand-cyan/60 transition-all"
+                ref={(element) => { offerRefs.current[offer.id] = element }}
+                className={`rounded-2xl border-2 bg-[#071722]/85 bg-gradient-to-r from-brand-cyan/20 to-[#071722]/85 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.22)] transition-all ${
+                  highlightedOfferId === offer.id
+                    ? 'border-brand-purple shadow-[0_0_42px_rgba(163,94,255,0.28)]'
+                    : 'border-white/25 hover:border-brand-cyan/60'
+                }`}
               >
                 <div className="flex items-center justify-between gap-6 mb-4">
                   <div className="flex-1">

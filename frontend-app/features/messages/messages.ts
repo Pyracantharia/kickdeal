@@ -62,6 +62,10 @@ class MessagesManager {
     return httpClient.get<ConversationResponse>(`/messages/conversations/${conversationId}`)
   }
 
+  async markConversationRead(conversationId: string) {
+    return httpClient.post<{ summary: unknown }>(`/messages/conversations/${conversationId}/read`, {})
+  }
+
   async sendMessage(conversationId: string, content: string) {
     return httpClient.post<MessageEventPayload>(`/messages/conversations/${conversationId}/messages`, { content })
   }

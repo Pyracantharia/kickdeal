@@ -15,6 +15,7 @@ use App\Enum\OfferStatusEnum;
 use App\Enum\PlayerContractNegociationStatusEnum;
 use App\Enum\PlayerMarketStatusEnum;
 use App\Repository\AgentRepository;
+use App\Repository\AppNotificationRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\Contract\ContractOfferRepository;
 use App\Repository\Contract\ContractMessageRepository;
@@ -40,6 +41,7 @@ final class DashboardController extends AbstractController
         TransferMessageRepository $transferMessageRepository,
         ContractMessageRepository $contractMessageRepository,
         ContractNegociationRepository $contractNegociationRepository,
+        AppNotificationRepository $notificationRepository,
     ): JsonResponse {
         if (!$user) {
             return $this->json([
@@ -64,8 +66,9 @@ final class DashboardController extends AbstractController
 
         return $this->json([
             'activeDeal' => $this->serializeActiveDeal($activeDeal, $team),
-            'pendingOffersCount' => $transferOfferRepository->countForTeam($team),
-            'unreadMessagesCount' => $transferMessageRepository->countIncomingForTeam($team, $teamUserIds)
+            'pendingOffersCount' => $transferOfferRepository->countPendingReceivedByTeam($team),
+            'unreadMessagesCount' => $notificationRepository->countUnreadForUserByCategory($user, 'messages')
+                + $transferMessageRepository->countIncomingForTeam($team, $teamUserIds)
                 + $contractMessageRepository->countIncomingForTeam($team, $teamUserIds),
             'pendingRenewalsCount' => $contractNegociationRepository->countPendingForTeam($team),
         ]);
@@ -144,12 +147,8 @@ final class DashboardController extends AbstractController
 
         return [
             'id' => $negociation->getId()?->toRfc4122(),
-            'type' => $negociation->getType()->value,
-            'typeLabel' => match ($negociation->getType()) {
-                ContractNegotiationTypeEnum::TRANSFER => 'Contrat de transfert',
-                ContractNegotiationTypeEnum::RENEWAL => 'Renouvellement',
-                ContractNegotiationTypeEnum::TERMINATION => 'Résiliation',
-            },
+            'type' => 'transfer',
+            'typeLabel' => 'Transfert',
             'eventLabel' => 'Deal transfert',
             'eventDate' => $eventDate?->format(\DateTimeInterface::ATOM),
             'homeClub' => $sellerTeam?->getName(),

@@ -16,6 +16,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
+import { useNotifications } from '@/context/NotificationsProvider'
 import {
   contractsManager,
   type ContractNegotiation,
@@ -35,6 +36,7 @@ interface ContractNegotiationPageProps {
 function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { refreshSummary } = useNotifications()
   const [negotiation, setNegotiation] = useState<ContractNegotiation | null>(null)
   const [annualSalary, setAnnualSalary] = useState('')
   const [durationMonths, setDurationMonths] = useState('48')
@@ -210,6 +212,7 @@ function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps
         return
       }
       await loadNegotiation()
+      await refreshSummary()
     } catch {
       setErrorMessage('Impossible d’envoyer la proposition.')
     } finally {
@@ -232,6 +235,7 @@ function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps
         return
       }
       setNegotiation(response.data.negotiation)
+      await refreshSummary()
     } catch {
       setErrorMessage('Impossible de mettre à jour la négociation.')
     } finally {
@@ -253,6 +257,7 @@ function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps
         return
       }
 
+      await refreshSummary()
       router.push('/negociations')
     } catch {
       setErrorMessage('Impossible d’annuler la négociation.')

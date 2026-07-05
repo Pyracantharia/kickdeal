@@ -16,6 +16,7 @@ use App\Repository\Contract\ContractNegociationRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\Transfer\TransferNegociationRepository;
 use App\Service\Contract\ContractNegotiationWorkflow;
+use App\Service\Notification\NotificationService;
 use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,6 +39,7 @@ final class ContractNegotiationController extends AbstractController
         ContractNegociationRepository $contractNegociationRepository,
         CsrfTokenManagerInterface $csrfTokenManager,
         EntityManagerInterface $entityManager,
+        NotificationService $notificationService,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrf($request, $csrfTokenManager)) {
             return $csrfError;
@@ -82,6 +84,23 @@ final class ContractNegotiationController extends AbstractController
                 ->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->persist($negociation);
             $entityManager->flush();
+
+            if ($agent->getUser() instanceof User) {
+                $notificationService->notify(
+                    recipient: $agent->getUser(),
+                    type: 'contract_negociation.opened',
+                    category: 'negotiations',
+                    title: 'Discussion contractuelle ouverte',
+                    body: sprintf('%s attend une première proposition pour %s.', $team->getName(), $this->playerName($player)),
+                    actionUrl: '/negociations/'.$negociation->getId()?->toRfc4122(),
+                    targetRoute: '/negociations',
+                    requiresAction: true,
+                    severity: 'warning',
+                    actor: $user,
+                    sourceType: 'contract_negociation',
+                    sourceId: $negociation->getId()?->toRfc4122(),
+                );
+            }
         }
 
         return $this->json([
@@ -198,6 +217,7 @@ final class ContractNegotiationController extends AbstractController
         CsrfTokenManagerInterface $csrfTokenManager,
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
+        NotificationService $notificationService,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrf($request, $csrfTokenManager)) {
             return $csrfError;
@@ -296,6 +316,32 @@ final class ContractNegotiationController extends AbstractController
         $entityManager->persist($offer);
         $publicFeedPublisher->publishContractNegotiation($negociation);
         $entityManager->flush();
+        $notificationService->resolveSource('contract_negociation', $negociation->getId()?->toRfc4122() ?? '');
+
+        $targetUsers = 'agent' === $viewerRole
+            ? ($negociation->getBuyerTeam() instanceof Team ? $teamMembershipRepository->findUsersByTeam($negociation->getBuyerTeam()) : [])
+            : array_values(array_filter([$negociation->getAgent()?->getUser()]));
+
+        foreach ($targetUsers as $targetUser) {
+            if (!$targetUser instanceof User) {
+                continue;
+            }
+
+            $notificationService->notify(
+                recipient: $targetUser,
+                type: 'contract_offer.received',
+                category: 'negotiations',
+                title: $hadPreviousOffer ? 'Contre-offre contractuelle reçue' : 'Offre contractuelle reçue',
+                body: sprintf('Une proposition est à traiter pour %s.', $this->playerName($negociation->getPlayer())),
+                actionUrl: '/negociations/'.$negociation->getId()?->toRfc4122(),
+                targetRoute: '/negociations',
+                requiresAction: true,
+                severity: 'warning',
+                actor: $user,
+                sourceType: 'contract_offer',
+                sourceId: $offer->getId()?->toRfc4122(),
+            );
+        }
 
         return $this->json([
             'offer' => $this->serializeOffer($offer, $negociation, $viewerRole),
@@ -353,6 +399,7 @@ final class ContractNegotiationController extends AbstractController
         CsrfTokenManagerInterface $csrfTokenManager,
         ContractNegotiationWorkflow $workflow,
         EntityManagerInterface $entityManager,
+        NotificationService $notificationService,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrf($request, $csrfTokenManager)) {
             return $csrfError;
@@ -383,6 +430,25 @@ final class ContractNegotiationController extends AbstractController
             return $this->json(['errorMessage' => $exception->getMessage()], 422);
         }
 
+        $notificationService->resolveSource('contract_offer', $offer->getId()?->toRfc4122() ?? '');
+        $notificationService->resolveSource('contract_negociation', $negociation->getId()?->toRfc4122() ?? '');
+        if ($offer->getAuthor() instanceof User) {
+            $notificationService->notify(
+                recipient: $offer->getAuthor(),
+                type: 'contract_offer.accepted',
+                category: 'negotiations',
+                title: 'Proposition contractuelle acceptée',
+                body: sprintf('Votre proposition pour %s a été acceptée.', $this->playerName($negociation->getPlayer())),
+                actionUrl: '/negociations/'.$negociation->getId()?->toRfc4122(),
+                targetRoute: '/negociations',
+                requiresAction: false,
+                severity: 'success',
+                actor: $user,
+                sourceType: 'contract_offer',
+                sourceId: $offer->getId()?->toRfc4122(),
+            );
+        }
+
         return $this->json([
             'message' => match ($negociation->getType()) {
                 ContractNegotiationTypeEnum::TRANSFER => 'Accord contractuel validé. Le transfert du joueur est finalisé.',
@@ -402,6 +468,8 @@ final class ContractNegotiationController extends AbstractController
         TeamMembershipRepository $teamMembershipRepository,
         CsrfTokenManagerInterface $csrfTokenManager,
         EntityManagerInterface $entityManager,
+        PublicFeedPublisher $publicFeedPublisher,
+        NotificationService $notificationService,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrf($request, $csrfTokenManager)) {
             return $csrfError;
@@ -426,6 +494,24 @@ final class ContractNegotiationController extends AbstractController
             ->setUpdatedAt(new \DateTimeImmutable());
         $publicFeedPublisher->publishContractNegotiation($negociation);
         $entityManager->flush();
+
+        $notificationService->resolveSource('contract_offer', $offer->getId()?->toRfc4122() ?? '');
+        if ($offer->getAuthor() instanceof User) {
+            $notificationService->notify(
+                recipient: $offer->getAuthor(),
+                type: 'contract_offer.rejected',
+                category: 'negotiations',
+                title: 'Proposition contractuelle refusée',
+                body: sprintf('Votre proposition pour %s a été refusée.', $this->playerName($negociation->getPlayer())),
+                actionUrl: '/negociations/'.$negociation->getId()?->toRfc4122(),
+                targetRoute: '/negociations',
+                requiresAction: false,
+                severity: 'danger',
+                actor: $user,
+                sourceType: 'contract_offer',
+                sourceId: $offer->getId()?->toRfc4122(),
+            );
+        }
 
         return $this->json([
             'negotiation' => $this->serializeNegotiation($negociation, $viewerRole),
@@ -688,6 +774,17 @@ final class ContractNegotiationController extends AbstractController
     private function sameDate(?\DateTimeInterface $left, ?\DateTimeInterface $right): bool
     {
         return $left?->format('Y-m-d') === $right?->format('Y-m-d');
+    }
+
+    private function playerName(?Player $player): string
+    {
+        if (!$player instanceof Player) {
+            return 'ce joueur';
+        }
+
+        $name = trim(sprintf('%s %s', $player->getFirstName(), $player->getLastName()));
+
+        return '' !== $name ? $name : 'ce joueur';
     }
 
     private function offerStatusPriority(ContractOffer $offer): int
