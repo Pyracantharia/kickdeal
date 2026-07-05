@@ -46,12 +46,12 @@ RUN composer install --no-dev --optimize-autoloader
 
 # Répertoires utilisables par Symfony/PHP-FPM
 
-RUN mkdir -p /var/www/html/var 
-/var/www/html/public/uploads/club-verifications 
-&& chown -R www-data:www-data /var/www/html/var 
-/var/www/html/public/uploads 
-&& chmod -R 775 /var/www/html/var 
-/var/www/html/public/uploads
+RUN mkdir -p /var/www/html/var \
+    /var/www/html/public/uploads/club-verifications \
+    && chown -R www-data:www-data /var/www/html/var \
+    /var/www/html/public/uploads \
+    && chmod -R 775 /var/www/html/var \
+    /var/www/html/public/uploads
 
 EXPOSE 80
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
