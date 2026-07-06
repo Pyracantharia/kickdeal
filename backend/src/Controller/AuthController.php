@@ -229,6 +229,22 @@ final class AuthController extends AbstractController
             ], 401);
         }
 
+        if ($user->isBanned()) {
+            $tokenStorage->setToken(null);
+
+            if ($request->hasSession() && $request->getSession()->isStarted()) {
+                $request->getSession()->invalidate();
+            }
+
+            return $this->json([
+                'errorMessage' => sprintf(
+                    'Votre compte est suspendu jusqu’au %s.',
+                    $user->getBannedUntil()?->format('d/m/Y H:i'),
+                ),
+                'bannedUntil' => $user->getBannedUntil()?->format(DATE_ATOM),
+            ], 403);
+        }
+
         if ($user->isTwoFactorEnabled()) {
             $payload = json_decode($request->getContent(), true);
             $payload = is_array($payload) ? $payload : [];

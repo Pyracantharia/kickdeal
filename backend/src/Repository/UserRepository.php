@@ -39,6 +39,27 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return User[]
+     */
+    public function searchForAdmin(?string $search = null): array
+    {
+        $queryBuilder = $this->createQueryBuilder('u')
+            ->orderBy('u.createdAt', 'DESC')
+            ->addOrderBy('u.lastName', 'ASC');
+
+        if (null !== $search && '' !== trim($search)) {
+            $queryBuilder
+                ->andWhere('LOWER(u.firstName) LIKE :search OR LOWER(u.lastName) LIKE :search OR LOWER(u.email) LIKE :search')
+                ->setParameter('search', '%' . mb_strtolower(trim($search)) . '%');
+        }
+
+        return $queryBuilder
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * @return User[]  Returns an array of User objects that are either agents ar clubs, excluding the user with the given ID and the admin users
      */
     public function findAgentsAndClubsExceptMe(Uuid $selfUserId): array

@@ -89,6 +89,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $resetTokenSelector = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $bannedUntil = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $banReason = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $bannedAt = null;
+
     #[ORM\Column(length: 30, nullable: true, enumType: SubscriptionPlanEnum::class)]
     private ?SubscriptionPlanEnum $subscriptionPlan = null;
 
@@ -390,6 +399,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->resetTokenSelector = $resetTokenSelector;
 
         return $this;
+    }
+
+    public function getBannedUntil(): ?\DateTimeImmutable
+    {
+        return $this->bannedUntil;
+    }
+
+    public function setBannedUntil(?\DateTimeImmutable $bannedUntil): static
+    {
+        $this->bannedUntil = $bannedUntil;
+
+        return $this;
+    }
+
+    public function getBanReason(): ?string
+    {
+        return $this->banReason;
+    }
+
+    public function setBanReason(?string $banReason): static
+    {
+        $this->banReason = $banReason;
+
+        return $this;
+    }
+
+    public function getBannedAt(): ?\DateTimeImmutable
+    {
+        return $this->bannedAt;
+    }
+
+    public function setBannedAt(?\DateTimeImmutable $bannedAt): static
+    {
+        $this->bannedAt = $bannedAt;
+
+        return $this;
+    }
+
+    #[Groups('user:read')]
+    public function isBanned(): bool
+    {
+        return null !== $this->bannedUntil && $this->bannedUntil > new \DateTimeImmutable();
+    }
+
+    #[Groups('user:read')]
+    public function getBanExpiresAt(): ?string
+    {
+        return $this->isBanned() ? $this->bannedUntil?->format(DATE_ATOM) : null;
     }
 
     #[Groups('user:read')]

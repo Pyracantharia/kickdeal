@@ -56,7 +56,13 @@ final class ApiCsrfTokenSubscriber implements EventSubscriberInterface
             ['app_account_password', 'PATCH'],
             ['app_account_2fa_setup', 'POST'],
             ['app_account_2fa_confirm', 'POST'],
-            ['app_account_2fa_disable', 'DELETE'] => true,
+            ['app_account_2fa_disable', 'DELETE'],
+            ['admin_users_create', 'POST'],
+            ['admin_users_update', 'PUT'],
+            ['admin_users_delete', 'DELETE'],
+            ['admin_users_unban', 'POST'],
+            ['admin_message_reports_warn', 'POST'],
+            ['admin_message_reports_ban', 'POST'] => true,
             default => false,
         };
     }
