@@ -1,0 +1,11 @@
+framework:
+    session:
+        handler_id: '%env(REDIS_SESSION_URL)%'
+
+        # sa fonctionne grace a lapi publique en https
+        cookie_secure: true
+        cookie_httponly: true
+        cookie_samesite: lax
+
+        # 24 h
+        gc_maxlifetime: 86400
