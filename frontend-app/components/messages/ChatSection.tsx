@@ -1,6 +1,8 @@
 'use client';
-import { ArrowLeft, PanelLeftOpen, SendHorizonal } from 'lucide-react'
+import { ArrowLeft, Flag, PanelLeftOpen, SendHorizonal } from 'lucide-react'
 import CircleImage from '@/components/media/CircleImage';
+import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
 import { useAuth } from '@/context/AuthProvider';
 import {
   DirectConversation,
@@ -27,6 +29,10 @@ function ChatSection({ conversationId, onBack, onOpenSidebar, hasUnreadMessages 
   const [newMessageContent, setNewMessageContent] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
   const [isSending, setIsSending] = React.useState(false);
+  const [isReporting, setIsReporting] = React.useState(false);
+  const [reportedMessage, setReportedMessage] = React.useState<DirectMessage | null>(null);
+  const [reportReason, setReportReason] = React.useState('');
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(null);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const messagesContainerRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -132,6 +138,30 @@ function ChatSection({ conversationId, onBack, onOpenSidebar, hasUnreadMessages 
     }
   }
 
+  async function handleReportMessage() {
+    if (!reportedMessage) return
+
+    setIsReporting(true)
+    setErrorMessage(null)
+    setSuccessMessage(null)
+
+    try {
+      const response = await messagesManager.reportMessage(reportedMessage.id, reportReason)
+      if (!response.ok) {
+        setErrorMessage(readError(response.data, 'Impossible de signaler ce message.'))
+        return
+      }
+
+      setSuccessMessage(response.data.message)
+      setReportedMessage(null)
+      setReportReason('')
+    } catch {
+      setErrorMessage('Impossible de signaler ce message.')
+    } finally {
+      setIsReporting(false)
+    }
+  }
+
   const otherParticipant = conversation && user ? getOtherParticipant(conversation, user.id) : null
   const participantName = otherParticipant ? `${otherParticipant.firstName} ${otherParticipant.lastName}` : 'Discussion'
 
@@ -193,6 +223,11 @@ function ChatSection({ conversationId, onBack, onOpenSidebar, hasUnreadMessages 
       <div className="flex min-h-0 flex-1 flex-col">
         <div ref={messagesContainerRef} className="min-h-0 flex-1 overflow-y-auto px-4 py-4 bg-black/20">
           {isLoading && <p className="py-10 text-center text-white/60">Chargement des messages...</p>}
+          {successMessage && (
+            <p className="mx-auto mb-4 max-w-5xl rounded-lg border border-brand-cyan/30 bg-brand-cyan/10 px-4 py-2 text-sm text-brand-cyan">
+              {successMessage}
+            </p>
+          )}
           {!isLoading && errorMessage && masterMessagesList.length === 0 && (
             <p className="py-10 text-center text-red-300">{errorMessage}</p>
           )}
@@ -226,6 +261,16 @@ function ChatSection({ conversationId, onBack, onOpenSidebar, hasUnreadMessages 
                   </div>
                   <span className="text-white/60 text-sm">{formatMessageDate(message.createdAt)}</span>
                 </div>
+                {!isMine && (
+                  <button
+                    type="button"
+                    onClick={() => setReportedMessage(message)}
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-white/45 transition-colors hover:text-red-300"
+                  >
+                    <Flag className="h-3.5 w-3.5" />
+                    Signaler
+                  </button>
+                )}
               </div>
             )
           })}
@@ -266,8 +311,66 @@ function ChatSection({ conversationId, onBack, onOpenSidebar, hasUnreadMessages 
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={!!reportedMessage}
+        onClose={() => {
+          setReportedMessage(null)
+          setReportReason('')
+        }}
+        title="Signaler ce message"
+      >
+        <div className="space-y-5">
+          <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+            <p className="text-sm text-gray-400">Message concerné</p>
+            <p className="mt-2 break-words text-sm text-white">{reportedMessage?.content}</p>
+          </div>
+          <div>
+            <label htmlFor="report-reason" className="mb-2 block text-sm font-medium text-gray-200">
+              Motif
+            </label>
+            <textarea
+              id="report-reason"
+              value={reportReason}
+              onChange={(event) => setReportReason(event.target.value)}
+              rows={4}
+              className="w-full resize-none rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-gray-500 focus:border-brand-cyan"
+              placeholder="Insulte, propos déplacé, harcèlement..."
+            />
+          </div>
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                setReportedMessage(null)
+                setReportReason('')
+              }}
+            >
+              Annuler
+            </Button>
+            <Button type="button" isLoading={isReporting} onClick={handleReportMessage} icon={<Flag className="h-4 w-4" />}>
+              Signaler
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
+}
+
+function readError(data: unknown, fallback: string): string {
+  if (data && typeof data === 'object') {
+    const message = (data as { errorMessage?: unknown; message?: unknown; error?: unknown }).errorMessage
+      ?? (data as { message?: unknown }).message
+      ?? (data as { error?: unknown }).error
+
+    if (typeof message === 'string') {
+      return message
+    }
+  }
+
+  return fallback
 }
 
 export default ChatSection

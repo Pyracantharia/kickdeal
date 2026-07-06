@@ -13,7 +13,7 @@ function ClubRequestsList({ select }: ClubRequestsListProps) {
 
   const [requestsList, setRequestsList] = React.useState<ClubRequest[] | null>(null);
 
-  async function fetchPendingClubRequests() {
+  const fetchPendingClubRequests = React.useCallback(async () => {
     try {
       const response = await adminManager.getClubPendingRequests();
       if(response.ok) {
@@ -24,11 +24,11 @@ function ClubRequestsList({ select }: ClubRequestsListProps) {
     } catch (error) {
       console.error('Error fetching pending club requests:', error);
     }
-  }
+  }, []);
 
   React.useEffect(() => {
-    if(select === 'PENDING') fetchPendingClubRequests();
-  }, []);
+    if(select === 'PENDING') void fetchPendingClubRequests();
+  }, [fetchPendingClubRequests, select]);
 
 
 
@@ -46,12 +46,25 @@ function ClubRequestsList({ select }: ClubRequestsListProps) {
     }
   }
 
-  async function handleRejectRequest(requestId: string) {}
+  async function handleRejectRequest(requestId: string) {
+    try {
+      const response = await adminManager.rejectClubRequest(requestId);
+      if(response.ok) {
+        setRequestsList((prevList) => prevList ? prevList.map(req => req.id === requestId ? { ...req, status: 'rejected' } : req) : prevList);
+      } else {
+        console.error('Failed to reject club request:', response);
+      }
+    } catch (error) {
+      console.error('Error rejecting club request:', error);
+    }
+  }
 
   return (
     <>
       {
-        requestsList === null || (requestsList && requestsList.length === 0) ? (
+        requestsList === null ? (
+          <p className="text-gray-400">Chargement des demandes de club...</p>
+        ) : requestsList.length === 0 ? (
           <p className="text-gray-400">Aucune demande de création de club en attente.</p>
         ) : (
           <ul className="space-y-4">
@@ -69,19 +82,23 @@ function ClubRequestsList({ select }: ClubRequestsListProps) {
                 <div>
                   {request.status === 'pending' && (
                     <div className="flex gap-2">
-                      <div
+                      <button
+                        type="button"
                         onClick={() => handleApproveRequest(request.id)}
                         className="cursor-pointer rounded-full bg-green-500/80 p-2 text-white transition-colors hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                        aria-label="Accepter la demande"
                       >
                         <Check />
-                      </div>
+                      </button>
 
-                      <div
+                      <button
+                        type="button"
                         onClick={() => handleRejectRequest(request.id)}
                         className="cursor-pointer rounded-full bg-red-500/80 p-2 text-white transition-colors hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
+                        aria-label="Refuser la demande"
                       >
                         <X />
-                      </div>
+                      </button>
                     </div>
                   )}
                 </div>

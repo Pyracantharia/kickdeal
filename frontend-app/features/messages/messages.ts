@@ -70,6 +70,10 @@ class MessagesManager {
     return httpClient.post<MessageEventPayload>(`/messages/conversations/${conversationId}/messages`, { content })
   }
 
+  async reportMessage(messageId: string, reason?: string) {
+    return httpClient.post<{ message: string }>(`/messages/${messageId}/report`, { reason: reason ?? '' })
+  }
+
   async prepareMercureSubscription() {
     return httpClient.get<MercureTokenResponse>('/messages/mercure-token')
   }

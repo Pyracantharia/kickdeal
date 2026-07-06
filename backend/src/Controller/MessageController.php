@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\DirectConversation;
 use App\Entity\DirectMessage;
+use App\Entity\MessageReport;
 use App\Entity\User;
 use App\Repository\DirectConversationRepository;
 use App\Repository\DirectMessageRepository;
@@ -11,6 +12,7 @@ use App\Repository\UserRepository;
 use App\Service\MercurePublisher;
 use App\Service\MercureSubscriberTokenFactory;
 use App\Service\Notification\NotificationService;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -81,6 +83,12 @@ final class MessageController extends AbstractController
     ): JsonResponse {
         if (!$user instanceof User) {
             return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
+        }
+
+        if ($user->isBanned()) {
+            return $this->json([
+                'errorMessage' => sprintf('Votre compte est suspendu jusqu’au %s.', $user->getBannedUntil()?->format('d/m/Y H:i')),
+            ], 403);
         }
 
         if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
@@ -250,6 +258,86 @@ final class MessageController extends AbstractController
         }
 
         return $this->json($payload, 201);
+    }
+
+    #[Route('/{id}/report', name: 'api_messages_report', methods: ['POST'])]
+    public function reportMessage(
+        string $id,
+        Request $request,
+        #[CurrentUser] ?User $user,
+        DirectMessageRepository $messageRepository,
+        EntityManagerInterface $entityManager,
+        CsrfTokenManagerInterface $csrfTokenManager,
+        NotificationService $notificationService,
+        UserRepository $userRepository,
+    ): JsonResponse {
+        if (!$user instanceof User) {
+            return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
+        }
+
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
+        $message = $messageRepository->find($id);
+        $conversation = $message instanceof DirectMessage ? $message->getConversation() : null;
+        $sender = $message instanceof DirectMessage ? $message->getSender() : null;
+
+        if (!$message instanceof DirectMessage || !$conversation instanceof DirectConversation || !$conversation->hasParticipant($user)) {
+            return $this->json(['errorMessage' => 'Message introuvable.'], 404);
+        }
+
+        if (!$sender instanceof User) {
+            return $this->json(['errorMessage' => 'Expéditeur introuvable.'], 422);
+        }
+
+        if ($sender->getId()?->toRfc4122() === $user->getId()?->toRfc4122()) {
+            return $this->json(['errorMessage' => 'Vous ne pouvez pas signaler votre propre message.'], 422);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        $reason = is_array($payload) && isset($payload['reason']) ? trim((string) $payload['reason']) : null;
+        $reason = '' === $reason ? null : $reason;
+
+        $now = new \DateTimeImmutable();
+        $report = (new MessageReport())
+            ->setMessage($message)
+            ->setConversation($conversation)
+            ->setReporter($user)
+            ->setReportedUser($sender)
+            ->setMessageContent($message->getContent() ?? '')
+            ->setReason($reason)
+            ->setStatus(MessageReport::STATUS_PENDING)
+            ->setCreatedAt($now)
+            ->setUpdatedAt($now);
+
+        try {
+            $entityManager->persist($report);
+            $entityManager->flush();
+        } catch (UniqueConstraintViolationException) {
+            return $this->json(['errorMessage' => 'Vous avez déjà signalé ce message.'], 409);
+        }
+
+        foreach ($userRepository->findAdminUsers() as $admin) {
+            $notificationService->notify(
+                recipient: $admin,
+                type: 'message_report.created',
+                category: 'messages',
+                title: 'Nouveau message signalé',
+                body: sprintf('%s a signalé un message de %s.', $this->userDisplayName($user), $this->userDisplayName($sender)),
+                actionUrl: '/admin/message-reports',
+                targetRoute: '/admin/message-reports',
+                requiresAction: true,
+                severity: 'warning',
+                actor: $user,
+                sourceType: 'message_report',
+                sourceId: $report->getId()?->toRfc4122(),
+            );
+        }
+
+        return $this->json([
+            'message' => 'Message signalé. Notre équipe va l’examiner.',
+        ], 201);
     }
 
     private function userTopic(User $user): string

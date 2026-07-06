@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Check, FileText, X } from 'lucide-react';
+import Link from 'next/link';
+import { Check, Eye, FileText, X } from 'lucide-react';
 
 import { adminManager, type PlayerAgentRequest } from '@/features/admin/admin';
 
@@ -120,6 +121,13 @@ function PlayerAgentRequestsList() {
               </div>
 
               <div className="flex gap-2">
+                <Link
+                  href={`/admin/player-agent-requests/${request.id}`}
+                  className="inline-flex items-center justify-center rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+                  aria-label="Voir les détails"
+                >
+                  <Eye />
+                </Link>
                 <button
                   type="button"
                   onClick={() => handleDecision(request.id, 'reject')}
