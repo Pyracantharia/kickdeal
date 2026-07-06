@@ -1,0 +1,19 @@
+team_key,name,league,country,transfer_budget_eur,confidence_score,estimation_basis
+PPL:496:rio-ave-fc,Rio Ave FC,Primeira Liga,Portugal,14000000,79,Masse salariale; valeur effectif; activité et dépenses Transfermarkt 2026-2027
+PPL:498:sporting-clube-de-portugal,Sporting Clube de Portugal,Primeira Liga,Portugal,85000000,88,Revenus européens; fortes ventes récentes; dépenses Transfermarkt 2026-2027
+PPL:503:fc-porto,FC Porto,Primeira Liga,Portugal,95000000,89,Revenus club; dépenses record 2025-2026; activité Transfermarkt 2026-2027
+PPL:582:gd-estoril-praia,GD Estoril Praia,Primeira Liga,Portugal,9000000,75,Valeur effectif; activité mercato; historique de trading; estimation
+PPL:583:moreirense-fc,Moreirense FC,Primeira Liga,Portugal,7000000,73,Masse salariale; valeur effectif; activité transferts 2026-2027; estimation
+PPL:712:fc-arouca,FC Arouca,Primeira Liga,Portugal,10000000,77,Valeur effectif; ventes récentes; activité Transfermarkt 2026-2027
+PPL:1049:cd-tondela,CD Tondela,Primeira Liga,Portugal,5000000,69,Club à faible masse salariale; capacité financière et activité 2026-2027
+PPL:1903:sport-lisboa-e-benfica,Sport Lisboa e Benfica,Primeira Liga,Portugal,110000000,90,Revenus élevés; ventes récentes; dépenses et solde Transfermarkt 2026-2027
+PPL:5529:cd-nacional,CD Nacional,Primeira Liga,Portugal,6000000,71,Masse salariale; valeur effectif; activité transferts 2026-2027; estimation
+PPL:5530:cd-santa-clara,CD Santa Clara,Primeira Liga,Portugal,10000000,77,Valeur effectif; activité Transfermarkt; capacité financière estimée
+PPL:5531:fc-famalicao,FC Famalicão,Primeira Liga,Portugal,22000000,82,Valeur effectif élevée; modèle de trading; ventes et activité Transfermarkt
+PPL:5533:gil-vicente-fc,Gil Vicente FC,Primeira Liga,Portugal,12000000,79,Ventes récentes; valeur effectif; activité et solde Transfermarkt 2026-2027
+PPL:5543:vitoria-sc,Vitória SC,Primeira Liga,Portugal,20000000,82,Revenus européens; valeur effectif; activité Transfermarkt 2026-2027
+PPL:5613:sporting-clube-de-braga,Sporting Clube de Braga,Primeira Liga,Portugal,45000000,87,Revenus club; ventes importantes; dépenses et solde Transfermarkt 2026-2027
+PPL:6618:casa-pia-ac,Casa Pia AC,Primeira Liga,Portugal,8000000,74,Ventes récentes; valeur effectif; activité transferts 2026-2027
+PPL:7822:fc-alverca,FC Alverca,Primeira Liga,Portugal,10000000,76,Activité mercato élevée; ventes récentes; capacité de réinvestissement estimée
+PPL:9136:cf-estrela-da-amadora,CF Estrela da Amadora,Primeira Liga,Portugal,6000000,70,Masse salariale; valeur effectif; activité transferts 2026-2027; estimation
+PPL:10340:avs,AVS,Primeira Liga,Portugal,4500000,67,Faible capacité financière; masse salariale; activité 2026-2027; estimation

@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+SA:98:2476:pietro-terracciano,Pietro Terracciano,AC Milan,Serie A,Goalkeeper,800000,8500,7,2025,62,Transfermarkt; estimation
+SA:98:8390:mike-maignan,Mike Maignan,AC Milan,Serie A,Goalkeeper,20000000,123269,7,2021,94,Transfermarkt; Capology
+SA:98:251128:lorenzo-torriani,Lorenzo Torriani,AC Milan,Serie A,Goalkeeper,5000000,28462,7,2024,94,Transfermarkt; Capology
+SA:98:265490:matteo-pittarella,Matteo Pittarella,AC Milan,Serie A,Goalkeeper,300000,3500,7,2025,62,Transfermarkt; estimation
+SA:98:32642:pervis-estupinan,Pervis Estupiñán,AC Milan,Serie A,Defence,22000000,88000,7,2025,86,Transfermarkt; estimation salaire
+SA:98:153556:koni-de-winter,Koni De Winter,AC Milan,Serie A,Defence,28000000,101500,7,2025,86,Transfermarkt; estimation salaire
+SA:98:202533:david-odogu,David Odogu,AC Milan,Serie A,Defence,8000000,48500,7,2025,86,Transfermarkt; estimation salaire
+SA:98:256424:zachary-athekame,Zachary Athekame,AC Milan,Serie A,Defence,10000000,55000,7,2025,86,Transfermarkt; estimation salaire
+SA:98:278015:valeri-vladimirov,Valeri Vladimirov,AC Milan,Serie A,Defence,500000,4500,7,2025,62,Transfermarkt; estimation
+SA:98:43:luka-modric,Luka Modrić,AC Milan,Serie A,Midfield,5000000,120000,7,2025,94,Transfermarkt; Capology
+SA:98:3368:adrien-rabiot,Adrien Rabiot,AC Milan,Serie A,Midfield,18000000,135000,7,2025,94,Transfermarkt; Capology
+SA:98:8858:alexis-saelemaekers,Alexis Saelemaekers,AC Milan,Serie A,Midfield,25000000,74038,1,2020,94,Transfermarkt; Capology
+SA:98:144909:ardon-jasari,Ardon Jasari,AC Milan,Serie A,Midfield,25000000,95000,7,2025,86,Transfermarkt; estimation salaire
+SA:98:262882:jacopo-sardo,Jacopo Sardo,AC Milan,Serie A,Midfield,800000,9000,7,2025,62,Transfermarkt; estimation
+SA:98:273959:emanuele-sala,Emanuele Sala,AC Milan,Serie A,Midfield,1000000,10000,7,2025,62,Transfermarkt; estimation
+SA:98:145:christian-pulisic,Christian Pulisic,AC Milan,Serie A,Offence,55000000,98654,7,2023,94,Transfermarkt; Capology
+SA:98:15892:rafael-leao,Rafael Leão,AC Milan,Serie A,Offence,75000000,123269,8,2019,94,Transfermarkt; Capology
+SA:98:39635:santiago-gimenez,Santiago Giménez,AC Milan,Serie A,Offence,30000000,95000,2,2025,94,Transfermarkt; Capology
+SA:98:282945:cheveyo-balentien,Cheveyo Balentien,AC Milan,Serie A,Offence,1000000,10000,7,2025,62,Transfermarkt; estimation
+SA:98:289016:alex-castiello,Alex Castiello,AC Milan,Serie A,Offence,700000,8500,7,2025,62,Transfermarkt; estimation
+SA:98:290027:emanuele-borsani,Emanuele Borsani,AC Milan,Serie A,Offence,500000,4500,7,2025,62,Transfermarkt; estimation
+SA:98:215616:davide-bartesaghi,Davide Bartesaghi,AC Milan,Serie A,Left-Back,12000000,61500,7,2023,86,Transfermarkt; estimation salaire
+SA:98:115245:samuele-ricci,Samuele Ricci,AC Milan,Serie A,Defensive Midfield,35000000,116500,7,2025,86,Transfermarkt; estimation salaire
+SA:98:112969:strahinja-pavlovic,Strahinja Pavlović,AC Milan,Serie A,Centre-Back,25000000,95000,7,2024,86,Transfermarkt; estimation salaire
+SA:98:81299:youssouf-fofana,Youssouf Fofana,AC Milan,Serie A,Defensive Midfield,30000000,106000,8,2024,86,Transfermarkt; estimation salaire
+SA:98:11528:fikayo-tomori,Fikayo Tomori,AC Milan,Serie A,Centre-Back,17000000,115000,7,2021,94,Transfermarkt; Capology
+SA:98:8484:christopher-nkunku,Christopher Nkunku,AC Milan,Serie A,Centre-Forward,35000000,178077,7,2025,94,Transfermarkt; Capology
+SA:98:8159:ruben-loftus-cheek,Ruben Loftus-Cheek,AC Milan,Serie A,Central Midfield,15000000,100000,7,2023,94,Transfermarkt; Capology
+SA:98:1753:matteo-gabbia,Matteo Gabbia,AC Milan,Serie A,Centre-Back,17000000,75500,7,2017,86,Transfermarkt; estimation salaire
+SA:98:304:niclas-fullkrug,Niclas Füllkrug,AC Milan,Serie A,Centre-Forward,3500000,31000,1,2026,86,Transfermarkt; estimation salaire
+SA:99:2786:luca-lezzerini,Luca Lezzerini,ACF Fiorentina,Serie A,Goalkeeper,500000,2500,7,2025,62,Transfermarkt; estimation
+SA:99:3188:david-de-gea,David De Gea,ACF Fiorentina,Serie A,Goalkeeper,7000000,110000,8,2024,94,Transfermarkt; Capology
+SA:99:24293:oliver-christensen,Oliver Christensen,ACF Fiorentina,Serie A,Goalkeeper,3000000,17000,8,2023,86,Transfermarkt; estimation salaire
+SA:99:274631:pietro-leonardelli,Pietro Leonardelli,ACF Fiorentina,Serie A,Goalkeeper,1200000,6500,7,2024,86,Transfermarkt; estimation salaire
+SA:99:292635:mattia-magalotti,Mattia Magalotti,ACF Fiorentina,Serie A,Goalkeeper,500000,2500,7,2025,62,Transfermarkt; estimation
+SA:99:15110:marin-pongracic,Marin Pongračić,ACF Fiorentina,Serie A,Defence,10000000,36000,7,2024,86,Transfermarkt; estimation salaire
+SA:99:265526:luis-balbo-vieira,Luís Balbo Vieira,ACF Fiorentina,Serie A,Defence,1000000,6500,7,2025,62,Transfermarkt; estimation
+SA:99:267944:eddy-kouadio,Eddy Kouadio,ACF Fiorentina,Serie A,Defence,700000,5500,7,2025,62,Transfermarkt; estimation
+SA:99:284108:eman-kospo,Eman Košpo,ACF Fiorentina,Serie A,Defence,4000000,21500,7,2025,86,Transfermarkt; estimation salaire
+SA:99:291719:edoardo-sadotti,Edoardo Sadotti,ACF Fiorentina,Serie A,Defence,500000,3000,7,2025,62,Transfermarkt; estimation
+SA:99:291720:lapo-deli,Lapo Deli,ACF Fiorentina,Serie A,Midfield,400000,2500,7,2025,62,Transfermarkt; estimation
+SA:99:291721:piergiorgio-bonanno,Piergiorgio Bonanno,ACF Fiorentina,Serie A,Midfield,400000,2500,7,2025,62,Transfermarkt; estimation
+SA:99:294577:salvatore-cianciulli,Salvatore Cianciulli,ACF Fiorentina,Serie A,Midfield,350000,2500,7,2025,62,Transfermarkt; estimation
+SA:99:295179:antonio-pirro,Antonio Pirrò,ACF Fiorentina,Serie A,Midfield,350000,2500,7,2025,62,Transfermarkt; estimation
+SA:99:3851:albert-gu-mundsson,Albert Guðmundsson,ACF Fiorentina,Serie A,Offence,25000000,75000,8,2024,94,Transfermarkt; Capology
+SA:99:284641:riccardo-braschi,Riccardo Braschi,ACF Fiorentina,Serie A,Offence,800000,6000,7,2025,62,Transfermarkt; estimation
+SA:99:292636:gabriele-bertolini,Gabriele Bertolini,ACF Fiorentina,Serie A,Offence,700000,5500,7,2025,62,Transfermarkt; estimation
+SA:99:294382:giorgio-puzzoli,Giorgio Puzzoli,ACF Fiorentina,Serie A,Offence,700000,5500,7,2025,62,Transfermarkt; estimation
+SA:99:133787:tariq-lamptey,Tariq Lamptey,ACF Fiorentina,Serie A,Right-Back,12000000,40000,7,2025,86,Transfermarkt; estimation salaire
+SA:99:129801:fabiano-parisi,Fabiano Parisi,ACF Fiorentina,Serie A,Left-Back,12000000,40000,7,2023,86,Transfermarkt; estimation salaire
+SA:99:102591:roberto-piccoli,Roberto Piccoli,ACF Fiorentina,Serie A,Centre-Forward,18000000,50500,7,2025,86,Transfermarkt; estimation salaire
+SA:99:99858:marco-brescianini,Marco Brescianini,ACF Fiorentina,Serie A,Central Midfield,18000000,50500,7,2025,86,Transfermarkt; estimation salaire
+SA:99:97879:nicolo-fagioli,Nicolò Fagioli,ACF Fiorentina,Serie A,Central Midfield,22000000,57000,2,2025,86,Transfermarkt; estimation salaire
+SA:99:40541:manor-solomon,Manor Solomon,ACF Fiorentina,Serie A,Left Winger,18000000,50500,7,2025,86,Transfermarkt; estimation salaire
+SA:99:16474:dodo,Dodô,ACF Fiorentina,Serie A,Right-Back,35000000,75500,7,2022,86,Transfermarkt; estimation salaire
+SA:99:8187:abdelhamid-sabiri,Abdelhamid Sabiri,ACF Fiorentina,Serie A,Attacking Midfield,3000000,18500,7,2023,86,Transfermarkt; estimation salaire
+SA:99:4220:jack-harrison,Jack Harrison,ACF Fiorentina,Serie A,Right Winger,12000000,40000,7,2025,86,Transfermarkt; estimation salaire
+SA:99:2230:rolando-mandragora,Rolando Mandragora,ACF Fiorentina,Serie A,Defensive Midfield,12000000,60000,7,2022,94,Transfermarkt; Capology
+SA:99:2171:moise-kean,Moise Kean,ACF Fiorentina,Serie A,Centre-Forward,32000000,95000,7,2024,94,Transfermarkt; Capology
+SA:99:2027:daniele-rugani,Daniele Rugani,ACF Fiorentina,Serie A,Centre-Back,5000000,24500,7,2025,86,Transfermarkt; estimation salaire
+SA:99:1847:robin-gosens,Robin Gosens,ACF Fiorentina,Serie A,Left-Back,8000000,70000,8,2024,94,Transfermarkt; Capology
+SA:99:1778:luca-ranieri,Luca Ranieri,ACF Fiorentina,Serie A,Centre-Back,12000000,40000,7,2019,86,Transfermarkt; estimation salaire
+SA:99:251135:niccolo-fortini,Niccolò Fortini,ACF Fiorentina,Serie A,Left-Back,10000000,36000,7,2025,86,Transfermarkt; estimation salaire
+SA:99:217391:pietro-comuzzo,Pietro Comuzzo,ACF Fiorentina,Serie A,Centre-Back,18000000,50500,7,2023,86,Transfermarkt; estimation salaire
+SA:99:192307:cher-ndour,Cher Ndour,ACF Fiorentina,Serie A,Central Midfield,10000000,36000,7,2025,86,Transfermarkt; estimation salaire
+SA:99:177054:jacopo-fazzini,Jacopo Fazzini,ACF Fiorentina,Serie A,Central Midfield,12000000,40000,7,2025,86,Transfermarkt; estimation salaire
+SA:99:171123:giovanni-fabbian,Giovanni Fabbian,ACF Fiorentina,Serie A,Attacking Midfield,18000000,50500,7,2025,86,Transfermarkt; estimation salaire
+SA:100:1829:pierluigi-gollini,Pierluigi Gollini,AS Roma,Serie A,Goalkeeper,3000000,27000,1,2025,86,Transfermarkt; estimation salaire
+SA:100:16735:mile-svilar,Mile Svilar,AS Roma,Serie A,Goalkeeper,40000000,85000,7,2022,94,Transfermarkt; Capology
+SA:100:244869:rados-aw-zelezny,Radosław Żelezny,AS Roma,Serie A,Goalkeeper,800000,9000,7,2025,62,Transfermarkt; estimation
+SA:100:273759:giorgio-de-marzi,Giorgio De Marzi,AS Roma,Serie A,Goalkeeper,500000,4500,7,2025,62,Transfermarkt; estimation
+SA:100:274440:alessio-marcaccini,Alessio Marcaccini,AS Roma,Serie A,Goalkeeper,400000,4000,7,2025,62,Transfermarkt; estimation
+SA:100:526:evan-n-dicka,Evan N'Dicka,AS Roma,Serie A,Defence,35000000,121000,7,2023,86,Transfermarkt; estimation salaire
+SA:100:29622:zeki-celik,Zeki Çelik,AS Roma,Serie A,Defence,15000000,73000,7,2022,86,Transfermarkt; estimation salaire
+SA:100:179164:wesley,Wesley,AS Roma,Serie A,Defence,18000000,81000,7,2025,86,Transfermarkt; estimation salaire
+SA:100:216023:jan-zio-kowski,Jan Ziółkowski,AS Roma,Serie A,Defence,10000000,57500,7,2025,86,Transfermarkt; estimation salaire
+SA:100:217874:mohamed-seck,Mohamed Seck,AS Roma,Serie A,Defence,1000000,10500,7,2025,62,Transfermarkt; estimation
+SA:100:290080:jacopo-mirra,Jacopo Mirra,AS Roma,Serie A,Defence,500000,4500,7,2025,62,Transfermarkt; estimation
+SA:100:290391:emanuele-lulli,Emanuele Lulli,AS Roma,Serie A,Defence,500000,4500,7,2025,62,Transfermarkt; estimation
+SA:100:7457:donyell-malen,Donyell Malen,AS Roma,Serie A,Midfield,28000000,106000,7,2025,86,Transfermarkt; estimation salaire
+SA:100:102395:manu-kone,Manu Koné,AS Roma,Serie A,Midfield,45000000,90000,8,2024,94,Transfermarkt; Capology
+SA:100:170647:neil-el-aynaoui,Neil El Aynaoui,AS Roma,Serie A,Midfield,20000000,86500,7,2025,86,Transfermarkt; estimation salaire
+SA:100:290005:muhammed-bah,Muhammed Bah,AS Roma,Serie A,Midfield,1000000,10500,7,2025,62,Transfermarkt; estimation
+SA:100:291817:mattia-della-rocca,Mattia Della Rocca,AS Roma,Serie A,Midfield,700000,9000,7,2025,62,Transfermarkt; estimation
+SA:100:2046:paulo-dybala,Paulo Dybala,AS Roma,Serie A,Offence,12000000,249231,7,2022,94,Transfermarkt; Capology
+SA:100:180104:bryan-zaragoza,Bryan Zaragoza,AS Roma,Serie A,Offence,18000000,81000,7,2025,86,Transfermarkt; estimation salaire
+SA:100:213033:robinio-vaz,Robinio Vaz,AS Roma,Serie A,Offence,8000000,50500,7,2025,86,Transfermarkt; estimation salaire
+SA:100:265218:antonio-arena,Antonio Arena,AS Roma,Serie A,Offence,1000000,10500,7,2025,62,Transfermarkt; estimation
+SA:100:274222:lorenzo-venturino,Lorenzo Venturino,AS Roma,Serie A,Offence,3000000,29500,7,2025,86,Transfermarkt; estimation salaire
+SA:100:291044:edoardo-morucci,Edoardo Morucci,AS Roma,Serie A,Offence,600000,8500,7,2025,62,Transfermarkt; estimation
+SA:100:149173:devyne-rensch,Devyne Rensch,AS Roma,Serie A,Right-Back,18000000,81000,1,2025,86,Transfermarkt; estimation salaire
+SA:100:130809:evan-ferguson,Evan Ferguson,AS Roma,Serie A,Centre-Forward,22000000,91500,7,2025,86,Transfermarkt; estimation salaire
+SA:100:32703:mario-hermoso,Mario Hermoso,AS Roma,Serie A,Centre-Back,10000000,110000,9,2024,94,Transfermarkt; Capology
+SA:100:24217:artem-dovbyk,Artem Dovbyk,AS Roma,Serie A,Centre-Forward,25000000,110000,8,2024,94,Transfermarkt; Capology
+SA:100:7646:angelino,Angeliño,AS Roma,Serie A,Left-Back,18000000,81000,1,2024,86,Transfermarkt; estimation salaire
+SA:100:7383:kostas-tsimikas,Kostas Tsimikas,AS Roma,Serie A,Left-Back,18000000,81000,7,2025,86,Transfermarkt; estimation salaire
+SA:100:1844:bryan-cristante,Bryan Cristante,AS Roma,Serie A,Defensive Midfield,16000000,75500,7,2018,86,Transfermarkt; estimation salaire
+SA:100:1837:gianluca-mancini,Gianluca Mancini,AS Roma,Serie A,Centre-Back,22000000,91500,7,2019,86,Transfermarkt; estimation salaire
+SA:100:1823:stephan-el-shaarawy,Stephan El Shaarawy,AS Roma,Serie A,Left Winger,5000000,39000,1,2021,86,Transfermarkt; estimation salaire
+SA:100:1819:lorenzo-pellegrini,Lorenzo Pellegrini,AS Roma,Serie A,Attacking Midfield,18000000,160000,7,2017,94,Transfermarkt; Capology
+SA:100:192382:niccolo-pisilli,Niccolo Pisilli,AS Roma,Serie A,Central Midfield,25000000,99000,7,2023,86,Transfermarkt; estimation salaire
+SA:100:191705:daniele-ghilardi,Daniele Ghilardi,AS Roma,Serie A,Centre-Back,18000000,81000,7,2025,86,Transfermarkt; estimation salaire
+SA:100:171121:matias-soule,Matias Soule,AS Roma,Serie A,Right Winger,40000000,131500,7,2024,86,Transfermarkt; estimation salaire
+SA:102:1767:marco-sportiello,Marco Sportiello,Atalanta BC,Serie A,Goalkeeper,1000000,6500,7,2025,62,Transfermarkt; estimation
+SA:102:1830:francesco-rossi,Francesco Rossi,Atalanta BC,Serie A,Goalkeeper,200000,2500,7,2017,62,Transfermarkt; estimation
+SA:102:102220:marco-carnesecchi,Marco Carnesecchi,Atalanta BC,Serie A,Goalkeeper,40000000,82500,7,2017,86,Transfermarkt; estimation salaire
+SA:102:220576:piotr-pardel,Piotr Pardel,Atalanta BC,Serie A,Goalkeeper,500000,3000,7,2025,62,Transfermarkt; estimation
+SA:102:7786:sead-kolasinac,Sead Kolašinac,Atalanta BC,Serie A,Defence,3000000,20000,7,2023,86,Transfermarkt; estimation salaire
+SA:102:151933:lorenzo-bernasconi,Lorenzo Bernasconi,Atalanta BC,Serie A,Defence,3000000,20000,7,2025,86,Transfermarkt; estimation salaire
+SA:102:167031:isak-hien,Isak Hien,Atalanta BC,Serie A,Defence,35000000,82500,1,2024,86,Transfermarkt; estimation salaire
+SA:102:167098:odilon-kossounou,Odilon Kossounou,Atalanta BC,Serie A,Defence,30000000,75000,8,2024,86,Transfermarkt; estimation salaire
+SA:102:246518:relja-obric,Relja Obrić,Atalanta BC,Serie A,Defence,1000000,7000,7,2025,62,Transfermarkt; estimation
+SA:102:265553:albert-navarro,Albert Navarro,Atalanta BC,Serie A,Defence,3000000,20000,7,2025,86,Transfermarkt; estimation salaire
+SA:102:1848:marten-de-roon,Marten de Roon,Atalanta BC,Serie A,Midfield,7000000,70000,7,2015,94,Transfermarkt; Capology
+SA:102:3553:mario-pasalic,Mario Pašalić,Atalanta BC,Serie A,Midfield,12000000,65000,7,2020,94,Transfermarkt; Capology
+SA:102:81440:ederson,Éderson,Atalanta BC,Serie A,Midfield,50000000,90000,7,2022,94,Transfermarkt; Capology
+SA:102:251012:federico-cassa,Federico Cassa,Atalanta BC,Serie A,Midfield,3000000,20000,7,2024,86,Transfermarkt; estimation salaire
+SA:102:285074:sergej-levak,Sergej Levak,Atalanta BC,Serie A,Midfield,1500000,8500,7,2025,86,Transfermarkt; estimation salaire
+SA:102:114117:giacomo-raspadori,Giacomo Raspadori,Atalanta BC,Serie A,Offence,25000000,67000,7,2025,86,Transfermarkt; estimation salaire
+SA:102:129947:charles-de-ketelaere,Charles De Ketelaere,Atalanta BC,Serie A,Offence,45000000,85000,7,2024,94,Transfermarkt; Capology
+SA:102:142140:kamal-deen-sulemana,Kamal Deen Sulemana,Atalanta BC,Serie A,Offence,22000000,62000,7,2025,86,Transfermarkt; estimation salaire
+SA:102:217758:dominic-vavassori,Dominic Vavassori,Atalanta BC,Serie A,Offence,3000000,20000,7,2025,86,Transfermarkt; estimation salaire
+SA:102:261018:henry-camara,Henry Camara,Atalanta BC,Serie A,Offence,1200000,7500,7,2025,86,Transfermarkt; estimation salaire
+SA:102:130420:lazar-samardzic,Lazar Samardzic,Atalanta BC,Serie A,Central Midfield,25000000,67000,8,2024,86,Transfermarkt; estimation salaire
+SA:102:120679:nikola-krstovic,Nikola Krstović,Atalanta BC,Serie A,Centre-Forward,22000000,62000,7,2025,86,Transfermarkt; estimation salaire
+SA:102:7807:davide-zappacosta,Davide Zappacosta,Atalanta BC,Serie A,Right Midfield,5000000,26500,8,2021,86,Transfermarkt; estimation salaire
+SA:102:7555:mitchel-bakker,Mitchel Bakker,Atalanta BC,Serie A,Left-Back,12000000,43500,7,2023,86,Transfermarkt; estimation salaire
+SA:102:2681:gianluca-scamacca,Gianluca Scamacca,Atalanta BC,Serie A,Centre-Forward,22000000,85000,8,2023,94,Transfermarkt; Capology
+SA:102:1748:raoul-bellanova,Raoul Bellanova,Atalanta BC,Serie A,Right Midfield,25000000,67000,8,2024,86,Transfermarkt; estimation salaire
+SA:102:263661:honest-ahanor,Honest Ahanor,Atalanta BC,Serie A,Left-Back,20000000,59000,7,2025,86,Transfermarkt; estimation salaire
+SA:102:245244:pietro-comi,Pietro Comi,Atalanta BC,Serie A,Centre-Back,1000000,7000,7,2025,62,Transfermarkt; estimation
+SA:102:170381:berat-djimsiti,Berat Djimsiti,Atalanta BC,Serie A,Centre-Back,5000000,26500,7,2016,86,Transfermarkt; estimation salaire
+SA:102:153990:giorgio-scalvini,Giorgio Scalvini,Atalanta BC,Serie A,Centre-Back,35000000,82500,7,2021,86,Transfermarkt; estimation salaire
+SA:102:152528:nicola-zalewski,Nicola Zalewski,Atalanta BC,Serie A,Left Midfield,22000000,62000,7,2025,86,Transfermarkt; estimation salaire
+SA:102:150669:yunus-musah,Yunus Musah,Atalanta BC,Serie A,Central Midfield,14000000,47500,7,2025,86,Transfermarkt; estimation salaire
+SA:103:1797:ukasz-skorupski,Łukasz Skorupski,Bologna FC 1909,Serie A,Goalkeeper,2000000,50000,7,2018,94,Transfermarkt; Capology
+SA:103:1862:federico-ravaglia,Federico Ravaglia,Bologna FC 1909,Serie A,Goalkeeper,5000000,20500,7,2021,86,Transfermarkt; estimation salaire
+SA:103:273010:massimo-pessina,Massimo Pessina,Bologna FC 1909,Serie A,Goalkeeper,3500000,17000,7,2025,86,Transfermarkt; estimation salaire
+SA:103:286326:ukko-happonen,Ukko Happonen,Bologna FC 1909,Serie A,Goalkeeper,500000,2500,7,2025,62,Transfermarkt; estimation
+SA:103:289602:matteo-franceschelli,Matteo Franceschelli,Bologna FC 1909,Serie A,Goalkeeper,400000,2500,7,2025,62,Transfermarkt; estimation
+SA:103:295103:riccardo-gnudi,Riccardo Gnudi,Bologna FC 1909,Serie A,Goalkeeper,400000,2500,7,2025,62,Transfermarkt; estimation
+SA:103:16197:torbj-rn-heggem,Torbjørn Heggem,Bologna FC 1909,Serie A,Defence,13000000,38500,7,2025,86,Transfermarkt; estimation salaire
+SA:103:22113:jhon-lucumi,Jhon Lucumí,Bologna FC 1909,Serie A,Defence,22000000,52500,8,2022,86,Transfermarkt; estimation salaire
+SA:103:152702:martin-vitik,Martin Vitík,Bologna FC 1909,Serie A,Defence,18000000,46500,7,2025,86,Transfermarkt; estimation salaire
+SA:103:210842:eivind-helland,Eivind Helland,Bologna FC 1909,Serie A,Defence,8000000,29000,7,2025,86,Transfermarkt; estimation salaire
+SA:103:256234:bodin-tomasevic,Bodin Tomašević,Bologna FC 1909,Serie A,Defence,700000,5000,7,2025,62,Transfermarkt; estimation
+SA:103:289975:petar-markovic,Petar Markovic,Bologna FC 1909,Serie A,Defence,600000,5000,7,2025,62,Transfermarkt; estimation
+SA:103:291031:davide-baroncioni,Davide Baroncioni,Bologna FC 1909,Serie A,Defence,500000,2500,7,2025,62,Transfermarkt; estimation
+SA:103:1841:remo-freuler,Remo Freuler,Bologna FC 1909,Serie A,Midfield,6000000,60000,7,2024,94,Transfermarkt; Capology
+SA:103:2040:federico-bernardeschi,Federico Bernardeschi,Bologna FC 1909,Serie A,Midfield,7000000,70000,7,2025,94,Transfermarkt; Capology
+SA:103:23135:nikola-moro,Nikola Moro,Bologna FC 1909,Serie A,Midfield,9000000,31000,7,2023,86,Transfermarkt; estimation salaire
+SA:103:34638:lewis-ferguson,Lewis Ferguson,Bologna FC 1909,Serie A,Midfield,20000000,65000,7,2022,94,Transfermarkt; Capology
+SA:103:291032:luca-lai,Luca Lai,Bologna FC 1909,Serie A,Midfield,600000,5000,7,2025,62,Transfermarkt; estimation
+SA:103:117606:nicolo-cambiaghi,Nicolò Cambiaghi,Bologna FC 1909,Serie A,Offence,18000000,46500,7,2024,86,Transfermarkt; estimation salaire
+SA:103:291030:simone-negri,Simone Negri,Bologna FC 1909,Serie A,Offence,600000,5000,7,2025,62,Transfermarkt; estimation
+SA:103:291035:francesco-castaldo,Francesco Castaldo,Bologna FC 1909,Serie A,Offence,500000,2500,7,2025,62,Transfermarkt; estimation
+SA:103:98606:simon-sohm,Simon Sohm,Bologna FC 1909,Serie A,Central Midfield,15000000,42000,7,2025,86,Transfermarkt; estimation salaire
+SA:103:82126:joao-mario-lopes,João Mário Lopes,Bologna FC 1909,Serie A,Right-Back,12000000,37000,7,2025,86,Transfermarkt; estimation salaire
+SA:103:56645:nicolo-casale,Nicolò Casale,Bologna FC 1909,Serie A,Centre-Back,9000000,31000,8,2024,86,Transfermarkt; estimation salaire
+SA:103:32491:juan-miranda,Juan Miranda,Bologna FC 1909,Serie A,Left-Back,18000000,46500,7,2024,86,Transfermarkt; estimation salaire
+SA:103:9848:thijs-dallinga,Thijs Dallinga,Bologna FC 1909,Serie A,Centre-Forward,18000000,46500,7,2024,86,Transfermarkt; estimation salaire
+SA:103:2292:lorenzo-de-silvestri,Lorenzo De Silvestri,Bologna FC 1909,Serie A,Right-Back,500000,2500,9,2020,62,Transfermarkt; estimation
+SA:103:2282:kevin-bonifazi,Kevin Bonifazi,Bologna FC 1909,Serie A,Centre-Back,2000000,14000,7,2025,86,Transfermarkt; estimation salaire
+SA:103:2017:jens-odgaard,Jens Odgaard,Bologna FC 1909,Serie A,Attacking Midfield,15000000,42000,7,2024,86,Transfermarkt; estimation salaire
+SA:103:1905:babis-lykogiannis,Babis Lykogiannis,Bologna FC 1909,Serie A,Left-Back,2500000,15500,7,2022,86,Transfermarkt; estimation salaire
+SA:103:1886:riccardo-orsolini,Riccardo Orsolini,Bologna FC 1909,Serie A,Right Winger,30000000,75000,7,2019,94,Transfermarkt; Capology
+SA:103:191379:benjamin-dominguez,Benjamín Domínguez,Bologna FC 1909,Serie A,Left Winger,18000000,46500,8,2024,86,Transfermarkt; estimation salaire
+SA:103:176664:jonathan-rowe,Jonathan Rowe,Bologna FC 1909,Serie A,Left Winger,22000000,52500,7,2025,86,Transfermarkt; estimation salaire
+SA:103:170891:santiago-castro,Santiago Castro,Bologna FC 1909,Serie A,Centre-Forward,35000000,70000,1,2024,86,Transfermarkt; estimation salaire
+SA:103:127143:nadir-zortea,Nadir Zortea,Bologna FC 1909,Serie A,Right Midfield,10000000,33000,7,2025,86,Transfermarkt; estimation salaire
+SA:103:99013:tommaso-pobega,Tommaso Pobega,Bologna FC 1909,Serie A,Central Midfield,12000000,37000,8,2024,86,Transfermarkt; estimation salaire
+SA:104:82004:elia-caprile,Elia Caprile,Cagliari Calcio,Serie A,Goalkeeper,15000000,35000,1,2025,94,Transfermarkt; Capology
+SA:104:130428:giuseppe-ciocci,Giuseppe Ciocci,Cagliari Calcio,Serie A,Goalkeeper,1000000,3500,7,2022,62,Transfermarkt; estimation
+SA:104:148992:alen-sherri,Alen Sherri,Cagliari Calcio,Serie A,Goalkeeper,2000000,8500,7,2024,86,Transfermarkt; estimation salaire
+SA:104:283445:vincenzo-sarno,Vincenzo Sarno,Cagliari Calcio,Serie A,Goalkeeper,500000,1800,7,2025,62,Transfermarkt; estimation
+SA:104:3728:yerry-mina,Yerry Mina,Cagliari Calcio,Serie A,Defence,4000000,55000,2,2024,94,Transfermarkt; Capology
+SA:104:260246:juan-martin-rodriguez,Juan Martín Rodriguez,Cagliari Calcio,Serie A,Defence,4000000,13000,7,2025,86,Transfermarkt; estimation salaire
+SA:104:270606:andrea-cogoni,Andrea Cogoni,Cagliari Calcio,Serie A,Defence,700000,3500,7,2025,62,Transfermarkt; estimation
+SA:104:188791:ibrahim-sulemana,Ibrahim Sulemana,Cagliari Calcio,Serie A,Midfield,12000000,24500,7,2025,86,Transfermarkt; estimation salaire
+SA:104:192169:othniel-raterink,Othniel Raterink,Cagliari Calcio,Serie A,Midfield,1000000,4000,7,2025,62,Transfermarkt; estimation
+SA:104:286253:joseph-liteta,Joseph Liteta,Cagliari Calcio,Serie A,Midfield,3000000,11500,7,2025,86,Transfermarkt; estimation salaire
+SA:104:289720:ivan-sulev,Ivan Sulev,Cagliari Calcio,Serie A,Midfield,2000000,9500,7,2025,86,Transfermarkt; estimation salaire
+SA:104:293161:roberto-malfitano,Roberto Malfitano,Cagliari Calcio,Serie A,Midfield,500000,2000,7,2025,62,Transfermarkt; estimation
+SA:104:295721:alessandro-russo,Alessandro Russo,Cagliari Calcio,Serie A,Midfield,600000,3500,7,2025,62,Transfermarkt; estimation
+SA:104:114054:sebastiano-esposito,Sebastiano Esposito,Cagliari Calcio,Serie A,Offence,12000000,45000,7,2025,94,Transfermarkt; Capology
+SA:104:114101:gennaro-borrelli,Gennaro Borrelli,Cagliari Calcio,Serie A,Offence,3000000,11500,7,2025,86,Transfermarkt; estimation salaire
+SA:104:191289:semih-kilicsoy,Semih Kilicsoy,Cagliari Calcio,Serie A,Offence,18000000,31000,7,2025,86,Transfermarkt; estimation salaire
+SA:104:259979:agustin-albarracin,Agustín Albarracín,Cagliari Calcio,Serie A,Offence,5000000,15000,7,2025,86,Transfermarkt; estimation salaire
+SA:104:261228:riyad-idrissi,Riyad Idrissi,Cagliari Calcio,Serie A,Offence,4000000,13000,7,2025,86,Transfermarkt; estimation salaire
+SA:104:286712:nicola-grandu,Nicola Grandu,Cagliari Calcio,Serie A,Offence,500000,2000,7,2025,62,Transfermarkt; estimation
+SA:104:289719:yael-trepy,Yael Trepy,Cagliari Calcio,Serie A,Offence,500000,2000,7,2025,62,Transfermarkt; estimation
+SA:104:292394:paul-mendy,Paul Mendy,Cagliari Calcio,Serie A,Offence,700000,3500,7,2025,62,Transfermarkt; estimation
+SA:104:170374:adam-obert,Adam Obert,Cagliari Calcio,Serie A,Centre-Back,10000000,22000,7,2022,86,Transfermarkt; estimation salaire
+SA:104:114052:gabriele-zappa,Gabriele Zappa,Cagliari Calcio,Serie A,Right-Back,8000000,19500,9,2020,86,Transfermarkt; estimation salaire
+SA:104:111294:mattia-felici,Mattia Felici,Cagliari Calcio,Serie A,Left Winger,6000000,16500,7,2024,86,Transfermarkt; estimation salaire
+SA:104:102211:gianluca-gaetano,Gianluca Gaetano,Cagliari Calcio,Serie A,Attacking Midfield,10000000,22000,7,2024,86,Transfermarkt; estimation salaire
+SA:104:59072:mateusz-wieteska,Mateusz Wieteska,Cagliari Calcio,Serie A,Centre-Back,5000000,15000,8,2023,86,Transfermarkt; estimation salaire
+SA:104:52950:ze-pedro-figueiredo,Zé Pedro Figueiredo,Cagliari Calcio,Serie A,Centre-Back,5000000,15000,7,2025,86,Transfermarkt; estimation salaire
+SA:104:42760:michael-folorunsho,Michael Folorunsho,Cagliari Calcio,Serie A,Central Midfield,10000000,50000,7,2025,94,Transfermarkt; Capology
+SA:104:40265:alberto-dossena,Alberto Dossena,Cagliari Calcio,Serie A,Centre-Back,12000000,24500,7,2025,86,Transfermarkt; estimation salaire

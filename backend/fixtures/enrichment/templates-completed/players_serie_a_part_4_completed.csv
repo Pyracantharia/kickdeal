@@ -1,0 +1,92 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+SA:586:290530:wisdom-acquah,Wisdom Acquah,Torino FC,Serie A,Midfield,500000,2500,7,2025,66,Transfermarkt; estimation salaire
+SA:586:4119:che-adams,Che Adams,Torino FC,Serie A,Offence,10000000,70000,7,2024,95,Transfermarkt; Capology
+SA:586:59075:sandro-kulenovic,Sandro Kulenović,Torino FC,Serie A,Offence,5000000,20500,7,2025,87,Transfermarkt; estimation salaire
+SA:586:271983:tommaso-gabellini,Tommaso Gabellini,Torino FC,Serie A,Offence,500000,2500,7,2025,66,Transfermarkt; estimation salaire
+SA:586:290877:zalan-kugyela,Zalán Kugyela,Torino FC,Serie A,Offence,500000,2500,7,2025,66,Transfermarkt; estimation salaire
+SA:586:123689:saul-coco,Saúl Coco,Torino FC,Serie A,Centre-Back,10000000,31000,7,2024,87,Transfermarkt; estimation salaire
+SA:586:81085:zakaria-aboukhlal,Zakaria Aboukhlal,Torino FC,Serie A,Right Winger,12000000,34500,7,2025,87,Transfermarkt; estimation salaire
+SA:586:67697:ivan-ilic,Ivan Ilić,Torino FC,Serie A,Central Midfield,7000000,65000,1,2023,95,Transfermarkt; Capology
+SA:586:23287:ardian-ismajli,Ardian Ismajli,Torino FC,Serie A,Centre-Back,5000000,20500,7,2025,87,Transfermarkt; estimation salaire
+SA:586:8438:adrien-tameze,Adrien Tameze,Torino FC,Serie A,Defensive Midfield,3000000,15500,7,2023,87,Transfermarkt; estimation salaire
+SA:586:6563:valentino-lazaro,Valentino Lazaro,Torino FC,Serie A,Left Midfield,5000000,20500,8,2022,87,Transfermarkt; estimation salaire
+SA:586:2271:duvan-zapata,Duván Zapata,Torino FC,Serie A,Centre-Forward,3000000,96154,9,2023,95,Transfermarkt; Capology
+SA:586:1789:giovanni-simeone,Giovanni Simeone,Torino FC,Serie A,Centre-Forward,10000000,80000,7,2025,95,Transfermarkt; Capology
+SA:586:1776:cristiano-biraghi,Cristiano Biraghi,Torino FC,Serie A,Left-Back,2500000,70000,1,2025,95,Transfermarkt; Capology
+SA:586:777:enzo-ebosse,Enzo Ebosse,Torino FC,Serie A,Centre-Back,3000000,15500,7,2025,87,Transfermarkt; estimation salaire
+SA:586:280:guillermo-maripan,Guillermo Maripán,Torino FC,Serie A,Centre-Back,5000000,65000,8,2024,95,Transfermarkt; Capology
+SA:586:246508:alieu-njie,Alieu Njie,Torino FC,Serie A,Left Winger,1200000,6000,7,2024,87,Transfermarkt; estimation salaire
+SA:586:226987:zannetos-savva,Zannetos Savva,Torino FC,Serie A,Right Winger,800000,5000,7,2024,66,Transfermarkt; estimation salaire
+SA:586:214546:luca-marianucci,Luca Marianucci,Torino FC,Serie A,Centre-Back,8000000,27000,7,2025,87,Transfermarkt; estimation salaire
+SA:586:190831:gvidas-gineitis,Gvidas Gineitis,Torino FC,Serie A,Central Midfield,10000000,31000,7,2022,87,Transfermarkt; estimation salaire
+SA:586:179558:cesare-casadei,Cesare Casadei,Torino FC,Serie A,Central Midfield,15000000,55000,2,2025,95,Transfermarkt; Capology
+SA:586:172940:emirhan-ilkhan,Emirhan Ilkhan,Torino FC,Serie A,Central Midfield,3000000,15500,8,2022,87,Transfermarkt; estimation salaire
+SA:586:166329:matteo-prati,Matteo Prati,Torino FC,Serie A,Defensive Midfield,10000000,31000,7,2025,87,Transfermarkt; estimation salaire
+SA:586:161083:saba-sazonov,Saba Sazonov,Torino FC,Serie A,Centre-Back,4000000,18500,8,2023,87,Transfermarkt; estimation salaire
+SA:586:133292:niels-nkounkou,Niels Nkounkou,Torino FC,Serie A,Left-Back,7000000,25000,7,2025,87,Transfermarkt; estimation salaire
+SA:586:131119:faustino-anjorin,Faustino Anjorin,Torino FC,Serie A,Attacking Midfield,6000000,23000,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:344:christian-fruchtl,Christian Früchtl,US Lecce,Serie A,Goalkeeper,2500000,6500,7,2024,87,Transfermarkt; estimation salaire
+SA:5890:56649:wladimiro-falcone,Wladimiro Falcone,US Lecce,Serie A,Goalkeeper,5000000,30000,7,2023,95,Transfermarkt; Capology
+SA:5890:133202:jasper-samooja,Jasper Samooja,US Lecce,Serie A,Goalkeeper,300000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:5890:283194:plamen-penev,Plamen Penev,US Lecce,Serie A,Goalkeeper,500000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:5890:289935:daniele-bleve,Daniele Bleve,US Lecce,Serie A,Goalkeeper,200000,1500,7,2021,66,Transfermarkt; estimation salaire
+SA:5890:274043:cristian-pehlivanov,Cristian Pehlivanov,US Lecce,Serie A,Defence,400000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:5890:285135:matias-perez,Matías Pérez,US Lecce,Serie A,Defence,3000000,8000,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:125069:omri-gandelman,Omri Gandelman,US Lecce,Serie A,Midfield,6000000,11500,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:176003:alex-sala,Alex Sala,US Lecce,Serie A,Midfield,3000000,8000,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:226967:olaf-gorter,Olaf Gorter,US Lecce,Serie A,Midfield,1000000,2500,7,2026,66,Transfermarkt; estimation salaire
+SA:5890:286314:niko-kovac,Niko Kovač,US Lecce,Serie A,Midfield,2000000,6500,7,2026,87,Transfermarkt; estimation salaire
+SA:5890:221315:nikola-stulic,Nikola Štulić,US Lecce,Serie A,Offence,6000000,11500,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:150530:jamil-siebert,Jamil Siebert,US Lecce,Serie A,Centre-Back,8000000,13500,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:129808:walid-cheddira,Walid Cheddira,US Lecce,Serie A,Centre-Forward,6000000,11500,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:121808:lameck-banda,Lameck Banda,US Lecce,Serie A,Left Winger,10000000,28000,7,2022,95,Transfermarkt; Capology
+SA:5890:117369:corrie-ndaba,Corrie Ndaba,US Lecce,Serie A,Left-Back,2500000,7000,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:116223:santiago-pierotti,Santiago Pierotti,US Lecce,Serie A,Right Winger,8000000,13500,1,2024,87,Transfermarkt; estimation salaire
+SA:5890:113590:gaby-jean,Gaby Jean,US Lecce,Serie A,Centre-Back,5000000,10500,7,2024,87,Transfermarkt; estimation salaire
+SA:5890:105294:filip-marchwinski,Filip Marchwiński,US Lecce,Serie A,Attacking Midfield,6000000,11500,7,2024,87,Transfermarkt; estimation salaire
+SA:5890:77469:antonino-gallo,Antonino Gallo,US Lecce,Serie A,Left-Back,10000000,25000,7,2019,95,Transfermarkt; Capology
+SA:5890:70286:ylber-ramadani,Ylber Ramadani,US Lecce,Serie A,Defensive Midfield,1800000,6000,8,2022,87,Transfermarkt; estimation salaire
+SA:5890:16794:orir-johann-helgason,Þórir Jóhann Helgason,US Lecce,Serie A,Central Midfield,2500000,7000,7,2021,87,Transfermarkt; estimation salaire
+SA:5890:8658:lassana-coulibaly,Lassana Coulibaly,US Lecce,Serie A,Central Midfield,7000000,12500,7,2024,87,Transfermarkt; estimation salaire
+SA:5890:1792:riccardo-sottil,Riccardo Sottil,US Lecce,Serie A,Left Winger,10000000,32000,7,2025,95,Transfermarkt; Capology
+SA:5890:263220:elijah-scott,Elijah Scott,US Lecce,Serie A,Centre-Back,1200000,3000,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:246341:tiago-gabriel,Tiago Gabriel,US Lecce,Serie A,Centre-Back,8000000,13500,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:242550:francesco-camarda,Francesco Camarda,US Lecce,Serie A,Centre-Forward,18000000,28462,7,2025,95,Transfermarkt; Capology
+SA:5890:213073:kialonda-gaspar,Kialonda Gaspar,US Lecce,Serie A,Centre-Back,7000000,12500,7,2024,87,Transfermarkt; estimation salaire
+SA:5890:188103:medon-berisha,Medon Berisha,US Lecce,Serie A,Central Midfield,10000000,15500,7,2023,87,Transfermarkt; estimation salaire
+SA:5890:185129:danilo-veiga,Danilo Veiga,US Lecce,Serie A,Right-Back,2500000,7000,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:177262:oumar-ngom,Oumar Ngom,US Lecce,Serie A,Central Midfield,3000000,8000,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:176076:sadik-fofana,Sadik Fofana,US Lecce,Serie A,Centre-Back,2500000,7000,7,2025,87,Transfermarkt; estimation salaire
+SA:5890:167394:konan-n-dri,Konan N'Dri,US Lecce,Serie A,Right Winger,5000000,10500,7,2025,87,Transfermarkt; estimation salaire
+SA:7397:2715:mauro-vigorito,Mauro Vigorito,Como 1907,Serie A,Goalkeeper,300000,2000,7,2024,66,Transfermarkt; estimation salaire
+SA:7397:9186:jean-butez,Jean Butez,Como 1907,Serie A,Goalkeeper,6000000,23000,1,2025,87,Transfermarkt; estimation salaire
+SA:7397:146639:noel-tornqvist,Noel Törnqvist,Como 1907,Serie A,Goalkeeper,3000000,15500,7,2025,87,Transfermarkt; estimation salaire
+SA:7397:270151:nikola-cavlina,Nikola Čavlina,Como 1907,Serie A,Goalkeeper,2500000,14000,7,2025,87,Transfermarkt; estimation salaire
+SA:7397:276252:henrique-menke,Henrique Menke,Como 1907,Serie A,Goalkeeper,750000,4500,7,2025,66,Transfermarkt; estimation salaire
+SA:7397:284110:cristiano-de-paoli,Cristiano De Paoli,Como 1907,Serie A,Defence,500000,2500,7,2025,66,Transfermarkt; estimation salaire
+SA:7397:156912:martin-baturina,Martin Baturina,Como 1907,Serie A,Midfield,30000000,65000,7,2025,95,Transfermarkt; Capology
+SA:7397:203511:nico-paz,Nico Paz,Como 1907,Serie A,Midfield,70000000,70000,8,2024,95,Transfermarkt; Capology
+SA:7397:250600:adrian-lahdo,Adrian Lahdo,Como 1907,Serie A,Midfield,10000000,33500,7,2025,87,Transfermarkt; estimation salaire
+SA:7397:286783:lorenzo-bonsignori,Lorenzo Bonsignori,Como 1907,Serie A,Midfield,500000,2500,7,2025,66,Transfermarkt; estimation salaire
+SA:7397:286784:matteo-papaccioli,Matteo Papaccioli,Como 1907,Serie A,Midfield,500000,2500,7,2025,66,Transfermarkt; estimation salaire
+SA:7397:291722:samuele-pisati,Samuele Pisati,Como 1907,Serie A,Midfield,500000,2500,7,2025,66,Transfermarkt; estimation salaire
+SA:7397:295568:riccardo-cassano,Riccardo Cassano,Como 1907,Serie A,Midfield,1000000,6000,7,2025,66,Transfermarkt; estimation salaire
+SA:7397:67902:nicolas-kuhn,Nicolas Kühn,Como 1907,Serie A,Offence,10000000,33500,7,2025,87,Transfermarkt; estimation salaire
+SA:7397:218474:assane-diao,Assane Diao,Como 1907,Serie A,Offence,30000000,60000,1,2025,95,Transfermarkt; Capology
+SA:7397:126768:ignace-van-der-brempt,Ignace Van Der Brempt,Como 1907,Serie A,Right-Back,3000000,17000,7,2024,87,Transfermarkt; estimation salaire
+SA:7397:124620:lucas-da-cunha,Lucas Da Cunha,Como 1907,Serie A,Central Midfield,15000000,42500,7,2023,87,Transfermarkt; estimation salaire
+SA:7397:114212:ivan-smolcic,Ivan Smolčić,Como 1907,Serie A,Right-Back,3500000,18500,1,2025,87,Transfermarkt; estimation salaire
+SA:7397:101350:maxence-caqueret,Maxence Caqueret,Como 1907,Serie A,Central Midfield,13000000,75000,1,2025,95,Transfermarkt; Capology
+SA:7397:43285:anastasios-douvikas,Anastasios Douvikas,Como 1907,Serie A,Centre-Forward,12000000,37000,2,2025,87,Transfermarkt; estimation salaire
+SA:7397:15865:sergi-roberto,Sergi Roberto,Como 1907,Serie A,Central Midfield,3000000,100000,8,2024,95,Transfermarkt; Capology
+SA:7397:9471:marc-oliver-kempf,Marc-Oliver Kempf,Como 1907,Serie A,Centre-Back,3500000,18500,8,2024,87,Transfermarkt; estimation salaire
+SA:7397:9204:mergim-vojvoda,Mërgim Vojvoda,Como 1907,Serie A,Right-Back,2500000,15500,2,2025,87,Transfermarkt; estimation salaire
+SA:7397:8698:diego-carlos,Diego Carlos,Como 1907,Serie A,Centre-Back,3000000,100000,1,2025,95,Transfermarkt; Capology
+SA:7397:7860:alberto-moreno,Alberto Moreno,Como 1907,Serie A,Left-Back,1500000,7000,7,2024,87,Transfermarkt; estimation salaire
+SA:7397:7819:alvaro-morata,Álvaro Morata,Como 1907,Serie A,Centre-Forward,12000000,160192,7,2025,95,Transfermarkt; Capology
+SA:7397:2187:edoardo-goldaniga,Edoardo Goldaniga,Como 1907,Serie A,Centre-Back,2000000,13500,7,2023,87,Transfermarkt; estimation salaire
+SA:7397:270254:jesus-rodriguez,Jesús Rodríguez,Como 1907,Serie A,Left Winger,30000000,55000,7,2025,95,Transfermarkt; Capology
+SA:7397:247056:jacobo-ramon,Jacobo Ramón,Como 1907,Serie A,Centre-Back,18000000,47500,7,2025,87,Transfermarkt; estimation salaire
+SA:7397:189493:alex-valle,Alex Valle,Como 1907,Serie A,Left-Back,12000000,37000,7,2025,87,Transfermarkt; estimation salaire
+SA:7397:179159:maximo-perrone,Maximo Perrone,Como 1907,Serie A,Defensive Midfield,35000000,71000,7,2025,87,Transfermarkt; estimation salaire
+SA:7397:178165:jayden-addai,Jayden Addai,Como 1907,Serie A,Right Winger,20000000,50500,7,2025,87,Transfermarkt; estimation salaire

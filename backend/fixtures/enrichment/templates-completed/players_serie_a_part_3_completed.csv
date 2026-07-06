@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+SA:113:126289:billy-gilmour,Billy Gilmour,SSC Napoli,Serie A,Midfield,28000000,90000,8,2024,95,Transfermarkt; Capology
+SA:113:176944:antonio-vergara,Antonio Vergara,SSC Napoli,Serie A,Midfield,8000000,47000,7,2025,87,Transfermarkt; estimation salaire
+SA:113:220542:alisson-santos,Alisson Santos,SSC Napoli,Serie A,Midfield,28000000,99500,2,2026,87,Transfermarkt; estimation salaire
+SA:113:290021:francisco-barido,Francisco Baridó,SSC Napoli,Serie A,Midfield,2000000,22000,7,2025,87,Transfermarkt; estimation salaire
+SA:113:290025:emmanuele-de-chiara,Emmanuele De Chiara,SSC Napoli,Serie A,Midfield,500000,4000,7,2025,66,Transfermarkt; estimation salaire
+SA:113:290412:vincenzo-prisco,Vincenzo Prisco,SSC Napoli,Serie A,Midfield,500000,4000,7,2025,66,Transfermarkt; estimation salaire
+SA:113:3662:romelu-lukaku,Romelu Lukaku,SSC Napoli,Serie A,Offence,15000000,180000,8,2024,95,Transfermarkt; Capology
+SA:113:181795:giovane-nascimento,Giovane Nascimento,SSC Napoli,Serie A,Offence,20000000,81000,7,2025,87,Transfermarkt; estimation salaire
+SA:113:161310:juan-jesus,Juan Jesus,SSC Napoli,Serie A,Centre-Back,1500000,11500,8,2021,87,Transfermarkt; estimation salaire
+SA:113:152770:rasmus-h-jlund,Rasmus Højlund,SSC Napoli,Serie A,Centre-Forward,45000000,150000,7,2025,95,Transfermarkt; Capology
+SA:113:144953:miguel-gutierrez,Miguel Gutiérrez,SSC Napoli,Serie A,Left-Back,30000000,103500,7,2025,87,Transfermarkt; estimation salaire
+SA:113:53281:sam-beukema,Sam Beukema,SSC Napoli,Serie A,Centre-Back,30000000,103500,7,2025,87,Transfermarkt; estimation salaire
+SA:113:33628:stanislav-lobotka,Stanislav Lobotka,SSC Napoli,Serie A,Defensive Midfield,30000000,125000,1,2020,95,Transfermarkt; Capology
+SA:113:30629:eljif-elmas,Eljif Elmas,SSC Napoli,Serie A,Attacking Midfield,13000000,62500,7,2019,87,Transfermarkt; estimation salaire
+SA:113:23127:amir-rrahmani,Amir Rrahmani,SSC Napoli,Serie A,Centre-Back,20000000,81000,1,2020,87,Transfermarkt; estimation salaire
+SA:113:8354:andre-zambo-anguissa,André Zambo Anguissa,SSC Napoli,Serie A,Central Midfield,30000000,115000,8,2021,95,Transfermarkt; Capology
+SA:113:7571:david-neres,David Neres,SSC Napoli,Serie A,Right Winger,28000000,105000,8,2024,95,Transfermarkt; Capology
+SA:113:2487:giovanni-di-lorenzo,Giovanni Di Lorenzo,SSC Napoli,Serie A,Right-Back,15000000,115000,7,2019,95,Transfermarkt; Capology
+SA:113:2386:pasquale-mazzocchi,Pasquale Mazzocchi,SSC Napoli,Serie A,Right-Back,3000000,27000,1,2024,87,Transfermarkt; estimation salaire
+SA:113:2280:alessandro-buongiorno,Alessandro Buongiorno,SSC Napoli,Serie A,Centre-Back,50000000,100000,7,2024,95,Transfermarkt; Capology
+SA:113:2193:matteo-politano,Matteo Politano,SSC Napoli,Serie A,Right Winger,14000000,90000,1,2020,95,Transfermarkt; Capology
+SA:113:1842:leonardo-spinazzola,Leonardo Spinazzola,SSC Napoli,Serie A,Left-Back,7000000,43500,7,2024,87,Transfermarkt; estimation salaire
+SA:115:1993:daniele-padelli,Daniele Padelli,Udinese Calcio,Serie A,Goalkeeper,200000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:115:65480:maduka-okoye,Maduka Okoye,Udinese Calcio,Serie A,Goalkeeper,14000000,30000,8,2023,87,Transfermarkt; estimation salaire
+SA:115:141480:razvan-sava,Razvan Sava,Udinese Calcio,Serie A,Goalkeeper,5000000,16500,7,2024,87,Transfermarkt; estimation salaire
+SA:115:206347:alessandro-nunziante,Alessandro Nunziante,Udinese Calcio,Serie A,Goalkeeper,2000000,10000,7,2025,87,Transfermarkt; estimation salaire
+SA:115:172425:nicolo-bertola,Nicolo Bertola,Udinese Calcio,Serie A,Defence,10000000,26500,7,2025,87,Transfermarkt; estimation salaire
+SA:115:284663:branimir-mlacic,Branimir Mlacic,Udinese Calcio,Serie A,Defence,3000000,13500,7,2025,87,Transfermarkt; estimation salaire
+SA:115:31065:jesper-karlstrom,Jesper Karlström,Udinese Calcio,Serie A,Midfield,7000000,21500,7,2024,87,Transfermarkt; estimation salaire
+SA:115:64243:jakub-piotrowski,Jakub Piotrowski,Udinese Calcio,Serie A,Midfield,10000000,26500,7,2025,87,Transfermarkt; estimation salaire
+SA:115:187404:lennon-miller,Lennon Miller,Udinese Calcio,Serie A,Midfield,18000000,37500,7,2025,87,Transfermarkt; estimation salaire
+SA:115:202427:juan-arizala,Juan Arizala,Udinese Calcio,Serie A,Midfield,3000000,13500,7,2025,87,Transfermarkt; estimation salaire
+SA:115:276002:abdoulaye-camara,Abdoulaye Camara,Udinese Calcio,Serie A,Midfield,3000000,13500,7,2025,87,Transfermarkt; estimation salaire
+SA:115:64087:adam-buksa,Adam Buksa,Udinese Calcio,Serie A,Offence,6000000,19500,7,2025,87,Transfermarkt; estimation salaire
+SA:115:274050:idrissa-gueye,Idrissa Guèye,Udinese Calcio,Serie A,Offence,5000000,18000,7,2025,87,Transfermarkt; estimation salaire
+SA:115:285327:giulio-vinciati,Giulio Vinciati,Udinese Calcio,Serie A,Offence,500000,2000,7,2025,58,Transfermarkt; estimation
+SA:115:190552:arthur-atta,Arthur Atta,Udinese Calcio,Serie A,Defensive Midfield,18000000,37500,8,2024,87,Transfermarkt; estimation salaire
+SA:115:151299:thomas-kristensen,Thomas Kristensen,Udinese Calcio,Serie A,Centre-Back,12000000,29500,9,2023,87,Transfermarkt; estimation salaire
+SA:115:150522:oier-zarraga,Oier Zarraga,Udinese Calcio,Serie A,Central Midfield,7000000,21500,7,2023,87,Transfermarkt; estimation salaire
+SA:115:99311:jordan-zemura,Jordan Zemura,Udinese Calcio,Serie A,Left-Back,10000000,26500,7,2023,87,Transfermarkt; estimation salaire
+SA:115:84493:vakoun-issouf-bayo,Vakoun Issouf Bayo,Udinese Calcio,Serie A,Centre-Forward,6000000,19500,7,2025,87,Transfermarkt; estimation salaire
+SA:115:8462:oumar-solet,Oumar Solet,Udinese Calcio,Serie A,Centre-Back,20000000,40000,1,2025,87,Transfermarkt; estimation salaire
+SA:115:8111:christian-kabasele,Christian Kabasele,Udinese Calcio,Serie A,Centre-Back,1500000,5500,7,2023,87,Transfermarkt; estimation salaire
+SA:115:7710:kingsley-ehizibue,Kingsley Ehizibue,Udinese Calcio,Serie A,Right-Back,3000000,13500,8,2022,87,Transfermarkt; estimation salaire
+SA:115:7567:jurgen-ekkelenkamp,Jurgen Ekkelenkamp,Udinese Calcio,Serie A,Attacking Midfield,10000000,26500,8,2024,87,Transfermarkt; estimation salaire
+SA:115:3896:keinan-davis,Keinan Davis,Udinese Calcio,Serie A,Centre-Forward,7000000,21500,7,2023,87,Transfermarkt; estimation salaire
+SA:115:2996:alessandro-zanoli,Alessandro Zanoli,Udinese Calcio,Serie A,Right-Back,10000000,26500,7,2025,87,Transfermarkt; estimation salaire
+SA:115:2013:nicolo-zaniolo,Nicolò Zaniolo,Udinese Calcio,Serie A,Attacking Midfield,18000000,95000,7,2025,95,Transfermarkt; Capology
+SA:115:822:hassane-kamara,Hassane Kamara,Udinese Calcio,Serie A,Left-Back,4000000,15500,7,2020,87,Transfermarkt; estimation salaire
+SA:450:2891:lorenzo-montipo,Lorenzo Montipò,Hellas Verona FC,Serie A,Goalkeeper,1200000,3500,7,2022,87,Transfermarkt; estimation salaire
+SA:450:42319:simone-perilli,Simone Perilli,Hellas Verona FC,Serie A,Goalkeeper,300000,1500,7,2022,66,Transfermarkt; estimation salaire
+SA:450:176869:giacomo-toniolo,Giacomo Toniolo,Hellas Verona FC,Serie A,Goalkeeper,300000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:187110:federico-magro,Federico Magro,Hellas Verona FC,Serie A,Goalkeeper,250000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:286782:mirko-castagnini,Mirko Castagnini,Hellas Verona FC,Serie A,Goalkeeper,250000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:291893:arthur-rampineli,Arthur Rampineli,Hellas Verona FC,Serie A,Goalkeeper,500000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:160756:rafik-belghali,Rafik Belghali,Hellas Verona FC,Serie A,Defence,4000000,12000,7,2025,87,Transfermarkt; estimation salaire
+SA:450:272448:william-feola,William Feola,Hellas Verona FC,Serie A,Defence,500000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:284061:fallou-cham,Fallou Cham,Hellas Verona FC,Serie A,Defence,1000000,3500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:292281:andrej-popovic,Andrej Popović,Hellas Verona FC,Serie A,Defence,800000,3500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:105081:kieron-bowie,Kieron Bowie,Hellas Verona FC,Serie A,Midfield,6000000,15500,7,2025,87,Transfermarkt; estimation salaire
+SA:450:178723:ali-al-musrati,Ali Al Musrati,Hellas Verona FC,Serie A,Midfield,7000000,44423,7,2025,95,Transfermarkt; Capology
+SA:450:192506:andrias-edmundsson,Andrias Edmundsson,Hellas Verona FC,Serie A,Midfield,2000000,8500,7,2025,87,Transfermarkt; estimation salaire
+SA:450:213187:jean-daniel-akpa-akpro,Jean-Daniel Akpa-Akpro,Hellas Verona FC,Serie A,Midfield,1500000,4500,7,2025,87,Transfermarkt; estimation salaire
+SA:450:286520:davide-de-battisti,Davide De Battisti,Hellas Verona FC,Serie A,Midfield,500000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:286816:luca-szimionas,Luca Szimionaș,Hellas Verona FC,Serie A,Midfield,700000,3000,7,2025,66,Transfermarkt; estimation salaire
+SA:450:292685:jurgen-peci,Jurgen Peçi,Hellas Verona FC,Serie A,Midfield,500000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:193027:isaac-aguiar,Isaac Aguiar,Hellas Verona FC,Serie A,Offence,800000,3500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:285610:ioan-vermesan,Ioan Vermeșan,Hellas Verona FC,Serie A,Offence,500000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:286779:mel-akale,Mel Akalé,Hellas Verona FC,Serie A,Offence,500000,1500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:175894:daniel-oyegoke,Daniel Oyegoke,Hellas Verona FC,Serie A,Right-Back,7000000,16500,7,2025,87,Transfermarkt; estimation salaire
+SA:450:169089:nicolas-valentini,Nicolas Valentini,Hellas Verona FC,Serie A,Centre-Back,10000000,20500,7,2025,87,Transfermarkt; estimation salaire
+SA:450:137978:tomas-suslov,Tomáš Suslov,Hellas Verona FC,Serie A,Attacking Midfield,10000000,20500,8,2022,87,Transfermarkt; estimation salaire
+SA:450:124473:amin-sarr,Amin Sarr,Hellas Verona FC,Serie A,Centre-Forward,7000000,16500,7,2025,87,Transfermarkt; estimation salaire
+SA:450:111555:armel-bella-kotchap,Armel Bella Kotchap,Hellas Verona FC,Serie A,Centre-Back,7000000,16500,7,2025,87,Transfermarkt; estimation salaire
+SA:450:102047:cheikh-niasse,Cheikh Niasse,Hellas Verona FC,Serie A,Defensive Midfield,5000000,14000,7,2025,87,Transfermarkt; estimation salaire
+SA:450:25504:domagoj-bradaric,Domagoj Bradarić,Hellas Verona FC,Serie A,Left-Back,5000000,14000,8,2024,87,Transfermarkt; estimation salaire
+SA:450:24235:martin-frese,Martin Frese,Hellas Verona FC,Serie A,Left-Back,3000000,10500,7,2024,87,Transfermarkt; estimation salaire
+SA:450:24234:victor-nelsson,Victor Nelsson,Hellas Verona FC,Serie A,Centre-Back,14000000,25000,7,2025,87,Transfermarkt; estimation salaire
+SA:450:10887:sandi-lovric,Sandi Lovric,Hellas Verona FC,Serie A,Central Midfield,9000000,19500,7,2025,87,Transfermarkt; estimation salaire
+SA:450:8487:antoine-bernede,Antoine Bernede,Hellas Verona FC,Serie A,Central Midfield,6000000,15500,7,2025,87,Transfermarkt; estimation salaire
+SA:450:7763:abdou-harroui,Abdou Harroui,Hellas Verona FC,Serie A,Central Midfield,5000000,14000,7,2024,87,Transfermarkt; estimation salaire
+SA:450:6629:suat-serdar,Suat Serdar,Hellas Verona FC,Serie A,Central Midfield,5000000,14000,7,2023,87,Transfermarkt; estimation salaire
+SA:450:2185:pol-mikel-lirola,Pol Mikel Lirola,Hellas Verona FC,Serie A,Right-Back,4000000,12000,7,2025,87,Transfermarkt; estimation salaire
+SA:450:2006:roberto-gagliardini,Roberto Gagliardini,Hellas Verona FC,Serie A,Central Midfield,2500000,9500,7,2025,87,Transfermarkt; estimation salaire
+SA:450:252918:junior-ajayi,Junior Ajayi,Hellas Verona FC,Serie A,Centre-Forward,1000000,3500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:228738:luca-monticelli,Luca Monticelli,Hellas Verona FC,Serie A,Centre-Forward,1000000,3500,7,2025,66,Transfermarkt; estimation salaire
+SA:450:191892:gift-orban,Gift Orban,Hellas Verona FC,Serie A,Centre-Forward,8000000,18000,7,2025,87,Transfermarkt; estimation salaire
+SA:450:182322:tobias-slotsager,Tobias Slotsager,Hellas Verona FC,Serie A,Centre-Back,5000000,14000,7,2025,87,Transfermarkt; estimation salaire
+SA:450:178445:daniel-mosquera,Daniel Mosquera,Hellas Verona FC,Serie A,Centre-Forward,7000000,16500,7,2024,87,Transfermarkt; estimation salaire
+SA:457:2143:marco-silvestri,Marco Silvestri,US Cremonese,Serie A,Goalkeeper,2000000,7000,7,2025,87,Transfermarkt; estimation salaire
+SA:457:3087:emil-audero,Emil Audero,US Cremonese,Serie A,Goalkeeper,8000000,15000,7,2025,87,Transfermarkt; estimation salaire
+SA:457:176943:lapo-nava,Lapo Nava,US Cremonese,Serie A,Goalkeeper,1000000,3000,7,2025,66,Transfermarkt; estimation salaire
+SA:457:276439:marco-cassin,Marco Cassin,US Cremonese,Serie A,Goalkeeper,500000,1500,7,2025,58,Transfermarkt; estimation
+SA:457:2145:matteo-bianchetti,Matteo Bianchetti,US Cremonese,Serie A,Defence,1200000,3500,7,2021,87,Transfermarkt; estimation salaire
+SA:457:124704:tommaso-barbieri,Tommaso Barbieri,US Cremonese,Serie A,Defence,6000000,13500,7,2025,87,Transfermarkt; estimation salaire
+SA:457:175839:romano-floriani,Romano Floriani,US Cremonese,Serie A,Defence,3000000,9500,7,2025,87,Transfermarkt; estimation salaire
+SA:457:188533:francesco-folino,Francesco Folino,US Cremonese,Serie A,Defence,1000000,3000,7,2025,58,Transfermarkt; estimation
+SA:457:295710:tommaso-vigilati,Tommaso Vigilati,US Cremonese,Serie A,Defence,500000,1500,7,2025,58,Transfermarkt; estimation
+SA:457:7421:morten-thorsby,Morten Thorsby,US Cremonese,Serie A,Midfield,7000000,15000,7,2025,87,Transfermarkt; estimation salaire
+SA:457:41859:jari-vandeputte,Jari Vandeputte,US Cremonese,Serie A,Midfield,6000000,13500,7,2024,87,Transfermarkt; estimation salaire
+SA:457:42157:michele-collocolo,Michele Collocolo,US Cremonese,Serie A,Midfield,5000000,12500,7,2023,87,Transfermarkt; estimation salaire
+SA:457:220307:adrian-lickunas,Adrian Lickūnas,US Cremonese,Serie A,Midfield,500000,1500,7,2025,58,Transfermarkt; estimation
+SA:457:278424:davide-pavesi,Davide Pavesi,US Cremonese,Serie A,Midfield,500000,1500,7,2025,58,Transfermarkt; estimation
+SA:457:294496:simone-lottici-tessadri,Simone Lottici Tessadri,US Cremonese,Serie A,Midfield,500000,1500,7,2025,58,Transfermarkt; estimation
+SA:457:14:antonio-sanabria,Antonio Sanabria,US Cremonese,Serie A,Offence,7000000,15000,7,2025,87,Transfermarkt; estimation salaire
+SA:457:294283:nouroudine-faye,Nouroudine Faye,US Cremonese,Serie A,Offence,3000000,9500,7,2025,87,Transfermarkt; estimation salaire
+SA:457:42179:david-okereke,David Okereke,US Cremonese,Serie A,Centre-Forward,6000000,13500,7,2025,87,Transfermarkt; estimation salaire
+SA:457:4409:milan-uric,Milan Đurić,US Cremonese,Serie A,Centre-Forward,1000000,3000,7,2025,66,Transfermarkt; estimation salaire
+SA:457:3330:jamie-vardy,Jamie Vardy,US Cremonese,Serie A,Centre-Forward,1000000,75000,7,2025,95,Transfermarkt; Capology
+SA:457:2483:sebastiano-luperto,Sebastiano Luperto,US Cremonese,Serie A,Centre-Back,7000000,15000,7,2025,87,Transfermarkt; estimation salaire
+SA:457:2373:federico-bonazzoli,Federico Bonazzoli,US Cremonese,Serie A,Centre-Forward,4000000,11000,7,2025,87,Transfermarkt; estimation salaire
+SA:457:2362:alberto-grassi,Alberto Grassi,US Cremonese,Serie A,Defensive Midfield,3500000,10000,7,2025,87,Transfermarkt; estimation salaire
+SA:457:2213:federico-ceccherini,Federico Ceccherini,US Cremonese,Serie A,Centre-Back,1200000,3500,7,2025,87,Transfermarkt; estimation salaire
+SA:457:2120:giuseppe-pezzella,Giuseppe Pezzella,US Cremonese,Serie A,Left-Back,3000000,9500,7,2025,87,Transfermarkt; estimation salaire
+SA:457:2107:alessio-zerbin,Alessio Zerbin,US Cremonese,Serie A,Left Winger,6000000,13500,7,2025,87,Transfermarkt; estimation salaire
+SA:457:249351:mikayil-faye,Mikayil Faye,US Cremonese,Serie A,Centre-Back,10000000,18500,7,2025,87,Transfermarkt; estimation salaire
+SA:457:156527:warren-bondo,Warren Bondo,US Cremonese,Serie A,Central Midfield,14000000,22500,7,2025,87,Transfermarkt; estimation salaire
+SA:457:144950:filippo-terracciano,Filippo Terracciano,US Cremonese,Serie A,Right-Back,7000000,15000,7,2025,87,Transfermarkt; estimation salaire
+SA:457:144651:faris-moumbagna,Faris Moumbagna,US Cremonese,Serie A,Centre-Forward,7000000,15000,7,2025,87,Transfermarkt; estimation salaire
+SA:457:86045:federico-baschirotto,Federico Baschirotto,US Cremonese,Serie A,Centre-Back,7000000,15000,7,2025,87,Transfermarkt; estimation salaire
+SA:457:57805:youssef-maleh,Youssef Maleh,US Cremonese,Serie A,Central Midfield,6000000,13500,7,2025,87,Transfermarkt; estimation salaire
+SA:457:45711:martin-payero,Martín Payero,US Cremonese,Serie A,Central Midfield,7000000,15000,7,2025,87,Transfermarkt; estimation salaire
+SA:471:2178:giacomo-satalino,Giacomo Satalino,US Sassuolo Calcio,Serie A,Goalkeeper,500000,2000,7,2025,58,Transfermarkt; estimation
+SA:471:41384:stefano-turati,Stefano Turati,US Sassuolo Calcio,Serie A,Goalkeeper,8000000,21500,7,2019,87,Transfermarkt; estimation salaire
+SA:471:81179:arijanet-muric,Arijanet Muric,US Sassuolo Calcio,Serie A,Goalkeeper,7500000,20500,7,2025,87,Transfermarkt; estimation salaire
+SA:471:176750:gioele-zacchi,Gioele Zacchi,US Sassuolo Calcio,Serie A,Goalkeeper,500000,2000,7,2025,58,Transfermarkt; estimation
+SA:471:288538:lorenzo-nyarko,Lorenzo Nyarko,US Sassuolo Calcio,Serie A,Goalkeeper,500000,2000,7,2025,58,Transfermarkt; estimation
+SA:471:1902:filippo-romagna,Filippo Romagna,US Sassuolo Calcio,Serie A,Defence,3500000,14500,7,2017,87,Transfermarkt; estimation salaire
+SA:471:177039:edoardo-pieragnolo,Edoardo Pieragnolo,US Sassuolo Calcio,Serie A,Defence,5000000,18000,7,2023,87,Transfermarkt; estimation salaire
+SA:471:189153:tarik-muharemovic,Tarik Muharemović,US Sassuolo Calcio,Serie A,Defence,18000000,37500,7,2024,87,Transfermarkt; estimation salaire
+SA:471:246656:pedro-felipe,Pedro Felipe,US Sassuolo Calcio,Serie A,Defence,5000000,18000,7,2025,87,Transfermarkt; estimation salaire
+SA:471:289601:tommaso-macchioni,Tommaso Macchioni,US Sassuolo Calcio,Serie A,Defence,500000,2000,7,2025,58,Transfermarkt; estimation
+SA:471:290380:luca-barani,Luca Barani,US Sassuolo Calcio,Serie A,Defence,500000,2000,7,2025,58,Transfermarkt; estimation
+SA:471:295707:giorgio-vezzosi,Giorgio Vezzosi,US Sassuolo Calcio,Serie A,Defence,500000,2000,7,2025,58,Transfermarkt; estimation
+SA:471:44033:kristian-thorstvedt,Kristian Thorstvedt,US Sassuolo Calcio,Serie A,Midfield,18000000,37500,7,2022,87,Transfermarkt; estimation salaire
+SA:471:150821:edoardo-iannoni,Edoardo Iannoni,US Sassuolo Calcio,Serie A,Midfield,6000000,19500,7,2025,87,Transfermarkt; estimation salaire
+SA:471:172183:ismael-kone,Ismael Kone,US Sassuolo Calcio,Serie A,Midfield,16000000,35000,7,2025,87,Transfermarkt; estimation salaire
+SA:471:175891:cristian-volpato,Cristian Volpato,US Sassuolo Calcio,Serie A,Midfield,12000000,29500,7,2023,87,Transfermarkt; estimation salaire
+SA:471:289603:christian-frangella,Christian Frangella,US Sassuolo Calcio,Serie A,Midfield,700000,4000,7,2025,58,Transfermarkt; estimation
+SA:471:295706:jeffrey-baffoh,Jeffrey Baffoh,US Sassuolo Calcio,Serie A,Midfield,700000,4000,7,2025,58,Transfermarkt; estimation
+SA:471:111561:luca-moro,Luca Moro,US Sassuolo Calcio,Serie A,Offence,7000000,21500,7,2025,87,Transfermarkt; estimation salaire
+SA:471:161370:m-bala-nzola,M'Bala Nzola,US Sassuolo Calcio,Serie A,Offence,8000000,23500,7,2025,87,Transfermarkt; estimation salaire
+SA:471:123103:woyo-coulibaly,Woyo Coulibaly,US Sassuolo Calcio,Serie A,Right-Back,6000000,19500,7,2025,87,Transfermarkt; estimation salaire
+SA:471:122407:josh-doig,Josh Doig,US Sassuolo Calcio,Serie A,Left-Back,15000000,33500,1,2024,87,Transfermarkt; estimation salaire
+SA:471:122340:aster-vranckx,Aster Vranckx,US Sassuolo Calcio,Serie A,Central Midfield,10000000,26500,7,2025,87,Transfermarkt; estimation salaire
+SA:471:117370:fali-cande,Fali Candé,US Sassuolo Calcio,Serie A,Centre-Back,5000000,18000,7,2025,87,Transfermarkt; estimation salaire
+SA:471:105441:sebastian-walukiewicz,Sebastian Walukiewicz,US Sassuolo Calcio,Serie A,Centre-Back,9000000,25000,7,2025,87,Transfermarkt; estimation salaire
+SA:471:53403:jay-idzes,Jay Idzes,US Sassuolo Calcio,Serie A,Centre-Back,12000000,29500,7,2025,87,Transfermarkt; estimation salaire
+SA:471:8822:armand-lauriente,Armand Lauriente,US Sassuolo Calcio,Serie A,Left Winger,18000000,37500,7,2022,87,Transfermarkt; estimation salaire
+SA:471:3438:nemanja-matic,Nemanja Matić,US Sassuolo Calcio,Serie A,Defensive Midfield,2000000,70000,7,2025,95,Transfermarkt; Capology
+SA:471:2202:domenico-berardi,Domenico Berardi,US Sassuolo Calcio,Serie A,Right Winger,14000000,106923,7,2012,95,Transfermarkt; Capology
+SA:471:2016:andrea-pinamonti,Andrea Pinamonti,US Sassuolo Calcio,Serie A,Centre-Forward,15000000,33500,7,2023,87,Transfermarkt; estimation salaire
+SA:471:238:ulisses-garcia,Ulisses Garcia,US Sassuolo Calcio,Serie A,Left-Back,5000000,18000,7,2025,87,Transfermarkt; estimation salaire
+SA:471:250948:darryl-bakola,Darryl Bakola,US Sassuolo Calcio,Serie A,Attacking Midfield,3000000,13500,7,2025,87,Transfermarkt; estimation salaire
+SA:471:192659:alieu-fadera,Alieu Fadera,US Sassuolo Calcio,Serie A,Left Winger,10000000,26500,7,2025,87,Transfermarkt; estimation salaire
+SA:471:189844:luca-lipani,Luca Lipani,US Sassuolo Calcio,Serie A,Defensive Midfield,8000000,23500,7,2023,87,Transfermarkt; estimation salaire
+SA:471:147020:daniel-boloca,Daniel Boloca,US Sassuolo Calcio,Serie A,Central Midfield,9000000,25000,7,2023,87,Transfermarkt; estimation salaire
+SA:487:2108:simone-scuffet,Simone Scuffet,AC Pisa 1909,Serie A,Goalkeeper,2500000,8000,7,2025,87,Transfermarkt; estimation salaire
+SA:487:2142:nicolas,Nicolas,AC Pisa 1909,Serie A,Goalkeeper,300000,1500,7,2021,66,Transfermarkt; estimation salaire
+SA:487:23318:adrian-semper,Adrian Šemper,AC Pisa 1909,Serie A,Goalkeeper,5000000,12000,7,2024,87,Transfermarkt; estimation salaire
+SA:487:291140:tommaso-guizzo,Tommaso Guizzo,AC Pisa 1909,Serie A,Goalkeeper,500000,1500,7,2025,58,Transfermarkt; estimation
+SA:487:292472:matteo-luppichini,Matteo Luppichini,AC Pisa 1909,Serie A,Goalkeeper,500000,1500,7,2025,58,Transfermarkt; estimation
+SA:487:2148:antonio-caracciolo,Antonio Caracciolo,AC Pisa 1909,Serie A,Defence,1200000,3500,9,2020,87,Transfermarkt; estimation salaire
+SA:487:2490:simone-canestrelli,Simone Canestrelli,AC Pisa 1909,Serie A,Defence,6000000,14500,7,2023,87,Transfermarkt; estimation salaire
+SA:487:3064:arturo-calabresi,Arturo Calabresi,AC Pisa 1909,Serie A,Defence,2500000,9000,7,2022,87,Transfermarkt; estimation salaire
+SA:487:165887:samuele-angori,Samuele Angori,AC Pisa 1909,Serie A,Defence,7000000,15500,7,2024,87,Transfermarkt; estimation salaire
+SA:487:191977:felipe-loyola,Felipe Loyola,AC Pisa 1909,Serie A,Defence,12000000,21500,7,2025,87,Transfermarkt; estimation salaire
+SA:487:206658:francesco-coppola,Francesco Coppola,AC Pisa 1909,Serie A,Defence,1500000,4000,7,2025,87,Transfermarkt; estimation salaire
+SA:487:213265:raul-albiol,Raúl Albiol,AC Pisa 1909,Serie A,Defence,500000,45000,7,2025,95,Transfermarkt; Capology
+SA:487:260722:rosen-bozhinov,Rosen Bozhinov,AC Pisa 1909,Serie A,Defence,2000000,8000,7,2025,76,Transfermarkt; estimation
+SA:487:267901:daniel-denoon,Daniel Denoon,AC Pisa 1909,Serie A,Defence,1000000,3500,7,2025,58,Transfermarkt; estimation
+SA:487:420:matteo-tramoni,Mattéo Tramoni,AC Pisa 1909,Serie A,Midfield,10000000,19500,8,2022,87,Transfermarkt; estimation salaire
+SA:487:1956:mehdi-leris,Mehdi Leris,AC Pisa 1909,Serie A,Midfield,3000000,10000,7,2025,87,Transfermarkt; estimation salaire
+SA:487:16265:michel-aebischer,Michel Aebischer,AC Pisa 1909,Serie A,Midfield,7000000,15500,7,2025,87,Transfermarkt; estimation salaire
+SA:487:56647:marius-mihai-marin,Marius Mihai Marin,AC Pisa 1909,Serie A,Midfield,5000000,13000,8,2018,87,Transfermarkt; estimation salaire
+SA:487:130695:malthe-hojholt,Malthe Hojholt,AC Pisa 1909,Serie A,Midfield,4000000,11500,7,2024,87,Transfermarkt; estimation salaire
+SA:487:191583:gabriele-piccinini,Gabriele Piccinini,AC Pisa 1909,Serie A,Midfield,3000000,10000,7,2023,87,Transfermarkt; estimation salaire
+SA:487:286825:brando-bettazzi,Brando Bettazzi,AC Pisa 1909,Serie A,Midfield,500000,1500,7,2025,58,Transfermarkt; estimation
+SA:487:286834:daniel-battistella,Daniel Battistella,AC Pisa 1909,Serie A,Midfield,500000,1500,7,2025,58,Transfermarkt; estimation
+SA:487:2436:stefano-moreo,Stefano Moreo,AC Pisa 1909,Serie A,Offence,1500000,4000,7,2023,87,Transfermarkt; estimation salaire
+SA:487:56853:idrissa-toure,Idrissa Touré,AC Pisa 1909,Serie A,Offence,3000000,10000,7,2021,87,Transfermarkt; estimation salaire
+SA:487:182274:samuel-iling-junior,Samuel Iling-Junior,AC Pisa 1909,Serie A,Offence,12000000,21500,7,2025,87,Transfermarkt; estimation salaire
+SA:487:203270:lorran,Lorran,AC Pisa 1909,Serie A,Offence,12000000,21500,7,2025,87,Transfermarkt; estimation salaire
+SA:487:216210:rafiu-durosinmi,Rafiu Durosinmi,AC Pisa 1909,Serie A,Offence,8000000,17000,7,2025,87,Transfermarkt; estimation salaire
+SA:487:265504:lorenzo-tosi,Lorenzo Tosi,AC Pisa 1909,Serie A,Offence,500000,1500,7,2025,58,Transfermarkt; estimation
+SA:487:283745:roberts-bocs,Roberts Bočs,AC Pisa 1909,Serie A,Offence,500000,1500,7,2025,58,Transfermarkt; estimation
+SA:487:114025:filip-stojilkovic,Filip Stojilković,AC Pisa 1909,Serie A,Centre-Forward,3000000,10000,7,2025,87,Transfermarkt; estimation salaire
+SA:487:7690:calvin-stengs,Calvin Stengs,AC Pisa 1909,Serie A,Attacking Midfield,10000000,19500,7,2025,87,Transfermarkt; estimation salaire
+SA:487:2037:juan-cuadrado,Juan Cuadrado,AC Pisa 1909,Serie A,Right Midfield,1000000,55000,7,2025,95,Transfermarkt; Capology
+SA:487:213819:henrik-meister,Henrik Meister,AC Pisa 1909,Serie A,Centre-Forward,5000000,13000,7,2025,87,Transfermarkt; estimation salaire
+SA:487:206715:ebenezer-akinsanmiro,Ebenezer Akinsanmiro,AC Pisa 1909,Serie A,Central Midfield,7000000,15500,7,2025,87,Transfermarkt; estimation salaire
+SA:487:188117:isak-vural,Isak Vural,AC Pisa 1909,Serie A,Attacking Midfield,4000000,11500,7,2025,87,Transfermarkt; estimation salaire
+SA:586:2684:alberto-paleari,Alberto Paleari,Torino FC,Serie A,Goalkeeper,700000,4000,7,2025,66,Transfermarkt; estimation salaire
+SA:586:97893:franco-israel,Franco Israel,Torino FC,Serie A,Goalkeeper,6000000,20500,7,2025,87,Transfermarkt; estimation salaire
+SA:586:217847:lapo-siviero,Lapo Siviero,Torino FC,Serie A,Goalkeeper,500000,2000,7,2025,66,Transfermarkt; estimation salaire
+SA:586:38548:marcus-pedersen,Marcus Pedersen,Torino FC,Serie A,Defence,10000000,30000,8,2024,87,Transfermarkt; estimation salaire
+SA:586:265154:rafa-obrador,Rafa Obrador,Torino FC,Serie A,Defence,5000000,20000,7,2025,87,Transfermarkt; estimation salaire
+SA:586:290178:mattia-pellini,Mattia Pellini,Torino FC,Serie A,Defence,500000,2500,7,2025,66,Transfermarkt; estimation salaire
+SA:586:7843:nikola-vlasic,Nikola Vlašić,Torino FC,Serie A,Midfield,15000000,38000,8,2022,87,Transfermarkt; estimation salaire
+SA:586:273396:sergiu-perciun,Sergiu Perciun,Torino FC,Serie A,Midfield,1500000,6500,7,2025,87,Transfermarkt; estimation salaire

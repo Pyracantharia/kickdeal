@@ -1,0 +1,19 @@
+team_key,name,league,country,transfer_budget_eur,confidence_score,estimation_basis
+BL1:1:1-fc-koln,1. FC Köln,Bundesliga,Germany,12000000,78,Budget club 2025-2026; activité transferts 2026-2027; estimation
+BL1:2:tsg-1899-hoffenheim,TSG 1899 Hoffenheim,Bundesliga,Germany,35000000,80,Budget club 2025-2026; solde transferts Transfermarkt 2026-2027
+BL1:3:bayer-04-leverkusen,Bayer 04 Leverkusen,Bundesliga,Germany,70000000,85,Budget club 2025-2026; ventes et solde Transfermarkt 2026-2027
+BL1:4:borussia-dortmund,Borussia Dortmund,Bundesliga,Germany,65000000,85,Budget club 2025-2026; dépenses et solde Transfermarkt 2026-2027
+BL1:5:fc-bayern-munchen,FC Bayern München,Bundesliga,Germany,120000000,88,Budget club 2025-2026; puissance financière; activité Transfermarkt 2026-2027
+BL1:7:hamburger-sv,Hamburger SV,Bundesliga,Germany,10000000,75,Budget club 2025-2026; activité transferts 2026-2027; estimation
+BL1:10:vfb-stuttgart,VfB Stuttgart,Bundesliga,Germany,45000000,83,Budget club 2025-2026; solde Transfermarkt 2026-2027
+BL1:11:vfl-wolfsburg,VfL Wolfsburg,Bundesliga,Germany,30000000,74,Budget club 2025-2026; historique de dépenses; estimation
+BL1:12:sv-werder-bremen,SV Werder Bremen,Bundesliga,Germany,25000000,80,Budget club 2025-2026; solde Transfermarkt 2026-2027
+BL1:15:1-fsv-mainz-05,1. FSV Mainz 05,Bundesliga,Germany,20000000,80,Budget club 2025-2026; solde Transfermarkt 2026-2027
+BL1:16:fc-augsburg,FC Augsburg,Bundesliga,Germany,18000000,79,Budget club 2025-2026; activité Transfermarkt 2026-2027
+BL1:17:sc-freiburg,SC Freiburg,Bundesliga,Germany,25000000,82,Budget club 2025-2026; solde Transfermarkt 2026-2027
+BL1:18:borussia-monchengladbach,Borussia Mönchengladbach,Bundesliga,Germany,25000000,80,Budget club 2025-2026; solde positif Transfermarkt 2026-2027
+BL1:19:eintracht-frankfurt,Eintracht Frankfurt,Bundesliga,Germany,70000000,86,Budget club 2025-2026; fortes ventes; solde Transfermarkt 2026-2027
+BL1:20:fc-st-pauli-1910,FC St. Pauli 1910,Bundesliga,Germany,7000000,70,Budget club 2025-2026; capacité financière estimée
+BL1:28:1-fc-union-berlin,1. FC Union Berlin,Bundesliga,Germany,20000000,79,Budget club 2025-2026; activité Transfermarkt 2026-2027
+BL1:44:1-fc-heidenheim-1846,1. FC Heidenheim 1846,Bundesliga,Germany,6000000,70,Budget club 2025-2026; capacité financière estimée
+BL1:721:rb-leipzig,RB Leipzig,Bundesliga,Germany,85000000,86,Budget club 2025-2026; fortes ventes; solde Transfermarkt 2026-2027

@@ -13,9 +13,9 @@ export function ClubLogo({ club }: { club: ClubDetail }) {
       <CircleImage
         src={club.logoUrl}
         alt={club.name}
-        className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border-2 border-brand-cyan bg-white/10 shadow-[0_0_28px_rgba(0,245,212,0.22)]"
-        sizes="80px"
-        imageClassName="object-contain p-2"
+        className="relative h-24 w-24 shrink-0 overflow-hidden rounded-3xl border border-brand-cyan/40 bg-white/10 shadow-[0_0_40px_rgba(0,245,212,0.22)]"
+        sizes="96px"
+        imageClassName="object-contain p-3"
         fallback={<ClubLogoFallback club={club} />}
       />
     )
@@ -26,46 +26,39 @@ export function ClubLogo({ club }: { club: ClubDetail }) {
 
 function ClubLogoFallback({ club }: { club: ClubDetail }) {
   return (
-    <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 border-brand-cyan bg-white/10 text-3xl font-bold text-white shadow-[0_0_28px_rgba(0,245,212,0.22)]">
+    <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-3xl border border-brand-cyan/40 bg-white/10 text-4xl font-black text-white shadow-[0_0_40px_rgba(0,245,212,0.22)]">
       {(club.logo || club.name.charAt(0)).toUpperCase()}
     </div>
   )
 }
 
-export function InfoCard({ label, value, tone = 'cyan' }: { label: string; value: string; tone?: Tone }) {
-  const styles = tone === 'cyan'
-    ? 'border-brand-cyan/50 bg-brand-cyan/10 text-brand-cyan'
-    : 'border-brand-purple/50 bg-brand-purple/12 text-brand-purple'
-
+export function InfoCard({ label, value }: { label: string; value: string; tone?: Tone }) {
   return (
-    <div className={`min-w-28 rounded-lg border-2 px-3 py-2 text-center ${styles}`}>
-      <p className="text-xs text-white/75">{label}</p>
-      <p className="text-lg font-bold">{value}</p>
+    <div className="rounded-2xl border border-brand-cyan/30 bg-[#071722]/95 px-4 py-3 shadow-xl shadow-black/25 backdrop-blur">
+      <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-white/45">{label}</p>
+      <p className="mt-1 text-2xl font-black leading-none text-brand-cyan">{value}</p>
     </div>
   )
 }
 
-export function StatCard({ icon, label, value, tone = 'cyan' }: { icon: React.ReactNode; label: string; value: number; tone?: Tone }) {
-  const styles = tone === 'cyan'
-    ? 'border-brand-cyan/35 bg-brand-cyan/10 text-brand-cyan'
-    : 'border-brand-purple/35 bg-brand-purple/12 text-brand-purple'
-
+export function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: number; tone?: Tone }) {
   return (
-    <div className={`rounded-lg border-2 p-4 flex flex-col items-center gap-2 text-center transition hover:-translate-y-0.5 hover:border-white/35 ${styles}`}>
-      <div>{icon}</div>
-      <p className="text-2xl font-bold">{value}</p>
-      <p className="text-xs text-white/75">{label}</p>
+    <div className="group relative overflow-hidden rounded-3xl border border-brand-cyan/28 bg-[#071722]/95 p-4 shadow-xl shadow-black/30 transition hover:-translate-y-1 hover:border-brand-cyan/55 hover:shadow-brand-cyan/10">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(0,245,212,0.12),transparent_42%)] opacity-80 transition group-hover:opacity-100" />
+      <div className="relative flex items-start justify-between gap-3">
+        <div className="rounded-2xl border border-brand-cyan/22 bg-brand-cyan/10 p-2.5 text-brand-cyan">{icon}</div>
+        <p className="text-3xl font-black leading-none text-white">{value}</p>
+      </div>
+      <p className="relative mt-5 text-xs font-bold uppercase tracking-[0.16em] text-white/55">{label}</p>
     </div>
   )
 }
 
-export function FinanceCard({ label, value, tone = 'cyan' }: { label: string; value: string; tone?: Tone }) {
-  const valueColor = tone === 'cyan' ? 'text-brand-cyan' : 'text-brand-purple'
-
+export function FinanceCard({ label, value }: { label: string; value: string; tone?: Tone }) {
   return (
-    <div className="rounded-lg border border-white/10 bg-white/5 p-4 text-center">
-      <p className="text-xs text-white/70 mb-2">{label}</p>
-      <p className={`text-2xl font-bold ${valueColor}`}>{value}</p>
+    <div className="rounded-3xl border border-brand-cyan/24 bg-[#061923]/95 p-4 shadow-xl shadow-black/20">
+      <p className="mb-3 min-h-8 text-[0.68rem] font-bold uppercase leading-4 tracking-[0.16em] text-white/45">{label}</p>
+      <p className="whitespace-nowrap text-2xl font-black leading-none text-brand-cyan 2xl:text-3xl">{value}</p>
     </div>
   )
 }
@@ -76,7 +69,6 @@ export function ActionCard({
   icon,
   href,
   onClick,
-  tone = 'cyan',
 }: {
   title: string
   description: string
@@ -85,20 +77,19 @@ export function ActionCard({
   onClick?: () => void
   tone?: Tone
 }) {
-  const styles = tone === 'cyan'
-    ? 'border-brand-cyan/40 bg-[#0b202a] hover:border-brand-cyan/70 hover:bg-[#0f2a35]'
-    : 'border-brand-purple/40 bg-[#191629] hover:border-brand-purple/70 hover:bg-[#211b35]'
-  const iconColor = tone === 'cyan' ? 'text-brand-cyan' : 'text-brand-purple'
-
   const content = (
-    <div className={`rounded-lg border-2 p-4 transition-all cursor-pointer group ${styles}`}>
-      <div className="flex items-center gap-4">
-        <div className={iconColor}>{icon}</div>
-        <div className="flex-1">
-          <p className="font-semibold text-white">{title}</p>
-          <p className="text-sm text-white/75">{description}</p>
+    <div className="group relative min-h-44 cursor-pointer overflow-hidden rounded-3xl border border-brand-cyan/32 bg-[#071722]/95 p-5 shadow-2xl shadow-black/30 transition-all hover:-translate-y-1 hover:border-brand-cyan/65 hover:shadow-brand-cyan/12">
+      <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-white/5 transition group-hover:scale-125" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,rgba(0,245,212,0.10),transparent_44%)]" />
+      <div className="relative flex h-full flex-col justify-between gap-6">
+        <div className="flex items-start justify-between gap-4">
+          <div className="rounded-2xl border border-brand-cyan/30 bg-brand-cyan/10 p-3 text-brand-cyan">{icon}</div>
+          <span className="text-2xl text-white/35 transition group-hover:translate-x-1 group-hover:text-white">→</span>
         </div>
-        <span className={`${iconColor} opacity-0 group-hover:opacity-100 transition-opacity`}>→</span>
+        <div>
+          <p className="text-xl font-black text-white">{title}</p>
+          <p className="mt-2 text-sm leading-5 text-white/58">{description}</p>
+        </div>
       </div>
     </div>
   )

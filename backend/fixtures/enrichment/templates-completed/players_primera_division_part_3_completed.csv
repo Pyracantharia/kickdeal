@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+PD:92:272954:luken-beitia,Luken Beitia,Real Sociedad de Fútbol,Primera Division,Defence,300000,5000,7,2025,58,estimation
+PD:92:3259:goncalo-guedes,Gonçalo Guedes,Real Sociedad de Fútbol,Primera Division,Midfield,10000000,100000,7,2025,94,Transfermarkt; Capology
+PD:92:48555:takefusa-kubo,Takefusa Kubo,Real Sociedad de Fútbol,Primera Division,Midfield,50000000,105769,7,2022,94,Transfermarkt; Capology
+PD:92:82516:luka-sucic,Luka Sučić,Real Sociedad de Fútbol,Primera Division,Midfield,18000000,32200,8,2024,86,Transfermarkt; estimation salaire
+PD:92:180137:mikel-oyarzabal,Mikel Oyarzabal,Real Sociedad de Fútbol,Primera Division,Midfield,25000000,120192,7,2015,94,Transfermarkt; Capology
+PD:92:203292:wesley-gassova,Wesley Gassova,Real Sociedad de Fútbol,Primera Division,Midfield,12000000,25900,7,2026,86,Transfermarkt; estimation salaire
+PD:92:263820:jon-gorrotxategi,Jon Gorrotxategi,Real Sociedad de Fútbol,Primera Division,Midfield,8000000,20900,7,2025,86,Transfermarkt; estimation salaire
+PD:92:279952:alex-lebarbier,Alex Lebarbier,Real Sociedad de Fútbol,Primera Division,Midfield,300000,5000,7,2025,58,estimation
+PD:92:283202:tomy-carbonell,Tomy Carbonell,Real Sociedad de Fútbol,Primera Division,Midfield,400000,5500,7,2025,58,estimation
+PD:92:283802:lander,Lander,Real Sociedad de Fútbol,Primera Division,Midfield,300000,5000,7,2025,58,estimation
+PD:92:285866:ibai-aguirre,Ibai Aguirre,Real Sociedad de Fútbol,Primera Division,Midfield,250000,4700,7,2025,58,estimation
+PD:92:182319:orri-oskarsson,Orri Oskarsson,Real Sociedad de Fútbol,Primera Division,Offence,20000000,34100,8,2024,86,Transfermarkt; estimation salaire
+PD:92:272953:arkaitz-mariezkurrena,Arkaitz Mariezkurrena,Real Sociedad de Fútbol,Primera Division,Offence,1000000,7800,7,2025,76,Transfermarkt; estimation
+PD:92:272957:alex-marchal,Alex Marchal,Real Sociedad de Fútbol,Primera Division,Offence,300000,5000,7,2025,58,estimation
+PD:92:277466:dani-diaz,Dani Díaz,Real Sociedad de Fútbol,Primera Division,Offence,800000,7100,7,2025,76,Transfermarkt; estimation
+PD:92:279958:ochieng,Ochieng,Real Sociedad de Fútbol,Primera Division,Offence,300000,5000,7,2025,58,estimation
+PD:92:283805:gorka-carrera,Gorka Carrera,Real Sociedad de Fútbol,Primera Division,Offence,250000,4700,7,2025,58,estimation
+PD:92:172786:pablo-marin,Pablo Marin,Real Sociedad de Fútbol,Primera Division,Attacking Midfield,7000000,19500,7,2022,86,Transfermarkt; estimation salaire
+PD:92:171885:jon-karrikaburu,Jon Karrikaburu,Real Sociedad de Fútbol,Primera Division,Centre-Forward,2500000,11700,7,2021,86,Transfermarkt; estimation salaire
+PD:92:170540:arsen-zakharyan,Arsen Zakharyan,Real Sociedad de Fútbol,Primera Division,Attacking Midfield,12000000,25900,8,2023,86,Transfermarkt; estimation salaire
+PD:92:156615:benat-turrientes,Beñat Turrientes,Real Sociedad de Fútbol,Primera Division,Central Midfield,10000000,23500,7,2021,86,Transfermarkt; estimation salaire
+PD:92:141571:jon-aramburu,Jon Aramburu,Real Sociedad de Fútbol,Primera Division,Right-Back,15000000,29200,7,2023,86,Transfermarkt; estimation salaire
+PD:92:101182:ander-barrenetxea,Ander Barrenetxea,Real Sociedad de Fútbol,Primera Division,Left Winger,20000000,34100,7,2018,86,Transfermarkt; estimation salaire
+PD:92:100129:aihen-munoz,Aihen Muñoz,Real Sociedad de Fútbol,Primera Division,Left-Back,6000000,18000,7,2019,86,Transfermarkt; estimation salaire
+PD:92:77734:yangel-herrera,Yangel Herrera,Real Sociedad de Fútbol,Primera Division,Central Midfield,18000000,76923,7,2025,94,Transfermarkt; Capology
+PD:92:33615:brais-mendez,Brais Méndez,Real Sociedad de Fútbol,Primera Division,Attacking Midfield,18000000,86538,7,2022,94,Transfermarkt; Capology
+PD:92:33148:carlos-soler,Carlos Soler,Real Sociedad de Fútbol,Primera Division,Central Midfield,16000000,96154,7,2025,94,Transfermarkt; Capology
+PD:92:164:sergio-gomez,Sergio Gómez,Real Sociedad de Fútbol,Primera Division,Right Winger,15000000,29200,7,2024,86,Transfermarkt; estimation salaire
+PD:92:29:igor-zubeldia,Igor Zubeldía,Real Sociedad de Fútbol,Primera Division,Centre-Back,18000000,32200,7,2017,86,Transfermarkt; estimation salaire
+PD:92:27:aritz-elustondo,Aritz Elustondo,Real Sociedad de Fútbol,Primera Division,Centre-Back,3500000,13800,7,2015,86,Transfermarkt; estimation salaire
+PD:92:11:alvaro-odriozola,Álvaro Odriozola,Real Sociedad de Fútbol,Primera Division,Right-Back,3000000,12800,7,2023,86,Transfermarkt; estimation salaire
+PD:92:246275:inaki-ruperez,Iñaki Rupérez,Real Sociedad de Fútbol,Primera Division,Right-Back,2500000,11700,7,2025,86,Transfermarkt; estimation salaire
+PD:92:245442:jon-martin,Jon Martín,Real Sociedad de Fútbol,Primera Division,Centre-Back,10000000,23500,7,2024,86,Transfermarkt; estimation salaire
+PD:92:176828:alberto-dadie,Alberto Dadie,Real Sociedad de Fútbol,Primera Division,Right Winger,1200000,8400,7,2025,86,Transfermarkt; estimation salaire
+PD:94:146023:arnau-tenas,Arnau Tenas,Villarreal CF,Primera Division,Goalkeeper,4000000,14500,7,2026,86,Transfermarkt; estimation salaire
+PD:94:150546:diego-conde,Diego Conde,Villarreal CF,Primera Division,Goalkeeper,3000000,12600,7,2024,86,Transfermarkt; estimation salaire
+PD:94:178718:luiz-junior,Luiz Junior,Villarreal CF,Primera Division,Goalkeeper,12000000,25600,8,2024,86,Transfermarkt; estimation salaire
+PD:94:188765:ruben-gomez,Ruben Gomez,Villarreal CF,Primera Division,Goalkeeper,300000,4900,7,2025,58,estimation
+PD:94:814:logan-costa,Logan Costa,Villarreal CF,Primera Division,Defence,20000000,37400,8,2024,86,Transfermarkt; estimation salaire
+PD:94:177823:alex-freeman,Alex Freeman,Villarreal CF,Primera Division,Defence,7000000,21400,7,2026,86,Transfermarkt; estimation salaire
+PD:94:178769:renato-veiga,Renato Veiga,Villarreal CF,Primera Division,Defence,35000000,115385,7,2026,94,Transfermarkt; Capology
+PD:94:229014:sierra-arnal,Sierra Arnal,Villarreal CF,Primera Division,Defence,500000,6500,7,2025,58,estimation
+PD:94:249095:dani-budesca,Dani Budesca,Villarreal CF,Primera Division,Defence,400000,6000,7,2025,58,estimation
+PD:94:272229:valou,Valou,Villarreal CF,Primera Division,Defence,300000,5400,7,2025,58,estimation
+PD:94:110:thomas-partey,Thomas Partey,Villarreal CF,Primera Division,Midfield,10000000,115385,8,2025,94,Transfermarkt; Capology
+PD:94:633:pape-gueye,Pape Gueye,Villarreal CF,Primera Division,Midfield,40000000,96154,7,2024,94,Transfermarkt; Capology
+PD:94:113175:tajon-buchanan,Tajon Buchanan,Villarreal CF,Primera Division,Midfield,12000000,28400,7,2025,86,Transfermarkt; estimation salaire
+PD:94:213263:santi-comesana,Santi Comesaña,Villarreal CF,Primera Division,Midfield,12000000,28400,7,2023,86,Transfermarkt; estimation salaire
+PD:94:273016:alassane-diatta,Alassane Diatta,Villarreal CF,Primera Division,Midfield,800000,7800,7,2025,76,Transfermarkt; estimation
+PD:94:285597:hugo-lopez,Hugo López,Villarreal CF,Primera Division,Midfield,500000,6500,7,2025,58,estimation
+PD:94:289770:carlos-macia,Carlos Macià,Villarreal CF,Primera Division,Midfield,400000,6000,7,2025,58,estimation
+PD:94:8412:nicolas-pepe,Nicolas Pépé,Villarreal CF,Primera Division,Offence,10000000,25800,8,2024,86,Transfermarkt; estimation salaire
+PD:94:177826:tani-oluwaseyi,Tani Oluwaseyi,Villarreal CF,Primera Division,Offence,7000000,21400,7,2025,86,Transfermarkt; estimation salaire
+PD:94:286659:mahamoud-barry,Mahamoud Barry,Villarreal CF,Primera Division,Offence,20000000,37400,7,2025,86,Transfermarkt; estimation salaire
+PD:94:290388:joselillo,Joselillo,Villarreal CF,Primera Division,Offence,400000,6000,7,2025,58,estimation
+PD:94:176758:rafa-marin,Rafa Marin,Villarreal CF,Primera Division,Centre-Back,10000000,25800,7,2025,86,Transfermarkt; estimation salaire
+PD:94:150533:alberto-moleiro,Alberto Moleiro,Villarreal CF,Primera Division,Attacking Midfield,40000000,54700,7,2025,86,Transfermarkt; estimation salaire
+PD:94:136646:georges-mikautadze,Georges Mikautadze,Villarreal CF,Primera Division,Centre-Forward,30000000,105769,8,2025,94,Transfermarkt; Capology
+PD:94:32719:gerard-moreno,Gerard Moreno,Villarreal CF,Primera Division,Centre-Forward,10000000,120000,7,2018,94,Transfermarkt; Capology
+PD:94:32324:alfonso-gonzalez,Alfonso González,Villarreal CF,Primera Division,Left Winger,12000000,28400,7,2025,86,Transfermarkt; estimation salaire
+PD:94:7996:juan-foyth,Juan Foyth,Villarreal CF,Primera Division,Right-Back,18000000,35300,10,2020,86,Transfermarkt; estimation salaire
+PD:94:7936:ayoze-perez,Ayoze Pérez,Villarreal CF,Primera Division,Centre-Forward,10000000,25800,7,2024,86,Transfermarkt; estimation salaire
+PD:94:3198:dani-parejo,Dani Parejo,Villarreal CF,Primera Division,Central Midfield,2500000,105769,8,2020,94,Transfermarkt; Capology
+PD:94:267:alfonso-pedraza,Alfonso Pedraza,Villarreal CF,Primera Division,Left-Back,3500000,15100,7,2016,86,Transfermarkt; estimation salaire
+PD:94:252919:pau-cabanes,Pau Cabanes,Villarreal CF,Primera Division,Centre-Forward,3000000,14000,7,2024,86,Transfermarkt; estimation salaire
+PD:94:244860:willy-kambwala,Willy Kambwala,Villarreal CF,Primera Division,Centre-Back,8000000,23000,7,2024,86,Transfermarkt; estimation salaire
+PD:94:217521:pau-navarro,Pau Navarro,Villarreal CF,Primera Division,Centre-Back,12000000,28400,7,2024,86,Transfermarkt; estimation salaire
+PD:94:212858:santiago-mourino,Santiago Mouriño,Villarreal CF,Primera Division,Centre-Back,15000000,32000,7,2025,86,Transfermarkt; estimation salaire
+PD:94:180289:sergi-cardona,Sergi Cardona,Villarreal CF,Primera Division,Left-Back,12000000,28400,7,2024,86,Transfermarkt; estimation salaire
+PD:95:33137:cristian,Cristian,Valencia CF,Primera Division,Goalkeeper,300000,3700,7,2025,58,estimation
+PD:95:33781:stole-dimitrievski,Stole Dimitrievski,Valencia CF,Primera Division,Goalkeeper,3000000,9700,7,2024,86,Transfermarkt; estimation salaire
+PD:95:172017:julen-agirrezabala,Julen Agirrezabala,Valencia CF,Primera Division,Goalkeeper,12000000,57692,7,2025,94,Transfermarkt; Capology
+PD:95:176253:pere-garcia,Pere Garcia,Valencia CF,Primera Division,Goalkeeper,500000,4500,7,2025,58,estimation
+PD:95:251106:vicent-abril,Vicent Abril,Valencia CF,Primera Division,Goalkeeper,300000,3700,7,2025,58,estimation
+PD:95:30823:eray-comert,Eray Cömert,Valencia CF,Primera Division,Defence,2500000,9800,8,2022,86,Transfermarkt; estimation salaire
+PD:95:46563:renzo-saravia,Renzo Saravia,Valencia CF,Primera Division,Defence,2000000,8900,7,2025,86,Transfermarkt; estimation salaire
+PD:95:202483:marcos-navarro,Marcos Navarro,Valencia CF,Primera Division,Defence,500000,5000,7,2025,58,estimation
+PD:95:288490:panach,Panach,Valencia CF,Primera Division,Defence,300000,4200,7,2025,58,estimation
+PD:95:289513:joel-fontanet,Joel Fontanet,Valencia CF,Primera Division,Defence,300000,4200,7,2025,58,estimation
+PD:95:292529:aaron-mayol,Aaron Mayol,Valencia CF,Primera Division,Defence,250000,3900,7,2025,58,estimation
+PD:95:295680:ruben-munoz,Rubén Muñoz,Valencia CF,Primera Division,Defence,250000,3900,7,2025,58,estimation
+PD:95:30802:filip-ugrinic,Filip Ugrinic,Valencia CF,Primera Division,Midfield,6000000,15100,7,2025,86,Transfermarkt; estimation salaire
+PD:95:229065:javier-navarro,Javier Navarro,Valencia CF,Primera Division,Midfield,500000,5000,7,2025,58,estimation
+PD:95:278431:lucas-nunez,Lucas Núñez,Valencia CF,Primera Division,Midfield,400000,4600,7,2025,58,estimation
+PD:95:271693:marc-jurado,Marc Jurado,Valencia CF,Primera Division,Offence,500000,5000,7,2025,58,estimation
+PD:95:283441:aimar-blazquez,Aimar Blázquez,Valencia CF,Primera Division,Offence,300000,4200,7,2025,58,estimation
+PD:95:136349:largie-ramazani,Largie Ramazani,Valencia CF,Primera Division,Left Winger,12000000,21700,7,2026,86,Transfermarkt; estimation salaire
+PD:95:99811:thierry-correia,Thierry Correia,Valencia CF,Primera Division,Right-Back,10000000,19700,9,2019,86,Transfermarkt; estimation salaire
+PD:95:98572:lucas-beltran,Lucas Beltrán,Valencia CF,Primera Division,Attacking Midfield,8000000,17600,7,2025,86,Transfermarkt; estimation salaire
+PD:95:50907:luis-rioja,Luis Rioja,Valencia CF,Primera Division,Left Winger,1800000,8400,8,2024,86,Transfermarkt; estimation salaire
+PD:95:39104:guido-rodriguez,Guido Rodríguez,Valencia CF,Primera Division,Defensive Midfield,9000000,86538,7,2026,94,Transfermarkt; Capology
+PD:95:37539:andre-almeida,André Almeida,Valencia CF,Primera Division,Attacking Midfield,6000000,15100,8,2022,86,Transfermarkt; estimation salaire
+PD:95:33270:pepelu,Pepelu,Valencia CF,Primera Division,Defensive Midfield,8000000,17600,7,2023,86,Transfermarkt; estimation salaire
+PD:95:33146:gaya,Gaya,Valencia CF,Primera Division,Left-Back,7000000,76923,7,2014,94,Transfermarkt; Capology
+PD:95:33131:dani-raba,Dani Raba,Valencia CF,Primera Division,Right Winger,1200000,7100,7,2025,86,Transfermarkt; estimation salaire
+PD:95:32762:hugo-duro,Hugo Duro,Valencia CF,Primera Division,Centre-Forward,12000000,57692,7,2021,94,Transfermarkt; Capology
+PD:95:32584:unai-nunez,Unai Núñez,Valencia CF,Primera Division,Centre-Back,5000000,13800,7,2025,86,Transfermarkt; estimation salaire
+PD:95:9870:arnaut-danjuma,Arnaut Danjuma,Valencia CF,Primera Division,Left Winger,3000000,10700,7,2025,86,Transfermarkt; estimation salaire
+PD:95:8780:dimitri-foulquier,Dimitri Foulquier,Valencia CF,Primera Division,Right-Back,900000,6300,8,2021,86,Transfermarkt; estimation salaire
+PD:95:8646:baptiste-santamaria,Baptiste Santamaria,Valencia CF,Primera Division,Defensive Midfield,5000000,13800,7,2025,86,Transfermarkt; estimation salaire
+PD:95:8456:mouctar-diakhaby,Mouctar Diakhaby,Valencia CF,Primera Division,Centre-Back,4000000,12300,7,2018,86,Transfermarkt; estimation salaire
+PD:95:7672:umar-sadiq,Umar Sadiq,Valencia CF,Primera Division,Centre-Forward,4000000,12300,7,2025,86,Transfermarkt; estimation salaire
+PD:95:244743:david-otorbi,David Otorbi,Valencia CF,Primera Division,Right Winger,5000000,13800,7,2024,86,Transfermarkt; estimation salaire
+PD:95:181914:mario-dominguez,Mario Dominguez,Valencia CF,Primera Division,Centre-Forward,1800000,8400,7,2024,86,Transfermarkt; estimation salaire
+PD:95:180061:diego-lopez,Diego López,Valencia CF,Primera Division,Right Winger,9000000,18700,7,2023,86,Transfermarkt; estimation salaire
+PD:95:177180:javier-guerra,Javier Guerra,Valencia CF,Primera Division,Central Midfield,25000000,32300,7,2023,86,Transfermarkt; estimation salaire
+PD:95:176602:ruben-iranzo,Ruben Iranzo,Valencia CF,Primera Division,Centre-Back,800000,6000,7,2023,86,Transfermarkt; estimation salaire
+PD:95:176041:cesar-tarrega,Cesar Tarrega,Valencia CF,Primera Division,Centre-Back,12000000,21700,7,2024,86,Transfermarkt; estimation salaire
+PD:95:172108:copete,Copete,Valencia CF,Primera Division,Centre-Back,5000000,13800,7,2025,86,Transfermarkt; estimation salaire
+PD:95:157190:jesus-vazquez-alcalde,Jesus Vazquez Alcalde,Valencia CF,Primera Division,Left-Back,6000000,15100,7,2022,86,Transfermarkt; estimation salaire
+PD:263:283:sivera,Sivera,Deportivo Alavés,Primera Division,Goalkeeper,6000000,7900,7,2017,86,Transfermarkt; estimation salaire
+PD:263:32911:raul-fernandez,Raúl Fernández,Deportivo Alavés,Primera Division,Goalkeeper,800000,3100,7,2024,86,Transfermarkt; estimation salaire
+PD:263:202315:gregoire-swiderski,Gregoire Swiderski,Deportivo Alavés,Primera Division,Goalkeeper,400000,2400,7,2025,58,estimation
+PD:263:253786:ruben-montero,Rubén Montero,Deportivo Alavés,Primera Division,Goalkeeper,250000,2000,7,2025,58,estimation
+PD:263:221356:paco-sanz,Paco Sanz,Deportivo Alavés,Primera Division,Defence,300000,2400,7,2025,58,estimation
+PD:263:226202:angel-perez,Ángel Pérez,Deportivo Alavés,Primera Division,Defence,300000,2400,7,2025,58,estimation
+PD:263:228406:carlos-ballestero,Carlos Ballestero,Deportivo Alavés,Primera Division,Defence,250000,2300,7,2025,58,estimation
+PD:263:273343:yusi,Yusi,Deportivo Alavés,Primera Division,Defence,2000000,5100,7,2025,76,Transfermarkt; estimation
+PD:263:289701:xanet-olaiz,Xanet Oláiz,Deportivo Alavés,Primera Division,Defence,300000,2400,7,2025,58,estimation
+PD:263:146350:calebe,Calebe,Deportivo Alavés,Primera Division,Midfield,500000,2900,7,2025,58,estimation
+PD:263:146969:ville-koski,Ville Koski,Deportivo Alavés,Primera Division,Midfield,3000000,6200,7,2025,86,Transfermarkt; estimation salaire
+PD:263:213262:carles-alena,Carles Aleñá,Deportivo Alavés,Primera Division,Midfield,5000000,8000,1,2025,86,Transfermarkt; estimation salaire
+PD:263:289619:izei-hernandez,Izei Hernández,Deportivo Alavés,Primera Division,Midfield,350000,2500,7,2025,58,estimation
+PD:263:11113:lucas-boye,Lucas Boyé,Deportivo Alavés,Primera Division,Offence,6000000,8700,7,2025,86,Transfermarkt; estimation salaire
+PD:263:151738:ibrahim-diabate,Ibrahim Diabaté,Deportivo Alavés,Primera Division,Offence,1800000,4900,7,2025,76,Transfermarkt; estimation
+PD:263:246154:aitor-manas,Aitor Mañas,Deportivo Alavés,Primera Division,Offence,400000,2600,7,2025,58,estimation
+PD:263:278561:lander-pinillos,Lander Pinillos,Deportivo Alavés,Primera Division,Offence,300000,2400,7,2025,58,estimation
+PD:263:287484:diego-morcillo,Diego Morcillo,Deportivo Alavés,Primera Division,Offence,400000,2600,7,2025,58,estimation
+PD:263:157626:antonio-blanco,Antonio Blanco,Deportivo Alavés,Primera Division,Defensive Midfield,10000000,11400,7,2023,86,Transfermarkt; estimation salaire
+PD:263:144615:jon-pacheco,Jon Pacheco,Deportivo Alavés,Primera Division,Centre-Back,9000000,10800,7,2025,86,Transfermarkt; estimation salaire
+PD:263:119282:victor-parada,Victor Parada,Deportivo Alavés,Primera Division,Left-Back,3000000,6200,7,2024,86,Transfermarkt; estimation salaire
+PD:263:46123:nahuel-tenaglia,Nahuel Tenaglia,Deportivo Alavés,Primera Division,Right-Back,5000000,8000,7,2022,86,Transfermarkt; estimation salaire
+PD:263:45831:facundo-garces,Facundo Garcés,Deportivo Alavés,Primera Division,Centre-Back,4000000,7100,1,2025,86,Transfermarkt; estimation salaire
+PD:263:33622:jonny-otto,Jonny Otto,Deportivo Alavés,Primera Division,null,2500000,5700,7,2025,86,Transfermarkt; estimation salaire
+PD:263:33093:ander-guevara,Ander Guevara,Deportivo Alavés,Primera Division,Central Midfield,5000000,8000,7,2023,86,Transfermarkt; estimation salaire
+PD:263:33092:jon-guridi,Jon Guridi,Deportivo Alavés,Primera Division,Central Midfield,4000000,7100,7,2022,86,Transfermarkt; estimation salaire
+PD:263:28663:carlos-benavidez,Carlos Benavidez,Deportivo Alavés,Primera Division,Defensive Midfield,2500000,5700,7,2022,86,Transfermarkt; estimation salaire
+PD:263:15868:denis-suarez,Denís Suárez,Deportivo Alavés,Primera Division,Attacking Midfield,3000000,6200,7,2025,86,Transfermarkt; estimation salaire
+PD:263:11733:toni-martinez,Toni Martínez,Deportivo Alavés,Primera Division,Centre-Forward,5000000,8000,8,2024,86,Transfermarkt; estimation salaire
+PD:263:8474:mariano-diaz,Mariano Díaz,Deportivo Alavés,Primera Division,Centre-Forward,1800000,4900,7,2025,86,Transfermarkt; estimation salaire
+PD:263:250990:alvaro-garcia,Álvaro García,Deportivo Alavés,Primera Division,Centre-Back,1500000,4500,7,2025,86,Transfermarkt; estimation salaire
+PD:263:244942:egoitz-munoz,Egoitz Muñoz,Deportivo Alavés,Primera Division,Right-Back,500000,2900,7,2025,58,estimation
+PD:263:184988:abde-rebbach,Abde Rebbach,Deportivo Alavés,Primera Division,Left Winger,2500000,5700,7,2023,86,Transfermarkt; estimation salaire
+PD:263:173617:pablo-ibanez-tebar,Pablo Ibáñez Tébar,Deportivo Alavés,Primera Division,Central Midfield,4000000,7100,7,2025,86,Transfermarkt; estimation salaire
+PD:285:23810:matias-dituro,Matías Dituro,Elche CF,Primera Division,Goalkeeper,100000,1500,7,2024,58,estimation
+PD:285:175982:alejandro-iturbe,Alejandro Iturbe,Elche CF,Primera Division,Goalkeeper,1400000,3700,7,2026,86,Transfermarkt; estimation salaire
+PD:285:180898:inaki-pena,Iñaki Peña,Elche CF,Primera Division,Goalkeeper,8000000,8500,7,2025,86,Transfermarkt; estimation salaire
+PD:285:33318:pedro-bigas,Pedro Bigas,Elche CF,Primera Division,Defence,500000,2700,7,2021,58,estimation
+PD:285:123212:david-affengruber,David Affengruber,Elche CF,Primera Division,Defence,20000000,15400,7,2024,86,Transfermarkt; estimation salaire
+PD:285:151557:victor-chust,Víctor Chust,Elche CF,Primera Division,Defence,3500000,6200,7,2026,86,Transfermarkt; estimation salaire
+PD:285:172388:john-chetauya,John Chetauya,Elche CF,Primera Division,Defence,3000000,5800,7,2024,86,Transfermarkt; estimation salaire
+PD:285:213280:adria-pedrosa,Adrià Pedrosa,Elche CF,Primera Division,Defence,7000000,8800,7,2026,86,Transfermarkt; estimation salaire
+PD:285:244544:buba,Buba,Elche CF,Primera Division,Defence,1000000,3500,7,2025,76,Transfermarkt; estimation
+PD:285:271243:bema-sina,Bema Sina,Elche CF,Primera Division,Defence,500000,2700,7,2025,58,estimation
+PD:285:273557:albert-niculaesei,Albert Niculaesei,Elche CF,Primera Division,Defence,300000,2200,7,2025,58,estimation
+PD:285:287898:david-delgado,David Delgado,Elche CF,Primera Division,Defence,300000,2200,7,2025,58,estimation
+PD:285:289716:nico-salvador,Nico Salvador,Elche CF,Primera Division,Defence,300000,2200,7,2025,58,estimation
+PD:285:293874:pablo-felipe,Pablo Felipe,Elche CF,Primera Division,Defence,500000,2700,7,2025,58,estimation
+PD:285:32052:aleix-febas,Aleix Febas,Elche CF,Primera Division,Midfield,3000000,5800,7,2024,86,Transfermarkt; estimation salaire
+PD:285:32281:josan-fernandez,Josán Fernández,Elche CF,Primera Division,Midfield,500000,2700,7,2018,58,estimation
+PD:285:33150:gonzalo-villar,Gonzalo Villar,Elche CF,Primera Division,Midfield,4000000,6600,7,2025,86,Transfermarkt; estimation salaire
+PD:285:159647:marc-aguado,Marc Aguado,Elche CF,Primera Division,Midfield,3500000,6200,7,2025,86,Transfermarkt; estimation salaire
+PD:285:170459:federico-redondo,Federico Redondo,Elche CF,Primera Division,Midfield,10000000,10600,7,2026,86,Transfermarkt; estimation salaire
+PD:285:171148:lucas-cepeda,Lucas Cepeda,Elche CF,Primera Division,Midfield,7000000,8800,7,2026,86,Transfermarkt; estimation salaire
+PD:285:284047:antonio-martinez,Antonio Martínez,Elche CF,Primera Division,Midfield,500000,2700,7,2025,58,estimation
+PD:285:291982:alex-herraiz,Álex Herráiz,Elche CF,Primera Division,Midfield,300000,2200,7,2025,58,estimation
+PD:285:229143:adam,Adam,Elche CF,Primera Division,Offence,300000,2200,7,2025,58,estimation
+PD:285:288222:juan-piera,Juan Piera,Elche CF,Primera Division,Offence,300000,2200,7,2025,58,estimation
+PD:285:290923:alex-sanchez,Álex Sánchez,Elche CF,Primera Division,Offence,300000,2200,7,2025,58,estimation
+PD:285:165143:martim-neto,Martim Neto,Elche CF,Primera Division,Central Midfield,7000000,8800,7,2026,86,Transfermarkt; estimation salaire
+PD:285:137485:german-valera,Germán Valera,Elche CF,Primera Division,Right Winger,4000000,6600,7,2025,86,Transfermarkt; estimation salaire
+PD:285:117813:leo-petrot,Léo Pétrot,Elche CF,Primera Division,Left-Back,2500000,5300,7,2025,86,Transfermarkt; estimation salaire
+PD:285:33843:tete-morente,Tete Morente,Elche CF,Primera Division,Left Winger,3000000,5800,7,2026,86,Transfermarkt; estimation salaire
+PD:285:8214:grady-diangana,Grady Diangana,Elche CF,Primera Division,Right Winger,4000000,6600,7,2025,86,Transfermarkt; estimation salaire
+PD:285:4098:rafael-mir,Rafael Mir,Elche CF,Primera Division,Centre-Forward,5000000,7400,7,2025,86,Transfermarkt; estimation salaire
+PD:285:1760:andre-silva,André Silva,Elche CF,Primera Division,Centre-Forward,5000000,7400,7,2026,86,Transfermarkt; estimation salaire
+PD:285:227023:hector-fort,Héctor Fort,Elche CF,Primera Division,Right-Back,8000000,9500,7,2025,86,Transfermarkt; estimation salaire
+PD:285:214543:piri,Piri,Elche CF,Primera Division,Right Winger,500000,2700,7,2025,58,estimation
+PD:285:206810:yago-santiago,Yago Santiago,Elche CF,Primera Division,Left Winger,1800000,4500,7,2025,86,Transfermarkt; estimation salaire
+PD:285:189369:alvaro-rodriguez,Alvaro Rodriguez,Elche CF,Primera Division,Centre-Forward,12000000,11700,7,2026,86,Transfermarkt; estimation salaire
+PD:298:3173:marc-andre-ter-stegen,Marc-André ter Stegen,Girona FC,Primera Division,Goalkeeper,8000000,230769,7,2026,94,Transfermarkt; Capology
+PD:298:7993:paulo-gazzaniga,Paulo Gazzaniga,Girona FC,Primera Division,Goalkeeper,3000000,8400,7,2022,86,Transfermarkt; estimation salaire
+PD:298:32854:juan-carlos,Juan Carlos,Girona FC,Primera Division,Goalkeeper,200000,2900,7,2019,58,estimation
+PD:298:33614:ruben-blanco,Rubén Blanco,Girona FC,Primera Division,Goalkeeper,1200000,5500,7,2025,86,Transfermarkt; estimation salaire
+PD:298:215549:vladyslav-krapyvtsov,Vladyslav Krapyvtsov,Girona FC,Primera Division,Goalkeeper,4000000,9600,1,2025,86,Transfermarkt; estimation salaire
+PD:298:272525:aleksandar-andreev,Aleksandar Andreev,Girona FC,Primera Division,Goalkeeper,500000,3900,7,2025,58,estimation
+PD:298:180280:casals,Casals,Girona FC,Primera Division,Defence,300000,3600,7,2025,58,estimation
+PD:298:272516:pol-arnau,Pol Arnau,Girona FC,Primera Division,Defence,500000,4300,7,2025,58,estimation
+PD:298:283309:gibert-jordana,Gibert Jordana,Girona FC,Primera Division,Defence,300000,3600,7,2025,58,estimation
+PD:298:288472:salguero,Salguero,Girona FC,Primera Division,Defence,300000,3600,7,2025,58,estimation
+PD:298:3656:axel-witsel,Axel Witsel,Girona FC,Primera Division,Midfield,2500000,67308,7,2025,94,Transfermarkt; Capology
+PD:298:122511:azzedine-ounahi,Azzedine Ounahi,Girona FC,Primera Division,Midfield,15000000,76923,7,2025,94,Transfermarkt; Capology
+PD:298:180175:ricard-artero,Ricard Artero,Girona FC,Primera Division,Midfield,1500000,6700,7,2022,86,Transfermarkt; estimation salaire
+PD:298:251326:lass-kourouma,Lass Kourouma,Girona FC,Primera Division,Midfield,1200000,6100,7,2025,86,Transfermarkt; estimation salaire
+PD:298:272147:papa-ba,Papa Ba,Girona FC,Primera Division,Midfield,800000,5200,7,2025,86,Transfermarkt; estimation salaire
+PD:298:160819:vladyslav-vanat,Vladyslav Vanat,Girona FC,Primera Division,Offence,15000000,21200,8,2025,86,Transfermarkt; estimation salaire
+PD:298:287435:javi-sarasa,Javi Sarasa,Girona FC,Primera Division,Offence,500000,4300,7,2025,58,estimation
+PD:298:102497:ivan-martin,Iván Martín,Girona FC,Primera Division,Attacking Midfield,12000000,18800,7,2023,86,Transfermarkt; estimation salaire
+PD:298:101912:bryan-gil,Bryan Gil,Girona FC,Primera Division,Left Winger,15000000,21200,7,2025,86,Transfermarkt; estimation salaire
+PD:298:32712:david-lopez,David López,Girona FC,Primera Division,Centre-Back,1000000,5700,7,2022,86,Transfermarkt; estimation salaire

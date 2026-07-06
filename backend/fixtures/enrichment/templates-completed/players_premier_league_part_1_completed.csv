@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+PL:57:3189:kepa-arrizabalaga,Kepa Arrizabalaga,Arsenal FC,Premier League,Goalkeeper,10000000,105000,7,2025,94,Transfermarkt; Capology
+PL:57:4832:david-raya,David Raya,Arsenal FC,Premier League,Goalkeeper,40000000,117000,8,2023,94,Transfermarkt; Capology
+PL:57:171455:tommy-setford,Tommy Setford,Arsenal FC,Premier League,Goalkeeper,3000000,28400,7,2024,86,Transfermarkt; estimation salaire
+PL:57:270449:jack-porter,Jack Porter,Arsenal FC,Premier League,Goalkeeper,1500000,13300,7,2024,86,Transfermarkt; estimation salaire
+PL:57:270668:aleksei-fedorushchenko,Aleksei Fedorushchenko,Arsenal FC,Premier League,Goalkeeper,250000,4500,7,2025,86,Transfermarkt; estimation salaire
+PL:57:23128:gabriel-magalhaes,Gabriel Magalhães,Arsenal FC,Premier League,Defence,75000000,175000,9,2020,94,Transfermarkt; Capology
+PL:57:80171:william-saliba,William Saliba,Arsenal FC,Premier League,Defence,90000000,222000,7,2019,94,Transfermarkt; Capology
+PL:57:98816:jurrien-timber,Jurrien Timber,Arsenal FC,Premier League,Defence,55000000,105000,7,2023,94,Transfermarkt; Capology
+PL:57:125674:piero-hincapie,Piero Hincapié,Arsenal FC,Premier League,Defence,50000000,141800,7,2025,86,Transfermarkt; estimation salaire
+PL:57:221784:jaden-dixon,Jaden Dixon,Arsenal FC,Premier League,Defence,500000,6400,7,2025,76,Transfermarkt; estimation
+PL:57:270663:josh-nichols,Josh Nichols,Arsenal FC,Premier League,Defence,1500000,14700,7,2025,76,Transfermarkt; estimation
+PL:57:289765:marli-salmon,Marli Salmon,Arsenal FC,Premier League,Defence,500000,6400,7,2025,76,Transfermarkt; estimation
+PL:57:4032:eberechi-eze,Eberechi Eze,Arsenal FC,Premier League,Midfield,55000000,175000,8,2025,94,Transfermarkt; Capology
+PL:57:7427:martin-degaard,Martin Ødegaard,Arsenal FC,Premier League,Midfield,80000000,281000,1,2021,94,Transfermarkt; Capology
+PL:57:7935:mikel-merino,Mikel Merino,Arsenal FC,Premier League,Midfield,30000000,152000,8,2024,94,Transfermarkt; Capology
+PL:57:8215:declan-rice,Declan Rice,Arsenal FC,Premier League,Midfield,120000000,281000,7,2023,94,Transfermarkt; Capology
+PL:57:115035:martin-zubimendi,Martín Zubimendi,Arsenal FC,Premier League,Midfield,70000000,175000,7,2025,94,Transfermarkt; Capology
+PL:57:285128:max-dowman,Max Dowman,Arsenal FC,Premier League,Midfield,30000000,106600,7,2025,86,Transfermarkt; estimation salaire
+PL:57:290105:harrison-dudziak,Harrison Dudziak,Arsenal FC,Premier League,Midfield,500000,6400,7,2025,76,Transfermarkt; estimation
+PL:57:291747:ifeoluwa-ibrahim,Ifeoluwa Ibrahim,Arsenal FC,Premier League,Midfield,350000,5600,7,2025,76,Transfermarkt; estimation
+PL:57:293115:ceadach-o-neill,Ceadach O’Neill,Arsenal FC,Premier League,Midfield,500000,6400,7,2025,76,Transfermarkt; estimation
+PL:57:171:kai-havertz,Kai Havertz,Arsenal FC,Premier League,Offence,55000000,328000,7,2023,94,Transfermarkt; Capology
+PL:57:8279:viktor-gyokeres,Viktor Gyökeres,Arsenal FC,Premier League,Offence,75000000,234000,7,2025,94,Transfermarkt; Capology
+PL:57:8984:leandro-trossard,Leandro Trossard,Arsenal FC,Premier League,Offence,20000000,105000,1,2023,94,Transfermarkt; Capology
+PL:57:61450:martinelli,Martinelli,Arsenal FC,Premier League,Offence,55000000,211000,7,2019,94,Transfermarkt; Capology
+PL:57:99813:bukayo-saka,Bukayo Saka,Arsenal FC,Premier League,Offence,150000000,351000,7,2018,94,Transfermarkt; Capology
+PL:57:167720:noni-madueke,Noni Madueke,Arsenal FC,Premier League,Offence,45000000,175000,7,2025,94,Transfermarkt; Capology
+PL:57:285598:andre-harriman-annous,Andre Harriman-Annous,Arsenal FC,Premier League,Offence,1000000,12300,7,2025,76,Transfermarkt; estimation
+PL:57:291750:brando-bailey-joseph,Brando Bailey-Joseph,Arsenal FC,Premier League,Offence,500000,6400,7,2025,76,Transfermarkt; estimation
+PL:57:24102:christian-n-rgaard,Christian Nørgaard,Arsenal FC,Premier League,Defensive Midfield,12000000,93600,7,2025,94,Transfermarkt; Capology
+PL:57:6154:ben-white,Ben White,Arsenal FC,Premier League,Right-Back,40000000,175000,7,2021,94,Transfermarkt; Capology
+PL:57:3236:gabriel-jesus,Gabriel Jesus,Arsenal FC,Premier League,Centre-Forward,25000000,310000,7,2022,94,Transfermarkt; Capology
+PL:57:293640:khari-ranson,Khari Ranson,Arsenal FC,Premier League,null,300000,5300,7,2025,76,Transfermarkt; estimation
+PL:57:244120:myles-lewis-skelly,Myles Lewis-Skelly,Arsenal FC,Premier League,Left-Back,50000000,70000,7,2024,94,Transfermarkt; Capology
+PL:57:172839:cristhian-mosquera,Cristhian Mosquera,Arsenal FC,Premier League,Centre-Back,30000000,106600,7,2025,86,Transfermarkt; estimation salaire
+PL:57:133512:riccardo-calafiori,Riccardo Calafiori,Arsenal FC,Premier League,Left-Back,50000000,140000,7,2024,94,Transfermarkt; Capology
+PL:58:3141:emiliano-martinez,Emiliano Martínez,Aston Villa FC,Premier League,Goalkeeper,25000000,175000,9,2020,94,Transfermarkt; Capology
+PL:58:7675:marco-bizot,Marco Bizot,Aston Villa FC,Premier League,Goalkeeper,3000000,21000,7,2025,86,Transfermarkt; estimation salaire
+PL:58:204460:james-wright,James Wright,Aston Villa FC,Premier League,Goalkeeper,300000,3500,7,2025,76,Transfermarkt; estimation
+PL:58:244962:sam-proctor,Sam Proctor,Aston Villa FC,Premier League,Goalkeeper,250000,3300,7,2025,76,Transfermarkt; estimation
+PL:58:286821:russ-oakley,Russ Oakley,Aston Villa FC,Premier League,Goalkeeper,200000,3100,7,2025,76,Transfermarkt; estimation
+PL:58:289721:ronnie-hollingshead,Ronnie Hollingshead,Aston Villa FC,Premier League,Goalkeeper,500000,4300,7,2025,76,Transfermarkt; estimation
+PL:58:3359:lucas-digne,Lucas Digne,Aston Villa FC,Premier League,Defence,12000000,140000,1,2022,94,Transfermarkt; Capology
+PL:58:3492:victor-nilsson-lindelof,Victor Nilsson-Lindelöf,Aston Villa FC,Premier League,Defence,8000000,140000,7,2025,94,Transfermarkt; Capology
+PL:58:6317:ezri-konsa,Ezri Konsa,Aston Villa FC,Premier League,Defence,40000000,140000,7,2019,94,Transfermarkt; Capology
+PL:58:290109:leon-routh,Leon Routh,Aston Villa FC,Premier League,Defence,500000,4700,7,2025,76,Transfermarkt; estimation
+PL:58:290400:tj-carroll,TJ Carroll,Aston Villa FC,Premier League,Defence,300000,3900,7,2025,76,Transfermarkt; estimation
+PL:58:3658:youri-tielemans,Youri Tielemans,Aston Villa FC,Premier League,Midfield,35000000,175000,7,2023,94,Transfermarkt; Capology
+PL:58:34646:john-mcginn,John McGinn,Aston Villa FC,Premier League,Midfield,18000000,140000,8,2018,94,Transfermarkt; Capology
+PL:58:82140:morgan-rogers,Morgan Rogers,Aston Villa FC,Premier League,Midfield,80000000,105000,2,2024,94,Transfermarkt; Capology
+PL:58:114024:amadou-onana,Amadou Onana,Aston Villa FC,Premier League,Midfield,55000000,175000,7,2024,94,Transfermarkt; Capology
+PL:58:274024:bradley-burrowes,Bradley Burrowes,Aston Villa FC,Premier League,Midfield,350000,4100,7,2025,76,Transfermarkt; estimation
+PL:58:289528:george-hemmings,George Hemmings,Aston Villa FC,Premier League,Midfield,300000,3900,7,2025,76,Transfermarkt; estimation
+PL:58:292504:mohamed-kone,Mohamed Koné,Aston Villa FC,Premier League,Midfield,2000000,12500,7,2025,76,Transfermarkt; estimation
+PL:58:4444:ollie-watkins,Ollie Watkins,Aston Villa FC,Premier League,Offence,40000000,175000,9,2020,94,Transfermarkt; Capology
+PL:58:260718:alysson,Alysson,Aston Villa FC,Premier League,Offence,12000000,47900,7,2025,86,Transfermarkt; estimation salaire
+PL:58:33525:douglas-luiz,Douglas Luiz,Aston Villa FC,Premier League,Central Midfield,35000000,175000,7,2025,94,Transfermarkt; Capology
+PL:58:33109:pau-torres,Pau Torres,Aston Villa FC,Premier League,Centre-Back,35000000,175000,7,2023,94,Transfermarkt; Capology
+PL:58:31941:emiliano-buendia,Emiliano Buendía,Aston Villa FC,Premier League,Attacking Midfield,18000000,140000,7,2021,94,Transfermarkt; Capology
+PL:58:11644:matty-cash,Matty Cash,Aston Villa FC,Premier League,Right-Back,25000000,105000,9,2020,94,Transfermarkt; Capology
+PL:58:8346:boubacar-kamara,Boubacar Kamara,Aston Villa FC,Premier League,Defensive Midfield,45000000,175000,7,2022,94,Transfermarkt; Capology
+PL:58:8235:tyrone-mings,Tyrone Mings,Aston Villa FC,Premier League,Centre-Back,7000000,140000,1,2019,94,Transfermarkt; Capology
+PL:58:7985:tammy-abraham,Tammy Abraham,Aston Villa FC,Premier League,Centre-Forward,25000000,175000,7,2025,94,Transfermarkt; Capology
+PL:58:7817:ross-barkley,Ross Barkley,Aston Villa FC,Premier League,Central Midfield,7000000,70000,7,2024,94,Transfermarkt; Capology
+PL:58:157:leon-bailey,Leon Bailey,Aston Villa FC,Premier League,Right Winger,25000000,140000,8,2021,94,Transfermarkt; Capology
+PL:58:146:jadon-sancho,Jadon Sancho,Aston Villa FC,Premier League,Left Winger,30000000,234000,7,2025,94,Transfermarkt; Capology
+PL:58:203594:andres-garcia,Andrés Garcia,Aston Villa FC,Premier League,Right-Back,10000000,43400,1,2025,86,Transfermarkt; estimation salaire
+PL:58:172899:lamare-bogarde,Lamare Bogarde,Aston Villa FC,Premier League,Defensive Midfield,10000000,43400,7,2024,86,Transfermarkt; estimation salaire
+PL:58:131120:ian-maatsen,Ian Maatsen,Aston Villa FC,Premier League,Left-Back,45000000,175000,7,2024,94,Transfermarkt; Capology
+PL:58:124824:harvey-elliott,Harvey Elliott,Aston Villa FC,Premier League,Central Midfield,40000000,105000,7,2025,94,Transfermarkt; Capology
+PL:61:102895:james-hillson,James Hillson,Chelsea FC,Premier League,Goalkeeper,300000,4200,7,2025,76,Transfermarkt; estimation
+PL:61:135555:robert-sanchez,Robert Sánchez,Chelsea FC,Premier League,Goalkeeper,25000000,140000,8,2023,94,Transfermarkt; Capology
+PL:61:137544:gabriel-slonina,Gabriel Slonina,Chelsea FC,Premier League,Goalkeeper,8000000,41700,8,2022,86,Transfermarkt; estimation salaire
+PL:61:153828:filip-jorgensen,Filip Jörgensen,Chelsea FC,Premier League,Goalkeeper,25000000,77100,7,2024,86,Transfermarkt; estimation salaire
+PL:61:175910:teddy-sharman-lowe,Teddy Sharman-Lowe,Chelsea FC,Premier League,Goalkeeper,2000000,13500,7,2025,86,Transfermarkt; estimation salaire
+PL:61:246715:max-merrick,Max Merrick,Chelsea FC,Premier League,Goalkeeper,500000,5100,7,2025,76,Transfermarkt; estimation
+PL:61:15863:cucurella,Cucurella,Chelsea FC,Premier League,Defence,50000000,205000,8,2022,94,Transfermarkt; Capology
+PL:61:56628:reece-james,Reece James,Chelsea FC,Premier League,Defence,50000000,292000,7,2018,94,Transfermarkt; Capology
+PL:61:152498:malo-gusto,Malo Gusto,Chelsea FC,Premier League,Defence,40000000,105000,7,2023,94,Transfermarkt; Capology
+PL:61:189477:jorrel-hato,Jorrel Hato,Chelsea FC,Premier League,Defence,55000000,117000,7,2025,94,Transfermarkt; Capology
+PL:61:190866:mamadou-sarr,Mamadou Sarr,Chelsea FC,Premier League,Defence,25000000,85700,7,2025,86,Transfermarkt; estimation salaire
+PL:61:277888:landon-emenalo,Landon Emenalo,Chelsea FC,Premier League,Defence,500000,5700,7,2025,76,Transfermarkt; estimation
+PL:61:102603:enzo-fernandez,Enzo Fernández,Chelsea FC,Premier League,Midfield,85000000,211000,1,2023,94,Transfermarkt; Capology
+PL:61:121103:moises-caicedo,Moisés Caicedo,Chelsea FC,Premier League,Midfield,100000000,175000,8,2023,94,Transfermarkt; Capology
+PL:61:276866:reggie-walsh,Reggie Walsh,Chelsea FC,Premier League,Midfield,10000000,52100,7,2025,76,Transfermarkt; estimation
+PL:61:292184:charlie-holland,Charlie Holland,Chelsea FC,Premier League,Midfield,500000,5700,7,2025,76,Transfermarkt; estimation
+PL:61:2074:pedro-neto,Pedro Neto,Chelsea FC,Premier League,Offence,50000000,175000,8,2024,94,Transfermarkt; Capology
+PL:61:244778:estevao,Estevao,Chelsea FC,Premier League,Offence,80000000,117000,7,2025,94,Transfermarkt; Capology
+PL:61:272058:shumaira-mheuka,Shumaira Mheuka,Chelsea FC,Premier League,Offence,5000000,36200,7,2025,76,Transfermarkt; estimation
+PL:61:287945:ryan-kavuma-mcqueen,Ryan Kavuma-McQueen,Chelsea FC,Premier League,Offence,500000,5700,7,2025,76,Transfermarkt; estimation
+PL:61:292473:jesse-derry,Jesse Derry,Chelsea FC,Premier League,Offence,3000000,28000,7,2025,76,Transfermarkt; estimation
+PL:61:295284:mathis-eboue,Mathis Eboué,Chelsea FC,Premier League,Offence,1000000,10900,7,2025,76,Transfermarkt; estimation
+PL:61:170440:levi-colwill,Levi Colwill,Chelsea FC,Premier League,Centre-Back,55000000,140000,7,2023,94,Transfermarkt; Capology
+PL:61:170426:benoit-badiashile,Benoît Badiashile,Chelsea FC,Premier League,Centre-Back,25000000,105000,1,2023,94,Transfermarkt; Capology
+PL:61:166366:andrey-santos,Andrey Santos,Chelsea FC,Premier League,Central Midfield,50000000,70000,1,2023,94,Transfermarkt; Capology
+PL:61:165314:dario-essugo,Dario Essugo,Chelsea FC,Premier League,Defensive Midfield,25000000,58500,7,2025,94,Transfermarkt; Capology
+PL:61:151095:liam-delap,Liam Delap,Chelsea FC,Premier League,Centre-Forward,45000000,117000,7,2025,94,Transfermarkt; Capology
+PL:61:144892:cole-palmer,Cole Palmer,Chelsea FC,Premier League,Attacking Midfield,140000000,175000,9,2023,94,Transfermarkt; Capology
+PL:61:103125:joao-pedro,João Pedro,Chelsea FC,Premier League,Centre-Forward,65000000,175000,7,2025,94,Transfermarkt; Capology
+PL:61:98978:mykhailo-mudryk,Mykhailo Mudryk,Chelsea FC,Premier League,Left Winger,25000000,117000,1,2023,94,Transfermarkt; Capology
+PL:61:8545:wesley-fofana,Wesley Fofana,Chelsea FC,Premier League,Centre-Back,35000000,234000,8,2022,94,Transfermarkt; Capology
+PL:61:7880:tosin-adarabioyo,Tosin Adarabioyo,Chelsea FC,Premier League,Centre-Back,18000000,140000,7,2024,94,Transfermarkt; Capology
+PL:61:7810:trevoh-chalobah,Trevoh Chalobah,Chelsea FC,Premier League,Centre-Back,35000000,117000,7,2021,94,Transfermarkt; Capology
+PL:61:249320:josh-acheampong,Josh Acheampong,Chelsea FC,Premier League,Right-Back,25000000,85700,7,2024,86,Transfermarkt; estimation salaire
+PL:61:247243:ollie-harrison,Ollie Harrison,Chelsea FC,Premier League,Defensive Midfield,500000,5700,7,2025,76,Transfermarkt; estimation
+PL:61:207109:marc-guiu,Marc Guiu,Chelsea FC,Premier League,Centre-Forward,15000000,64800,7,2024,86,Transfermarkt; estimation salaire
+PL:61:181901:alejandro-garnacho,Alejandro Garnacho,Chelsea FC,Premier League,Left Winger,60000000,175000,7,2025,94,Transfermarkt; Capology
+PL:61:179460:jamie-bynoe-gittens,Jamie Bynoe-Gittens,Chelsea FC,Premier League,Left Winger,50000000,140000,7,2025,94,Transfermarkt; Capology
+PL:61:177766:caleb-wiley,Caleb Wiley,Chelsea FC,Premier League,Left-Back,8000000,46300,7,2024,86,Transfermarkt; estimation salaire
+PL:61:172738:romeo-lavia,Romeo Lavia,Chelsea FC,Premier League,Defensive Midfield,30000000,175000,8,2023,94,Transfermarkt; Capology
+PL:62:3309:jordan-pickford,Jordan Pickford,Everton FC,Premier League,Goalkeeper,22000000,146000,7,2017,94,Transfermarkt; Capology
+PL:62:6180:thomas-king,Thomas King,Everton FC,Premier League,Goalkeeper,500000,3100,7,2025,76,Transfermarkt; estimation
+PL:62:82135:mark-travers,Mark Travers,Everton FC,Premier League,Goalkeeper,5000000,46800,7,2025,94,Transfermarkt; Capology
+PL:62:138174:nathan-patterson,Nathan Patterson,Everton FC,Premier League,Defence,10000000,46800,1,2022,94,Transfermarkt; Capology
+PL:62:166547:reece-welch,Reece Welch,Everton FC,Premier League,Defence,1500000,7900,7,2025,76,Transfermarkt; estimation
+PL:62:3627:idrissa-gana-gueye,Idrissa Gana Guèye,Everton FC,Premier League,Midfield,2500000,93600,9,2022,94,Transfermarkt; Capology
+PL:62:94091:iliman-ndiaye,Iliman Ndiaye,Everton FC,Premier League,Midfield,35000000,93600,7,2024,94,Transfermarkt; Capology
+PL:62:264281:harrison-armstrong,Harrison Armstrong,Everton FC,Premier League,Midfield,8000000,27800,7,2024,86,Transfermarkt; estimation salaire
+PL:62:272715:callum-bates,Callum Bates,Everton FC,Premier League,Midfield,400000,3100,7,2025,76,Transfermarkt; estimation
+PL:62:290597:malik-olayiwola,Malik Olayiwola,Everton FC,Premier League,Midfield,300000,2800,7,2025,76,Transfermarkt; estimation
+PL:62:244747:briaden-graham,Briaden Graham,Everton FC,Premier League,Offence,250000,2700,7,2025,76,Transfermarkt; estimation
+PL:62:250436:tyrique-george,Tyrique George,Everton FC,Premier League,Left Winger,18000000,42900,7,2025,86,Transfermarkt; estimation salaire
+PL:62:246476:adam-aznou,Adam Aznou,Everton FC,Premier League,Left-Back,12000000,34500,7,2025,86,Transfermarkt; estimation salaire
+PL:62:218525:tyler-dibling,Tyler Dibling,Everton FC,Premier League,Right Winger,35000000,58500,7,2025,94,Transfermarkt; Capology
+PL:62:171995:thierno-barry,Thierno Barry,Everton FC,Premier League,Centre-Forward,30000000,70200,7,2025,94,Transfermarkt; Capology
+PL:62:169326:tim-iroegbunam,Tim Iroegbunam,Everton FC,Premier League,Central Midfield,18000000,46800,7,2024,94,Transfermarkt; Capology
+PL:62:156552:merlin-rohl,Merlin Röhl,Everton FC,Premier League,Central Midfield,18000000,42900,7,2025,86,Transfermarkt; estimation salaire
+PL:62:140269:carlos-alcaraz,Carlos Alcaraz,Everton FC,Premier League,Central Midfield,18000000,58500,2,2025,94,Transfermarkt; Capology
+PL:62:140194:kiernan-dewsbury-hall,Kiernan Dewsbury Hall,Everton FC,Premier League,Central Midfield,25000000,93600,7,2025,94,Transfermarkt; Capology
+PL:62:131569:jake-o-brien,Jake O'Brien,Everton FC,Premier League,Centre-Back,18000000,58500,7,2024,94,Transfermarkt; Capology
+PL:62:125044:beto,Beto,Everton FC,Premier League,Centre-Forward,22000000,93600,8,2023,94,Transfermarkt; Capology
+PL:62:114120:jarrad-branthwaite,Jarrad Branthwaite,Everton FC,Premier League,Centre-Back,50000000,105000,1,2020,94,Transfermarkt; Capology
+PL:62:101076:james-garner,James Garner,Everton FC,Premier League,Defensive Midfield,22000000,70200,9,2022,94,Transfermarkt; Capology
+PL:62:16165:vitalii-mykolenko,Vitalii Mykolenko,Everton FC,Premier League,Left-Back,22000000,70200,1,2022,94,Transfermarkt; Capology
+PL:62:11623:dwight-mcneil,Dwight McNeil,Everton FC,Premier League,Attacking Midfield,22000000,93600,7,2022,94,Transfermarkt; Capology
+PL:62:7836:seamus-coleman,Séamus Coleman,Everton FC,Premier League,Right-Back,500000,70200,1,2009,94,Transfermarkt; Capology
+PL:62:7829:michael-keane,Michael Keane,Everton FC,Premier League,Centre-Back,3000000,93600,7,2017,94,Transfermarkt; Capology
+PL:62:3895:jack-grealish,Jack Grealish,Everton FC,Premier League,Left Winger,30000000,263000,8,2025,94,Transfermarkt; Capology
+PL:62:3316:james-tarkowski,James Tarkowski,Everton FC,Premier League,Centre-Back,3000000,117000,7,2022,94,Transfermarkt; Capology
+PL:63:3174:bernd-leno,Bernd Leno,Fulham FC,Premier League,Goalkeeper,8000000,152000,8,2022,94,Transfermarkt; Capology
+PL:63:8366:benjamin-lecomte,Benjamin Lecomte,Fulham FC,Premier League,Goalkeeper,2500000,14400,7,2025,86,Transfermarkt; estimation salaire
+PL:63:290421:alfie-mcnally,Alfie McNally,Fulham FC,Premier League,Goalkeeper,300000,2600,7,2025,76,Transfermarkt; estimation
+PL:63:1836:timothy-castagne,Timothy Castagne,Fulham FC,Premier League,Defence,15000000,105000,8,2023,94,Transfermarkt; Capology
+PL:63:3927:antonee-robinson,Antonee Robinson,Fulham FC,Premier League,Defence,35000000,117000,8,2020,94,Transfermarkt; Capology
+PL:63:8296:issa-diop,Issa Diop,Fulham FC,Premier League,Defence,18000000,105000,8,2022,94,Transfermarkt; Capology
+PL:63:273201:sam-amissah,Sam Amissah,Fulham FC,Premier League,Defence,500000,3600,7,2025,76,Transfermarkt; estimation
+PL:63:8973:sander-berge,Sander Berge,Fulham FC,Premier League,Midfield,30000000,117000,8,2024,94,Transfermarkt; Capology
+PL:63:179716:oscar-bobb,Oscar Bobb,Fulham FC,Premier League,Midfield,35000000,105000,7,2025,94,Transfermarkt; Capology
+PL:63:288548:seth-ridgeon,Seth Ridgeon,Fulham FC,Premier League,Midfield,2500000,16000,7,2025,76,Transfermarkt; estimation
+PL:63:3305:raul-jimenez,Raúl Jiménez,Fulham FC,Premier League,Offence,5000000,117000,7,2023,94,Transfermarkt; Capology
+PL:63:179122:kevin-santos,Kevin Santos,Fulham FC,Premier League,Offence,12000000,35900,7,2025,86,Transfermarkt; estimation salaire
+PL:63:217577:jonah-kusi-asare,Jonah Kusi-Asare,Fulham FC,Premier League,Offence,8000000,28900,7,2025,86,Transfermarkt; estimation salaire
+PL:63:246418:joshua-king,Joshua King,Fulham FC,Premier League,Central Midfield,12000000,35900,7,2024,86,Transfermarkt; estimation salaire
+PL:63:146154:calvin-bassey,Calvin Bassey,Fulham FC,Premier League,Centre-Back,35000000,93600,7,2023,94,Transfermarkt; Capology
+PL:63:138036:rodrigo-muniz,Rodrigo Muniz,Fulham FC,Premier League,Centre-Forward,30000000,70200,8,2021,94,Transfermarkt; Capology
+PL:63:98750:jorge-cuenca,Jorge Cuenca,Fulham FC,Premier League,Centre-Back,12000000,35900,8,2024,86,Transfermarkt; estimation salaire
+PL:63:85570:emile-smith-rowe,Emile Smith Rowe,Fulham FC,Premier League,Attacking Midfield,28000000,140000,8,2024,94,Transfermarkt; Capology
+PL:63:33124:samuel-chukwueze,Samuel Chukwueze,Fulham FC,Premier League,Right Winger,18000000,105000,7,2025,94,Transfermarkt; Capology
+PL:63:32938:sasa-lukic,Saša Lukić,Fulham FC,Premier League,Central Midfield,15000000,70200,1,2023,94,Transfermarkt; Capology
+PL:63:11777:harry-wilson,Harry Wilson,Fulham FC,Premier League,Right Winger,18000000,70200,7,2021,94,Transfermarkt; Capology
+PL:63:8460:kenny-tete,Kenny Tete,Fulham FC,Premier League,Right-Back,10000000,70200,9,2020,94,Transfermarkt; Capology
+PL:63:3995:harrison-reed,Harrison Reed,Fulham FC,Premier League,Central Midfield,8000000,70200,8,2020,94,Transfermarkt; Capology
+PL:63:3965:tom-cairney,Tom Cairney,Fulham FC,Premier League,Central Midfield,1500000,58500,7,2015,94,Transfermarkt; Capology
+PL:63:3959:ryan-sessegnon,Ryan Sessegnon,Fulham FC,Premier League,Left-Back,12000000,58500,7,2024,94,Transfermarkt; Capology
+PL:63:3392:alex-iwobi,Alex Iwobi,Fulham FC,Premier League,Left Winger,18000000,105000,9,2023,94,Transfermarkt; Capology
+PL:63:2253:joachim-andersen,Joachim Andersen,Fulham FC,Premier League,Centre-Back,28000000,117000,8,2024,94,Transfermarkt; Capology
+PL:64:1795:alisson-becker,Alisson Becker,Liverpool FC,Premier League,Goalkeeper,18000000,234000,7,2018,94,Transfermarkt; Capology
+PL:64:11629:freddie-woodman,Freddie Woodman,Liverpool FC,Premier League,Goalkeeper,2500000,25000,7,2025,86,Transfermarkt; estimation salaire
+PL:64:84506:giorgi-mamardashvili,Giorgi Mamardashvili,Liverpool FC,Premier League,Goalkeeper,28000000,105000,7,2025,94,Transfermarkt; Capology
+PL:64:165154:harvey-davies,Harvey Davies,Liverpool FC,Premier League,Goalkeeper,1000000,10600,7,2022,86,Transfermarkt; estimation salaire
+PL:64:182236:armin-pecsi,Armin Pecsi,Liverpool FC,Premier League,Goalkeeper,5000000,35300,7,2025,86,Transfermarkt; estimation salaire
+PL:64:287947:kornel-misciur,Kornel Miściur,Liverpool FC,Premier League,Goalkeeper,500000,5500,7,2025,76,Transfermarkt; estimation
+PL:64:7868:andrew-robertson,Andrew Robertson,Liverpool FC,Premier League,Defence,10000000,187000,7,2017,94,Transfermarkt; Capology
+PL:64:7869:virgil-van-dijk,Virgil van Dijk,Liverpool FC,Premier League,Defence,20000000,409000,1,2018,94,Transfermarkt; Capology
+PL:64:9542:ibrahima-konate,Ibrahima Konaté,Liverpool FC,Premier League,Defence,65000000,175000,7,2021,94,Transfermarkt; Capology
+PL:64:186701:stefan-bajcetic,Stefan Bajcetic,Liverpool FC,Premier League,Defence,18000000,77500,7,2022,86,Transfermarkt; estimation salaire
+PL:64:273063:will-wright,Will Wright,Liverpool FC,Premier League,Defence,1000000,11800,7,2025,76,Transfermarkt; estimation
+PL:64:288621:wellity-lucky,Wellity Lucky,Liverpool FC,Premier League,Defence,500000,6200,7,2025,76,Transfermarkt; estimation
+PL:64:288622:carter-pinnington,Carter Pinnington,Liverpool FC,Premier League,Defence,500000,6200,7,2025,76,Transfermarkt; estimation
+PL:64:295109:mor-talla-n-diaye,Mor Talla N'Diaye,Liverpool FC,Premier League,Defence,500000,6200,7,2025,76,Transfermarkt; estimation
+PL:64:3269:wataru-endo,Wataru Endō,Liverpool FC,Premier League,Midfield,8000000,70200,8,2023,94,Transfermarkt; Capology
+PL:64:19334:florian-wirtz,Florian Wirtz,Liverpool FC,Premier League,Midfield,130000000,234000,7,2025,94,Transfermarkt; Capology
+PL:64:45681:alexis-mac-allister,Alexis Mac Allister,Liverpool FC,Premier League,Midfield,100000000,175000,7,2023,94,Transfermarkt; Capology
+PL:64:81793:ryan-gravenberch,Ryan Gravenberch,Liverpool FC,Premier League,Midfield,80000000,175000,9,2023,94,Transfermarkt; Capology
+PL:64:274726:kieran-morrison,Kieran Morrison,Liverpool FC,Premier League,Midfield,1500000,14200,7,2025,76,Transfermarkt; estimation
+PL:64:286622:tommy-pilling,Tommy Pilling,Liverpool FC,Premier League,Midfield,500000,6200,7,2025,76,Transfermarkt; estimation
+PL:64:288625:michael-laffey,Michael Laffey,Liverpool FC,Premier League,Midfield,300000,5100,7,2025,76,Transfermarkt; estimation
+PL:64:3754:mohamed-salah,Mohamed Salah,Liverpool FC,Premier League,Offence,30000000,468000,7,2017,94,Transfermarkt; Capology
+PL:64:6486:alexander-isak,Alexander Isak,Liverpool FC,Premier League,Offence,120000000,351000,7,2025,94,Transfermarkt; Capology
+PL:64:7459:cody-gakpo,Cody Gakpo,Liverpool FC,Premier League,Offence,75000000,175000,1,2023,94,Transfermarkt; Capology
+PL:64:273453:rio-ngumoha,Rio Ngumoha,Liverpool FC,Premier League,Offence,25000000,92800,7,2024,86,Transfermarkt; estimation salaire
+PL:64:288617:keyrol-figueroa,Keyrol Figueroa,Liverpool FC,Premier League,Offence,1500000,14200,7,2025,76,Transfermarkt; estimation
+PL:64:152454:hugo-ekitike,Hugo Ekitike,Liverpool FC,Premier League,Centre-Forward,75000000,175000,7,2025,94,Transfermarkt; Capology
+PL:64:135636:rhys-williams,Rhys Williams,Liverpool FC,Premier League,Centre-Back,1500000,14200,7,2020,86,Transfermarkt; estimation salaire
+PL:64:128954:jeremie-frimpong,Jeremie Frimpong,Liverpool FC,Premier League,Right Midfield,55000000,175000,7,2025,94,Transfermarkt; Capology
+PL:64:124778:calvin-ramsay,Calvin Ramsay,Liverpool FC,Premier League,Right-Back,3000000,30400,7,2022,86,Transfermarkt; estimation salaire
+PL:64:16347:dominik-szoboszlai,Dominik Szoboszlai,Liverpool FC,Premier League,Central Midfield,90000000,175000,7,2023,94,Transfermarkt; Capology
+PL:64:7873:curtis-jones,Curtis Jones,Liverpool FC,Premier League,Central Midfield,50000000,117000,7,2020,94,Transfermarkt; Capology
+PL:64:7862:joe-gomez,Joe Gomez,Liverpool FC,Premier League,Centre-Back,25000000,99450,7,2015,94,Transfermarkt; Capology
+PL:64:1780:federico-chiesa,Federico Chiesa,Liverpool FC,Premier League,Right Winger,20000000,175000,8,2024,94,Transfermarkt; Capology

@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+PL:76:153570:yerson-mosquera,Yerson Mosquera,Wolverhampton Wanderers FC,Premier League,Centre-Back,18000000,83500,7,2021,87,Transfermarkt; estimation salaire
+PL:76:151521:rodrigo-gomes,Rodrigo Gomes,Wolverhampton Wanderers FC,Premier League,Right Midfield,15000000,74500,7,2024,87,Transfermarkt; estimation salaire
+PL:76:145538:andre,André,Wolverhampton Wanderers FC,Premier League,Defensive Midfield,35000000,126000,8,2024,87,Transfermarkt; estimation salaire
+PL:76:138034:joao-gomes,João Gomes,Wolverhampton Wanderers FC,Premier League,Central Midfield,40000000,136500,1,2023,87,Transfermarkt; estimation salaire
+PL:76:102223:toti-gomes,Toti Gomes,Wolverhampton Wanderers FC,Premier League,Centre-Back,20000000,89000,9,2020,87,Transfermarkt; estimation salaire
+PL:76:7910:angel-gomes,Angel Gomes,Wolverhampton Wanderers FC,Premier League,Attacking Midfield,25000000,100000,7,2025,95,Transfermarkt; Capology
+PL:76:4863:adam-armstrong,Adam Armstrong,Wolverhampton Wanderers FC,Premier League,Centre-Forward,12000000,65500,7,2025,87,Transfermarkt; estimation salaire
+PL:76:4081:matt-doherty,Matt Doherty,Wolverhampton Wanderers FC,Premier League,Right-Back,2000000,80000,7,2023,95,Transfermarkt; Capology
+PL:328:7914:martin-dubravka,Martin Dúbravka,Burnley FC,Premier League,Goalkeeper,1500000,14500,7,2025,87,Transfermarkt; estimation salaire
+PL:328:62651:vaclav-hladky,Václav Hladký,Burnley FC,Premier League,Goalkeeper,700000,6000,7,2024,87,Transfermarkt; estimation salaire
+PL:328:175800:max-weiss,Max Weiss,Burnley FC,Premier League,Goalkeeper,3000000,20500,7,2025,87,Transfermarkt; estimation salaire
+PL:328:3894:axel-tuanzebe,Axel Tuanzebe,Burnley FC,Premier League,Defence,5000000,30000,7,2025,87,Transfermarkt; estimation salaire
+PL:328:31560:hjalmar-ekdal,Hjalmar Ekdal,Burnley FC,Premier League,Defence,8000000,39000,1,2023,87,Transfermarkt; estimation salaire
+PL:328:190916:murray-campbell,Murray Campbell,Burnley FC,Premier League,Defence,1000000,7500,7,2025,87,Transfermarkt; estimation salaire
+PL:328:169325:hannibal-mejbri,Hannibal Mejbri,Burnley FC,Premier League,Midfield,12000000,49500,8,2024,87,Transfermarkt; estimation salaire
+PL:328:192680:enock-agyei,Enock Agyei,Burnley FC,Premier League,Midfield,700000,6500,7,2025,87,Transfermarkt; estimation salaire
+PL:328:207566:mike-tresor,Mike Trésor,Burnley FC,Premier League,Midfield,7000000,36000,9,2023,87,Transfermarkt; estimation salaire
+PL:328:213243:josh-laurent,Josh Laurent,Burnley FC,Premier League,Midfield,4000000,26500,8,2024,87,Transfermarkt; estimation salaire
+PL:328:285388:oliver-pimlott,Oliver Pimlott,Burnley FC,Premier League,Midfield,300000,3000,7,2025,80,Transfermarkt; estimation
+PL:328:286640:ellis-clark,Ellis Clark,Burnley FC,Premier League,Midfield,300000,3000,7,2025,80,Transfermarkt; estimation
+PL:328:286650:george-brierley,George Brierley,Burnley FC,Premier League,Midfield,250000,3000,7,2025,80,Transfermarkt; estimation
+PL:328:293273:kian-brown,Kian Brown,Burnley FC,Premier League,Midfield,250000,3000,7,2025,80,Transfermarkt; estimation
+PL:328:34760:lyle-foster,Lyle Foster,Burnley FC,Premier League,Offence,12000000,49500,1,2023,87,Transfermarkt; estimation salaire
+PL:328:122313:zeki-amdouni,Zeki Amdouni,Burnley FC,Premier League,Offence,15000000,56500,7,2023,87,Transfermarkt; estimation salaire
+PL:328:286670:brandon-pouani,Brandon Pouani,Burnley FC,Premier League,Offence,500000,3500,7,2025,80,Transfermarkt; estimation
+PL:328:143054:armando-broja,Armando Broja,Burnley FC,Premier League,Centre-Forward,10000000,44500,7,2025,87,Transfermarkt; estimation salaire
+PL:328:67893:zian-flemming,Zian Flemming,Burnley FC,Premier League,Attacking Midfield,12000000,49500,7,2025,87,Transfermarkt; estimation salaire
+PL:328:37560:florentino,Florentino,Burnley FC,Premier League,Defensive Midfield,22000000,71500,7,2025,87,Transfermarkt; estimation salaire
+PL:328:11298:joe-worrall,Joe Worrall,Burnley FC,Premier League,Centre-Back,7000000,36000,8,2024,87,Transfermarkt; estimation salaire
+PL:328:9405:jacob-bruun-larsen,Jacob Bruun Larsen,Burnley FC,Premier League,Left Winger,7000000,36000,7,2025,87,Transfermarkt; estimation salaire
+PL:328:8217:josh-cullen,Josh Cullen,Burnley FC,Premier League,Defensive Midfield,9000000,42000,7,2022,87,Transfermarkt; estimation salaire
+PL:328:8088:james-ward-prowse,James Ward-Prowse,Burnley FC,Premier League,Central Midfield,12000000,120000,7,2025,95,Transfermarkt; Capology
+PL:328:8054:ashley-barnes,Ashley Barnes,Burnley FC,Premier League,Centre-Forward,300000,3000,1,2025,87,Transfermarkt; estimation salaire
+PL:328:7980:connor-roberts,Connor Roberts,Burnley FC,Premier League,Right-Back,4000000,26500,8,2021,87,Transfermarkt; estimation salaire
+PL:328:6678:louis-beyer,Louis Beyer,Burnley FC,Premier League,Centre-Back,2500000,21000,7,2023,87,Transfermarkt; estimation salaire
+PL:328:3999:marcus-edwards,Marcus Edwards,Burnley FC,Premier League,Right Winger,18000000,63000,7,2025,87,Transfermarkt; estimation salaire
+PL:328:3311:kyle-walker,Kyle Walker,Burnley FC,Premier League,Right-Back,8000000,175000,7,2025,95,Transfermarkt; Capology
+PL:328:190547:bashir-humphreys,Bashir Humphreys,Burnley FC,Premier League,Centre-Back,10000000,44500,7,2025,87,Transfermarkt; estimation salaire
+PL:328:187219:quilindschy-hartman,Quilindschy Hartman,Burnley FC,Premier League,Left-Back,16000000,59000,7,2025,87,Transfermarkt; estimation salaire
+PL:328:177627:lucas-pires,Lucas Pires,Burnley FC,Premier League,Left-Back,4000000,26500,7,2024,87,Transfermarkt; estimation salaire
+PL:328:175784:maxime-esteve,Maxime Estève,Burnley FC,Premier League,Centre-Back,18000000,63000,2,2024,87,Transfermarkt; estimation salaire
+PL:328:170394:loum-tchaouna,Loum Tchaouna,Burnley FC,Premier League,Right Winger,15000000,56500,7,2025,87,Transfermarkt; estimation salaire
+PL:328:153555:chimuanya-ugochukwu,Chimuanya Ugochukwu,Burnley FC,Premier League,Defensive Midfield,1000000,7500,7,2025,80,Transfermarkt; estimation
+PL:328:150778:jaidon-anthony,Jaidon Anthony,Burnley FC,Premier League,Left Winger,10000000,44500,8,2024,87,Transfermarkt; estimation salaire
+PL:341:1331:lucas-perri,Lucas Perri,Leeds United FC,Premier League,Goalkeeper,18000000,65500,7,2025,87,Transfermarkt; estimation salaire
+PL:341:5315:alex-cairns,Alex Cairns,Leeds United FC,Premier League,Goalkeeper,400000,3500,7,2024,87,Transfermarkt; estimation salaire
+PL:341:7913:karl-darlow,Karl Darlow,Leeds United FC,Premier League,Goalkeeper,700000,7000,7,2023,87,Transfermarkt; estimation salaire
+PL:341:74831:illan-meslier,Illan Meslier,Leeds United FC,Premier League,Goalkeeper,12000000,51500,7,2020,87,Transfermarkt; estimation salaire
+PL:341:31531:gabriel-gudmundsson,Gabriel Gudmundsson,Leeds United FC,Premier League,Defence,12000000,57000,7,2025,87,Transfermarkt; estimation salaire
+PL:341:295551:alfie-cresswell,Alfie Cresswell,Leeds United FC,Premier League,Defence,500000,4000,7,2025,80,Transfermarkt; estimation
+PL:341:49105:ao-tanaka,Ao Tanaka,Leeds United FC,Premier League,Midfield,18000000,73000,8,2024,87,Transfermarkt; estimation salaire
+PL:341:113262:brenden-aaronson,Brenden Aaronson,Leeds United FC,Premier League,Midfield,18000000,73000,7,2022,87,Transfermarkt; estimation salaire
+PL:341:250288:charlie-crewe,Charlie Crewe,Leeds United FC,Premier League,Midfield,700000,7500,7,2025,80,Transfermarkt; estimation
+PL:341:265196:sam-chambers,Sam Chambers,Leeds United FC,Premier League,Midfield,500000,4000,7,2025,80,Transfermarkt; estimation
+PL:341:16058:noah-okafor,Noah Okafor,Leeds United FC,Premier League,Offence,18000000,73000,7,2025,87,Transfermarkt; estimation salaire
+PL:341:295432:rhys-chadwick,Rhys Chadwick,Leeds United FC,Premier League,null,300000,3500,7,2025,80,Transfermarkt; estimation
+PL:341:295431:jayden-lienou,Jayden Lienou,Leeds United FC,Premier League,null,300000,3500,7,2025,80,Transfermarkt; estimation
+PL:341:184273:facundo-buonanotte,Facundo Buonanotte,Leeds United FC,Premier League,Attacking Midfield,28000000,95500,7,2025,87,Transfermarkt; estimation salaire
+PL:341:180813:wilfried-gnonto,Wilfried Gnonto,Leeds United FC,Premier League,Right Winger,25000000,89000,9,2022,87,Transfermarkt; estimation salaire
+PL:341:75284:ilia-gruev,Ilia Gruev,Leeds United FC,Premier League,Defensive Midfield,12000000,57000,8,2023,87,Transfermarkt; estimation salaire
+PL:341:74688:jaka-bijol,Jaka Bijol,Leeds United FC,Premier League,Centre-Back,18000000,73000,7,2025,87,Transfermarkt; estimation salaire
+PL:341:67978:joel-piroe,Joël Piroe,Leeds United FC,Premier League,Attacking Midfield,15000000,65500,8,2023,87,Transfermarkt; estimation salaire
+PL:341:65843:anton-stach,Anton Stach,Leeds United FC,Premier League,Central Midfield,17000000,70500,7,2025,87,Transfermarkt; estimation salaire
+PL:341:8847:sebastiaan-bornauw,Sebastiaan Bornauw,Leeds United FC,Premier League,Centre-Back,10000000,51500,7,2025,87,Transfermarkt; estimation salaire
+PL:341:8203:sam-byram,Sam Byram,Leeds United FC,Premier League,Right-Back,1500000,19000,8,2023,87,Transfermarkt; estimation salaire
+PL:341:7974:daniel-james,Daniel James,Leeds United FC,Premier League,Right Winger,16000000,68000,8,2021,87,Transfermarkt; estimation salaire
+PL:341:7892:lukas-nmecha,Lukas Nmecha,Leeds United FC,Premier League,Centre-Forward,7000000,42000,7,2025,87,Transfermarkt; estimation salaire
+PL:341:7839:dominic-calvert-lewin,Dominic Calvert-Lewin,Leeds United FC,Premier League,Centre-Forward,12000000,100000,7,2025,95,Transfermarkt; Capology
+PL:341:7815:ethan-ampadu,Ethan Ampadu,Leeds United FC,Premier League,Defensive Midfield,22000000,82500,7,2023,87,Transfermarkt; estimation salaire
+PL:341:5714:joe-rodon,Joe Rodon,Leeds United FC,Premier League,Centre-Back,18000000,73000,7,2024,87,Transfermarkt; estimation salaire
+PL:341:5613:james-justin,James Justin,Leeds United FC,Premier League,Right-Back,12000000,57000,7,2025,87,Transfermarkt; estimation salaire
+PL:341:4955:sean-longstaff,Sean Longstaff,Leeds United FC,Premier League,Central Midfield,18000000,90000,7,2025,95,Transfermarkt; Capology
+PL:341:4184:jayden-bogle,Jayden Bogle,Leeds United FC,Premier League,Right-Back,15000000,65500,7,2024,87,Transfermarkt; estimation salaire
+PL:341:4146:pascal-struijk,Pascal Struijk,Leeds United FC,Premier League,Centre-Back,20000000,77500,7,2018,87,Transfermarkt; estimation salaire
+PL:351:1299:john,John,Nottingham Forest FC,Premier League,Goalkeeper,2500000,26000,7,2025,80,Transfermarkt; estimation
+PL:351:3643:matz-sels,Matz Sels,Nottingham Forest FC,Premier League,Goalkeeper,9000000,52500,2,2024,87,Transfermarkt; estimation salaire
+PL:351:3981:angus-gunn,Angus Gunn,Nottingham Forest FC,Premier League,Goalkeeper,3000000,28500,7,2025,87,Transfermarkt; estimation salaire
+PL:351:6958:stefan-ortega-moreno,Stefan Ortega Moreno,Nottingham Forest FC,Premier League,Goalkeeper,12000000,120000,7,2025,95,Transfermarkt; Capology
+PL:351:287984:keehan-willows,Keehan Willows,Nottingham Forest FC,Premier League,Goalkeeper,500000,4500,7,2025,80,Transfermarkt; estimation
+PL:351:289913:aaron-bott,Aaron Bott,Nottingham Forest FC,Premier League,Goalkeeper,500000,4500,7,2025,80,Transfermarkt; estimation
+PL:351:179782:jair-paula,Jair Paula,Nottingham Forest FC,Premier League,Defence,800000,9500,7,2025,80,Transfermarkt; estimation
+PL:351:293808:justin-hanks,Justin Hanks,Nottingham Forest FC,Premier League,Defence,500000,5000,7,2025,80,Transfermarkt; estimation
+PL:351:8307:ibrahim-sangare,Ibrahim Sangaré,Nottingham Forest FC,Premier League,Midfield,20000000,93500,9,2023,87,Transfermarkt; estimation salaire
+PL:351:107330:elliot-anderson,Elliot Anderson,Nottingham Forest FC,Premier League,Midfield,75000000,150000,7,2024,87,Transfermarkt; estimation salaire
+PL:351:289122:jimmy-sinclair,Jimmy Sinclair,Nottingham Forest FC,Premier League,Midfield,500000,5000,7,2025,80,Transfermarkt; estimation
+PL:351:289123:archie-whitehall,Archie Whitehall,Nottingham Forest FC,Premier League,Midfield,500000,5000,7,2025,80,Transfermarkt; estimation
+PL:351:8057:chris-wood,Chris Wood,Nottingham Forest FC,Premier League,Offence,4000000,100000,7,2023,95,Transfermarkt; Capology
+PL:351:77641:dan-ndoye,Dan Ndoye,Nottingham Forest FC,Premier League,Offence,40000000,144000,7,2025,87,Transfermarkt; estimation salaire
+PL:351:256339:igor-jesus,Igor Jesus,Nottingham Forest FC,Premier League,Offence,30000000,120500,7,2025,87,Transfermarkt; estimation salaire
+PL:351:287987:zyan-blake,Zyan Blake,Nottingham Forest FC,Premier League,Offence,500000,5000,7,2025,80,Transfermarkt; estimation
+PL:351:295708:lamin-sillah,Lamin Sillah,Nottingham Forest FC,Premier League,Offence,500000,5000,7,2025,80,Transfermarkt; estimation
+PL:351:119596:morato,Morato,Nottingham Forest FC,Premier League,Centre-Back,18000000,88000,8,2024,87,Transfermarkt; estimation salaire
+PL:351:46346:nicolas-dominguez,Nicolás Domínguez,Nottingham Forest FC,Premier League,Central Midfield,18000000,88000,9,2023,87,Transfermarkt; estimation salaire
+PL:351:40305:lorenzo-lucca,Lorenzo Lucca,Nottingham Forest FC,Premier League,Centre-Forward,22000000,99500,7,2025,87,Transfermarkt; estimation salaire
+PL:351:9218:taiwo-awoniyi,Taiwo Awoniyi,Nottingham Forest FC,Premier League,Centre-Forward,18000000,88000,7,2022,87,Transfermarkt; estimation salaire
+PL:351:7816:callum-hudson-odoi,Callum Hudson-Odoi,Nottingham Forest FC,Premier League,Left Winger,25000000,107500,9,2023,87,Transfermarkt; estimation salaire
+PL:351:5435:ryan-yates,Ryan Yates,Nottingham Forest FC,Premier League,Central Midfield,12000000,69000,7,2016,87,Transfermarkt; estimation salaire
+PL:351:4091:morgan-gibbs-white,Morgan Gibbs-White,Nottingham Forest FC,Premier League,Attacking Midfield,55000000,140000,8,2022,95,Transfermarkt; Capology
+PL:351:4086:willy-boly,Willy Boly,Nottingham Forest FC,Premier League,Centre-Back,1500000,22500,9,2022,87,Transfermarkt; estimation salaire
+PL:351:3386:ola-aina,Ola Aina,Nottingham Forest FC,Premier League,Right-Back,18000000,88000,7,2023,87,Transfermarkt; estimation salaire
+PL:351:1775:nikola-milenkovic,Nikola Milenković,Nottingham Forest FC,Premier League,Centre-Back,30000000,120500,7,2024,87,Transfermarkt; estimation salaire
+PL:351:227007:eric-da-silva-moreira,Eric da Silva Moreira,Nottingham Forest FC,Premier League,Right Midfield,7000000,50500,7,2024,87,Transfermarkt; estimation salaire
+PL:351:204483:zach-abbott,Zach Abbott,Nottingham Forest FC,Premier League,Centre-Back,1200000,20500,7,2024,87,Transfermarkt; estimation salaire
+PL:351:192637:murillo,Murillo,Nottingham Forest FC,Premier League,Centre-Back,75000000,150000,7,2023,87,Transfermarkt; estimation salaire
+PL:351:191730:nicolo-savona,Nicolò Savona,Nottingham Forest FC,Premier League,Right-Back,22000000,99500,7,2025,87,Transfermarkt; estimation salaire
+PL:351:177477:omari-hutchinson,Omari Hutchinson,Nottingham Forest FC,Premier League,Attacking Midfield,28000000,115000,7,2025,87,Transfermarkt; estimation salaire
+PL:351:172956:james-mcatee,James McAtee,Nottingham Forest FC,Premier League,Attacking Midfield,35000000,132500,7,2025,87,Transfermarkt; estimation salaire
+PL:351:151295:dilane-bakwa,Dilane Bakwa,Nottingham Forest FC,Premier League,Right Winger,18000000,88000,7,2025,87,Transfermarkt; estimation salaire
+PL:351:144361:luca-netz,Luca Netz,Nottingham Forest FC,Premier League,Left-Back,18000000,88000,7,2025,87,Transfermarkt; estimation salaire
+PL:351:133765:neco-williams,Neco Williams,Nottingham Forest FC,Premier League,Right-Back,25000000,107500,7,2022,87,Transfermarkt; estimation salaire
+PL:354:5457:dean-henderson,Dean Henderson,Crystal Palace FC,Premier League,Goalkeeper,22000000,85000,8,2023,87,Transfermarkt; estimation salaire
+PL:354:6413:remi-matthews,Remi Matthews,Crystal Palace FC,Premier League,Goalkeeper,500000,4500,7,2021,87,Transfermarkt; estimation salaire
+PL:354:8420:walter-benitez,Walter Benítez,Crystal Palace FC,Premier League,Goalkeeper,6000000,39500,7,2025,87,Transfermarkt; estimation salaire
+PL:354:293810:jackson-izquierdo,Jackson Izquierdo,Crystal Palace FC,Premier League,Goalkeeper,500000,4500,7,2025,80,Transfermarkt; estimation
+PL:354:22010:daniel-munoz,Daniel Muñoz,Crystal Palace FC,Premier League,Defence,30000000,114000,1,2024,87,Transfermarkt; estimation salaire
+PL:354:82351:maxence-lacroix,Maxence Lacroix,Crystal Palace FC,Premier League,Defence,35000000,126000,8,2024,87,Transfermarkt; estimation salaire
+PL:354:99856:chris-richards,Chris Richards,Crystal Palace FC,Premier League,Defence,25000000,102000,7,2022,87,Transfermarkt; estimation salaire
+PL:354:150948:chadi-riad,Chadi Riad,Crystal Palace FC,Premier League,Defence,12000000,65500,7,2024,87,Transfermarkt; estimation salaire
+PL:354:260271:jaydee-canvot,Jaydee Canvot,Crystal Palace FC,Premier League,Defence,5000000,39500,7,2025,87,Transfermarkt; estimation salaire
+PL:354:278973:rio-cardines,Rio Cardines,Crystal Palace FC,Premier League,Defence,500000,5000,7,2025,80,Transfermarkt; estimation
+PL:354:290013:george-king,George King,Crystal Palace FC,Premier League,Defence,500000,5000,7,2025,80,Transfermarkt; estimation
+PL:354:3638:ismaila-sarr,Ismaïla Sarr,Crystal Palace FC,Premier League,Midfield,25000000,102000,8,2024,87,Transfermarkt; estimation salaire
+PL:354:3737:jefferson-lerma,Jefferson Lerma,Crystal Palace FC,Premier League,Midfield,12000000,65500,7,2023,87,Transfermarkt; estimation salaire
+PL:354:6716:daichi-kamada,Daichi Kamada,Crystal Palace FC,Premier League,Midfield,18000000,83500,7,2024,87,Transfermarkt; estimation salaire
+PL:354:180389:adam-wharton,Adam Wharton,Crystal Palace FC,Premier League,Midfield,50000000,140000,2,2024,87,Transfermarkt; estimation salaire
+PL:354:289916:joel-drakes-thomas,Joel Drakes-Thomas,Crystal Palace FC,Premier League,Midfield,500000,5000,7,2025,80,Transfermarkt; estimation
+PL:354:290017:dean-benamar,Dean Benamar,Crystal Palace FC,Premier League,Midfield,500000,5000,7,2025,80,Transfermarkt; estimation
+PL:354:641:jean-philippe-mateta,Jean-Philippe Mateta,Crystal Palace FC,Premier League,Offence,35000000,90000,1,2021,95,Transfermarkt; Capology
+PL:354:128710:evann-guessand,Evann Guessand,Crystal Palace FC,Premier League,Offence,25000000,102000,7,2025,87,Transfermarkt; estimation salaire
+PL:354:213269:j-rgen-strand-larsen,Jørgen Strand Larsen,Crystal Palace FC,Premier League,Offence,35000000,126000,7,2025,87,Transfermarkt; estimation salaire
+PL:354:272716:zach-marsh,Zach Marsh,Crystal Palace FC,Premier League,Offence,1200000,19500,7,2025,80,Transfermarkt; estimation
+PL:354:289917:benjamin-casey,Benjamin Casey,Crystal Palace FC,Premier League,Offence,700000,8500,7,2025,80,Transfermarkt; estimation
+PL:354:124694:brennan-johnson,Brennan Johnson,Crystal Palace FC,Premier League,Right Winger,40000000,140000,7,2025,95,Transfermarkt; Capology
+PL:354:74677:cheick-doucoure,Cheick Doucouré,Crystal Palace FC,Premier League,Defensive Midfield,30000000,114000,7,2022,87,Transfermarkt; estimation salaire
+PL:354:10208:borna-sosa,Borna Sosa,Crystal Palace FC,Premier League,Left Midfield,10000000,59000,7,2025,87,Transfermarkt; estimation salaire
+PL:354:8124:will-hughes,Will Hughes,Crystal Palace FC,Premier League,Central Midfield,7000000,48000,8,2021,87,Transfermarkt; estimation salaire
+PL:354:7863:nathaniel-clyne,Nathaniel Clyne,Crystal Palace FC,Premier League,Right-Back,800000,9000,10,2020,87,Transfermarkt; estimation salaire
+PL:354:7800:eddie-nketiah,Eddie Nketiah,Crystal Palace FC,Premier League,Centre-Forward,25000000,120000,8,2024,95,Transfermarkt; Capology
+PL:354:270859:caleb-kporha,Caleb Kporha,Crystal Palace FC,Premier League,Right-Back,1000000,10000,7,2025,80,Transfermarkt; estimation
+PL:354:260763:chrisantus,Chrisantus,Crystal Palace FC,Premier League,Attacking Midfield,500000,5000,7,2025,80,Transfermarkt; estimation
+PL:354:187401:kaden-rodney,Kaden Rodney,Crystal Palace FC,Premier League,Defensive Midfield,500000,5000,7,2025,80,Transfermarkt; estimation
+PL:354:152149:justin-devenny,Justin Devenny,Crystal Palace FC,Premier League,Central Midfield,5000000,39500,7,2024,87,Transfermarkt; estimation salaire
+PL:354:137068:tyrick-mitchell,Tyrick Mitchell,Crystal Palace FC,Premier League,Left-Back,25000000,102000,7,2020,87,Transfermarkt; estimation salaire
+PL:397:4040:jason-steele,Jason Steele,Brighton & Hove Albion FC,Premier League,Goalkeeper,1500000,19000,7,2018,87,Transfermarkt; estimation salaire
+PL:397:126870:bart-verbruggen,Bart Verbruggen,Brighton & Hove Albion FC,Premier League,Goalkeeper,45000000,128500,7,2023,87,Transfermarkt; estimation salaire
+PL:397:140203:thomas-mcgill,Thomas McGill,Brighton & Hove Albion FC,Premier League,Goalkeeper,1000000,8500,7,2023,87,Transfermarkt; estimation salaire
+PL:397:230048:nils-ramming,Nils Ramming,Brighton & Hove Albion FC,Premier League,Goalkeeper,700000,7500,7,2025,80,Transfermarkt; estimation
+PL:397:9869:ferdi-kad-oglu,Ferdi Kadıoğlu,Brighton & Hove Albion FC,Premier League,Defence,30000000,110500,8,2024,87,Transfermarkt; estimation salaire
+PL:397:10777:igor-julio,Igor Julio,Brighton & Hove Albion FC,Premier League,Defence,14000000,69500,7,2023,87,Transfermarkt; estimation salaire
+PL:397:98566:jan-paul-van-hecke,Jan Paul van Hecke,Brighton & Hove Albion FC,Premier League,Defence,35000000,122000,9,2020,87,Transfermarkt; estimation salaire
+PL:397:142075:maxim-de-cuyper,Maxim De Cuyper,Brighton & Hove Albion FC,Premier League,Defence,30000000,110500,7,2025,87,Transfermarkt; estimation salaire
+PL:397:277479:charlie-tasker,Charlie Tasker,Brighton & Hove Albion FC,Premier League,Defence,500000,4500,7,2025,80,Transfermarkt; estimation
+PL:397:277783:freddie-simmonds,Freddie Simmonds,Brighton & Hove Albion FC,Premier League,Defence,500000,4500,7,2025,80,Transfermarkt; estimation
+PL:397:8273:pascal-gro,Pascal Groß,Brighton & Hove Albion FC,Premier League,Midfield,4000000,85000,7,2025,95,Transfermarkt; Capology
+PL:397:97505:mats-wieffer,Mats Wieffer,Brighton & Hove Albion FC,Premier League,Midfield,28000000,106000,7,2024,87,Transfermarkt; estimation salaire
+PL:397:145613:yasin-ayari,Yasin Ayari,Brighton & Hove Albion FC,Premier League,Midfield,22000000,91500,1,2023,87,Transfermarkt; estimation salaire
+PL:397:178951:diego-gomez,Diego Gómez,Brighton & Hove Albion FC,Premier League,Midfield,18000000,81000,1,2025,87,Transfermarkt; estimation salaire
+PL:397:287852:nehemiah-oriola,Nehemiah Oriola,Brighton & Hove Albion FC,Premier League,Midfield,500000,4500,7,2025,80,Transfermarkt; estimation
+PL:397:264300:charalampos-kostoulas,Charalampos Kostoulas,Brighton & Hove Albion FC,Premier League,Offence,15000000,72500,7,2025,87,Transfermarkt; estimation salaire
+PL:397:277782:harry-howell,Harry Howell,Brighton & Hove Albion FC,Premier League,Offence,700000,8500,7,2025,80,Transfermarkt; estimation
+PL:397:132707:kaoru-mitoma,Kaoru Mitoma,Brighton & Hove Albion FC,Premier League,Left Winger,45000000,100000,8,2021,95,Transfermarkt; Capology
+PL:397:81189:georginio-rutter,Georginio Rutter,Brighton & Hove Albion FC,Premier League,Centre-Forward,40000000,130000,8,2024,87,Transfermarkt; estimation salaire
+PL:397:8259:lewis-dunk,Lewis Dunk,Brighton & Hove Albion FC,Premier League,Centre-Back,6000000,42500,7,2010,87,Transfermarkt; estimation salaire
+PL:397:7861:james-milner,James Milner,Brighton & Hove Albion FC,Premier League,Central Midfield,500000,75000,7,2023,95,Transfermarkt; Capology
+PL:397:7547:joel-veltman,Joël Veltman,Brighton & Hove Albion FC,Premier League,Right-Back,4000000,34000,7,2020,87,Transfermarkt; estimation salaire
+PL:397:4228:adam-webster,Adam Webster,Brighton & Hove Albion FC,Premier League,Centre-Back,5000000,38500,8,2019,87,Transfermarkt; estimation salaire
+PL:397:3974:matt-o-riley,Matt O'Riley,Brighton & Hove Albion FC,Premier League,Central Midfield,28000000,106000,8,2024,87,Transfermarkt; estimation salaire
+PL:397:3328:danny-welbeck,Danny Welbeck,Brighton & Hove Albion FC,Premier League,Centre-Forward,3000000,29000,10,2020,87,Transfermarkt; estimation salaire
+PL:397:846:olivier-boscagli,Olivier Boscagli,Brighton & Hove Albion FC,Premier League,Centre-Back,18000000,81000,7,2025,87,Transfermarkt; estimation salaire
+PL:397:246670:malick-yalcouye,Malick Yalcouyé,Brighton & Hove Albion FC,Premier League,Central Midfield,12000000,63500,7,2024,87,Transfermarkt; estimation salaire
+PL:397:209504:stefanos-tzimas,Stefanos Tzimas,Brighton & Hove Albion FC,Premier League,Centre-Forward,20000000,86000,7,2025,87,Transfermarkt; estimation salaire
+PL:397:190851:jack-hinshelwood,Jack Hinshelwood,Brighton & Hove Albion FC,Premier League,Central Midfield,30000000,110500,7,2023,87,Transfermarkt; estimation salaire
+PL:397:187482:yankubah-minteh,Yankubah Minteh,Brighton & Hove Albion FC,Premier League,Right Winger,35000000,122000,7,2024,87,Transfermarkt; estimation salaire
+PL:397:178604:carlos-baleba,Carlos Baleba,Brighton & Hove Albion FC,Premier League,Defensive Midfield,70000000,130000,8,2023,87,Transfermarkt; estimation salaire
+PL:397:161365:solly-march,Solly March,Brighton & Hove Albion FC,Premier League,Right Winger,6000000,42500,7,2013,87,Transfermarkt; estimation salaire
+PL:402:4419:ellery-balcombe,Ellery Balcombe,Brentford FC,Premier League,Goalkeeper,1500000,16500,7,2024,87,Transfermarkt; estimation salaire
+PL:402:102046:caoimhin-kelleher,Caoimhin Kelleher,Brentford FC,Premier League,Goalkeeper,28000000,80000,7,2025,95,Transfermarkt; Capology
+PL:402:144530:hakon-rafn-valdimarsson,Hákon Rafn Valdimarsson,Brentford FC,Premier League,Goalkeeper,5000000,31000,1,2024,87,Transfermarkt; estimation salaire
+PL:402:274963:julian-eyestone,Julian Eyestone,Brentford FC,Premier League,Goalkeeper,700000,6500,7,2025,80,Transfermarkt; estimation
+PL:402:16068:kristoffer-ajer,Kristoffer Ajer,Brentford FC,Premier League,Defence,18000000,72000,7,2021,87,Transfermarkt; estimation salaire
+PL:402:101111:aaron-hickey,Aaron Hickey,Brentford FC,Premier League,Defence,15000000,64500,7,2022,87,Transfermarkt; estimation salaire
+PL:402:3320:jordan-henderson,Jordan Henderson,Brentford FC,Premier League,Midfield,5000000,120000,7,2025,95,Transfermarkt; Capology
+PL:402:191077:romelle-donovan,Romelle Donovan,Brentford FC,Premier League,Midfield,3000000,26000,7,2025,87,Transfermarkt; estimation salaire
+PL:402:289808:josh-stephenson,Josh Stephenson,Brentford FC,Premier League,Midfield,700000,7500,7,2025,80,Transfermarkt; estimation
+PL:402:292027:luka-bentt,Luka Bentt,Brentford FC,Premier League,Midfield,500000,4000,7,2025,80,Transfermarkt; estimation
+PL:402:292548:ollie-shield,Ollie Shield,Brentford FC,Premier League,Midfield,500000,4000,7,2025,80,Transfermarkt; estimation
+PL:402:293865:conor-mcmanus,Conor McManus,Brentford FC,Premier League,Midfield,500000,4000,7,2025,80,Transfermarkt; estimation
+PL:402:294501:riley-owen,Riley Owen,Brentford FC,Premier League,Midfield,500000,4000,7,2025,80,Transfermarkt; estimation
+PL:402:175994:thiago-rodrigues,Thiago Rodrigues,Brentford FC,Premier League,Offence,28000000,94500,7,2024,87,Transfermarkt; estimation salaire
+PL:402:213518:kaye-furo,Kaye Furo,Brentford FC,Premier League,Offence,1000000,8500,7,2025,80,Transfermarkt; estimation
+PL:402:123286:kevin-schade,Kevin Schade,Brentford FC,Premier League,Left Winger,30000000,98500,7,2023,87,Transfermarkt; estimation salaire
+PL:402:115642:nathan-collins,Nathan Collins,Brentford FC,Premier League,Centre-Back,35000000,108500,7,2023,87,Transfermarkt; estimation salaire
+PL:402:101910:keane-lewis-potter,Keane Lewis-Potter,Brentford FC,Premier League,Left Winger,25000000,88000,7,2022,87,Transfermarkt; estimation salaire
+PL:402:24238:mikkel-damsgaard,Mikkel Damsgaard,Brentford FC,Premier League,Left Winger,30000000,98500,8,2022,87,Transfermarkt; estimation salaire
+PL:402:10194:mathias-jensen,Mathias Jensen,Brentford FC,Premier League,Central Midfield,18000000,72000,7,2018,87,Transfermarkt; estimation salaire
+PL:402:10000:vitaly-janelt,Vitaly Janelt,Brentford FC,Premier League,Defensive Midfield,20000000,77000,10,2020,87,Transfermarkt; estimation salaire
+PL:402:7799:reiss-nelson,Reiss Nelson,Brentford FC,Premier League,Right Winger,18000000,72000,7,2025,87,Transfermarkt; estimation salaire
+PL:402:7796:josh-dasilva,Josh Dasilva,Brentford FC,Premier League,Central Midfield,3000000,26000,8,2018,87,Transfermarkt; estimation salaire
+PL:402:7720:sepp-van-den-berg,Sepp van den Berg,Brentford FC,Premier League,Centre-Back,25000000,88000,8,2024,87,Transfermarkt; estimation salaire
+PL:402:4426:rico-henry,Rico Henry,Brentford FC,Premier League,Left-Back,18000000,72000,8,2016,87,Transfermarkt; estimation salaire

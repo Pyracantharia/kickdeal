@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+PPL:496:110864:kevin-chamorro,Kevin Chamorro,Rio Ave FC,Primeira Liga,Goalkeeper,300000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:496:114150:cezary-miszta,Cezary Miszta,Rio Ave FC,Primeira Liga,Goalkeeper,5000000,9900,1,2024,87,Transfermarkt; estimation salaire
+PPL:496:135116:ennio-van-der-gouw,Ennio van der Gouw,Rio Ave FC,Primeira Liga,Goalkeeper,400000,1300,7,2026,68,Transfermarkt; estimation salaire
+PPL:496:4266:omar-richards,Omar Richards,Rio Ave FC,Primeira Liga,Defence,2500000,17308,7,2025,95,Transfermarkt; Capology
+PPL:496:8966:jakub-brabec,Jakub Brabec,Rio Ave FC,Primeira Liga,Defence,700000,2700,7,2025,68,Transfermarkt; estimation salaire
+PPL:496:81950:georgios-liavas,Georgios Liavas,Rio Ave FC,Primeira Liga,Defence,2500000,7200,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:193588:joao-tome,Joao Tome,Rio Ave FC,Primeira Liga,Defence,2000000,6400,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:209594:andreas-ndoj,Andreas Ndoj,Rio Ave FC,Primeira Liga,Defence,1200000,3500,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:250593:francisco-petrasso,Francisco Petrasso,Rio Ave FC,Primeira Liga,Defence,800000,2900,7,2025,68,Transfermarkt; estimation salaire
+PPL:496:276192:gustavo,Gustavo,Rio Ave FC,Primeira Liga,Defence,500000,1500,7,2025,68,Transfermarkt; estimation salaire
+PPL:496:188099:julien-lomboto,Julien Lomboto,Rio Ave FC,Primeira Liga,Midfield,700000,2700,7,2025,68,Transfermarkt; estimation salaire
+PPL:496:245365:lorent-talla,Lorent Talla,Rio Ave FC,Primeira Liga,Midfield,500000,1500,7,2025,68,Transfermarkt; estimation salaire
+PPL:496:246203:diogo-oliveira,Diogo Oliveira,Rio Ave FC,Primeira Liga,Midfield,700000,2700,7,2025,68,Transfermarkt; estimation salaire
+PPL:496:250777:ryan-guilherme,Ryan Guilherme,Rio Ave FC,Primeira Liga,Midfield,2500000,7200,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:264302:theofanis-bakoulas,Theofanis Bakoulas,Rio Ave FC,Primeira Liga,Midfield,3500000,8600,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:264675:antonis-papakanellos,Antonis Papakanellos,Rio Ave FC,Primeira Liga,Midfield,6000000,11600,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:274157:rafael-genuino,Rafael Genuino,Rio Ave FC,Primeira Liga,Midfield,500000,1500,7,2025,68,Transfermarkt; estimation salaire
+PPL:496:32141:marc-gual-huguet,Marc Gual Huguet,Rio Ave FC,Primeira Liga,Offence,900000,3000,7,2025,68,Transfermarkt; estimation salaire
+PPL:496:118074:dario-spikic,Dario Špikić,Rio Ave FC,Primeira Liga,Offence,2500000,7200,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:211519:tobias-medina,Tobias Medina,Rio Ave FC,Primeira Liga,Offence,1500000,3900,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:243745:tamble-monteiro,Tamble Monteiro,Rio Ave FC,Primeira Liga,Offence,2500000,7200,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:244984:karem-zoabi,Karem Zoabi,Rio Ave FC,Primeira Liga,Offence,3000000,7900,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:247235:jalen-blesa,Jalen Blesa,Rio Ave FC,Primeira Liga,Offence,1200000,3500,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:185179:brandon-aguilera,Brandon Aguilera,Rio Ave FC,Primeira Liga,Attacking Midfield,3500000,8600,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:185150:joao-graca,João Graça,Rio Ave FC,Primeira Liga,Central Midfield,300000,1200,7,2018,68,Transfermarkt; estimation salaire
+PPL:496:178767:leonardo-buta,Leonardo Buta,Rio Ave FC,Primeira Liga,Left-Back,2500000,7200,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:149940:nelson-abbey,Nelson Abbey,Rio Ave FC,Primeira Liga,Centre-Back,4000000,9200,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:142162:ole-pohlmann,Ole Pohlmann,Rio Ave FC,Primeira Liga,Central Midfield,2500000,7200,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:111896:tamas-nikitscher,Tamás Nikitscher,Rio Ave FC,Primeira Liga,Central Midfield,2500000,7200,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:15990:marious-vrousai,Marious Vrousai,Rio Ave FC,Primeira Liga,Right Winger,1500000,3900,7,2025,87,Transfermarkt; estimation salaire
+PPL:496:214166:amine-rehmi,Amine Rehmi,Rio Ave FC,Primeira Liga,Left Winger,800000,2900,7,2025,68,Transfermarkt; estimation salaire
+PPL:498:32014:rui-silva,Rui Silva,Sporting Clube de Portugal,Primeira Liga,Goalkeeper,7000000,50000,1,2025,95,Transfermarkt; Capology
+PPL:498:82207:joao-virginia,João Virgínia,Sporting Clube de Portugal,Primeira Liga,Goalkeeper,2500000,16400,7,2025,87,Transfermarkt; estimation salaire
+PPL:498:178770:diego-callai,Diego Callai,Sporting Clube de Portugal,Primeira Liga,Goalkeeper,5000000,23800,7,2024,87,Transfermarkt; estimation salaire
+PPL:498:194860:francisco-silva,Francisco Silva,Sporting Clube de Portugal,Primeira Liga,Goalkeeper,500000,3500,7,2025,68,Transfermarkt; estimation salaire
+PPL:498:28770:maximiliano-araujo,Maximiliano Araújo,Sporting Clube de Portugal,Primeira Liga,Defence,35000000,78500,8,2024,87,Transfermarkt; estimation salaire
+PPL:498:137045:georgios-vagiannidis,Georgios Vagiannidis,Sporting Clube de Portugal,Primeira Liga,Defence,18000000,52600,7,2025,87,Transfermarkt; estimation salaire
+PPL:498:145357:goncalo-inacio,Gonçalo Inácio,Sporting Clube de Portugal,Primeira Liga,Defence,45000000,60000,7,2020,95,Transfermarkt; Capology
+PPL:498:160926:zeno-debast,Zeno Debast,Sporting Clube de Portugal,Primeira Liga,Defence,45000000,85000,7,2024,87,Transfermarkt; estimation salaire
+PPL:498:178768:eduardo-quaresma,Eduardo Quaresma,Sporting Clube de Portugal,Primeira Liga,Defence,12000000,41400,7,2020,87,Transfermarkt; estimation salaire
+PPL:498:191760:ousmane-diomande,Ousmane Diomande,Sporting Clube de Portugal,Primeira Liga,Defence,45000000,85000,1,2023,87,Transfermarkt; estimation salaire
+PPL:498:213298:romulo,Rômulo,Sporting Clube de Portugal,Primeira Liga,Defence,1500000,9300,7,2025,87,Transfermarkt; estimation salaire
+PPL:498:229418:rayan-lucas,Rayan Lucas,Sporting Clube de Portugal,Primeira Liga,Defence,1000000,7600,7,2025,68,Transfermarkt; estimation salaire
+PPL:498:242475:bruno-ramos,Bruno Ramos,Sporting Clube de Portugal,Primeira Liga,Defence,1000000,7600,7,2025,68,Transfermarkt; estimation salaire
+PPL:498:277088:david-moreira,David Moreira,Sporting Clube de Portugal,Primeira Liga,Defence,700000,6500,7,2025,68,Transfermarkt; estimation salaire
+PPL:498:282381:salvador-blopa,Salvador Blopa,Sporting Clube de Portugal,Primeira Liga,Defence,500000,3600,7,2025,68,Transfermarkt; estimation salaire
+PPL:498:144628:giorgi-kochorashvili,Giorgi Kochorashvili,Sporting Clube de Portugal,Primeira Liga,Midfield,15000000,47200,7,2025,87,Transfermarkt; estimation salaire
+PPL:498:270551:joao-simoes,João Simões,Sporting Clube de Portugal,Primeira Liga,Midfield,18000000,52600,7,2024,87,Transfermarkt; estimation salaire
+PPL:498:273613:eduardo-felicissimo,Eduardo Felicíssimo,Sporting Clube de Portugal,Primeira Liga,Midfield,10000000,37200,7,2024,87,Transfermarkt; estimation salaire
+PPL:498:32386:luis-suarez,Luis Suárez,Sporting Clube de Portugal,Primeira Liga,Offence,28000000,68600,7,2025,87,Transfermarkt; estimation salaire
+PPL:498:37332:trincao,Trincão,Sporting Clube de Portugal,Primeira Liga,Offence,35000000,75000,7,2023,95,Transfermarkt; Capology
+PPL:498:186459:fotis-ioannidis,Fotis Ioannidis,Sporting Clube de Portugal,Primeira Liga,Offence,22000000,59300,7,2025,87,Transfermarkt; estimation salaire
+PPL:498:204124:mauro-couto,Mauro Couto,Sporting Clube de Portugal,Primeira Liga,Offence,3000000,19000,7,2025,87,Transfermarkt; estimation salaire
+PPL:498:229421:geovany-quenda,Geovany Quenda,Sporting Clube de Portugal,Primeira Liga,Offence,60000000,45000,7,2024,95,Transfermarkt; Capology
+PPL:498:247303:rafael-nel,Rafael Nel,Sporting Clube de Portugal,Primeira Liga,Offence,3000000,19000,7,2024,87,Transfermarkt; estimation salaire
+PPL:498:275336:lucas-anjos,Lucas Anjos,Sporting Clube de Portugal,Primeira Liga,Offence,1000000,7600,7,2025,68,Transfermarkt; estimation salaire
+PPL:498:280747:flavio-goncalves,Flávio Gonçalves,Sporting Clube de Portugal,Primeira Liga,Offence,1200000,8300,7,2025,87,Transfermarkt; estimation salaire
+PPL:498:283132:souleymane-faye,Souleymane Faye,Sporting Clube de Portugal,Primeira Liga,Offence,10000000,37200,7,2025,87,Transfermarkt; estimation salaire
+PPL:498:176840:ivan-fresneda,Ivan Fresneda,Sporting Clube de Portugal,Primeira Liga,Right-Back,12000000,41400,7,2023,87,Transfermarkt; estimation salaire
+PPL:498:128825:geny-catamo,Geny Catamo,Sporting Clube de Portugal,Primeira Liga,Right Winger,30000000,71500,7,2021,87,Transfermarkt; estimation salaire
+PPL:498:102336:daniel-braganca,Daniel Bragança,Sporting Clube de Portugal,Primeira Liga,Central Midfield,12000000,41400,7,2019,87,Transfermarkt; estimation salaire
+PPL:498:92050:pedro-goncalves,Pedro Gonçalves,Sporting Clube de Portugal,Primeira Liga,Attacking Midfield,30000000,65000,8,2020,95,Transfermarkt; Capology
+PPL:498:73998:morten-hjulmand,Morten Hjulmand,Sporting Clube de Portugal,Primeira Liga,Defensive Midfield,50000000,65000,8,2023,95,Transfermarkt; Capology
+PPL:498:53190:ricardo-mangas,Ricardo Mangas,Sporting Clube de Portugal,Primeira Liga,Left-Back,5000000,25100,7,2025,87,Transfermarkt; estimation salaire
+PPL:498:49092:hidemasa-morita,Hidemasa Morita,Sporting Clube de Portugal,Primeira Liga,Central Midfield,12000000,41400,7,2022,87,Transfermarkt; estimation salaire
+PPL:498:45463:nuno-santos,Nuno Santos,Sporting Clube de Portugal,Primeira Liga,Left-Back,6000000,27800,8,2020,87,Transfermarkt; estimation salaire
+PPL:498:227767:joao-muniz,João Muniz,Sporting Clube de Portugal,Primeira Liga,Centre-Back,2500000,17200,7,2024,87,Transfermarkt; estimation salaire
+PPL:498:217543:samuel-justo,Samuel Justo,Sporting Clube de Portugal,Primeira Liga,Central Midfield,1500000,9300,7,2024,87,Transfermarkt; estimation salaire
+PPL:498:192653:luis-guilherme,Luis Guilherme,Sporting Clube de Portugal,Primeira Liga,Right Winger,22000000,59300,7,2025,87,Transfermarkt; estimation salaire
+PPL:503:37362:diogo-costa,Diogo Costa,FC Porto,Primeira Liga,Goalkeeper,40000000,92500,7,2019,95,Transfermarkt; Capology
+PPL:503:43598:andorinha,Andorinha,FC Porto,Primeira Liga,Goalkeeper,500000,3800,7,2025,68,Transfermarkt; estimation salaire
+PPL:503:45217:claudio-ramos,Cláudio Ramos,FC Porto,Primeira Liga,Goalkeeper,2000000,15800,7,2020,87,Transfermarkt; estimation salaire
+PPL:503:216825:dominik-prpic,Dominik Prpić,FC Porto,Primeira Liga,Defence,12000000,45000,7,2025,87,Transfermarkt; estimation salaire
+PPL:503:227047:martim-fernandes,Martim Fernandes,FC Porto,Primeira Liga,Defence,25000000,69600,7,2023,87,Transfermarkt; estimation salaire
+PPL:503:250544:gabriel-bras,Gabriel Brás,FC Porto,Primeira Liga,Defence,5000000,27200,7,2024,87,Transfermarkt; estimation salaire
+PPL:503:2126:seko-fofana,Seko Fofana,FC Porto,Primeira Liga,Midfield,8000000,35600,7,2025,87,Transfermarkt; estimation salaire
+PPL:503:39102:william-da-silva,William da Silva,FC Porto,Primeira Liga,Midfield,1000000,8300,7,2025,68,Transfermarkt; estimation salaire
+PPL:503:221262:victor-froholdt,Victor Froholdt,FC Porto,Primeira Liga,Midfield,50000000,100000,7,2025,87,Transfermarkt; estimation salaire
+PPL:503:261273:rodrigo-mora,Rodrigo Mora,FC Porto,Primeira Liga,Midfield,45000000,99400,7,2024,87,Transfermarkt; estimation salaire
+PPL:503:262669:andre-oliveira,André Oliveira,FC Porto,Primeira Liga,Midfield,1000000,8300,7,2025,68,Transfermarkt; estimation salaire
+PPL:503:262715:joao-teixeira,João Teixeira,FC Porto,Primeira Liga,Midfield,700000,7100,7,2025,68,Transfermarkt; estimation salaire
+PPL:503:276710:bernardo-lima,Bernardo Lima,FC Porto,Primeira Liga,Midfield,700000,7100,7,2025,68,Transfermarkt; estimation salaire
+PPL:503:278459:tiago-silva,Tiago Silva,FC Porto,Primeira Liga,Midfield,700000,7100,7,2025,68,Transfermarkt; estimation salaire
+PPL:503:188466:deniz-gul,Deniz Gul,FC Porto,Primeira Liga,Offence,12000000,45000,8,2024,87,Transfermarkt; estimation salaire
+PPL:503:251113:goncalo-sousa,Gonçalo Sousa,FC Porto,Primeira Liga,Offence,3000000,20600,7,2024,87,Transfermarkt; estimation salaire
+PPL:503:262708:tiago-andrade,Tiago Andrade,FC Porto,Primeira Liga,Offence,1000000,8300,7,2025,68,Transfermarkt; estimation salaire
+PPL:503:265174:oskar-pietuszewski,Oskar Pietuszewski,FC Porto,Primeira Liga,Offence,25000000,69600,7,2025,87,Transfermarkt; estimation salaire
+PPL:503:265525:bryan-caicedo,Bryan Caicedo,FC Porto,Primeira Liga,Offence,5000000,27200,7,2025,87,Transfermarkt; estimation salaire
+PPL:503:285295:andre-miranda,André Miranda,FC Porto,Primeira Liga,Offence,1000000,8300,7,2025,68,Transfermarkt; estimation salaire
+PPL:503:153629:alan-varela,Alan Varela,FC Porto,Primeira Liga,Defensive Midfield,35000000,60000,8,2023,95,Transfermarkt; Capology
+PPL:503:150519:gabriel-veiga,Gabriel Veiga,FC Porto,Primeira Liga,Central Midfield,30000000,65000,7,2025,95,Transfermarkt; Capology
+PPL:503:147286:jakub-kiwior,Jakub Kiwior,FC Porto,Primeira Liga,Centre-Back,35000000,70000,7,2025,95,Transfermarkt; Capology
+PPL:503:127034:borja-sainz,Borja Sainz,FC Porto,Primeira Liga,Left Winger,18000000,57200,7,2025,87,Transfermarkt; estimation salaire
+PPL:503:125160:zaidu-sanusi,Zaidu Sanusi,FC Porto,Primeira Liga,Left-Back,6000000,30200,8,2020,87,Transfermarkt; estimation salaire
+PPL:503:113427:terem-moffi,Terem Moffi,FC Porto,Primeira Liga,Centre-Forward,10000000,40500,7,2025,87,Transfermarkt; estimation salaire
+PPL:503:98611:moura,Moura,FC Porto,Primeira Liga,Left-Back,12000000,45000,7,2025,87,Transfermarkt; estimation salaire
+PPL:503:45671:nehuen-perez,Nehuén Pérez,FC Porto,Primeira Liga,Centre-Back,22000000,64500,8,2024,87,Transfermarkt; estimation salaire
+PPL:503:8086:jan-bednarek,Jan Bednarek,FC Porto,Primeira Liga,Centre-Back,18000000,57200,7,2025,87,Transfermarkt; estimation salaire
+PPL:503:7452:luuk-de-jong,Luuk de Jong,FC Porto,Primeira Liga,Centre-Forward,2000000,50000,7,2025,95,Transfermarkt; Capology
+PPL:503:7448:pablo-rosario,Pablo Rosario,FC Porto,Primeira Liga,Defensive Midfield,10000000,40500,7,2025,87,Transfermarkt; estimation salaire
+PPL:503:3224:thiago-silva,Thiago Silva,FC Porto,Primeira Liga,Centre-Back,1000000,8300,7,2025,68,Transfermarkt; estimation salaire
+PPL:503:2018:yann-karamoh,Yann Karamoh,FC Porto,Primeira Liga,Left Winger,4000000,24100,7,2025,87,Transfermarkt; estimation salaire
+PPL:503:1166:pepe,Pepê,FC Porto,Primeira Liga,Left Winger,30000000,65000,7,2021,95,Transfermarkt; Capology
+PPL:503:215434:samu-omorodion,Samu Omorodion,FC Porto,Primeira Liga,Centre-Forward,45000000,70000,8,2024,95,Transfermarkt; Capology
+PPL:503:184496:alberto-baio,Alberto Baio,FC Porto,Primeira Liga,Right-Back,12000000,45000,7,2025,87,Transfermarkt; estimation salaire
+PPL:582:7821:joel-robles,Joel Robles,GD Estoril Praia,Primeira Liga,Goalkeeper,350000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:582:153884:martin-turk,Martin Turk,GD Estoril Praia,Primeira Liga,Goalkeeper,2500000,6000,7,2024,87,Transfermarkt; estimation salaire
+PPL:582:213111:diogo-dias,Diogo Dias,GD Estoril Praia,Primeira Liga,Goalkeeper,500000,1300,7,2025,68,Transfermarkt; estimation salaire
+PPL:582:37554:ferro,Ferro,GD Estoril Praia,Primeira Liga,Defence,2500000,6300,7,2024,87,Transfermarkt; estimation salaire
+PPL:582:37555:pedro-amaral,Pedro Amaral,GD Estoril Praia,Primeira Liga,Defence,1800000,5300,7,2025,87,Transfermarkt; estimation salaire
+PPL:582:75196:felix-bacher,Felix Bacher,GD Estoril Praia,Primeira Liga,Defence,2500000,6300,7,2025,87,Transfermarkt; estimation salaire
+PPL:582:141472:ricard-sanchez,Ricard Sánchez,GD Estoril Praia,Primeira Liga,Defence,5000000,9200,7,2025,87,Transfermarkt; estimation salaire
+PPL:582:151006:kevin-boma,Kévin Boma,GD Estoril Praia,Primeira Liga,Defence,5000000,9200,7,2024,87,Transfermarkt; estimation salaire
+PPL:582:175853:antef-tsoungui,Antef Tsoungui,GD Estoril Praia,Primeira Liga,Defence,3000000,6900,7,2024,87,Transfermarkt; estimation salaire
+PPL:582:185120:goncalo-costa,Gonçalo Costa,GD Estoril Praia,Primeira Liga,Defence,3000000,6900,7,2024,87,Transfermarkt; estimation salaire
+PPL:582:190742:or-israelov,Or Israelov,GD Estoril Praia,Primeira Liga,Defence,2500000,6300,7,2025,87,Transfermarkt; estimation salaire
+PPL:582:281951:longin-bimai,Longin Bimai,GD Estoril Praia,Primeira Liga,Defence,800000,2500,7,2025,68,Transfermarkt; estimation salaire
+PPL:582:292946:jan-montes,Jan Montes,GD Estoril Praia,Primeira Liga,Defence,500000,1300,7,2025,68,Transfermarkt; estimation salaire
+PPL:582:8569:xeka,Xeka,GD Estoril Praia,Primeira Liga,Midfield,2500000,6300,7,2025,87,Transfermarkt; estimation salaire
+PPL:582:16752:joao-carvalho,João Carvalho,GD Estoril Praia,Primeira Liga,Midfield,4000000,8100,7,2025,87,Transfermarkt; estimation salaire
+PPL:582:146983:jandro-orellana,Jandro Orellana,GD Estoril Praia,Primeira Liga,Midfield,3500000,7500,7,2024,87,Transfermarkt; estimation salaire
+PPL:582:213075:peixinho,Peixinho,GD Estoril Praia,Primeira Liga,Midfield,500000,1300,7,2025,68,Transfermarkt; estimation salaire
+PPL:582:243570:pedro-carvalho,Pedro Carvalho,GD Estoril Praia,Primeira Liga,Midfield,700000,2400,7,2025,68,Transfermarkt; estimation salaire
+PPL:582:254264:nodar-lominadze,Nodar Lominadze,GD Estoril Praia,Primeira Liga,Midfield,1000000,2800,7,2025,68,Transfermarkt; estimation salaire
+PPL:582:270782:luis-gomes,Luís Gomes,GD Estoril Praia,Primeira Liga,Midfield,1000000,2800,7,2025,68,Transfermarkt; estimation salaire
+PPL:582:281958:bernardo-lourenco,Bernardo Lourenço,GD Estoril Praia,Primeira Liga,Midfield,2500000,6300,7,2024,87,Transfermarkt; estimation salaire
+PPL:582:189251:khayon-edwards,Khayon Edwards,GD Estoril Praia,Primeira Liga,Offence,3000000,6900,7,2025,87,Transfermarkt; estimation salaire
+PPL:582:249234:andre,André,GD Estoril Praia,Primeira Liga,Left Winger,700000,2400,7,2025,68,Transfermarkt; estimation salaire
+PPL:582:141357:alejandro-marques,Alejandro Marqués,GD Estoril Praia,Primeira Liga,Centre-Forward,2500000,6300,7,2024,87,Transfermarkt; estimation salaire
+PPL:582:135650:jordan-holsgrove,Jordan Holsgrove,GD Estoril Praia,Primeira Liga,Defensive Midfield,3000000,6900,7,2023,87,Transfermarkt; estimation salaire
+PPL:582:16754:pizzi,Pizzi,GD Estoril Praia,Primeira Liga,Attacking Midfield,1200000,3000,7,2025,87,Transfermarkt; estimation salaire
+PPL:582:636:rafik-guitane,Rafik Guitane,GD Estoril Praia,Primeira Liga,Right Winger,10000000,13600,7,2023,87,Transfermarkt; estimation salaire
+PPL:582:553:yanis-begraoui,Yanis Begraoui,GD Estoril Praia,Primeira Liga,Centre-Forward,5000000,9200,7,2024,87,Transfermarkt; estimation salaire
+PPL:583:45260:caio-secco,Caio Secco,Moreirense FC,Primeira Liga,Goalkeeper,500000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:583:52791:andre-ferreira,André Ferreira,Moreirense FC,Primeira Liga,Goalkeeper,1000000,2200,7,2025,68,Transfermarkt; estimation salaire
+PPL:583:79821:mika,Mika,Moreirense FC,Primeira Liga,Goalkeeper,300000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:583:179028:michel-augusto,Michel Augusto,Moreirense FC,Primeira Liga,Defence,1800000,4400,7,2025,87,Transfermarkt; estimation salaire
+PPL:583:245259:diogo-travassos,Diogo Travassos,Moreirense FC,Primeira Liga,Defence,2500000,5200,7,2025,87,Transfermarkt; estimation salaire
+PPL:583:249408:kevyn-monteiro,Kevyn Monteiro,Moreirense FC,Primeira Liga,Defence,1500000,2800,7,2025,87,Transfermarkt; estimation salaire
+PPL:583:262652:kiko,Kiko,Moreirense FC,Primeira Liga,Defence,1000000,2300,7,2025,68,Transfermarkt; estimation salaire
+PPL:583:263709:leandro-santos,Leandro Santos,Moreirense FC,Primeira Liga,Defence,1500000,2800,7,2025,87,Transfermarkt; estimation salaire
+PPL:583:271514:alvaro-martinez,Álvaro Martínez,Moreirense FC,Primeira Liga,Defence,500000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:583:178712:vasco-sousa,Vasco Sousa,Moreirense FC,Primeira Liga,Midfield,6000000,8500,7,2025,87,Transfermarkt; estimation salaire
+PPL:583:191408:rodri-alonso,Rodri Alonso,Moreirense FC,Primeira Liga,Midfield,2500000,5200,7,2025,87,Transfermarkt; estimation salaire
+PPL:583:191985:mateja-stjepanovic,Mateja Stjepanovic,Moreirense FC,Primeira Liga,Midfield,1000000,2300,7,2025,68,Transfermarkt; estimation salaire
+PPL:583:263535:nile-john,Nile John,Moreirense FC,Primeira Liga,Midfield,3000000,5800,7,2025,87,Transfermarkt; estimation salaire
+PPL:583:270448:jimi-gower,Jimi Gower,Moreirense FC,Primeira Liga,Midfield,2000000,4700,7,2025,87,Transfermarkt; estimation salaire
+PPL:583:274500:afonso-assis,Afonso Assis,Moreirense FC,Primeira Liga,Midfield,500000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:583:291863:miguel-silva,Miguel Silva,Moreirense FC,Primeira Liga,Midfield,700000,2000,7,2025,68,Transfermarkt; estimation salaire
+PPL:583:105208:kiko-bondoso,Kiko Bondoso,Moreirense FC,Primeira Liga,Offence,3000000,5800,7,2025,87,Transfermarkt; estimation salaire
+PPL:583:149744:cedric-teguia,Cédric Teguia,Moreirense FC,Primeira Liga,Offence,2000000,4700,7,2025,87,Transfermarkt; estimation salaire
+PPL:583:211818:luis-semedo,Luís Semedo,Moreirense FC,Primeira Liga,Offence,2500000,5200,7,2025,87,Transfermarkt; estimation salaire
+PPL:583:264054:landerson,Landerson,Moreirense FC,Primeira Liga,Offence,500000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:583:275027:yan-maranhao,Yan Maranhão,Moreirense FC,Primeira Liga,Offence,700000,2000,7,2025,68,Transfermarkt; estimation salaire
+PPL:583:213097:gilberto-batista,Gilberto Batista,Moreirense FC,Primeira Liga,Centre-Back,700000,2000,7,2025,68,Transfermarkt; estimation salaire
+PPL:583:188084:dinis-pinto,Dinis Pinto,Moreirense FC,Primeira Liga,Right-Back,2000000,4700,7,2024,87,Transfermarkt; estimation salaire
+PPL:583:171328:fabiano-silva,Fabiano Silva,Moreirense FC,Primeira Liga,Right-Back,1200000,2500,7,2025,87,Transfermarkt; estimation salaire
+PPL:583:169237:alanzinho,Alanzinho,Moreirense FC,Primeira Liga,Attacking Midfield,4000000,6700,7,2021,87,Transfermarkt; estimation salaire
+PPL:583:13839:maracas,Maracás,Moreirense FC,Primeira Liga,Centre-Back,1500000,2800,7,2023,87,Transfermarkt; estimation salaire
+PPL:712:100703:ignacio-de-arruabarrena,Ignacio De Arruabarrena,FC Arouca,Primeira Liga,Goalkeeper,1000000,2500,7,2022,68,Transfermarkt; estimation salaire
+PPL:712:102210:joao-valido,João Valido,FC Arouca,Primeira Liga,Goalkeeper,400000,1200,7,2022,68,Transfermarkt; estimation salaire
+PPL:712:202404:jakub-vinarcik,Jakub Vinarčík,FC Arouca,Primeira Liga,Goalkeeper,1200000,2800,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:131240:amadou-dante,Amadou Dante,FC Arouca,Primeira Liga,Defence,3000000,6600,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:140169:jose-fontan,José Fontán,FC Arouca,Primeira Liga,Defence,3500000,7200,7,2024,87,Transfermarkt; estimation salaire
+PPL:712:151938:boris-popovic,Boris Popović,FC Arouca,Primeira Liga,Defence,2500000,6000,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:157101:diogo-monteiro,Diogo Monteiro,FC Arouca,Primeira Liga,Defence,5000000,8700,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:216483:omar-fayed,Omar Fayed,FC Arouca,Primeira Liga,Defence,3000000,6600,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:275631:jose-silva,José Silva,FC Arouca,Primeira Liga,Defence,1200000,2900,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:81391:barbero,Barbero,FC Arouca,Primeira Liga,Offence,1500000,3200,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:161005:dylan-nandin,Dylan Nandín,FC Arouca,Primeira Liga,Offence,2500000,6000,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:178782:brian-mansilla,Brian Mansilla,FC Arouca,Primeira Liga,Offence,2000000,5300,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:281961:batata,Batata,FC Arouca,Primeira Liga,Offence,1000000,2700,7,2025,68,Transfermarkt; estimation salaire
+PPL:712:270595:mateo-flores,Mateo Flores,FC Arouca,Primeira Liga,Central Midfield,3000000,6600,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:214415:espen-van-ee,Espen van Ee,FC Arouca,Primeira Liga,Central Midfield,1500000,3200,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:203446:yellu,Yellu,FC Arouca,Primeira Liga,Central Midfield,2000000,5300,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:191142:pedro-santos,Pedro Santos,FC Arouca,Primeira Liga,Central Midfield,3500000,7200,7,2024,87,Transfermarkt; estimation salaire
+PPL:712:182405:hyun-ju-lee,Hyun-Ju Lee,FC Arouca,Primeira Liga,Attacking Midfield,4500000,8200,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:180178:puche,Puche,FC Arouca,Primeira Liga,Left Winger,2500000,6000,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:169128:taichi-fukui,Taichi Fukui,FC Arouca,Primeira Liga,Central Midfield,3500000,7200,7,2024,87,Transfermarkt; estimation salaire
+PPL:712:153734:mati-as-rocha,Matí­as Rocha,FC Arouca,Primeira Liga,Centre-Back,1500000,3200,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:152585:fally-mayulu,Fally Mayulu,FC Arouca,Primeira Liga,Centre-Forward,4500000,8200,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:143641:alfonso-trezza,Alfonso Trezza,FC Arouca,Primeira Liga,Right Winger,2500000,6000,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:136929:pablo-gozalbez,Pablo Gozalbez,FC Arouca,Primeira Liga,Attacking Midfield,3000000,6600,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:92089:nais-djouahra,Naïs Djouahra,FC Arouca,Primeira Liga,Left Winger,3000000,6600,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:80899:javi-sanchez,Javi Sánchez,FC Arouca,Primeira Liga,Centre-Back,2500000,6000,7,2025,87,Transfermarkt; estimation salaire
+PPL:712:53121:tiago-esgaio,Tiago Esgaio,FC Arouca,Primeira Liga,Right-Back,1000000,2700,7,2019,68,Transfermarkt; estimation salaire
+PPL:712:21132:david-simao,David Simão,FC Arouca,Primeira Liga,Central Midfield,400000,1200,7,2019,68,Transfermarkt; estimation salaire
+PPL:712:7620:bas-kuipers,Bas Kuipers,FC Arouca,Primeira Liga,Left-Back,1200000,2900,7,2025,87,Transfermarkt; estimation salaire
+PPL:1049:152461:lucas-canizars,Lucas Cañizars,CD Tondela,Primeira Liga,Goalkeeper,1200000,1900,7,2025,87,Transfermarkt; estimation salaire
+PPL:1049:182049:bernardo-fontes,Bernardo Fontes,CD Tondela,Primeira Liga,Goalkeeper,500000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:263552:gabriel-souza,Gabriel Souza,CD Tondela,Primeira Liga,Goalkeeper,700000,1500,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:281728:rodrigo-silva,Rodrigo Silva,CD Tondela,Primeira Liga,Goalkeeper,800000,1600,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:32288:joao-afonso,João Afonso,CD Tondela,Primeira Liga,Defence,300000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:45331:bebeto,Bebeto,CD Tondela,Primeira Liga,Defence,700000,1600,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:98947:rodrigo-conceicao,Rodrigo Conceição,CD Tondela,Primeira Liga,Defence,1000000,1900,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:146970:christian-marques,Christian Marques,CD Tondela,Primeira Liga,Defence,1500000,2300,7,2025,87,Transfermarkt; estimation salaire
+PPL:1049:166113:emmanuel-maviram,Emmanuel Maviram,CD Tondela,Primeira Liga,Defence,700000,1600,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:171329:tiago-manso,Tiago Manso,CD Tondela,Primeira Liga,Defence,500000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:178447:brayan-medina,Brayan Medina,CD Tondela,Primeira Liga,Defence,500000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:187212:joao-silva,Joao Silva,CD Tondela,Primeira Liga,Defence,1500000,2300,2,2025,87,Transfermarkt; estimation salaire

@@ -1,0 +1,64 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+PL:402:4334:ethan-pinnock,Ethan Pinnock,Brentford FC,Premier League,Centre-Back,10000000,55000,7,2019,94,Transfermarkt; Capology
+PL:402:204421:yegor-yarmolyuk,Yegor Yarmolyuk,Brentford FC,Premier League,Attacking Midfield,18000000,22000,7,2022,94,Transfermarkt; Capology
+PL:402:204348:michael-kayode,Michael Kayode,Brentford FC,Premier League,Right-Back,40000000,50000,7,2025,94,Transfermarkt; Capology
+PL:402:177305:dango-ouattara,Dango Ouattara,Brentford FC,Premier League,Left Winger,35000000,65000,7,2025,94,Transfermarkt; Capology
+PL:402:171965:antoni-milambo,Antoni Milambo,Brentford FC,Premier League,Central Midfield,15000000,35000,7,2025,94,Transfermarkt; Capology
+PL:402:151119:fabio-carvalho,Fabio Carvalho,Brentford FC,Premier League,Attacking Midfield,8000000,60000,8,2024,94,Transfermarkt; Capology
+PL:563:3357:alphonse-areola,Alphonse Aréola,West Ham United FC,Premier League,Goalkeeper,4000000,140000,7,2022,94,Transfermarkt; Capology
+PL:563:3526:ukasz-fabianski,Łukasz Fabiański,West Ham United FC,Premier League,Goalkeeper,150000,75000,7,2018,62,Transfermarkt; estimation
+PL:563:97144:mads-hermansen,Mads Hermansen,West Ham United FC,Premier League,Goalkeeper,15000000,70000,7,2025,94,Transfermarkt; Capology
+PL:563:285739:finlay-herrick,Finlay Herrick,West Ham United FC,Premier League,Goalkeeper,500000,4500,7,2025,62,Transfermarkt; estimation
+PL:563:8158:aaron-wan-bissaka,Aaron Wan-Bissaka,West Ham United FC,Premier League,Defence,15000000,110000,8,2024,94,Transfermarkt; Capology
+PL:563:205441:el-hadji-diouf,El Hadji Diouf,West Ham United FC,Premier League,Defence,28000000,105000,7,2025,86,Transfermarkt; estimation salaire
+PL:563:273157:ezra-mayers,Ezra Mayers,West Ham United FC,Premier League,Defence,2000000,14500,7,2025,86,Transfermarkt; estimation salaire
+PL:563:289166:airidas-golambeckis,Airidas Golambeckis,West Ham United FC,Premier League,Defence,500000,4500,7,2025,62,Transfermarkt; estimation
+PL:563:15742:tomas-soucek,Tomáš Souček,West Ham United FC,Premier League,Midfield,10000000,105000,7,2020,94,Transfermarkt; Capology
+PL:563:102193:crysencio-summerville,Crysencio Summerville,West Ham United FC,Premier League,Midfield,35000000,90000,8,2024,94,Transfermarkt; Capology
+PL:563:219676:mohamadou-kante,Mohamadou Kante,West Ham United FC,Premier League,Midfield,1000000,10500,7,2025,86,Transfermarkt; estimation salaire
+PL:563:178755:pablo-felipe,Pablo Felipe,West Ham United FC,Premier League,Offence,18000000,80500,7,2025,86,Transfermarkt; estimation salaire
+PL:563:262986:keiber-lamadrid,Keiber Lamadrid,West Ham United FC,Premier League,Offence,1200000,11500,7,2025,86,Transfermarkt; estimation salaire
+PL:563:292496:joshua-ajala,Joshua Ajala,West Ham United FC,Premier League,Offence,500000,4500,7,2025,62,Transfermarkt; estimation
+PL:563:209130:lewis-orford,Lewis Orford,West Ham United FC,Premier League,Central Midfield,300000,4000,7,2024,62,Transfermarkt; estimation
+PL:563:188900:oliver-scarles,Oliver Scarles,West Ham United FC,Premier League,Left-Back,10000000,57000,7,2024,86,Transfermarkt; estimation salaire
+PL:563:187216:mateus-fernandes,Mateus Fernandes,West Ham United FC,Premier League,Central Midfield,50000000,80000,7,2025,94,Transfermarkt; Capology
+PL:563:179625:soungoutou-magassa,Soungoutou Magassa,West Ham United FC,Premier League,Defensive Midfield,17000000,60000,7,2025,94,Transfermarkt; Capology
+PL:563:176597:freddie-potts,Freddie Potts,West Ham United FC,Premier League,Defensive Midfield,10000000,57000,7,2024,86,Transfermarkt; estimation salaire
+PL:563:79903:jean-clair-todibo,Jean-Clair Todibo,West Ham United FC,Premier League,Centre-Back,22000000,110000,8,2024,94,Transfermarkt; Capology
+PL:563:28416:valentin-castellanos,Valentín Castellanos,West Ham United FC,Premier League,Centre-Forward,28000000,85000,7,2025,94,Transfermarkt; Capology
+PL:563:25376:max-kilman,Max Kilman,West Ham United FC,Premier League,Centre-Back,13000000,110000,7,2024,94,Transfermarkt; Capology
+PL:563:11414:jarrod-bowen,Jarrod Bowen,West Ham United FC,Premier League,Right Winger,30000000,150000,1,2020,94,Transfermarkt; Capology
+PL:563:8251:callum-wilson,Callum Wilson,West Ham United FC,Premier League,Centre-Forward,4000000,90000,7,2025,94,Transfermarkt; Capology
+PL:563:7995:kyle-walker-peters,Kyle Walker-Peters,West Ham United FC,Premier League,Right-Back,12000000,80000,7,2025,94,Transfermarkt; Capology
+PL:563:7789:konstantinos-mavropanos,Konstantinos Mavropanos,West Ham United FC,Premier League,Centre-Back,18000000,90000,8,2023,94,Transfermarkt; Capology
+PL:563:4221:adama-traore,Adama Traoré,West Ham United FC,Premier League,Right Winger,6000000,70000,7,2025,94,Transfermarkt; Capology
+PL:563:813:axel-disasi,Axel Disasi,West Ham United FC,Premier League,Centre-Back,15000000,100000,7,2025,94,Transfermarkt; Capology
+PL:1044:8079:fraser-forster,Fraser Forster,AFC Bournemouth,Premier League,Goalkeeper,1000000,70000,7,2025,94,Transfermarkt; Capology
+PL:1044:43190:christos-mandas,Christos Mandas,AFC Bournemouth,Premier League,Goalkeeper,12000000,40000,7,2025,94,Transfermarkt; Capology
+PL:1044:121765:or-e-petrovic,Đorđe Petrović,AFC Bournemouth,Premier League,Goalkeeper,28000000,65000,7,2025,94,Transfermarkt; Capology
+PL:1044:227046:veljko-milosavljevic,Veljko Milosavljević,AFC Bournemouth,Premier League,Defence,5000000,32500,7,2025,86,Transfermarkt; estimation salaire
+PL:1044:34495:ryan-christie,Ryan Christie,AFC Bournemouth,Premier League,Midfield,10000000,60000,7,2021,94,Transfermarkt; Capology
+PL:1044:77596:tyler-adams,Tyler Adams,AFC Bournemouth,Premier League,Midfield,18000000,80000,8,2023,94,Transfermarkt; Capology
+PL:1044:176789:ben-doak,Ben Doak,AFC Bournemouth,Premier League,Midfield,25000000,50000,7,2025,94,Transfermarkt; Capology
+PL:1044:192316:alex-toth,Alex Toth,AFC Bournemouth,Premier League,Midfield,3000000,25000,7,2025,86,Transfermarkt; estimation salaire
+PL:1044:290922:charlie-stevens,Charlie Stevens,AFC Bournemouth,Premier League,Midfield,500000,4000,7,2025,62,Transfermarkt; estimation
+PL:1044:7561:justin-kluivert,Justin Kluivert,AFC Bournemouth,Premier League,Offence,35000000,80000,7,2023,94,Transfermarkt; Capology
+PL:1044:203356:rayan,Rayan,AFC Bournemouth,Premier League,Offence,18000000,68000,7,2025,86,Transfermarkt; estimation salaire
+PL:1044:273757:remy-rees-dottin,Remy Rees-Dottin,AFC Bournemouth,Premier League,Offence,500000,4000,7,2025,62,Transfermarkt; estimation
+PL:1044:289696:malcom-dacosta,Malcom Dacosta,AFC Bournemouth,Premier League,Offence,500000,4000,7,2025,62,Transfermarkt; estimation
+PL:1044:227048:alex-jimenez,Álex Jiménez,AFC Bournemouth,Premier League,Right-Back,18000000,45000,7,2025,94,Transfermarkt; Capology
+PL:1044:204241:eli-kroupi,Eli Kroupi,AFC Bournemouth,Premier League,Centre-Forward,20000000,35000,7,2025,94,Transfermarkt; Capology
+PL:1044:187546:matai-akinmboni,Matai Akinmboni,AFC Bournemouth,Premier League,Centre-Back,5000000,32500,1,2025,86,Transfermarkt; estimation salaire
+PL:1044:183583:julio-soler,Julio Soler,AFC Bournemouth,Premier League,Left-Back,12000000,53500,1,2025,86,Transfermarkt; estimation salaire
+PL:1044:161088:alex-scott,Alex Scott,AFC Bournemouth,Premier League,Central Midfield,25000000,55000,8,2023,94,Transfermarkt; Capology
+PL:1044:137047:amine-adli,Amine Adli,AFC Bournemouth,Premier League,Left Winger,18000000,65000,7,2025,94,Transfermarkt; Capology
+PL:1044:135482:adrien-truffert,Adrien Truffert,AFC Bournemouth,Premier League,Left-Back,18000000,55000,7,2025,94,Transfermarkt; Capology
+PL:1044:131260:evanilson,Evanilson,AFC Bournemouth,Premier League,Centre-Forward,35000000,98000,8,2024,94,Transfermarkt; Capology
+PL:1044:98745:bafode-diakite,Bafodé Diakité,AFC Bournemouth,Premier League,Centre-Back,30000000,65000,7,2025,94,Transfermarkt; Capology
+PL:1044:82145:james-hill,James Hill,AFC Bournemouth,Premier League,Centre-Back,8000000,42500,1,2022,86,Transfermarkt; estimation salaire
+PL:1044:46046:marcos-senesi,Marcos Senesi,AFC Bournemouth,Premier League,Centre-Back,25000000,70000,8,2022,94,Transfermarkt; Capology
+PL:1044:33132:enes-unal,Enes Ünal,AFC Bournemouth,Premier League,Centre-Forward,10000000,70000,7,2024,94,Transfermarkt; Capology
+PL:1044:8231:adam-smith,Adam Smith,AFC Bournemouth,Premier League,Right-Back,1000000,50000,1,2014,94,Transfermarkt; Capology
+PL:1044:6396:marcus-tavernier,Marcus Tavernier,AFC Bournemouth,Premier League,Left Midfield,18000000,60000,8,2022,94,Transfermarkt; Capology
+PL:1044:4321:david-brooks,David Brooks,AFC Bournemouth,Premier League,Right Winger,10000000,55000,7,2018,94,Transfermarkt; Capology
+PL:1044:3327:lewis-cook,Lewis Cook,AFC Bournemouth,Premier League,Central Midfield,12000000,65000,7,2016,94,Transfermarkt; Capology
