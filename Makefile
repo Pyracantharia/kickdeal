@@ -9,20 +9,22 @@ else
 endif
 
 ifeq ($(WITH_DOCKER), 1)
-	PHP=$(COMPOSE) run --rm backend
-	NPM=$(COMPOSE) run --rm front
+	API=$(COMPOSE) run --rm backend
+	FRONT_APP=$(COMPOSE) run --rm frontend-app
+	FRONT_LANDING=$(COMPOSE) run --rm frontend-landing
 
-	PHP_FIXER=$(PHP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php'
+	PHP_FIXER=$(API) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php'
 else
-	PHP=cd backend &&
-	NPM=cd front &&
+	API=cd backend &&
+	FRONT_APP=cd frontend-app &&
+	FRONT_LANDING=cd frontend-landing &&
 
-	PHP_FIXER=export PHP_CS_FIXER_IGNORE_ENV=1 && $(PHP) vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php
+	PHP_FIXER=export PHP_CS_FIXER_IGNORE_ENV=1 && $(API) vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php
 endif
 
-CONSOLE := $(PHP) bin/console
+CONSOLE := $(API) bin/console
 
-.PHONY: help start up stop install perm php-lint php-lint-dry symfony-lint phpstan db drop-db fixtures
+.PHONY: help start up stop install perm php-lint php-lint-dry symfony-lint phpstan tests phpunit db drop-db fixtures
 
 ############################## HELPING ##############################
 
@@ -41,8 +43,9 @@ stop:
 
 install:
 	echo "Installing dependencies..."
-	$(PHP) composer install
-	$(NPM) npm install
+	$(API) composer install
+	$(FRONT_APP) npm install
+	$(FRONT_LANDING) npm install
 
 perm:
 	sudo chown -R $(USER):$(USER) .
@@ -65,8 +68,13 @@ lint: php-lint symfony-lint
 
 ############################## TEST #################################
 
+tests: phpstan phpunit
+
+phpunit:
+	$(API) php bin/phpunit
+
 phpstan:
-	$(PHP) vendor/bin/phpstan --memory-limit=-1
+	$(API) vendor/bin/phpstan --memory-limit=-1
 
 ############################## DATABASE #############################
 

@@ -12,10 +12,13 @@
 .env.dev
 /.env.dev
 /backend/docker/
+*.cache
 
 **/.env
 **/.env.*
 !**/.env.example
+!/.env.test
+
 ###> friendsofphp/php-cs-fixer ###
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
@@ -23,3 +26,8 @@
 
 supervisord.log
 supervisord.pid
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
