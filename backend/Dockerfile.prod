@@ -1,9 +1,22 @@
 FROM php:8.4-fpm-alpine
 
 # Install Nginx et Supervisor
-RUN apk add --no-cache nginx supervisor icu-dev libzip-dev postgresql-dev
-
-RUN docker-php-ext-install intl pdo pdo_pgsql zip
+RUN apk add --no-cache \
+        nginx \
+        supervisor \
+        icu-dev \
+        libzip-dev \
+        postgresql-dev \
+    && apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+    && docker-php-ext-install \
+        intl \
+        pdo \
+        pdo_pgsql \
+        zip \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del .build-deps
 
 # Config Nginx sera assurer pas le patch k3s
 
