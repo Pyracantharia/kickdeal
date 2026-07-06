@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+FL1:522:1023:jonathan-clauss,Jonathan Clauss,OGC Nice,Ligue 1,Right-Back,12000000,28500,7,2024,88,Transfermarkt + Capology
+FL1:522:245455:kail-boudache,Kaïl Boudache,OGC Nice,Ligue 1,Right Winger,5000000,20500,7,2026,88,Transfermarkt + Capology
+FL1:522:204237:tom-louchet,Tom Louchet,OGC Nice,Ligue 1,Right Midfield,4000000,20500,7,2021,88,Transfermarkt + Capology
+FL1:523:733:remy-descamps,Rémy Descamps,Olympique Lyonnais,Ligue 1,Goalkeeper,1500000,10000,7,2024,88,Transfermarkt + estimation
+FL1:523:79776:dominik-greif,Dominik Greif,Olympique Lyonnais,Ligue 1,Goalkeeper,9000000,31000,8,2025,88,Transfermarkt + Capology
+FL1:523:261256:lassine-diarra,Lassine Diarra,Olympique Lyonnais,Ligue 1,Goalkeeper,200000,7000,7,2024,72,Transfermarkt + estimation
+FL1:523:278381:matthias-da-silva,Matthias Da Silva,Olympique Lyonnais,Ligue 1,Goalkeeper,150000,7000,7,2024,72,Transfermarkt + estimation
+FL1:523:286820:yvann-konan,Yvann Konan,Olympique Lyonnais,Ligue 1,Goalkeeper,150000,7000,7,2024,72,Transfermarkt + estimation
+FL1:523:3208:nicolas-tagliafico,Nicolás Tagliafico,Olympique Lyonnais,Ligue 1,Defence,7000000,22500,7,2022,88,Transfermarkt + Capology
+FL1:523:8723:moussa-niakhate,Moussa Niakhaté,Olympique Lyonnais,Ligue 1,Defence,12000000,31000,7,2024,88,Transfermarkt + Capology
+FL1:523:137655:ruben-kluivert,Ruben Kluivert,Olympique Lyonnais,Ligue 1,Defence,8000000,31000,7,2025,88,Transfermarkt + Capology
+FL1:523:178964:abner-vinicius,Abner Vinicius,Olympique Lyonnais,Ligue 1,Defence,10000000,31000,7,2024,88,Transfermarkt + Capology
+FL1:523:204235:achraf-laaziri,Achraf Laaziri,Olympique Lyonnais,Ligue 1,Defence,300000,7000,7,2025,72,Transfermarkt + estimation
+FL1:523:277933:noham-kamara,Noham Kamara,Olympique Lyonnais,Ligue 1,Defence,3000000,15000,7,2026,88,Transfermarkt + Capology
+FL1:523:283066:tiago-goncalves,Tiago Goncalves,Olympique Lyonnais,Ligue 1,Defence,300000,7000,7,2025,72,Transfermarkt + estimation
+FL1:523:291824:prince-mbatshi-mukuba,Prince Mbatshi Mukuba,Olympique Lyonnais,Ligue 1,Defence,250000,7000,7,2025,72,Transfermarkt + estimation
+FL1:523:293568:steeve-kango,Steeve Kango,Olympique Lyonnais,Ligue 1,Defence,1000000,10000,7,2024,72,Transfermarkt + estimation
+FL1:523:8761:rachid-ghezzal,Rachid Ghezzal,Olympique Lyonnais,Ligue 1,Midfield,1200000,10000,7,2025,88,Transfermarkt + estimation
+FL1:523:121312:pavel-sulc,Pavel Šulc,Olympique Lyonnais,Ligue 1,Midfield,25000000,69000,8,2025,88,Transfermarkt + Capology
+FL1:523:142149:adam-karabec,Adam Karabec,Olympique Lyonnais,Ligue 1,Midfield,10000000,31000,7,2025,88,Transfermarkt + Capology
+FL1:523:142456:tanner-tessmann,Tanner Tessmann,Olympique Lyonnais,Ligue 1,Midfield,15000000,44000,8,2024,88,Transfermarkt + Capology
+FL1:523:215864:noah-nartey,Noah Nartey,Olympique Lyonnais,Ligue 1,Midfield,15000000,44000,7,2025,88,Transfermarkt + Capology
+FL1:523:277733:mathys-de-carvalho,Mathys De Carvalho,Olympique Lyonnais,Ligue 1,Midfield,1500000,10000,7,2024,72,Transfermarkt + estimation
+FL1:523:281451:khalis-merah,Khalis Merah,Olympique Lyonnais,Ligue 1,Midfield,15000000,44000,7,2024,72,Transfermarkt + estimation
+FL1:523:184726:ernest-nuamah,Ernest Nuamah,Olympique Lyonnais,Ligue 1,Offence,18000000,44000,7,2024,88,Transfermarkt + Capology
+FL1:523:188487:endrick,Endrick,Olympique Lyonnais,Ligue 1,Offence,60000000,100000,7,2026,88,Transfermarkt + Capology
+FL1:523:281450:remi-himbert,Rémi Himbert,Olympique Lyonnais,Ligue 1,Offence,10000000,31000,7,2024,72,Transfermarkt + estimation
+FL1:523:289527:adil-hamdani,Adil Hamdani,Olympique Lyonnais,Ligue 1,Offence,500000,7000,7,2025,72,Transfermarkt + estimation
+FL1:523:175845:tyler-morton,Tyler Morton,Olympique Lyonnais,Ligue 1,Defensive Midfield,30000000,50000,8,2025,88,Transfermarkt + Capology
+FL1:523:9398:orel-mangala,Orel Mangala,Olympique Lyonnais,Ligue 1,Defensive Midfield,9000000,70000,7,2024,88,Transfermarkt + Capology
+FL1:523:8977:clinton-mata,Clinton Mata,Olympique Lyonnais,Ligue 1,Right-Back,2500000,15000,7,2023,88,Transfermarkt + Capology
+FL1:523:8922:roman-yaremchuk,Roman Yaremchuk,Olympique Lyonnais,Ligue 1,Centre-Forward,5000000,22500,7,2026,88,Transfermarkt + Capology
+FL1:523:7792:ainsley-maitland-niles,Ainsley Maitland-Niles,Olympique Lyonnais,Ligue 1,Right-Back,10000000,65000,8,2023,88,Transfermarkt + Capology
+FL1:523:1835:hans-hateboer,Hans Hateboer,Olympique Lyonnais,Ligue 1,Right-Back,2500000,15000,7,2026,88,Transfermarkt + Capology
+FL1:523:366:corentin-tolisso,Corentin Tolisso,Olympique Lyonnais,Ligue 1,Central Midfield,12000000,122308,7,2022,88,Transfermarkt + Capology
+FL1:523:204136:afonso-moreira,Afonso Moreira,Olympique Lyonnais,Ligue 1,Left Winger,10000000,31000,7,2025,88,Transfermarkt + Capology
+FL1:523:187065:malick-fofana,Malick Fofana,Olympique Lyonnais,Ligue 1,Left Winger,30000000,45000,1,2024,88,Transfermarkt + Capology
+FL1:524:49244:matvei-safonov,Matvei Safonov,Paris Saint-Germain FC,Ligue 1,Goalkeeper,30000000,70000,7,2024,88,Transfermarkt + Capology
+FL1:524:147896:lucas-chevalier,Lucas Chevalier,Paris Saint-Germain FC,Ligue 1,Goalkeeper,25000000,75000,8,2025,88,Transfermarkt + Capology
+FL1:524:245387:renato-marin,Renato Marin,Paris Saint-Germain FC,Ligue 1,Goalkeeper,1000000,14500,7,2025,88,Transfermarkt + estimation
+FL1:524:289578:martin-james,Martin James,Paris Saint-Germain FC,Ligue 1,Goalkeeper,150000,11000,7,2024,72,Transfermarkt + estimation
+FL1:524:290430:arthur-vignaud,Arthur Vignaud,Paris Saint-Germain FC,Ligue 1,Goalkeeper,150000,11000,7,2024,72,Transfermarkt + estimation
+FL1:524:295076:bilal-laurendon,Bilal Laurendon,Paris Saint-Germain FC,Ligue 1,Goalkeeper,150000,11000,7,2024,72,Transfermarkt + estimation
+FL1:524:53:achraf-hakimi,Achraf Hakimi,Paris Saint-Germain FC,Ligue 1,Defence,80000000,279808,7,2021,88,Transfermarkt + Capology
+FL1:524:3225:marquinhos,Marquinhos,Paris Saint-Germain FC,Ligue 1,Defence,28000000,323077,7,2013,88,Transfermarkt + Capology
+FL1:524:3365:lucas-hernandez,Lucas Hernández,Paris Saint-Germain FC,Ligue 1,Defence,18000000,253846,7,2023,88,Transfermarkt + Capology
+FL1:524:114102:william-pacho,William Pacho,Paris Saint-Germain FC,Ligue 1,Defence,80000000,85000,8,2024,88,Transfermarkt + Capology
+FL1:524:144570:nuno-mendes,Nuno Mendes,Paris Saint-Germain FC,Ligue 1,Defence,80000000,192308,7,2022,88,Transfermarkt + Capology
+FL1:524:289216:david-boly,David Boly,Paris Saint-Germain FC,Ligue 1,Defence,200000,11000,7,2025,72,Transfermarkt + estimation
+FL1:524:295073:samba-coulibaly,Samba Coulibaly,Paris Saint-Germain FC,Ligue 1,Defence,200000,11000,7,2025,72,Transfermarkt + estimation
+FL1:524:295074:thomas-cordier,Thomas Cordier,Paris Saint-Germain FC,Ligue 1,Defence,150000,11000,7,2025,72,Transfermarkt + estimation
+FL1:524:295355:dimitri-lucea,Dimitri Lucea,Paris Saint-Germain FC,Ligue 1,Defence,150000,11000,7,2025,72,Transfermarkt + estimation
+FL1:524:22:fabian-ruiz,Fabián Ruiz,Paris Saint-Germain FC,Ligue 1,Midfield,30000000,174615,8,2022,88,Transfermarkt + Capology
+FL1:524:177522:desire-doue,Desire Doue,Paris Saint-Germain FC,Ligue 1,Midfield,120000000,95000,8,2024,88,Transfermarkt + Capology
+FL1:524:178722:vitinha,Vitinha,Paris Saint-Germain FC,Ligue 1,Midfield,140000000,192308,7,2022,88,Transfermarkt + Capology
+FL1:524:186089:warren-zaire-emery,Warren Zaïre-Emery,Paris Saint-Germain FC,Ligue 1,Midfield,80000000,90000,7,2022,88,Transfermarkt + Capology
+FL1:524:190877:joao-neves,Joao Neves,Paris Saint-Germain FC,Ligue 1,Midfield,140000000,110000,8,2024,88,Transfermarkt + Capology
+FL1:524:213217:kang-in-lee,Kang-in Lee,Paris Saint-Germain FC,Ligue 1,Midfield,28000000,99000,7,2023,88,Transfermarkt + Capology
+FL1:524:278378:wassim-slama,Wassim Slama,Paris Saint-Germain FC,Ligue 1,Midfield,500000,11000,7,2025,72,Transfermarkt + estimation
+FL1:524:283413:pedro-fernandez,Pedro Fernández,Paris Saint-Germain FC,Ligue 1,Midfield,10000000,45000,7,2024,72,Transfermarkt + estimation
+FL1:524:286944:yanis-khafi,Yanis Khafi,Paris Saint-Germain FC,Ligue 1,Midfield,200000,11000,7,2025,72,Transfermarkt + estimation
+FL1:524:290082:noah-nsoki,Noah Nsoki,Paris Saint-Germain FC,Ligue 1,Midfield,150000,11000,7,2025,72,Transfermarkt + estimation
+FL1:524:3373:ousmane-dembele,Ousmane Dembélé,Paris Saint-Germain FC,Ligue 1,Offence,100000000,349615,8,2023,88,Transfermarkt + Capology
+FL1:524:101431:goncalo-ramos,Gonçalo Ramos,Paris Saint-Germain FC,Ligue 1,Offence,45000000,110000,7,2024,88,Transfermarkt + Capology
+FL1:524:172762:bradley-barcola,Bradley Barcola,Paris Saint-Germain FC,Ligue 1,Offence,70000000,85000,8,2023,88,Transfermarkt + Capology
+FL1:524:265040:ibrahim-m-baye,Ibrahim M'Baye,Paris Saint-Germain FC,Ligue 1,Offence,30000000,99000,7,2024,88,Transfermarkt + Capology
+FL1:524:278406:quentin-ndjantou,Quentin Ndjantou,Paris Saint-Germain FC,Ligue 1,Offence,8000000,45000,7,2025,88,Transfermarkt + Capology
+FL1:524:286945:mathis-jangeal,Mathis Jangeal,Paris Saint-Germain FC,Ligue 1,Offence,300000,11000,7,2025,72,Transfermarkt + estimation
+FL1:524:295077:pierre-mounguengue,Pierre Mounguengue,Paris Saint-Germain FC,Ligue 1,Offence,250000,11000,7,2025,72,Transfermarkt + estimation
+FL1:524:169204:lucas-beraldo,Lucas Beraldo,Paris Saint-Germain FC,Ligue 1,Centre-Back,22000000,63000,1,2024,88,Transfermarkt + Capology
+FL1:524:143573:illia-zabarnyi,Illia Zabarnyi,Paris Saint-Germain FC,Ligue 1,Centre-Back,40000000,90000,8,2025,88,Transfermarkt + Capology
+FL1:524:113285:khvicha-kvaratskhelia,Khvicha Kvaratskhelia,Paris Saint-Germain FC,Ligue 1,Left Winger,140000000,314615,1,2025,88,Transfermarkt + Capology
+FL1:524:246066:senny-mayulu,Senny Mayulu,Paris Saint-Germain FC,Ligue 1,Central Midfield,40000000,99000,7,2023,88,Transfermarkt + Capology
+FL1:525:8554:benjamin-leroy,Benjamin Leroy,FC Lorient,Ligue 1,Goalkeeper,100000,3000,7,2024,78,Transfermarkt + estimation
+FL1:525:8771:bingourou-kamara,Bingourou Kamara,FC Lorient,Ligue 1,Goalkeeper,600000,4500,7,2025,78,Transfermarkt + estimation
+FL1:525:9534:yvon-mvogo,Yvon Mvogo,FC Lorient,Ligue 1,Goalkeeper,2500000,11000,7,2022,88,Transfermarkt + Capology
+FL1:525:177695:montassar-talbi,Montassar Talbi,FC Lorient,Ligue 1,Defence,8000000,22500,7,2022,88,Transfermarkt + Capology
+FL1:525:244087:kan-guy-arsene-kouassi,Kan Guy Arsène Kouassi,FC Lorient,Ligue 1,Defence,15000000,31500,7,2025,88,Transfermarkt + Capology
+FL1:525:280524:izak-akakpo,Izak Akakpo,FC Lorient,Ligue 1,Defence,300000,3000,7,2025,72,Transfermarkt + estimation
+FL1:525:283797:stevan-siba,Stevan Siba,FC Lorient,Ligue 1,Defence,300000,3000,7,2025,72,Transfermarkt + estimation
+FL1:525:291164:lucas-leaudais,Lucas Leaudais,FC Lorient,Ligue 1,Defence,250000,3000,7,2025,72,Transfermarkt + estimation
+FL1:525:129440:sambou-soumano,Sambou Soumano,FC Lorient,Ligue 1,Midfield,2500000,11000,7,2024,72,Transfermarkt + estimation
+FL1:525:182169:karim-dermane,Karim Dermane,FC Lorient,Ligue 1,Midfield,3000000,11000,7,2024,72,Transfermarkt + estimation
+FL1:525:206159:trevan-sanusi,Trevan Sanusi,FC Lorient,Ligue 1,Midfield,2500000,11000,7,2024,72,Transfermarkt + estimation
+FL1:525:220601:abdoulaye-faye,Abdoulaye Faye,FC Lorient,Ligue 1,Midfield,1000000,7000,7,2024,72,Transfermarkt + estimation
+FL1:525:245416:arthur-avon-ebong,Arthur Avon Ebong,FC Lorient,Ligue 1,Midfield,20000000,31500,7,2024,72,Transfermarkt + estimation
+FL1:525:280066:martin-nogoto-bley,Martin Nogoto Bley,FC Lorient,Ligue 1,Midfield,500000,4500,7,2025,72,Transfermarkt + estimation
+FL1:525:286558:isaac-monnier,Isaac Monnier,FC Lorient,Ligue 1,Midfield,250000,3000,7,2025,72,Transfermarkt + estimation
+FL1:525:290087:daniel-semedo,Daniel Semedo,FC Lorient,Ligue 1,Midfield,250000,3000,7,2025,72,Transfermarkt + estimation
+FL1:525:166640:ahmadou-bamba-dieng,Ahmadou Bamba Dieng,FC Lorient,Ligue 1,Offence,3500000,11000,7,2024,72,Transfermarkt + estimation
+FL1:525:290088:mamadou-kone,Mamadou Koné,FC Lorient,Ligue 1,Offence,1200000,7000,7,2024,72,Transfermarkt + estimation
+FL1:525:177248:pablo-pagis,Pablo Pagis,FC Lorient,Ligue 1,Centre-Forward,15000000,31500,7,2022,88,Transfermarkt + Capology
+FL1:525:172520:theo-le-bris,Theo Le Bris,FC Lorient,Ligue 1,Left Midfield,5000000,16000,7,2022,88,Transfermarkt + Capology
+FL1:525:171397:igor-silva,Igor Silva,FC Lorient,Ligue 1,Right-Back,2000000,11000,7,2024,72,Transfermarkt + estimation
+FL1:525:150424:bandiougou-fadiga,Bandiougou Fadiga,FC Lorient,Ligue 1,Attacking Midfield,150000,3000,8,2024,78,Transfermarkt + estimation
+FL1:525:149069:souleymane-isaak-toure,Souleymane Isaak Toure,FC Lorient,Ligue 1,Centre-Back,1200000,7000,9,2023,88,Transfermarkt + estimation
+FL1:525:131179:darlin-yongwa,Darlin Yongwa,FC Lorient,Ligue 1,Left-Back,3000000,11000,7,2024,72,Transfermarkt + estimation
+FL1:525:106791:noah-cadiou,Noah Cadiou,FC Lorient,Ligue 1,Central Midfield,3000000,11000,7,2025,88,Transfermarkt + Capology
+FL1:525:72551:aiyegun-tosin,Aiyegun Tosin,FC Lorient,Ligue 1,Centre-Forward,1800000,7000,7,2023,88,Transfermarkt + estimation
+FL1:525:8437:jean-victor-makengo,Jean-Victor Makengo,FC Lorient,Ligue 1,Central Midfield,6000000,16000,1,2023,88,Transfermarkt + Capology
+FL1:525:566:laurent-abergel,Laurent Abergel,FC Lorient,Ligue 1,Defensive Midfield,2500000,11000,7,2024,72,Transfermarkt + estimation
+FL1:525:213749:mohamed-bamba,Mohamed Bamba,FC Lorient,Ligue 1,Centre-Forward,2000000,11000,1,2024,88,Transfermarkt + Capology
+FL1:525:188658:panos-katseris,Panos Katseris,FC Lorient,Ligue 1,Right-Back,2000000,11000,1,2024,88,Transfermarkt + Capology
+FL1:525:187473:nathaniel-adjei,Nathaniel Adjei,FC Lorient,Ligue 1,Centre-Back,1500000,7000,7,2024,88,Transfermarkt + estimation
+FL1:525:179596:bamo-meite,Bamo Meité,FC Lorient,Ligue 1,Centre-Back,3500000,11000,7,2024,72,Transfermarkt + estimation
+FL1:529:8316:brice-samba,Brice Samba,Stade Rennais FC 1901,Ligue 1,Goalkeeper,7000000,65000,1,2025,88,Transfermarkt + Capology
+FL1:529:285239:mathys-silistrie,Mathys Silistrie,Stade Rennais FC 1901,Ligue 1,Goalkeeper,250000,6000,7,2024,72,Transfermarkt + estimation
+FL1:529:287512:ayoube-akabou,Ayoube Akabou,Stade Rennais FC 1901,Ligue 1,Goalkeeper,200000,6000,7,2024,72,Transfermarkt + estimation
+FL1:529:288619:kilian-belazzoug,Kilian Belazzoug,Stade Rennais FC 1901,Ligue 1,Goalkeeper,150000,6000,7,2024,72,Transfermarkt + estimation
+FL1:529:147893:alidu-seidu,Alidu Seidu,Stade Rennais FC 1901,Ligue 1,Defence,6000000,21500,1,2024,88,Transfermarkt + Capology
+FL1:529:292309:chibuike-ugochukwu,Chibuike Ugochukwu,Stade Rennais FC 1901,Ligue 1,Defence,300000,6000,7,2025,72,Transfermarkt + estimation
+FL1:529:292471:junior-ake,Junior Aké,Stade Rennais FC 1901,Ligue 1,Defence,250000,6000,7,2025,72,Transfermarkt + estimation
+FL1:529:294262:isiaka-soukouna,Isiaka Soukouna,Stade Rennais FC 1901,Ligue 1,Defence,250000,6000,7,2025,72,Transfermarkt + estimation
+FL1:529:10201:sebastian-szymanski,Sebastian Szymański,Stade Rennais FC 1901,Ligue 1,Midfield,12000000,65000,7,2026,88,Transfermarkt + Capology
+FL1:529:48595:keito-nakamura,Keito Nakamura,Stade Rennais FC 1901,Ligue 1,Midfield,18000000,60000,7,2026,88,Transfermarkt + Capology
+FL1:529:265516:yassir-zabiri,Yassir Zabiri,Stade Rennais FC 1901,Ligue 1,Midfield,1500000,9500,7,2024,72,Transfermarkt + estimation
+FL1:529:291163:paolo-limon,Paolo Limon,Stade Rennais FC 1901,Ligue 1,Midfield,300000,6000,7,2025,72,Transfermarkt + estimation
+FL1:529:3483:breel-embolo,Breel Embolo,Stade Rennais FC 1901,Ligue 1,Offence,12000000,80000,7,2026,88,Transfermarkt + Capology
+FL1:529:98763:musa-al-taamari,Musa Al Taamari,Stade Rennais FC 1901,Ligue 1,Offence,10000000,30000,7,2026,88,Transfermarkt + Capology
+FL1:529:274257:henrick-do-marcolino,Henrick Do Marcolino,Stade Rennais FC 1901,Ligue 1,Offence,300000,6000,7,2025,72,Transfermarkt + estimation
+FL1:529:280445:lucas-rosier,Lucas Rosier,Stade Rennais FC 1901,Ligue 1,Offence,500000,6000,7,2025,72,Transfermarkt + estimation
+FL1:529:285238:nordan-mukiele,Nordan Mukiele,Stade Rennais FC 1901,Ligue 1,Offence,300000,6000,7,2025,72,Transfermarkt + estimation
+FL1:529:289597:elias-legendre-quinonez,Elias Legendre Quiñonez,Stade Rennais FC 1901,Ligue 1,Offence,1500000,9500,7,2024,72,Transfermarkt + estimation
+FL1:529:160410:quentin-merlin,Quentin Merlin,Stade Rennais FC 1901,Ligue 1,Left-Back,15000000,42000,1,2025,88,Transfermarkt + Capology
+FL1:529:150751:anthony-rouault,Anthony Rouault,Stade Rennais FC 1901,Ligue 1,Centre-Back,12000000,30000,7,2025,88,Transfermarkt + Capology
+FL1:529:149850:esteban-lepaul,Esteban Lepaul,Stade Rennais FC 1901,Ligue 1,Centre-Forward,10000000,30000,7,2025,88,Transfermarkt + Capology
+FL1:529:123200:lilian-brassier,Lilian Brassier,Stade Rennais FC 1901,Ligue 1,Centre-Back,12000000,30000,7,2025,88,Transfermarkt + Capology
+FL1:529:96869:ludovic-blas,Ludovic Blas,Stade Rennais FC 1901,Ligue 1,Right Winger,10000000,65000,7,2023,88,Transfermarkt + Capology
+FL1:529:34522:glen-kamara,Glen Kamara,Stade Rennais FC 1901,Ligue 1,Central Midfield,2000000,14500,7,2024,88,Transfermarkt + Capology
+FL1:529:8695:valentin-rongier,Valentin Rongier,Stade Rennais FC 1901,Ligue 1,Central Midfield,8000000,70000,7,2025,88,Transfermarkt + Capology
+FL1:529:8542:mahdi-camara,Mahdi Camara,Stade Rennais FC 1901,Ligue 1,Central Midfield,12000000,30000,7,2025,88,Transfermarkt + Capology
+FL1:529:3540:przemys-aw-frankowski,Przemysław Frankowski,Stade Rennais FC 1901,Ligue 1,Right Midfield,6000000,21500,2,2025,88,Transfermarkt + Capology
+FL1:529:575:arnaud-nordin,Arnaud Nordin,Stade Rennais FC 1901,Ligue 1,Right Winger,4000000,21500,7,2026,88,Transfermarkt + Capology
+FL1:529:272594:abdelhamid-ait-boudlal,Abdelhamid Ait Boudlal,Stade Rennais FC 1901,Ligue 1,Centre-Back,12000000,30000,7,2024,88,Transfermarkt + Capology
+FL1:529:246322:djaoui-cisse,Djaoui Cissé,Stade Rennais FC 1901,Ligue 1,Central Midfield,10000000,30000,7,2024,88,Transfermarkt + Capology
+FL1:529:227004:mahamadou-nagida,Mahamadou Nagida,Stade Rennais FC 1901,Ligue 1,Left-Back,7000000,21500,8,2023,88,Transfermarkt + Capology
+FL1:529:206127:jeremy-jacquet,Jeremy Jacquet,Stade Rennais FC 1901,Ligue 1,Centre-Back,25000000,66000,7,2023,88,Transfermarkt + Capology
+FL1:532:8391:herve-koffi,Hervé Koffi,Angers SCO,Ligue 1,Goalkeeper,1800000,6500,7,2025,88,Transfermarkt + estimation
+FL1:532:186084:melvin-zinga,Melvin Zinga,Angers SCO,Ligue 1,Goalkeeper,300000,2500,7,2022,78,Transfermarkt + estimation
+FL1:532:244934:oumar-pona,Oumar Pona,Angers SCO,Ligue 1,Goalkeeper,200000,2500,7,2025,78,Transfermarkt + estimation
+FL1:532:293826:yann-llahona-bonaterra,Yann LLahona Bonaterra,Angers SCO,Ligue 1,Goalkeeper,100000,2500,7,2024,72,Transfermarkt + estimation
+FL1:532:532:carlens-arcus,Carlens Arcus,Angers SCO,Ligue 1,Defence,1800000,6500,7,2024,88,Transfermarkt + estimation
+FL1:532:271979:marius-louar,Marius Louãr,Angers SCO,Ligue 1,Defence,2000000,9500,7,2025,88,Transfermarkt + Capology
+FL1:532:279750:dan-sinate,Dan Sinaté,Angers SCO,Ligue 1,Defence,150000,2500,7,2025,78,Transfermarkt + estimation
+FL1:532:290046:mael-gernigon,Maël Gernigon,Angers SCO,Ligue 1,Defence,150000,2500,7,2025,72,Transfermarkt + estimation
+FL1:532:113702:ousmane-camara,Ousmane Camara,Angers SCO,Ligue 1,Midfield,8000000,20000,8,2022,88,Transfermarkt + Capology
+FL1:532:185033:amine-sbai,Amine Sbaï,Angers SCO,Ligue 1,Midfield,1200000,6500,7,2024,72,Transfermarkt + estimation
+FL1:532:283244:jibril-el-baraka,Jibril El Baraka,Angers SCO,Ligue 1,Midfield,150000,2500,7,2025,72,Transfermarkt + estimation
+FL1:532:283249:ilann-garin,Ilann Garin,Angers SCO,Ligue 1,Midfield,150000,2500,7,2025,72,Transfermarkt + estimation
+FL1:532:292355:yahia-jlidi,Yahia Jlidi,Angers SCO,Ligue 1,Midfield,300000,2500,7,2025,72,Transfermarkt + estimation
+FL1:532:294511:bane-diatta,Bané Diatta,Angers SCO,Ligue 1,Midfield,500000,4000,7,2025,72,Transfermarkt + estimation
+FL1:532:271981:amine-moussaoui,Amine Moussaoui,Angers SCO,Ligue 1,Offence,500000,4000,7,2025,72,Transfermarkt + estimation
+FL1:532:278087:prosper-peter,Prosper Peter,Angers SCO,Ligue 1,Offence,300000,2500,7,2025,72,Transfermarkt + estimation
+FL1:532:278228:lanroy-machine,Lanroy Machine,Angers SCO,Ligue 1,Offence,250000,2500,7,2025,72,Transfermarkt + estimation
+FL1:532:287857:harouna-djibirin,Harouna Djibirin,Angers SCO,Ligue 1,Offence,250000,2500,7,2025,72,Transfermarkt + estimation
+FL1:532:191002:lilian-rao-lisoa,Lilian Rao-Lisoa,Angers SCO,Ligue 1,Right-Back,4000000,14500,7,2023,88,Transfermarkt + Capology
+FL1:532:190546:emmanuel-biumla,Emmanuel Biumla,Angers SCO,Ligue 1,Centre-Back,2500000,9500,7,2024,88,Transfermarkt + Capology
+FL1:532:178075:yassin-belkhdim,Yassin Belkhdim,Angers SCO,Ligue 1,Central Midfield,7000000,14500,1,2024,88,Transfermarkt + Capology
+FL1:532:177021:louis-mouton,Louis Mouton,Angers SCO,Ligue 1,Defensive Midfield,3500000,9500,7,2025,88,Transfermarkt + Capology
+FL1:532:176904:jacques-ekomie,Jacques Ekomie,Angers SCO,Ligue 1,Left-Back,9000000,20000,7,2024,88,Transfermarkt + Capology
+FL1:532:53397:branco-van-den-boomen,Branco van den Boomen,Angers SCO,Ligue 1,Central Midfield,5000000,50000,7,2026,88,Transfermarkt + Capology
+FL1:532:45297:florent-hanin,Florent Hanin,Angers SCO,Ligue 1,Left-Back,200000,2500,7,2023,78,Transfermarkt + estimation
+FL1:532:8645:pierrick-capelle,Pierrick Capelle,Angers SCO,Ligue 1,Central Midfield,150000,2500,7,2015,78,Transfermarkt + estimation
+FL1:532:8640:abdoulaye-bamba,Abdoulaye Bamba,Angers SCO,Ligue 1,Centre-Back,300000,2500,7,2017,78,Transfermarkt + estimation
+FL1:532:1020:jordan-lefort,Jordan Lefort,Angers SCO,Ligue 1,,1000000,6500,7,2023,88,Transfermarkt + estimation
+FL1:532:887:goduine-koyalipou,Goduine Koyalipou,Angers SCO,Ligue 1,Centre-Forward,2500000,9500,1,2025,88,Transfermarkt + Capology
+FL1:532:746:haris-belkebla,Haris Belkebla,Angers SCO,Ligue 1,Central Midfield,1800000,6500,8,2024,88,Transfermarkt + estimation
+FL1:532:213045:marius-courcoul,Marius Courcoul,Angers SCO,Ligue 1,Centre-Back,2500000,9500,2,2025,88,Transfermarkt + Capology
+FL1:533:20931:mory-diaw,Mory Diaw,Le Havre AC,Ligue 1,Goalkeeper,2500000,9500,7,2025,88,Transfermarkt + Capology
+FL1:533:106838:lionel-mpasi,Lionel Mpasi,Le Havre AC,Ligue 1,Goalkeeper,1800000,6500,7,2025,88,Transfermarkt + estimation
+FL1:533:248779:paul-argney,Paul Argney,Le Havre AC,Ligue 1,Goalkeeper,1000000,6500,7,2025,88,Transfermarkt + estimation
+FL1:533:277506:alex-teixeira,Alex Teixeira,Le Havre AC,Ligue 1,Goalkeeper,150000,2500,7,2024,72,Transfermarkt + estimation
+FL1:533:113230:ayumu-seko,Ayumu Seko,Le Havre AC,Ligue 1,Defence,5000000,14500,7,2025,88,Transfermarkt + Capology
+FL1:533:276981:stephan-zagadou,Stephan Zagadou,Le Havre AC,Ligue 1,Defence,2500000,9500,7,2026,88,Transfermarkt + Capology
+FL1:533:283412:georges-gomis,Georges Gomis,Le Havre AC,Ligue 1,Defence,250000,2500,7,2025,72,Transfermarkt + estimation
+FL1:533:3706:sofiane-boufal,Sofiane Boufal,Le Havre AC,Ligue 1,Midfield,3500000,45000,7,2026,88,Transfermarkt + Capology
+FL1:533:179603:lucas-gourna-douath,Lucas Gourna-Douath,Le Havre AC,Ligue 1,Midfield,10000000,35000,7,2026,88,Transfermarkt + Capology
+FL1:533:263479:daren-mosengo,Daren Mosengo,Le Havre AC,Ligue 1,Midfield,250000,2500,7,2025,72,Transfermarkt + estimation
+FL1:533:263480:guy-zohouri,Guy Zohouri,Le Havre AC,Ligue 1,Midfield,250000,2500,7,2025,72,Transfermarkt + estimation
+FL1:533:281103:kenny-quetant,Kenny Quetant,Le Havre AC,Ligue 1,Midfield,200000,2500,7,2025,72,Transfermarkt + estimation
+FL1:533:290116:adams-diabate,Adams Diabaté,Le Havre AC,Ligue 1,Midfield,1000000,6500,7,2024,72,Transfermarkt + estimation
+FL1:533:290423:thomas-rousseau,Thomas Rousseau,Le Havre AC,Ligue 1,Midfield,150000,2500,7,2025,72,Transfermarkt + estimation
+FL1:533:290425:thierno-bah,Thierno Bah,Le Havre AC,Ligue 1,Midfield,300000,2500,7,2025,72,Transfermarkt + estimation
+FL1:533:111230:felix-mambimbi,Felix Mambimbi,Le Havre AC,Ligue 1,Offence,1800000,6500,7,2025,88,Transfermarkt + estimation
+FL1:533:133190:issa-soumare,Issa Soumaré,Le Havre AC,Ligue 1,Offence,8000000,20000,7,2026,88,Transfermarkt + Capology
+FL1:533:215579:mbwana-samatta,Mbwana Samatta,Le Havre AC,Ligue 1,Offence,1200000,6500,7,2026,88,Transfermarkt + estimation
+FL1:533:263481:noam-obougou,Noam Obougou,Le Havre AC,Ligue 1,Offence,300000,2500,7,2025,72,Transfermarkt + estimation
+FL1:533:281102:enzo-koffi,Enzo Koffi,Le Havre AC,Ligue 1,Offence,250000,2500,7,2025,72,Transfermarkt + estimation
+FL1:533:290424:yanis-djellel,Yanis Djellel,Le Havre AC,Ligue 1,Offence,200000,2500,7,2025,72,Transfermarkt + estimation
+FL1:533:178663:rassoul-n-diaye,Rassoul N'Diaye,Le Havre AC,Ligue 1,Defensive Midfield,2500000,9500,7,2024,88,Transfermarkt + Capology
+FL1:533:169172:yassine-kechta,Yassine Kechta,Le Havre AC,Ligue 1,Central Midfield,5000000,14500,7,2021,88,Transfermarkt + Capology
+FL1:533:157842:arouna-sangante,Arouna Sangante,Le Havre AC,Ligue 1,Centre-Back,7000000,14500,7,2021,88,Transfermarkt + Capology
+FL1:533:149098:fode-doucoure,Fodé Doucouré,Le Havre AC,Ligue 1,Right-Back,2000000,9500,7,2024,88,Transfermarkt + Capology
+FL1:533:148288:timothee-pembele,Timothee Pembele,Le Havre AC,Ligue 1,Right-Back,3000000,9500,7,2024,88,Transfermarkt + Capology
+FL1:533:143027:reda-khadra,Reda Khadra,Le Havre AC,Ligue 1,Attacking Midfield,2500000,9500,7,2025,88,Transfermarkt + Capology
+FL1:533:111019:godson-kyeremeh,Godson Kyeremeh,Le Havre AC,Ligue 1,Right Winger,1800000,6500,7,2025,88,Transfermarkt + estimation
+FL1:533:63096:loic-nego,Loïc Nego,Le Havre AC,Ligue 1,Right-Back,600000,4000,7,2023,78,Transfermarkt + estimation
+FL1:533:8697:abdoulaye-toure,Abdoulaye Touré,Le Havre AC,Ligue 1,Defensive Midfield,2500000,9500,7,2023,88,Transfermarkt + Capology
+FL1:533:1004:gautier-lloris,Gautier Lloris,Le Havre AC,Ligue 1,Centre-Back,1500000,6500,7,2022,88,Transfermarkt + estimation
+FL1:533:260293:yanis-zouaoui,Yanis Zouaoui,Le Havre AC,Ligue 1,Left-Back,2500000,9500,7,2025,88,Transfermarkt + Capology

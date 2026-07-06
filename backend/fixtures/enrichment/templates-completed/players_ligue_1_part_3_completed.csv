@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+FL1:533:204279:simon-ebonog,Simon Ebonog,Le Havre AC,Ligue 1,Central Midfield,900000,7000,7,2025,50,estimation + Capology/estimation
+FL1:533:191246:etienne-youte-kinkoue,Etienne Youte Kinkoue,Le Havre AC,Ligue 1,Centre-Back,750000,6500,7,2025,50,estimation + Capology/estimation
+FL1:543:3240:anthony-lopes,Anthony Lopes,FC Nantes,Ligue 1,Goalkeeper,650000,70000,7,2024,58,estimation + Capology
+FL1:543:30633:patrik-carlgren,Patrik Carlgren,FC Nantes,Ligue 1,Goalkeeper,650000,8500,7,2024,50,estimation + Capology/estimation
+FL1:543:170411:lucas-bonelli,Lucas Bonelli,FC Nantes,Ligue 1,Goalkeeper,650000,8500,7,2024,50,estimation + Capology/estimation
+FL1:543:188030:alexis-mirbach,Alexis Mirbach,FC Nantes,Ligue 1,Goalkeeper,650000,8500,7,2024,50,estimation + Capology/estimation
+FL1:543:8913:deiver-machado,Deiver Machado,FC Nantes,Ligue 1,Defence,2500000,11500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:543:62667:uros-radakovic,Uroš Radaković,FC Nantes,Ligue 1,Defence,800000,9000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:192353:hugo-lamy,Hugo Lamy,FC Nantes,Ligue 1,Defence,200000,5500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:204239:mathieu-acapandie,Mathieu Acapandié,FC Nantes,Ligue 1,Defence,700000,8500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:245998:ali-yousef,Ali Yousef,FC Nantes,Ligue 1,Defence,2500000,11500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:270887:sekou-doucoure,Sekou Doucouré,FC Nantes,Ligue 1,Defence,150000,5000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:283068:tylel-tati,Tylel Tati,FC Nantes,Ligue 1,Defence,25000000,17000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:280600:bahmed-deuff,Bahmed Deuff,FC Nantes,Ligue 1,Midfield,1200000,10000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:287445:sacha-ziani,Sacha Ziani,FC Nantes,Ligue 1,Midfield,300000,6500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:207204:youssef-el-arabi,Youssef El-Arabi,FC Nantes,Ligue 1,Offence,700000,13500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:543:217283:amady-camara,Amady Camara,FC Nantes,Ligue 1,Offence,1500000,10500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:290419:junior-kone,Junior Kone,FC Nantes,Ligue 1,Offence,300000,6500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:170412:matthis-abline,Matthis Abline,FC Nantes,Ligue 1,Centre-Forward,20000000,16500,7,2024,87,Transfermarkt + Capology/estimation
+FL1:543:149044:johann-lepenant,Johann Lepenant,FC Nantes,Ligue 1,Defensive Midfield,7000000,14000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:543:114672:mostafa-mohamed,Mostafa Mohamed,FC Nantes,Ligue 1,Centre-Forward,6000000,13500,7,2023,87,Transfermarkt + Capology/estimation
+FL1:543:11572:francis-coquelin,Francis Coquelin,FC Nantes,Ligue 1,Defensive Midfield,1500000,16500,1,2025,87,Transfermarkt + Capology/estimation
+FL1:543:8541:remy-cabella,Rémy Cabella,FC Nantes,Ligue 1,Attacking Midfield,1200000,15500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:543:8447:ignatius-ganago,Ignatius Ganago,FC Nantes,Ligue 1,Centre-Forward,2000000,11000,9,2022,87,Transfermarkt + Capology/estimation
+FL1:543:8373:nicolas-cozza,Nicolas Cozza,FC Nantes,Ligue 1,Left-Back,1500000,10500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:543:8324:frederic-guilbert,Frédéric Guilbert,FC Nantes,Ligue 1,Right-Back,800000,9000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:543:8295:kelvin-amian-adou,Kelvin Amian Adou,FC Nantes,Ligue 1,Right-Back,2000000,11000,1,2024,87,Transfermarkt + Capology/estimation
+FL1:543:3393:chidozie-awaziem,Chidozie Awaziem,FC Nantes,Ligue 1,Centre-Back,2500000,11500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:543:724:fabien-centonze,Fabien Centonze,FC Nantes,Ligue 1,Right-Back,1000000,9500,9,2022,87,Transfermarkt + Capology/estimation
+FL1:543:451:ibrahima-sissoko,Ibrahima Sissoko,FC Nantes,Ligue 1,Defensive Midfield,2000000,11000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:543:264406:herba-guirassy,Herba Guirassy,FC Nantes,Ligue 1,Left Winger,8000000,14500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:264404:louis-leroux,Louis Leroux,FC Nantes,Ligue 1,Attacking Midfield,10000000,15000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:246272:enzo-mongo,Enzo Mongo,FC Nantes,Ligue 1,Centre-Back,500000,7500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:246193:dehmaine-assoumani,Dehmaine Assoumani,FC Nantes,Ligue 1,Central Midfield,400000,7000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:543:182297:abakar-sylla,Abakar Sylla,FC Nantes,Ligue 1,Centre-Back,2500000,11500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:543:170915:mohamed-kaba,Mohamed Kaba,FC Nantes,Ligue 1,Central Midfield,4000000,12500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:545:165062:ousmane-ba,Ousmane Ba,FC Metz,Ligue 1,Goalkeeper,100000,3000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:545:243925:pape-sy,Pape Sy,FC Metz,Ligue 1,Goalkeeper,600000,6500,7,2024,87,Transfermarkt + Capology/estimation
+FL1:545:246635:jonathan-fischer,Jonathan Fischer,FC Metz,Ligue 1,Goalkeeper,2000000,9000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:545:288615:romain-jean-baptiste,Romain Jean-Baptiste,FC Metz,Ligue 1,Goalkeeper,450000,6000,7,2024,50,estimation + Capology/estimation
+FL1:545:192893:terry-yegbe,Terry Yegbe,FC Metz,Ligue 1,Defence,4000000,10500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:545:215172:urie-michel-mboula,Urie-Michel Mboula,FC Metz,Ligue 1,Defence,900000,7500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:545:249730:yannis-lawson,Yannis Lawson,FC Metz,Ligue 1,Defence,200000,4500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:545:283246:cleo-melieres,Cléo Mélières,FC Metz,Ligue 1,Defence,200000,4500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:545:288616:moustapha-diop,Moustapha Diop,FC Metz,Ligue 1,Defence,160000,4000,7,2024,50,estimation + Capology/estimation
+FL1:545:119294:giorgi-abuashvili,Giorgi Abuashvili,FC Metz,Ligue 1,Midfield,1500000,8500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:545:216372:georgiy-tsitaishvili,Georgiy Tsitaishvili,FC Metz,Ligue 1,Midfield,3500000,10000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:545:278360:ismael-guerti,Ismaël Guerti,FC Metz,Ligue 1,Midfield,500000,6500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:545:288541:believe-munongo,Believe Munongo,FC Metz,Ligue 1,Midfield,10000000,12000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:545:290085:tahirys-dos-santos,Tahirys dos Santos,FC Metz,Ligue 1,Midfield,160000,4000,7,2024,50,estimation + Capology/estimation
+FL1:545:456:habib-diallo,Habib Diallo,FC Metz,Ligue 1,Offence,3000000,16000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:545:10662:giorgi-kvilitaia,Giorgi Kvilitaia,FC Metz,Ligue 1,Offence,800000,11500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:545:290084:nathan-mbala,Nathan Mbala,FC Metz,Ligue 1,Offence,160000,4000,7,2024,50,estimation + Capology/estimation
+FL1:545:293735:jahyann-pandore,Jahyann Pandore,FC Metz,Ligue 1,Offence,160000,4000,7,2024,50,estimation + Capology/estimation
+FL1:545:261552:alpha-toure,Alpha Touré,FC Metz,Ligue 1,Defensive Midfield,5000000,11000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:545:246674:lucas-michal,Lucas Michal,FC Metz,Ligue 1,Left Winger,3000000,10000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:545:212866:sadibou-sane,Sadibou Sané,FC Metz,Ligue 1,Centre-Back,7000000,11500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:545:133553:boubacar-traore,Boubacar Traoré,FC Metz,Ligue 1,Defensive Midfield,4000000,10500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:545:45199:koffi-franck-kouao,Koffi Franck Kouao,FC Metz,Ligue 1,Right-Back,2500000,9500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:545:8403:fode-ballo-toure,Fodé Ballo-Touré,FC Metz,Ligue 1,Left-Back,1500000,13500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:545:8353:bouna-sarr,Bouna Sarr,FC Metz,Ligue 1,Right-Back,350000,9000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:545:8333:jessy-deminguet,Jessy Deminguet,FC Metz,Ligue 1,Central Midfield,2000000,9000,7,2024,87,Transfermarkt + Capology/estimation
+FL1:545:6623:jean-philippe-gbamin,Jean-Philippe Gbamin,FC Metz,Ligue 1,Defensive Midfield,1500000,13500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:545:6502:benjamin-stambouli,Benjamin Stambouli,FC Metz,Ligue 1,Defensive Midfield,500000,10000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:545:4114:maxime-colin,Maxime Colin,FC Metz,Ligue 1,Right-Back,250000,5000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:545:752:gauthier-hein,Gauthier Hein,FC Metz,Ligue 1,Right Winger,4000000,41923,7,2024,95,Transfermarkt + Capology
+FL1:546:8449:mathieu-gorgelin,Mathieu Gorgelin,Racing Club de Lens,Ligue 1,Goalkeeper,1100000,11500,7,2024,58,estimation + Capology/estimation
+FL1:546:8579:regis-gurtner,Régis Gurtner,Racing Club de Lens,Ligue 1,Goalkeeper,1100000,11500,7,2024,58,estimation + Capology/estimation
+FL1:546:188389:robin-risser,Robin Risser,Racing Club de Lens,Ligue 1,Goalkeeper,30000000,20500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:546:270888:adam-delplace,Adam Delplace,Racing Club de Lens,Ligue 1,Goalkeeper,1100000,11500,7,2024,58,estimation + Capology/estimation
+FL1:546:278383:ilan-jourdren,Ilan Jourdren,Racing Club de Lens,Ligue 1,Goalkeeper,1100000,11500,7,2024,58,estimation + Capology/estimation
+FL1:546:8204:arthur-masuaku,Arthur Masuaku,Racing Club de Lens,Ligue 1,Defence,3000000,14000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:546:129098:saud-abdulhamid,Saud Abdulhamid,Racing Club de Lens,Ligue 1,Defence,9000000,17000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:546:188148:samson-baidoo,Samson Baidoo,Racing Club de Lens,Ligue 1,Defence,25000000,20000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:546:216398:nidal-celik,Nidal Čelik,Racing Club de Lens,Ligue 1,Defence,7000000,16500,1,2025,87,Transfermarkt + Capology/estimation
+FL1:546:270890:kyllian-antonio,Kyllian Antonio,Racing Club de Lens,Ligue 1,Defence,3000000,14000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:546:274084:oscar-lenne,Oscar Lenne,Racing Club de Lens,Ligue 1,Defence,2200000,13000,7,2024,58,estimation + Capology/estimation
+FL1:546:150964:mamadou-sangare,Mamadou Sangare,Racing Club de Lens,Ligue 1,Midfield,40000000,21500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:546:268900:andrija-bulatovic,Andrija Bulatović,Racing Club de Lens,Ligue 1,Midfield,8000000,17000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:546:295255:mezian-soares,Mezian Soares,Racing Club de Lens,Ligue 1,Midfield,400000,8500,7,2024,50,estimation + Capology/estimation
+FL1:546:3370:florian-thauvin,Florian Thauvin,Racing Club de Lens,Ligue 1,Offence,12000000,62885,7,2025,95,Transfermarkt + Capology
+FL1:546:8446:allan-saint-maximin,Allan Saint-Maximin,Racing Club de Lens,Ligue 1,Offence,18000000,30500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:546:276430:rayan-fofana,Rayan Fofana,Racing Club de Lens,Ligue 1,Offence,4000000,15000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:546:290657:erawan-garnier,Erawan Garnier,Racing Club de Lens,Ligue 1,Offence,400000,8500,7,2024,50,estimation + Capology/estimation
+FL1:546:151264:abdallah-sima,Abdallah Sima,Racing Club de Lens,Ligue 1,Right Winger,12000000,18000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:546:64837:florian-sotoca,Florian Sotoca,Racing Club de Lens,Ligue 1,Centre-Forward,1500000,19500,7,2019,87,Transfermarkt + Capology/estimation
+FL1:546:16077:odsonne-edouard,Odsonne Edouard,Racing Club de Lens,Ligue 1,Centre-Forward,12000000,29000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:546:15704:amadou-haidara,Amadou Haïdara,Racing Club de Lens,Ligue 1,Central Midfield,18000000,30500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:546:8717:matthieu-udol,Matthieu Udol,Racing Club de Lens,Ligue 1,Left-Back,8000000,17000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:546:8706:adrien-thomasson,Adrien Thomasson,Racing Club de Lens,Ligue 1,Attacking Midfield,4000000,15000,1,2023,87,Transfermarkt + Capology/estimation
+FL1:546:8575:wesley-said,Wesley Saïd,Racing Club de Lens,Ligue 1,Centre-Forward,3000000,14000,7,2021,87,Transfermarkt + Capology/estimation
+FL1:546:8424:malang-sarr,Malang Sarr,Racing Club de Lens,Ligue 1,Centre-Back,20000000,31000,7,2024,87,Transfermarkt + Capology/estimation
+FL1:546:8372:ruben-aguilar,Ruben Aguilar,Racing Club de Lens,Ligue 1,Right-Back,2500000,13500,9,2023,87,Transfermarkt + Capology/estimation
+FL1:546:735:jonathan-gradit,Jonathan Gradit,Racing Club de Lens,Ligue 1,Centre-Back,2500000,13500,7,2019,87,Transfermarkt + Capology/estimation
+FL1:546:246160:anthony-bermont,Anthony Bermont,Racing Club de Lens,Ligue 1,Attacking Midfield,6000000,16000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:546:244936:alpha-diallo,Alpha Diallo,Racing Club de Lens,Ligue 1,Attacking Midfield,2500000,21500,7,2024,58,estimation + Capology/estimation
+FL1:546:204260:fode-sylla,Fodé Sylla,Racing Club de Lens,Ligue 1,Defensive Midfield,5000000,15500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:546:188468:pierre-ganiou,Pierre Ganiou,Racing Club de Lens,Ligue 1,Centre-Back,2000000,13000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:548:6696:lukas-hradecky,Lukáš Hrádecký,AS Monaco FC,Ligue 1,Goalkeeper,1500000,28000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:548:9535:philipp-kohn,Philipp Köhn,AS Monaco FC,Ligue 1,Goalkeeper,3500000,21000,7,2023,87,Transfermarkt + Capology/estimation
+FL1:548:172431:yann-lienard,Yann Lienard,AS Monaco FC,Ligue 1,Goalkeeper,100000,6500,7,2025,80,Transfermarkt + Capology/estimation
+FL1:548:254051:jules-stawiecki,Jules Stawiecki,AS Monaco FC,Ligue 1,Goalkeeper,150000,8000,7,2025,80,Transfermarkt + Capology/estimation
+FL1:548:254564:yanis-benchaouch-marty,Yanis Benchaouch Marty,AS Monaco FC,Ligue 1,Goalkeeper,1650000,18000,7,2024,58,estimation + Capology/estimation
+FL1:548:272502:samuel-nibombe,Samuel Nibombe,AS Monaco FC,Ligue 1,Defence,3300000,21000,7,2024,58,estimation + Capology/estimation
+FL1:548:272947:bradel-kiwa,Bradel Kiwa,AS Monaco FC,Ligue 1,Defence,3300000,21000,7,2024,58,estimation + Capology/estimation
+FL1:548:6687:denis-zakaria,Denis Zakaria,AS Monaco FC,Ligue 1,Midfield,25000000,88462,7,2023,95,Transfermarkt + Capology
+FL1:548:8887:krepin-diatta,Krépin Diatta,AS Monaco FC,Ligue 1,Midfield,8000000,24500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:548:175701:maghnes-akliouche,Maghnes Akliouche,AS Monaco FC,Ligue 1,Midfield,60000000,32500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:548:204269:lamine-camara,Lamine Camara,AS Monaco FC,Ligue 1,Midfield,40000000,31000,7,2024,87,Transfermarkt + Capology/estimation
+FL1:548:272943:aladji-bamba,Aladji Bamba,AS Monaco FC,Ligue 1,Midfield,18000000,28000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:548:286934:pape-cabral,Pape Cabral,AS Monaco FC,Ligue 1,Midfield,600000,14000,7,2025,50,estimation + Capology/estimation
+FL1:548:287511:matthias-wamu-oyatambwe,Matthias Wamu Oyatambwe,AS Monaco FC,Ligue 1,Midfield,600000,14000,7,2025,50,estimation + Capology/estimation
+FL1:548:290115:ilane-toure,Ilane Touré,AS Monaco FC,Ligue 1,Midfield,600000,14000,7,2025,50,estimation + Capology/estimation
+FL1:548:131040:folarin-balogun,Folarin Balogun,AS Monaco FC,Ligue 1,Offence,25000000,29000,8,2023,87,Transfermarkt + Capology/estimation
+FL1:548:166249:simon-adingra,Simon Adingra,AS Monaco FC,Ligue 1,Offence,28000000,29500,7,2026,87,Transfermarkt + Capology/estimation
+FL1:548:154607:vanderson,Vanderson,AS Monaco FC,Ligue 1,Right-Back,18000000,28000,1,2022,87,Transfermarkt + Capology/estimation
+FL1:548:128040:ansu-fati,Ansu Fati,AS Monaco FC,Ligue 1,Left Winger,18000000,28000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:548:81039:mohammed-salisu,Mohammed Salisu,AS Monaco FC,Ligue 1,Centre-Back,10000000,25500,8,2023,87,Transfermarkt + Capology/estimation
+FL1:548:67965:jordan-teze,Jordan Teze,AS Monaco FC,Ligue 1,Right-Back,15000000,27000,8,2024,87,Transfermarkt + Capology/estimation
+FL1:548:15100:takumi-minamino,Takumi Minamino,AS Monaco FC,Ligue 1,Left Winger,10000000,40500,7,2022,87,Transfermarkt + Capology/estimation
+FL1:548:7328:wout-faes,Wout Faes,AS Monaco FC,Ligue 1,Centre-Back,18000000,28000,7,2026,87,Transfermarkt + Capology/estimation
+FL1:548:6493:thilo-kehrer,Thilo Kehrer,AS Monaco FC,Ligue 1,Centre-Back,12000000,26000,1,2024,87,Transfermarkt + Capology/estimation
+FL1:548:3683:aleksandr-golovin,Aleksandr Golovin,AS Monaco FC,Ligue 1,Attacking Midfield,18000000,44500,7,2018,87,Transfermarkt + Capology/estimation
+FL1:548:3366:paul-pogba,Paul Pogba,AS Monaco FC,Ligue 1,Central Midfield,2500000,31500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:548:3314:eric-dier,Eric Dier,AS Monaco FC,Ligue 1,Centre-Back,4000000,34500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:548:1612:caio-henrique,Caio Henrique,AS Monaco FC,Ligue 1,Left-Back,20000000,28000,8,2020,87,Transfermarkt + Capology/estimation
+FL1:548:244898:mamadou-coulibaly,Mamadou Coulibaly,AS Monaco FC,Ligue 1,Central Midfield,15000000,27000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:548:244696:paris-brunner,Paris Brunner,AS Monaco FC,Ligue 1,Centre-Forward,8000000,24500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:548:221295:stanis-idumbo-muzambo,Stanis Idumbo-Muzambo,AS Monaco FC,Ligue 1,Attacking Midfield,4000000,21500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:548:188481:christian-mawissa,Christian Mawissa,AS Monaco FC,Ligue 1,Centre-Back,15000000,27000,8,2024,87,Transfermarkt + Capology/estimation
+FL1:548:185069:kassoum-ouattara,Kassoum Ouattara,AS Monaco FC,Ligue 1,Left-Back,7000000,24000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:548:177260:mika-biereth,Mika Biereth,AS Monaco FC,Ligue 1,Centre-Forward,25000000,29000,1,2025,87,Transfermarkt + Capology/estimation
+FL1:576:131109:stefan-bajic,Stefan Bajic,RC Strasbourg Alsace,Ligue 1,Goalkeeper,1100000,9500,7,2024,58,estimation + Capology/estimation
+FL1:576:191068:mike-penders,Mike Penders,RC Strasbourg Alsace,Ligue 1,Goalkeeper,15000000,16000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:576:205508:kalle-johnsson,Kalle Johnsson,RC Strasbourg Alsace,Ligue 1,Goalkeeper,1100000,9500,7,2024,58,estimation + Capology/estimation
+FL1:576:284107:gabriel-kerckaert,Gabriel Kerckaert,RC Strasbourg Alsace,Ligue 1,Goalkeeper,400000,7000,7,2025,50,estimation + Capology/estimation
+FL1:576:135473:guela-doue,Guela Doué,RC Strasbourg Alsace,Ligue 1,Defence,20000000,16500,7,2024,87,Transfermarkt + Capology/estimation
+FL1:576:170261:valentin-barco,Valentin Barco,RC Strasbourg Alsace,Ligue 1,Defence,40000000,18000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:576:205551:lucas-h-gsberg,Lucas Høgsberg,RC Strasbourg Alsace,Ligue 1,Defence,18000000,16500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:576:273159:amadou-cisse,Amadou Cissé,RC Strasbourg Alsace,Ligue 1,Defence,2200000,11000,7,2024,58,estimation + Capology/estimation
+FL1:576:276736:sacha-lung,Sacha Lung,RC Strasbourg Alsace,Ligue 1,Defence,400000,7000,7,2025,50,estimation + Capology/estimation
+FL1:576:292356:yoann-becker,Yoann Becker,RC Strasbourg Alsace,Ligue 1,Defence,400000,7000,7,2025,50,estimation + Capology/estimation
+FL1:576:182192:diego-moreira,Diego Moreira,RC Strasbourg Alsace,Ligue 1,Midfield,22000000,17000,7,2024,87,Transfermarkt + Capology/estimation
+FL1:576:210644:maximillian-oyedele,Maximillian Oyedele,RC Strasbourg Alsace,Ligue 1,Midfield,5000000,13000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:576:244929:samir-el-mourabet,Samir El Mourabet,RC Strasbourg Alsace,Ligue 1,Midfield,22000000,17000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:576:262705:rafael-luis,Rafael Luís,RC Strasbourg Alsace,Ligue 1,Midfield,5000000,13000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:576:276985:ghianny-kodia,Ghianny Kodia,RC Strasbourg Alsace,Ligue 1,Midfield,400000,7000,7,2025,50,estimation + Capology/estimation
+FL1:576:292044:tyrese-noubissie,Tyrese Noubissie,RC Strasbourg Alsace,Ligue 1,Midfield,400000,7000,7,2025,50,estimation + Capology/estimation
+FL1:576:293649:max-marechal,Max Marechal,RC Strasbourg Alsace,Ligue 1,Midfield,400000,7000,7,2025,50,estimation + Capology/estimation
+FL1:576:294699:idrissa-sabaly,Idrissa Sabaly,RC Strasbourg Alsace,Ligue 1,Midfield,400000,7000,7,2025,50,estimation + Capology/estimation
+FL1:576:160849:david-fofana,David Fofana,RC Strasbourg Alsace,Ligue 1,Offence,10000000,15000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:576:168949:julio-enciso,Julio Enciso,RC Strasbourg Alsace,Ligue 1,Offence,28000000,17500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:576:245336:gessime-yassine,Gessime Yassine,RC Strasbourg Alsace,Ligue 1,Offence,12000000,15500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:576:290012:jean-baptiste-bosey,Jean-Baptiste Bosey,RC Strasbourg Alsace,Ligue 1,Offence,400000,7000,7,2025,50,estimation + Capology/estimation
+FL1:576:295113:yaya-dieme,Yaya Diemé,RC Strasbourg Alsace,Ligue 1,Offence,400000,7000,7,2025,50,estimation + Capology/estimation
+FL1:576:206809:samuel-amo-ameyaw,Samuel Amo-Ameyaw,RC Strasbourg Alsace,Ligue 1,Right Winger,10000000,15000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:576:204426:martial-godo,Martial Godo,RC Strasbourg Alsace,Ligue 1,Left Winger,8000000,14500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:576:203561:joaquin-panichelli,Joaquín Panichelli,RC Strasbourg Alsace,Ligue 1,Centre-Forward,18000000,16500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:576:182091:junior-mwanga,Junior Mwanga,RC Strasbourg Alsace,Ligue 1,Defensive Midfield,6000000,13500,8,2023,87,Transfermarkt + Capology/estimation
+FL1:576:150599:emanuel-emegha,Emanuel Emegha,RC Strasbourg Alsace,Ligue 1,Centre-Forward,30000000,17500,7,2023,87,Transfermarkt + Capology/estimation
+FL1:576:149920:andrew-omobamidele,Andrew Omobamidele,RC Strasbourg Alsace,Ligue 1,Centre-Back,8000000,14500,1,2025,87,Transfermarkt + Capology/estimation
+FL1:576:147878:ismael-doukoure,Ismaël Doukouré,RC Strasbourg Alsace,Ligue 1,Centre-Back,20000000,16500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:576:144643:sebastian-nanasi,Sebastian Nanasi,RC Strasbourg Alsace,Ligue 1,Left Midfield,25000000,17000,8,2024,87,Transfermarkt + Capology/estimation
+FL1:576:8065:ben-chilwell,Ben Chilwell,RC Strasbourg Alsace,Ligue 1,Left-Back,10000000,70000,7,2025,95,Transfermarkt + Capology
+FL1:576:270889:abdoul-ouattara,Abdoul Ouattara,RC Strasbourg Alsace,Ligue 1,Right Winger,15000000,16000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:576:244750:mathis-amougou,Mathis Amougou,RC Strasbourg Alsace,Ligue 1,Central Midfield,18000000,16500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:576:209148:aaron-anselmino,Aaron Anselmino,RC Strasbourg Alsace,Ligue 1,Centre-Back,20000000,16500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:1045:3175:kevin-trapp,Kevin Trapp,Paris FC,Ligue 1,Goalkeeper,1800000,20500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:1045:30590:remy-riou,Rémy Riou,Paris FC,Ligue 1,Goalkeeper,850000,10500,7,2024,57,estimation + Capology/estimation + Transfermarkt
+FL1:1045:138022:obed-nkambadio,Obed Nkambadio,Paris FC,Ligue 1,Goalkeeper,5000000,15500,7,2024,80,Transfermarkt + Capology/estimation
+FL1:1045:116150:samir-chergui,Samir Chergui,Paris FC,Ligue 1,Defence,3000000,14000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:1045:270699:kamil-elkit,Kâmil Elkit,Paris FC,Ligue 1,Midfield,300000,7500,7,2025,50,estimation + Capology/estimation
+FL1:1045:277673:rudy-matondo,Rudy Matondo,Paris FC,Ligue 1,Midfield,300000,7500,7,2025,50,estimation + Capology/estimation
+FL1:1045:8475:willem-geubbels,Willem Geubbels,Paris FC,Ligue 1,Offence,5000000,15500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:1045:249584:mohamed-dao,Mohamed Dao,Paris FC,Ligue 1,Offence,300000,7500,7,2025,50,estimation + Capology/estimation
+FL1:1045:40000:timothee-kolodziejczak,Timothée Kolodziejczak,Paris FC,Ligue 1,Centre-Back,1650000,12500,7,2024,58,estimation + Capology/estimation
+FL1:1045:34754:marshall-munetsi,Marshall Munetsi,Paris FC,Ligue 1,Central Midfield,10000000,17500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:1045:8900:thibault-de-smet,Thibault De Smet,Paris FC,Ligue 1,Left-Back,1800000,12500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:1045:8808:hamari-traore,Hamari Traoré,Paris FC,Ligue 1,Right-Back,1500000,19500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:1045:8439:pierre-lees-melou,Pierre Lees Melou,Paris FC,Ligue 1,Defensive Midfield,4500000,24500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:1045:8381:jonathan-ikone,Jonathan Ikoné,Paris FC,Ligue 1,Right Winger,8000000,27000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:1045:8352:maxime-lopez,Maxime López,Paris FC,Ligue 1,Defensive Midfield,5000000,15500,8,2024,87,Transfermarkt + Capology/estimation
+FL1:1045:3398:moses-simon,Moses Simon,Paris FC,Ligue 1,Left Winger,12000000,52500,7,2025,95,Transfermarkt + Capology
+FL1:1045:2076:ciro-immobile,Ciro Immobile,Paris FC,Ligue 1,Centre-Forward,2500000,21500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:1045:941:julien-lopez-baila,Julien López Baila,Paris FC,Ligue 1,Left Winger,2100000,13000,7,2024,58,estimation + Capology/estimation
+FL1:1045:854:sofiane-alakouch,Sofiane Alakouch,Paris FC,Ligue 1,Right-Back,1650000,12500,7,2024,58,estimation + Capology/estimation
+FL1:1045:823:mathieu-cafaro,Mathieu Cafaro,Paris FC,Ligue 1,Right Winger,3000000,14000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:1045:638:alimami-gory,Alimami Gory,Paris FC,Ligue 1,Left Winger,1500000,12000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:1045:609:pierre-yves-hamel,Pierre-Yves Hamel,Paris FC,Ligue 1,Centre-Forward,2100000,13000,7,2024,58,estimation + Capology/estimation
+FL1:1045:565:vincent-marchetti,Vincent Marchetti,Paris FC,Ligue 1,Central Midfield,1900000,13000,7,2024,58,estimation + Capology/estimation
+FL1:1045:245430:nhoa-sangui,Nhoa Sangui,Paris FC,Ligue 1,Left-Back,10000000,17500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:1045:242560:killian-prouchet,Killian Prouchet,Paris FC,Ligue 1,Centre-Back,300000,7500,7,2025,50,estimation + Capology/estimation
+FL1:1045:182267:luca-koleosho,Luca Koleosho,Paris FC,Ligue 1,Right Winger,6000000,16000,7,2025,87,Transfermarkt + Capology/estimation
+FL1:1045:176720:diego-coppola,Diego Coppola,Paris FC,Ligue 1,Centre-Back,15000000,18500,7,2025,87,Transfermarkt + Capology/estimation
+FL1:1045:169339:mamadou-mbow,Mamadou Mbow,Paris FC,Ligue 1,Centre-Back,9000000,17000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:1045:151363:otavio-ataide,Otavio Ataide,Paris FC,Ligue 1,Centre-Back,10000000,17500,7,2024,87,Transfermarkt + Capology/estimation
+FL1:1045:129221:adama-camara,Adama Camara,Paris FC,Ligue 1,Defensive Midfield,3000000,14000,7,2024,80,Transfermarkt + Capology/estimation
+FL1:1045:108987:lamine-gueye,Lamine Gueye,Paris FC,Ligue 1,Right Winger,2100000,13000,7,2024,58,estimation + Capology/estimation
+FL1:1045:108520:ilan-kebbal,Ilan Kebbal,Paris FC,Ligue 1,Attacking Midfield,12000000,18000,7,2023,87,Transfermarkt + Capology/estimation
+FL1:1045:106896:jean-philippe-krasso,Jean-Philippe Krasso,Paris FC,Ligue 1,Centre-Forward,3000000,14000,7,2024,80,Transfermarkt + Capology/estimation

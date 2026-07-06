@@ -8,11 +8,9 @@ import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
 import { useMessagesUnread } from '@/context/MessagesUnreadProvider'
 import { useNotifications } from '@/context/NotificationsProvider'
-import {
-  MOCK_GLOBAL_TRANSFER_NEWS,
-  getDaysUntilNextTransferWindow,
-} from '@/features/dashboard/mockClubDashboard'
+import { getDaysUntilNextTransferWindow } from '@/features/dashboard/mockClubDashboard'
 import { dashboardManager, type DashboardActiveDeal } from '@/features/dashboard/dashboard'
+import { publicFeedManager, type PublicFeedPost } from '@/features/public-feed/publicFeed'
 
 function formatCurrentDate(date: Date): string {
   const rawLabel = date.toLocaleDateString('fr-FR', {
@@ -39,6 +37,47 @@ function formatEventDate(dateValue: string | null): string {
   })
 }
 
+function formatNewsDate(dateValue: string): string {
+  const date = new Date(dateValue)
+
+  if (Number.isNaN(date.getTime())) {
+    return 'Publié récemment'
+  }
+
+  const diffInSeconds = Math.max(0, Math.floor((Date.now() - date.getTime()) / 1000))
+
+  if (diffInSeconds < 60) {
+    return "À l'instant"
+  }
+
+  const diffInMinutes = Math.floor(diffInSeconds / 60)
+  if (diffInMinutes < 60) {
+    return `il y a ${diffInMinutes} min`
+  }
+
+  const diffInHours = Math.floor(diffInMinutes / 60)
+  if (diffInHours < 24) {
+    return `il y a ${diffInHours} h`
+  }
+
+  return date.toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: 'short',
+  })
+}
+
+function getNewsHeadline(post: PublicFeedPost): string {
+  const rawHeadline = post.headline ?? post.title ?? 'Officialisation KickDeal'
+
+  return rawHeadline.toUpperCase().startsWith('OFFICIEL')
+    ? rawHeadline
+    : `OFFICIEL : ${rawHeadline}`
+}
+
+function getNewsSummary(post: PublicFeedPost): string {
+  return post.body ?? post.subtitle ?? 'Une nouvelle officialisation vient d’être publiée sur KickDeal.'
+}
+
 function ClubDashboardHome() {
   const router = useRouter()
   const { unreadConversationIds } = useMessagesUnread()
@@ -48,13 +87,16 @@ function ClubDashboardHome() {
   const [pendingOffersCount, setPendingOffersCount] = useState(0)
   const [unreadMessagesCount, setUnreadMessagesCount] = useState(0)
   const [pendingRenewalsCount, setPendingRenewalsCount] = useState(0)
+  const [marketNews, setMarketNews] = useState<PublicFeedPost[]>([])
+  const [isMarketNewsLoading, setIsMarketNewsLoading] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [marketNewsError, setMarketNewsError] = useState<string | null>(null)
 
   const today = useMemo(() => new Date(), [])
   const dateLabel = useMemo(() => formatCurrentDate(today), [today])
   const daysUntilNextWindow = useMemo(() => getDaysUntilNextTransferWindow(today), [today])
-  const activeNews = MOCK_GLOBAL_TRANSFER_NEWS[activeNewsIndex]
+  const activeNews = marketNews[activeNewsIndex] ?? null
   const activeDealDateLabel = useMemo(
     () => formatEventDate(activeDeal?.eventDate ?? null),
     [activeDeal?.eventDate],
@@ -106,6 +148,41 @@ function ClubDashboardHome() {
     }
 
     loadDashboard()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadMarketNews() {
+      try {
+        const posts = await publicFeedManager.getImportantPosts(3)
+
+        if (!isMounted) {
+          return
+        }
+
+        setMarketNews(posts)
+        setActiveNewsIndex(0)
+        setMarketNewsError(null)
+      } catch (error) {
+        if (!isMounted) {
+          return
+        }
+
+        console.error('Erreur lors du chargement du feed mercato:', error)
+        setMarketNewsError('Impossible de charger les dernières infos mercato.')
+      } finally {
+        if (isMounted) {
+          setIsMarketNewsLoading(false)
+        }
+      }
+    }
+
+    loadMarketNews()
 
     return () => {
       isMounted = false
@@ -223,40 +300,120 @@ function ClubDashboardHome() {
             <article className="overflow-hidden rounded-2xl border-2 border-brand-cyan/60 bg-[#07111f]/90 shadow-[0_0_44px_rgba(0,245,212,0.18)]">
               <div className="flex items-center justify-between border-b border-brand-cyan/20 bg-gradient-to-r from-brand-purple/18 to-brand-cyan/12 px-4 py-3">
                 <span className="text-brand-cyan text-4xl md:text-[40px] font-black tracking-tight italic leading-none">
-                  {activeNews.source}
+                  MERCATO GLOBAL
                 </span>
                 <span className="rounded-full border border-brand-purple/40 bg-brand-purple/15 px-3 py-1 text-base font-semibold text-white/90">
-                  {activeNews.publishedAtLabel}
+                  {activeNews ? formatNewsDate(activeNews.publishedAt) : isMarketNewsLoading ? 'Chargement' : 'À jour'}
                 </span>
               </div>
 
               <div className="relative h-64 md:h-72 bg-[radial-gradient(circle_at_20%_10%,rgba(163,94,255,0.35),transparent_34%),radial-gradient(circle_at_80%_20%,rgba(0,245,212,0.28),transparent_34%),linear-gradient(180deg,#15243a_0%,#09111e_100%)]">
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_25%,rgba(0,0,0,0.72)_100%)]" />
-                <div className="absolute inset-x-5 bottom-4 text-center">
-                  <h3 className="text-white text-2xl md:text-[30px] font-bold leading-tight">
-                    {activeNews.headline}
-                  </h3>
-                  <p className="mt-2 text-white/90 text-lg leading-snug">{activeNews.summary}</p>
+                <div className="absolute inset-x-5 bottom-5 text-center md:bottom-6">
+                  {activeNews ? (
+                    <>
+                      <NewsClubLogos post={activeNews} />
+                      <h3 className="mx-auto max-w-xl text-white text-2xl md:text-[30px] font-bold leading-tight">
+                        {getNewsHeadline(activeNews)}
+                      </h3>
+                      <p className="mx-auto mt-2 max-w-xl text-white/90 text-lg leading-snug">
+                        {getNewsSummary(activeNews)}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h3 className="mx-auto max-w-xl text-white text-2xl md:text-[30px] font-bold leading-tight">
+                        {isMarketNewsLoading ? 'Chargement des infos mercato...' : 'Aucune info mercato publiée'}
+                      </h3>
+                      <p className="mx-auto mt-2 max-w-xl text-white/90 text-lg leading-snug">
+                        {marketNewsError ?? 'Les dernières officialisations KickDeal apparaîtront ici dès publication.'}
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
             </article>
 
-            <div className="mt-4 flex items-center justify-center gap-2">
-              {MOCK_GLOBAL_TRANSFER_NEWS.map((news, index) => (
-                <button
-                  key={news.id}
-                  type="button"
-                  onClick={() => setActiveNewsIndex(index)}
-                  className="p-1"
-                  aria-label={`Ouvrir l'actualité transfert ${index + 1}`}
-                >
-                  <Dot className={`h-7 w-7 ${index === activeNewsIndex ? 'text-brand-cyan' : 'text-white/30'}`} />
-                </button>
-              ))}
-            </div>
+            {marketNews.length > 1 && (
+              <div className="mt-4 flex items-center justify-center gap-2">
+                {marketNews.map((news, index) => (
+                  <button
+                    key={news.id}
+                    type="button"
+                    onClick={() => setActiveNewsIndex(index)}
+                    className="p-1"
+                    aria-label={`Ouvrir l'actualité transfert ${index + 1}`}
+                  >
+                    <Dot className={`h-7 w-7 ${index === activeNewsIndex ? 'text-brand-cyan' : 'text-white/30'}`} />
+                  </button>
+                ))}
+              </div>
+            )}
           </section>
         </div>
       </div>
+    </div>
+  )
+}
+
+function NewsClubLogos({ post }: { post: PublicFeedPost }) {
+  const sellerTeam = post.sellerTeam
+  const buyerTeam = post.buyerTeam
+
+  if (!sellerTeam?.name && !buyerTeam?.name) {
+    return null
+  }
+
+  if (!sellerTeam?.name || !buyerTeam?.name || sellerTeam.id === buyerTeam.id) {
+    const team = buyerTeam?.name ? buyerTeam : sellerTeam
+
+    return (
+      <div className="mb-4 flex justify-center">
+        <NewsClubLogo name={team?.name ?? 'Club'} logoUrl={team?.logoUrl} />
+      </div>
+    )
+  }
+
+  return (
+    <div className="mb-4 flex items-center justify-center gap-3">
+      <NewsClubLogo name={sellerTeam.name} logoUrl={sellerTeam.logoUrl} />
+      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-brand-cyan/30 bg-black/25 text-brand-cyan shadow-lg shadow-black/30">
+        <ArrowRightLeft className="h-4 w-4" />
+      </div>
+      <NewsClubLogo name={buyerTeam.name} logoUrl={buyerTeam.logoUrl} />
+    </div>
+  )
+}
+
+function NewsClubLogo({ name, logoUrl }: { name: string; logoUrl?: string | null }) {
+  const firstLetter = name.charAt(0).toUpperCase()
+
+  if (logoUrl) {
+    return (
+      <div className="flex flex-col items-center gap-1.5">
+        <CircleImage
+          src={logoUrl}
+          alt={name}
+          className="relative h-14 w-14 overflow-hidden rounded-2xl border border-white/25 bg-white/10 shadow-xl shadow-black/30"
+          sizes="56px"
+          imageClassName="object-contain p-2"
+          fallback={
+            <div className="flex h-full w-full items-center justify-center text-lg font-black text-white">
+              {firstLetter}
+            </div>
+          }
+        />
+        <span className="max-w-24 truncate text-xs font-semibold text-white/75">{name}</span>
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col items-center gap-1.5">
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/25 bg-white/10 text-lg font-black text-white shadow-xl shadow-black/30">
+        {firstLetter}
+      </div>
+      <span className="max-w-24 truncate text-xs font-semibold text-white/75">{name}</span>
     </div>
   )
 }

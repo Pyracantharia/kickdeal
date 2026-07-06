@@ -1,0 +1,19 @@
+team_key,name,league,country,transfer_budget_eur,confidence_score,estimation_basis
+FL1:511:toulouse-fc,Toulouse FC,Ligue 1,France,14000000,80,Budget club 50 M€; activité et solde Transfermarkt 2026-2027
+FL1:512:stade-brestois-29,Stade Brestois 29,Ligue 1,France,8000000,76,Budget club 35 M€; capacité financière et activité 2026-2027
+FL1:516:olympique-de-marseille,Olympique de Marseille,Ligue 1,France,45000000,82,Budget club 220-280 M€; activité Transfermarkt; contraintes UEFA 2026
+FL1:519:aj-auxerre,AJ Auxerre,Ligue 1,France,7000000,74,Budget club 40 M€; capacité financière et activité 2026-2027
+FL1:521:lille-osc,Lille OSC,Ligue 1,France,30000000,84,Budget club 110 M€; revenus européens; solde Transfermarkt 2026-2027
+FL1:522:ogc-nice,OGC Nice,Ligue 1,France,28000000,81,Budget club 120 M€; activité et solde Transfermarkt 2026-2027
+FL1:523:olympique-lyonnais,Olympique Lyonnais,Ligue 1,France,18000000,76,Budget club 110 M€; contraintes financières; ventes et activité 2026-2027
+FL1:524:paris-saint-germain-fc,Paris Saint-Germain FC,Ligue 1,France,180000000,90,Budget club 850-880 M€; revenus européens; activité Transfermarkt 2026-2027
+FL1:525:fc-lorient,FC Lorient,Ligue 1,France,14000000,78,Budget club 60 M€; activité et solde Transfermarkt 2026-2027
+FL1:529:stade-rennais-fc-1901,Stade Rennais FC 1901,Ligue 1,France,40000000,85,Budget club 110 M€; historique de dépenses; activité Transfermarkt 2026-2027
+FL1:532:angers-sco,Angers SCO,Ligue 1,France,4000000,70,Budget club 25 M€; capacité financière estimée; activité 2026-2027
+FL1:533:le-havre-ac,Le Havre AC,Ligue 1,France,3500000,68,Budget club 25 M€; capacité financière estimée; activité 2026-2027
+FL1:543:fc-nantes,FC Nantes,Ligue 1,France,12000000,76,Budget club 50 M€; activité et solde Transfermarkt 2026-2027
+FL1:545:fc-metz,FC Metz,Ligue 1,France,7000000,72,Budget club 40 M€; capacité financière et activité 2026-2027
+FL1:546:racing-club-de-lens,Racing Club de Lens,Ligue 1,France,25000000,84,Budget club 60 M€; ventes récentes; solde Transfermarkt 2026-2027
+FL1:548:as-monaco-fc,AS Monaco FC,Ligue 1,Monaco,60000000,87,Budget club 140 M€; revenus européens; activité Transfermarkt 2026-2027
+FL1:576:rc-strasbourg-alsace,RC Strasbourg Alsace,Ligue 1,France,65000000,87,Budget club 100-110 M€; soutien BlueCo; activité Transfermarkt 2026-2027
+FL1:1045:paris-fc,Paris FC,Ligue 1,France,70000000,92,Enveloppe mercato publique 60-70 M€; budget club 120-130 M€

@@ -177,6 +177,8 @@ final class ContractNegotiationWorkflow
                 $sellerTeam->setTransferBudget(($sellerTeam->getTransferBudget() ?? 0) + $transferAmount);
             }
         }
+
+        $this->publicFeedPublisher->publishExternalTransferFinalized($transferNegociation);
     }
 
     public function finalize(ContractNegociation $contractNegociation, ContractOffer $acceptedOffer): void

@@ -1,0 +1,21 @@
+team_key,name,league,country,transfer_budget_eur,confidence_score,estimation_basis
+PD:77:athletic-club,Athletic Club,Primera Division,Spain,35000000,83,Limite coût effectif LaLiga; dépenses récentes; activité Transfermarkt 2026-2027
+PD:78:club-atletico-de-madrid,Club Atlético de Madrid,Primera Division,Spain,110000000,88,Limite coût effectif LaLiga; forte activité mercato; solde Transfermarkt 2026-2027
+PD:79:ca-osasuna,CA Osasuna,Primera Division,Spain,18000000,79,Limite coût effectif LaLiga; activité et solde Transfermarkt 2026-2027
+PD:80:rcd-espanyol-de-barcelona,RCD Espanyol de Barcelona,Primera Division,Spain,16000000,78,Limite coût effectif LaLiga; dépenses récentes; activité Transfermarkt 2026-2027
+PD:81:fc-barcelona,FC Barcelona,Primera Division,Spain,90000000,88,"Limite coût effectif 432,8 M€; retour progressif règle 1:1; activité mercato 2026"
+PD:82:getafe-cf,Getafe CF,Primera Division,Spain,12000000,76,Limite coût effectif LaLiga; faible masse salariale; activité 2026-2027
+PD:86:real-madrid-cf,Real Madrid CF,Primera Division,Spain,220000000,91,Limite coût effectif 761 M€; revenus record; dépenses Transfermarkt 2026-2027
+PD:87:rayo-vallecano-de-madrid,Rayo Vallecano de Madrid,Primera Division,Spain,12000000,75,Limite coût effectif LaLiga; capacité financière et activité 2026-2027
+PD:88:levante-ud,Levante UD,Primera Division,Spain,10000000,72,Capacité financière estimée; activité mercato; contraintes de masse salariale
+PD:89:rcd-mallorca,RCD Mallorca,Primera Division,Spain,22000000,80,Limite coût effectif LaLiga; stabilité financière; activité Transfermarkt 2026-2027
+PD:90:real-betis-balompie,Real Betis Balompié,Primera Division,Spain,50000000,85,Limite coût effectif élevée; revenus européens; activité Transfermarkt 2026-2027
+PD:92:real-sociedad-de-futbol,Real Sociedad de Fútbol,Primera Division,Spain,45000000,85,Ventes récentes; limite coût effectif; solde Transfermarkt 2026-2027
+PD:94:villarreal-cf,Villarreal CF,Primera Division,Spain,80000000,87,Limite coût effectif élevée; revenus européens; activité Transfermarkt 2026-2027
+PD:95:valencia-cf,Valencia CF,Primera Division,Spain,18000000,76,Contraintes financières; ventes récentes; activité et solde Transfermarkt 2026-2027
+PD:263:deportivo-alaves,Deportivo Alavés,Primera Division,Spain,12000000,76,Limite coût effectif LaLiga; activité et solde Transfermarkt 2026-2027
+PD:285:elche-cf,Elche CF,Primera Division,Spain,14000000,74,Capacité financière; revenus de Liga; activité Transfermarkt 2026-2027
+PD:298:girona-fc,Girona FC,Primera Division,Spain,45000000,84,Soutien City Football Group; valeur effectif; activité Transfermarkt 2026-2027
+PD:558:rc-celta-de-vigo,RC Celta de Vigo,Primera Division,Spain,30000000,82,Limite coût effectif LaLiga; activité et dépenses Transfermarkt 2026-2027
+PD:559:sevilla-fc,Sevilla FC,Primera Division,Spain,18000000,77,Contraintes financières; ventes nécessaires; activité Transfermarkt 2026-2027
+PD:1048:real-oviedo,Real Oviedo,Primera Division,Spain,15000000,73,Capacité financière de club promu; revenus Liga; activité mercato 2026-2027

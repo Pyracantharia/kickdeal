@@ -1,0 +1,21 @@
+team_key,name,league,country,transfer_budget_eur,confidence_score,estimation_basis
+SA:98:ac-milan,AC Milan,Serie A,Italy,130000000,88,Revenus club élevés; achat majeur été 2026; activité et dépenses Transfermarkt 2026-2027
+SA:99:acf-fiorentina,ACF Fiorentina,Serie A,Italy,60000000,83,Dépenses récentes; valeur effectif; activité et solde Transfermarkt 2026-2027
+SA:100:as-roma,AS Roma,Serie A,Italy,70000000,84,Revenus européens; masse salariale élevée; activité et solde Transfermarkt 2026-2027
+SA:102:atalanta-bc,Atalanta BC,Serie A,Italy,85000000,87,Revenus européens; ventes récentes; forte capacité de trading; Transfermarkt 2026-2027
+SA:103:bologna-fc-1909,Bologna FC 1909,Serie A,Italy,50000000,84,Revenus européens; solde positif récent; activité Transfermarkt 2026-2027
+SA:104:cagliari-calcio,Cagliari Calcio,Serie A,Italy,18000000,75,Budget club; valeur effectif; activité mercato 2026-2027; estimation
+SA:107:genoa-cfc,Genoa CFC,Serie A,Italy,25000000,78,Valeur effectif; ventes et activité Transfermarkt 2026-2027; estimation
+SA:108:fc-internazionale-milano,FC Internazionale Milano,Serie A,Italy,120000000,89,Revenus record; champion d’Italie; ventes récentes; activité Transfermarkt 2026-2027
+SA:109:juventus-fc,Juventus FC,Serie A,Italy,90000000,84,Revenus élevés; dépenses 2026-2027; contraintes UEFA de durabilité financière
+SA:110:ss-lazio,SS Lazio,Serie A,Italy,50000000,84,Forte activité hiver 2026; dépenses et solde Transfermarkt; capacité financière
+SA:112:parma-calcio-1913,Parma Calcio 1913,Serie A,Italy,30000000,79,Valeur effectif; investissements propriétaires; activité Transfermarkt 2026-2027
+SA:113:ssc-napoli,SSC Napoli,Serie A,Italy,130000000,89,Revenus C1; masse salariale élevée; forte activité et dépenses Transfermarkt 2026-2027
+SA:115:udinese-calcio,Udinese Calcio,Serie A,Italy,25000000,79,Modèle de trading; valeur effectif; activité et solde Transfermarkt 2026-2027
+SA:450:hellas-verona-fc,Hellas Verona FC,Serie A,Italy,15000000,73,Faible budget club; ventes nécessaires; activité mercato 2026-2027; estimation
+SA:457:us-cremonese,US Cremonese,Serie A,Italy,22000000,76,Capacité financière; valeur effectif; activité et dépenses Transfermarkt 2026-2027
+SA:471:us-sassuolo-calcio,US Sassuolo Calcio,Serie A,Italy,30000000,80,Valeur effectif; modèle de trading; activité et solde Transfermarkt 2026-2027
+SA:487:ac-pisa-1909,AC Pisa 1909,Serie A,Italy,18000000,73,Capacité financière de club promu; revenus Serie A; activité mercato 2026-2027
+SA:586:torino-fc,Torino FC,Serie A,Italy,35000000,81,Valeur effectif; historique de dépenses; activité et solde Transfermarkt 2026-2027
+SA:5890:us-lecce,US Lecce,Serie A,Italy,12000000,71,Faible masse salariale; ventes récentes; activité mercato 2026-2027; estimation
+SA:7397:como-1907,Como 1907,Serie A,Italy,150000000,90,Dépenses très élevées récentes; propriétaires fortunés; revenus européens; Transfermarkt

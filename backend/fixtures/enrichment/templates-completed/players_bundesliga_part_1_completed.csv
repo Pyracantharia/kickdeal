@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+BL1:1:7015:matthias-kobbing,Matthias Köbbing,1. FC Köln,Bundesliga,Goalkeeper,100000,1800,7,2025,81,Transfermarkt; estimation
+BL1:1:9388:ron-robert-zieler,Ron-Robert Zieler,1. FC Köln,Bundesliga,Goalkeeper,500000,35000,7,2025,93,Transfermarkt; Capology
+BL1:1:9957:marvin-schwabe,Marvin Schwäbe,1. FC Köln,Bundesliga,Goalkeeper,3000000,42000,7,2021,96,Transfermarkt; Capology
+BL1:1:8945:alessio-castro-montes,Alessio Castro-Montes,1. FC Köln,Bundesliga,Defence,5000000,20000,7,2026,87,Transfermarkt; estimation salaire
+BL1:1:107201:joel-schmied,Joël Schmied,1. FC Köln,Bundesliga,Defence,5000000,20000,7,2024,81,Transfermarkt; estimation
+BL1:1:180567:kristoffer-lund,Kristoffer Lund,1. FC Köln,Bundesliga,Defence,4000000,17500,7,2024,81,Transfermarkt; estimation
+BL1:1:292502:david-furst,David Fürst,1. FC Köln,Bundesliga,Defence,300000,2000,7,2025,81,Transfermarkt; estimation
+BL1:1:127596:isak-johannesson,Ísak Jóhannesson,1. FC Köln,Bundesliga,Midfield,18000000,41000,7,2026,87,Transfermarkt; estimation salaire
+BL1:1:270531:felipe-chavez,Felipe Chavez,1. FC Köln,Bundesliga,Midfield,2500000,13500,7,2024,81,Transfermarkt; estimation
+BL1:1:144647:sebastian-sebulonsen,Sebastian Sebulonsen,1. FC Köln,Bundesliga,Offence,5500000,21000,7,2025,87,Transfermarkt; estimation salaire
+BL1:1:247659:said-el-mala,Said El Mala,1. FC Köln,Bundesliga,Offence,45000000,65000,7,2024,81,Transfermarkt; estimation
+BL1:1:250918:malek-el-mala,Malek El Mala,1. FC Köln,Bundesliga,Offence,250000,1800,7,2025,81,Transfermarkt; estimation
+BL1:1:280335:cenny-neumann,Cenny Neumann,1. FC Köln,Bundesliga,Offence,6000000,22000,7,2024,81,Transfermarkt; estimation
+BL1:1:280363:youssoupha-niang,Youssoupha Niang,1. FC Köln,Bundesliga,Offence,500000,2000,7,2025,81,Transfermarkt; estimation
+BL1:1:290065:fynn-schenten,Fynn Schenten,1. FC Köln,Bundesliga,Offence,1000000,5000,7,2025,81,Transfermarkt; estimation
+BL1:1:127401:jakub-kaminski,Jakub Kamiński,1. FC Köln,Bundesliga,Left Winger,17000000,40000,7,2025,87,Transfermarkt; estimation salaire
+BL1:1:127140:cenk-ozkacar,Cenk Özkacar,1. FC Köln,Bundesliga,Centre-Back,5000000,20000,7,2025,87,Transfermarkt; estimation salaire
+BL1:1:99812:tom-krau,Tom Krauß,1. FC Köln,Bundesliga,Central Midfield,7000000,24000,7,2025,87,Transfermarkt; estimation salaire
+BL1:1:75707:luca-kilian,Luca Kilian,1. FC Köln,Bundesliga,Centre-Back,1500000,6500,7,2024,81,Transfermarkt; estimation
+BL1:1:65441:marius-bulter,Marius Bülter,1. FC Köln,Bundesliga,Left Winger,1800000,11500,7,2024,81,Transfermarkt; estimation
+BL1:1:9453:florian-kainz,Florian Kainz,1. FC Köln,Bundesliga,Attacking Midfield,2000000,38000,7,2019,96,Transfermarkt; Capology
+BL1:1:7772:ragnar-ache,Ragnar Ache,1. FC Köln,Bundesliga,Centre-Forward,9000000,35000,7,2025,96,Transfermarkt; Capology
+BL1:1:6537:gian-luca-waldschmidt,Gian-Luca Waldschmidt,1. FC Köln,Bundesliga,Centre-Forward,2000000,58077,7,2024,93,Transfermarkt; Capology
+BL1:1:327:linton-maina,Linton Maina,1. FC Köln,Bundesliga,Right Winger,3000000,15000,7,2024,81,Transfermarkt; estimation
+BL1:1:309:timo-hubers,Timo Hübers,1. FC Köln,Bundesliga,Centre-Back,3500000,16500,7,2024,81,Transfermarkt; estimation
+BL1:1:186:dominique-heintz,Dominique Heintz,1. FC Köln,Bundesliga,Centre-Back,500000,2000,7,2025,81,Transfermarkt; estimation
+BL1:1:272307:jahmai-simpson-pusey,Jahmai Simpson-Pusey,1. FC Köln,Bundesliga,Centre-Back,9000000,27500,7,2025,87,Transfermarkt; estimation salaire
+BL1:1:260917:fayssal-harchaoui,Fayssal Harchaoui,1. FC Köln,Bundesliga,Defensive Midfield,500000,2000,7,2025,81,Transfermarkt; estimation
+BL1:1:152743:rav-van-den-berg,Rav van den Berg,1. FC Köln,Bundesliga,Centre-Back,7000000,24000,7,2025,87,Transfermarkt; estimation salaire
+BL1:1:152726:eric-martel,Eric Martel,1. FC Köln,Bundesliga,Defensive Midfield,14000000,35500,7,2022,87,Transfermarkt; estimation salaire
+BL1:1:150087:denis-huseinbasic,Denis Huseinbasic,1. FC Köln,Bundesliga,Central Midfield,7000000,24000,7,2024,81,Transfermarkt; estimation
+BL1:1:137031:jan-thielmann,Jan Thielmann,1. FC Köln,Bundesliga,Right-Back,8000000,26000,7,2020,87,Transfermarkt; estimation salaire
+BL1:2:316:oliver-baumann,Oliver Baumann,TSG 1899 Hoffenheim,Bundesliga,Goalkeeper,3000000,65000,7,2014,96,Transfermarkt; Capology
+BL1:2:75703:luca-philipp,Luca Philipp,TSG 1899 Hoffenheim,Bundesliga,Goalkeeper,500000,2500,7,2025,81,Transfermarkt; estimation
+BL1:2:220259:lukas-petersson,Lukas Petersson,TSG 1899 Hoffenheim,Bundesliga,Goalkeeper,250000,2000,7,2025,81,Transfermarkt; estimation
+BL1:2:30548:ozan-kabak,Ozan Kabak,TSG 1899 Hoffenheim,Bundesliga,Defence,7000000,55000,7,2022,96,Transfermarkt; Capology
+BL1:2:49031:koki-machida,Koki Machida,TSG 1899 Hoffenheim,Bundesliga,Defence,12000000,43000,7,2025,87,Transfermarkt; estimation salaire
+BL1:2:62631:vladimir-coufal,Vladimir Coufal,TSG 1899 Hoffenheim,Bundesliga,Defence,3500000,21500,7,2025,87,Transfermarkt; estimation salaire
+BL1:2:113457:alexander-prass,Alexander Prass,TSG 1899 Hoffenheim,Bundesliga,Defence,15000000,49000,7,2024,81,Transfermarkt; estimation
+BL1:2:151443:albian-hajdari,Albian Hajdari,TSG 1899 Hoffenheim,Bundesliga,Defence,18000000,54500,7,2025,87,Transfermarkt; estimation salaire
+BL1:2:188239:robin-hranac,Robin Hranac,TSG 1899 Hoffenheim,Bundesliga,Defence,10000000,39000,7,2024,81,Transfermarkt; estimation
+BL1:2:261478:kelven-frees,Kelven Frees,TSG 1899 Hoffenheim,Bundesliga,Defence,700000,6000,7,2025,81,Transfermarkt; estimation
+BL1:2:274441:luca-erlein,Luca Erlein,TSG 1899 Hoffenheim,Bundesliga,Defence,500000,3000,7,2025,81,Transfermarkt; estimation
+BL1:2:206319:leon-avdullahu,Leon Avdullahu,TSG 1899 Hoffenheim,Bundesliga,Midfield,10000000,39000,7,2025,87,Transfermarkt; estimation salaire
+BL1:2:212107:valentin-lassig,Valentin Lässig,TSG 1899 Hoffenheim,Bundesliga,Midfield,300000,2500,7,2025,81,Transfermarkt; estimation
+BL1:2:220226:luka-uric,Luka Đurić,TSG 1899 Hoffenheim,Bundesliga,Midfield,500000,3000,7,2025,81,Transfermarkt; estimation
+BL1:2:318:andrej-kramaric,Andrej Kramarić,TSG 1899 Hoffenheim,Bundesliga,Offence,5000000,76154,1,2016,96,Transfermarkt; Capology
+BL1:2:99042:adam-hlozek,Adam Hložek,TSG 1899 Hoffenheim,Bundesliga,Offence,22000000,65000,7,2024,93,Transfermarkt; Capology
+BL1:2:249312:bazoumana-toure,Bazoumana Touré,TSG 1899 Hoffenheim,Bundesliga,Offence,25000000,66000,2,2025,87,Transfermarkt; estimation salaire
+BL1:2:265182:cole-campbell,Cole Campbell,TSG 1899 Hoffenheim,Bundesliga,Right Winger,7000000,31500,7,2025,87,Transfermarkt; estimation salaire
+BL1:2:248657:max-moerstedt,Max Moerstedt,TSG 1899 Hoffenheim,Bundesliga,Centre-Forward,10000000,39000,7,2024,81,Transfermarkt; estimation
+BL1:2:245825:yannick-eduardo,Yannick Eduardo,TSG 1899 Hoffenheim,Bundesliga,Centre-Forward,6000000,29000,7,2024,81,Transfermarkt; estimation
+BL1:2:186086:muhammed-damar,Muhammed Damar,TSG 1899 Hoffenheim,Bundesliga,Attacking Midfield,9000000,36500,7,2024,81,Transfermarkt; estimation
+BL1:2:145562:fisnik-asllani,Fisnik Asllani,TSG 1899 Hoffenheim,Bundesliga,Centre-Forward,18000000,54500,7,2025,87,Transfermarkt; estimation salaire
+BL1:2:144433:tim-lemperle,Tim Lemperle,TSG 1899 Hoffenheim,Bundesliga,Centre-Forward,8000000,34000,7,2025,87,Transfermarkt; estimation salaire
+BL1:2:121279:valentin-gendrey,Valentin Gendrey,TSG 1899 Hoffenheim,Bundesliga,Right-Back,10000000,39000,7,2024,81,Transfermarkt; estimation
+BL1:2:76770:wouter-burger,Wouter Burger,TSG 1899 Hoffenheim,Bundesliga,Defensive Midfield,18000000,54500,7,2025,87,Transfermarkt; estimation salaire
+BL1:2:9540:bernardo,Bernardo,TSG 1899 Hoffenheim,Bundesliga,Left-Back,4000000,23000,7,2024,81,Transfermarkt; estimation
+BL1:2:6836:grischa-promel,Grischa Prömel,TSG 1899 Hoffenheim,Bundesliga,Central Midfield,5000000,26000,7,2024,81,Transfermarkt; estimation
+BL1:2:326:ihlas-bebou,Ihlas Bebou,TSG 1899 Hoffenheim,Bundesliga,Centre-Forward,1800000,15500,7,2024,81,Transfermarkt; estimation
+BL1:2:315:kevin-akpoguma,Kevin Akpoguma,TSG 1899 Hoffenheim,Bundesliga,Centre-Back,3500000,21500,7,2024,81,Transfermarkt; estimation
+BL1:3:165:niklas-lomb,Niklas Lomb,Bayer 04 Leverkusen,Bundesliga,Goalkeeper,300000,3000,7,2025,81,Transfermarkt; estimation
+BL1:3:6931:janis-blaswich,Janis Blaswich,Bayer 04 Leverkusen,Bundesliga,Goalkeeper,3000000,24000,7,2024,81,Transfermarkt; estimation
+BL1:3:9923:mark-flekken,Mark Flekken,Bayer 04 Leverkusen,Bundesliga,Goalkeeper,6000000,75000,7,2025,96,Transfermarkt; Capology
+BL1:3:30774:jonas-omlin,Jonas Omlin,Bayer 04 Leverkusen,Bundesliga,Goalkeeper,3000000,24000,7,2026,87,Transfermarkt; estimation salaire
+BL1:3:289572:jesper-schlich,Jesper Schlich,Bayer 04 Leverkusen,Bundesliga,Goalkeeper,250000,3000,7,2025,81,Transfermarkt; estimation
+BL1:3:16739:alejandro-grimaldo,Alejandro Grimaldo,Bayer 04 Leverkusen,Bundesliga,Defence,35000000,120000,7,2024,93,Transfermarkt; Capology
+BL1:3:154228:nicolas-ezequiel-fernandez,Nicolás Ezequiel Fernández,Bayer 04 Leverkusen,Bundesliga,Defence,18000000,73000,7,2024,81,Transfermarkt; estimation
+BL1:3:176718:jarell-quansah,Jarell Quansah,Bayer 04 Leverkusen,Bundesliga,Defence,40000000,117500,7,2025,87,Transfermarkt; estimation salaire
+BL1:3:273033:ben-hawighorst,Ben Hawighorst,Bayer 04 Leverkusen,Bundesliga,Defence,1000000,9000,7,2025,81,Transfermarkt; estimation
+BL1:3:289109:ferdinand-pohl,Ferdinand Pohl,Bayer 04 Leverkusen,Bundesliga,Defence,500000,4000,7,2025,81,Transfermarkt; estimation
+BL1:3:290212:issa-traore,Issa Traoré,Bayer 04 Leverkusen,Bundesliga,Defence,500000,4000,7,2025,81,Transfermarkt; estimation
+BL1:3:11720:exequiel-palacios,Exequiel Palacios,Bayer 04 Leverkusen,Bundesliga,Midfield,40000000,145192,1,2020,96,Transfermarkt; Capology
+BL1:3:144470:malik-tillman,Malik Tillman,Bayer 04 Leverkusen,Bundesliga,Midfield,45000000,85000,7,2025,96,Transfermarkt; Capology
+BL1:3:189287:eliesse-ben-seghir,Eliesse Ben Seghir,Bayer 04 Leverkusen,Bundesliga,Midfield,28000000,95000,7,2025,87,Transfermarkt; estimation salaire
+BL1:3:202532:ibrahim-maza,Ibrahim Maza,Bayer 04 Leverkusen,Bundesliga,Midfield,18000000,73000,7,2025,87,Transfermarkt; estimation salaire
+BL1:3:272949:axel-tape,Axel Tape,Bayer 04 Leverkusen,Bundesliga,Midfield,12000000,58000,7,2025,87,Transfermarkt; estimation salaire
+BL1:3:283302:jeremiah-mensah,Jeremiah Mensah,Bayer 04 Leverkusen,Bundesliga,Midfield,1000000,9000,7,2025,81,Transfermarkt; estimation
+BL1:3:289573:naba-mensah,Naba Mensah,Bayer 04 Leverkusen,Bundesliga,Midfield,500000,4000,7,2025,81,Transfermarkt; estimation
+BL1:3:1826:patrik-schick,Patrik Schick,Bayer 04 Leverkusen,Bundesliga,Offence,30000000,110000,9,2020,96,Transfermarkt; Capology
+BL1:3:274045:christian-kofane,Christian Kofane,Bayer 04 Leverkusen,Bundesliga,Offence,8000000,46000,7,2025,87,Transfermarkt; estimation salaire
+BL1:3:287850:montrell-culbreath,Montrell Culbreath,Bayer 04 Leverkusen,Bundesliga,Offence,1000000,9000,7,2025,81,Transfermarkt; estimation
+BL1:3:293515:emmanuel-owen,Emmanuel Owen,Bayer 04 Leverkusen,Bundesliga,Offence,500000,4000,7,2025,81,Transfermarkt; estimation
+BL1:3:144715:nathan-tella,Nathan Tella,Bayer 04 Leverkusen,Bundesliga,Right Midfield,20000000,78000,7,2024,81,Transfermarkt; estimation
+BL1:3:136039:loic-bade,Loïc Bade,Bayer 04 Leverkusen,Bundesliga,Centre-Back,28000000,95000,7,2025,87,Transfermarkt; estimation salaire
+BL1:3:64713:edmond-tapsoba,Edmond Tapsoba,Bayer 04 Leverkusen,Bundesliga,Centre-Back,35000000,108500,1,2020,87,Transfermarkt; estimation salaire
+BL1:3:45611:robert-andrich,Robert Andrich,Bayer 04 Leverkusen,Bundesliga,Defensive Midfield,10000000,52000,7,2024,81,Transfermarkt; estimation
+BL1:3:33524:aleix-garcia,Aleix García,Bayer 04 Leverkusen,Bundesliga,Central Midfield,20000000,78000,7,2024,81,Transfermarkt; estimation
+BL1:3:8797:martin-terrier,Martin Terrier,Bayer 04 Leverkusen,Bundesliga,Left Winger,14000000,63000,7,2024,81,Transfermarkt; estimation
+BL1:3:6681:jonas-hofmann,Jonas Hofmann,Bayer 04 Leverkusen,Bundesliga,Attacking Midfield,5000000,35000,7,2024,81,Transfermarkt; estimation
+BL1:3:45:lucas-vazquez,Lucas Vázquez,Bayer 04 Leverkusen,Bundesliga,Right-Back,5000000,35000,7,2025,87,Transfermarkt; estimation salaire
+BL1:3:184979:tim-oermann,Tim Oermann,Bayer 04 Leverkusen,Bundesliga,Centre-Back,7000000,42500,7,2025,87,Transfermarkt; estimation salaire
+BL1:3:178860:arthur-augusto,Arthur Augusto,Bayer 04 Leverkusen,Bundesliga,Right-Back,12000000,58000,7,2024,81,Transfermarkt; estimation
+BL1:3:167793:ernest-poku,Ernest Poku,Bayer 04 Leverkusen,Bundesliga,Centre-Forward,14000000,63000,7,2025,87,Transfermarkt; estimation salaire
+BL1:4:334:gregor-kobel,Gregor Kobel,Borussia Dortmund,Bundesliga,Goalkeeper,45000000,173077,7,2021,96,Transfermarkt; Capology
+BL1:4:7109:patrick-drewes,Patrick Drewes,Borussia Dortmund,Bundesliga,Goalkeeper,1200000,11000,7,2025,87,Transfermarkt; estimation salaire
+BL1:4:9389:alexander-meyer,Alexander Meyer,Borussia Dortmund,Bundesliga,Goalkeeper,700000,8500,7,2025,81,Transfermarkt; estimation
+BL1:4:176268:silas-ostrzinski,Silas Ostrzinski,Borussia Dortmund,Bundesliga,Goalkeeper,200000,3000,7,2025,81,Transfermarkt; estimation
+BL1:4:379:waldemar-anton,Waldemar Anton,Borussia Dortmund,Bundesliga,Defence,22000000,99000,7,2024,81,Transfermarkt; estimation
+BL1:4:8805:ramy-bensebaini,Ramy Bensebaini,Borussia Dortmund,Bundesliga,Defence,15000000,79000,7,2024,81,Transfermarkt; estimation
+BL1:4:44030:julian-ryerson,Julian Ryerson,Borussia Dortmund,Bundesliga,Defence,25000000,106500,7,2024,81,Transfermarkt; estimation
+BL1:4:75539:nico-schlotterbeck,Nico Schlotterbeck,Borussia Dortmund,Bundesliga,Defence,55000000,120000,7,2024,93,Transfermarkt; Capology
+BL1:4:145937:daniel-svensson,Daniel Svensson,Borussia Dortmund,Bundesliga,Defence,18000000,88000,2,2025,87,Transfermarkt; estimation salaire
+BL1:4:261058:filippo-mane,Filippo Mané,Borussia Dortmund,Bundesliga,Defence,2500000,29000,7,2024,81,Transfermarkt; estimation
+BL1:4:273354:elias-benkara,Elias Benkara,Borussia Dortmund,Bundesliga,Defence,5000000,42000,7,2024,81,Transfermarkt; estimation
+BL1:4:290034:luca-reggiani,Luca Reggiani,Borussia Dortmund,Bundesliga,Defence,500000,5000,7,2025,81,Transfermarkt; estimation
+BL1:4:201:salih-ozcan,Salih Özcan,Borussia Dortmund,Bundesliga,Midfield,7000000,51000,7,2024,81,Transfermarkt; estimation
+BL1:4:9551:marcel-sabitzer,Marcel Sabitzer,Borussia Dortmund,Bundesliga,Midfield,10000000,62500,7,2024,81,Transfermarkt; estimation
+BL1:4:101074:felix-kalu-nmecha,Felix Kalu Nmecha,Borussia Dortmund,Bundesliga,Midfield,35000000,130000,7,2024,81,Transfermarkt; estimation
+BL1:4:133548:ayman-azhil,Ayman Azhil,Borussia Dortmund,Bundesliga,Midfield,1200000,12000,7,2024,81,Transfermarkt; estimation
+BL1:4:167570:carney-chukwuemeka,Carney Chukwuemeka,Borussia Dortmund,Bundesliga,Midfield,25000000,106500,7,2025,87,Transfermarkt; estimation salaire
+BL1:4:250515:danylo-krevsun,Danylo Krevsun,Borussia Dortmund,Bundesliga,Midfield,1500000,13500,7,2024,81,Transfermarkt; estimation
+BL1:4:278316:mussa-kaba,Mussa Kaba,Borussia Dortmund,Bundesliga,Midfield,1000000,11000,7,2025,81,Transfermarkt; estimation
+BL1:4:133903:maximilian-beier,Maximilian Beier,Borussia Dortmund,Bundesliga,Offence,35000000,130000,7,2024,81,Transfermarkt; estimation
+BL1:4:279090:samuele-inacio,Samuele Inácio,Borussia Dortmund,Bundesliga,Offence,5000000,42000,7,2024,81,Transfermarkt; estimation
+BL1:4:279093:mathis-albert,Mathis Albert,Borussia Dortmund,Bundesliga,Offence,500000,5000,7,2025,81,Transfermarkt; estimation
+BL1:4:82515:karim-adeyemi,Karim Adeyemi,Borussia Dortmund,Bundesliga,Left Winger,45000000,130000,7,2022,96,Transfermarkt; Capology
+BL1:4:3183:emre-can,Emre Can,Borussia Dortmund,Bundesliga,Defensive Midfield,9000000,150000,1,2020,96,Transfermarkt; Capology
+BL1:4:351:niklas-sule,Niklas Süle,Borussia Dortmund,Bundesliga,Centre-Back,7000000,192308,7,2022,96,Transfermarkt; Capology
+BL1:4:211:sehrou-guirassy,Sehrou Guirassy,Borussia Dortmund,Bundesliga,Centre-Forward,45000000,180000,7,2024,93,Transfermarkt; Capology
+BL1:4:148:julian-brandt,Julian Brandt,Borussia Dortmund,Bundesliga,Attacking Midfield,25000000,150000,7,2019,96,Transfermarkt; Capology
+BL1:4:263672:almugera-kabar,Almugera Kabar,Borussia Dortmund,Bundesliga,Left-Back,6000000,46500,7,2024,81,Transfermarkt; estimation
+BL1:4:171692:jobe-bellingham,Jobe Bellingham,Borussia Dortmund,Bundesliga,Attacking Midfield,50000000,161500,7,2025,87,Transfermarkt; estimation salaire
+BL1:4:144283:yan-couto,Yan Couto,Borussia Dortmund,Bundesliga,Right-Back,25000000,106500,7,2024,81,Transfermarkt; estimation
+BL1:4:125151:fabio-silva,Fábio Silva,Borussia Dortmund,Bundesliga,Centre-Forward,20000000,93500,7,2026,87,Transfermarkt; estimation salaire
+BL1:5:341:manuel-neuer,Manuel Neuer,FC Bayern München,Bundesliga,Goalkeeper,4000000,403846,7,2011,96,Transfermarkt; Capology
+BL1:5:342:sven-ulreich,Sven Ulreich,FC Bayern München,Bundesliga,Goalkeeper,300000,5500,7,2025,81,Transfermarkt; estimation
+BL1:5:172342:jonas-urbig,Jonas Urbig,FC Bayern München,Bundesliga,Goalkeeper,20000000,137000,1,2025,87,Transfermarkt; estimation salaire
+BL1:5:270119:leon-klanac,Leon Klanac,FC Bayern München,Bundesliga,Goalkeeper,500000,7000,7,2025,81,Transfermarkt; estimation
+BL1:5:280160:jannis-bartl,Jannis Bärtl,FC Bayern München,Bundesliga,Goalkeeper,300000,5500,7,2025,81,Transfermarkt; estimation
+BL1:5:288435:leonard-prescott,Leonard Prescott,FC Bayern München,Bundesliga,Goalkeeper,250000,5500,7,2025,81,Transfermarkt; estimation
+BL1:5:149:jonathan-tah,Jonathan Tah,FC Bayern München,Bundesliga,Defence,30000000,230769,7,2025,96,Transfermarkt; Capology
+BL1:5:9541:dayot-upamecano,Dayot Upamecano,FC Bayern München,Bundesliga,Defence,60000000,230769,7,2024,93,Transfermarkt; Capology
+BL1:5:21288:alphonso-davies,Alphonso Davies,FC Bayern München,Bundesliga,Defence,50000000,240385,7,2024,93,Transfermarkt; Capology
+BL1:5:48657:hiroki-ito,Hiroki Ito,FC Bayern München,Bundesliga,Defence,30000000,193500,7,2024,81,Transfermarkt; estimation
+BL1:5:122188:josip-stanisic,Josip Stanišić,FC Bayern München,Bundesliga,Defence,35000000,212000,7,2024,81,Transfermarkt; estimation
+BL1:5:168299:min-jae-kim,Min-Jae Kim,FC Bayern München,Bundesliga,Defence,35000000,212000,7,2024,81,Transfermarkt; estimation
+BL1:5:212343:vincent-manuba,Vincent Manuba,FC Bayern München,Bundesliga,Defence,1000000,18000,7,2025,81,Transfermarkt; estimation
+BL1:5:279064:cassiano-kiala,Cassiano Kiala,FC Bayern München,Bundesliga,Defence,2000000,42000,7,2024,81,Transfermarkt; estimation
+BL1:5:284705:deniz-ofli,Deniz Ofli,FC Bayern München,Bundesliga,Defence,500000,8000,7,2025,81,Transfermarkt; estimation
+BL1:5:293795:filip-pavic,Filip Pavić,FC Bayern München,Bundesliga,Defence,700000,15500,7,2025,81,Transfermarkt; estimation
+BL1:5:359:joshua-kimmich,Joshua Kimmich,FC Bayern München,Bundesliga,Midfield,50000000,384615,7,2015,96,Transfermarkt; Capology
+BL1:5:3181:leon-goretzka,Leon Goretzka,FC Bayern München,Bundesliga,Midfield,22000000,250000,7,2018,96,Transfermarkt; Capology
+BL1:5:9549:konrad-laimer,Konrad Laimer,FC Bayern München,Bundesliga,Midfield,30000000,193500,7,2024,81,Transfermarkt; estimation
+BL1:5:144393:jamal-musiala,Jamal Musiala,FC Bayern München,Bundesliga,Midfield,140000000,365385,7,2020,96,Transfermarkt; Capology
+BL1:5:202665:aleksandar-pavlovic,Aleksandar Pavlović,FC Bayern München,Bundesliga,Midfield,55000000,278500,7,2024,81,Transfermarkt; estimation
+BL1:5:277592:lennart-karl,Lennart Karl,FC Bayern München,Bundesliga,Midfield,40000000,230000,7,2024,81,Transfermarkt; estimation
+BL1:5:279063:david-daiber,David Daiber,FC Bayern München,Bundesliga,Midfield,1000000,18000,7,2025,81,Transfermarkt; estimation
+BL1:5:290450:bara-sapoko-ndiaye,Bara Sapoko Ndiaye,FC Bayern München,Bundesliga,Midfield,500000,8000,7,2025,81,Transfermarkt; estimation
+BL1:5:291949:maycon-cardozo,Maycon Cardozo,FC Bayern München,Bundesliga,Midfield,700000,15500,7,2025,81,Transfermarkt; estimation
+BL1:5:293855:erblin-osmani,Erblin Osmani,FC Bayern München,Bundesliga,Midfield,1000000,18000,7,2025,81,Transfermarkt; estimation
+BL1:5:8004:harry-kane,Harry Kane,FC Bayern München,Bundesliga,Offence,75000000,480769,8,2023,96,Transfermarkt; Capology
+BL1:5:22396:luis-diaz,Luis Díaz,FC Bayern München,Bundesliga,Offence,70000000,288462,7,2025,96,Transfermarkt; Capology
+BL1:5:113765:michael-olise,Michael Olise,FC Bayern München,Bundesliga,Offence,130000000,230769,7,2024,96,Transfermarkt; Capology
+BL1:5:152515:nicolas-jackson,Nicolas Jackson,FC Bayern München,Bundesliga,Offence,40000000,230000,7,2025,87,Transfermarkt; estimation salaire
+BL1:5:246060:guido-della-rovere,Guido Della Rovere,FC Bayern München,Bundesliga,Offence,3000000,52000,7,2024,81,Transfermarkt; estimation
+BL1:5:275164:wisdom-mike,Wisdom Mike,FC Bayern München,Bundesliga,Offence,5000000,69000,7,2024,81,Transfermarkt; estimation
+BL1:5:294776:bastian-assomo,Bastian Assomo,FC Bayern München,Bundesliga,Offence,1000000,18000,7,2025,81,Transfermarkt; estimation
+BL1:5:3246:raphael-guerreiro,Raphaël Guerreiro,FC Bayern München,Bundesliga,Left-Back,8000000,89500,7,2024,81,Transfermarkt; estimation
+BL1:5:311:serge-gnabry,Serge Gnabry,FC Bayern München,Bundesliga,Right Winger,22000000,346154,7,2024,93,Transfermarkt; Capology
+BL1:5:172574:tom-bischof,Tom Bischof,FC Bayern München,Bundesliga,Attacking Midfield,25000000,173500,7,2025,87,Transfermarkt; estimation salaire
+BL1:7:10078:daniel-fernandes,Daniel Fernandes,Hamburger SV,Bundesliga,Goalkeeper,1200000,21731,7,2019,96,Transfermarkt; Capology
+BL1:7:146024:sander-tangvik,Sander Tangvik,Hamburger SV,Bundesliga,Goalkeeper,3500000,15500,7,2025,87,Transfermarkt; estimation salaire
+BL1:7:209640:hannes-hermann,Hannes Hermann,Hamburger SV,Bundesliga,Goalkeeper,250000,1800,7,2025,81,Transfermarkt; estimation
+BL1:7:6551:jordan-torunarigha,Jordan Torunarigha,Hamburger SV,Bundesliga,Defence,5000000,21000,7,2025,87,Transfermarkt; estimation salaire
+BL1:7:50215:miro-muheim,Miro Muheim,Hamburger SV,Bundesliga,Defence,8000000,27500,7,2024,81,Transfermarkt; estimation
+BL1:7:145650:giorgi-gocholeishvili,Giorgi Gocholeishvili,Hamburger SV,Bundesliga,Defence,6000000,23500,7,2025,87,Transfermarkt; estimation salaire
+BL1:7:216835:luka-vuskovic,Luka Vušković,Hamburger SV,Bundesliga,Defence,28000000,57000,7,2025,87,Transfermarkt; estimation salaire
+BL1:7:277579:shafiq-nandja,Shafiq Nandja,Hamburger SV,Bundesliga,Defence,500000,2500,7,2025,81,Transfermarkt; estimation
+BL1:7:289178:louis-lemke,Louis Lemke,Hamburger SV,Bundesliga,Defence,300000,2000,7,2025,81,Transfermarkt; estimation
+BL1:7:102974:nicolas-capaldo,Nicolás Capaldo,Hamburger SV,Bundesliga,Midfield,7000000,25500,7,2025,87,Transfermarkt; estimation salaire
+BL1:7:187069:omar-megeed,Omar Megeed,Hamburger SV,Bundesliga,Midfield,500000,2500,7,2025,81,Transfermarkt; estimation
+BL1:7:119989:philip-otele,Philip Otele,Hamburger SV,Bundesliga,Offence,8000000,27500,7,2025,87,Transfermarkt; estimation salaire
+BL1:7:137302:ransford-konigsdorffer,Ransford Königsdörffer,Hamburger SV,Bundesliga,Offence,6000000,23500,7,2024,81,Transfermarkt; estimation
+BL1:7:228008:otto-stange,Otto Stange,Hamburger SV,Bundesliga,Offence,3000000,16000,7,2024,81,Transfermarkt; estimation
+BL1:7:252883:alexander-r-ssing-lelesiit,Alexander Røssing-Lelesiit,Hamburger SV,Bundesliga,Offence,5000000,21000,7,2024,81,Transfermarkt; estimation
+BL1:7:144430:albert-gronbaek-erlykke,Albert Gronbaek Erlykke,Hamburger SV,Bundesliga,Central Midfield,10000000,31000,7,2026,87,Transfermarkt; estimation salaire
+BL1:7:135467:warmed-omari,Warmed Omari,Hamburger SV,Bundesliga,Centre-Back,7000000,25500,7,2025,87,Transfermarkt; estimation salaire
+BL1:7:125686:rayan-philippe,Rayan Philippe,Hamburger SV,Bundesliga,Centre-Forward,5000000,21000,7,2025,87,Transfermarkt; estimation salaire
+BL1:7:112948:fabio-vieira,Fabio Vieira,Hamburger SV,Bundesliga,Attacking Midfield,22000000,54423,7,2025,96,Transfermarkt; Capology
+BL1:7:99836:noah-katterbach,Noah Katterbach,Hamburger SV,Bundesliga,Left-Back,4000000,18500,7,2024,81,Transfermarkt; estimation
+BL1:7:8862:albert-sambi-lokonga,Albert Sambi Lokonga,Hamburger SV,Bundesliga,Central Midfield,12000000,34500,7,2025,87,Transfermarkt; estimation salaire
+BL1:7:8597:jean-luc-dompe,Jean-Luc Dompé,Hamburger SV,Bundesliga,Left Winger,5000000,21000,8,2022,87,Transfermarkt; estimation salaire
+BL1:7:7034:robert-glatzel,Robert Glatzel,Hamburger SV,Bundesliga,Centre-Forward,2500000,35000,7,2021,96,Transfermarkt; Capology
+BL1:7:6539:bakery-jatta,Bakery Jatta,Hamburger SV,Bundesliga,Right Winger,1200000,6000,7,2024,81,Transfermarkt; estimation
+BL1:7:3466:yussuf-poulsen,Yussuf Poulsen,Hamburger SV,Bundesliga,Centre-Forward,2500000,45000,7,2025,96,Transfermarkt; Capology
+BL1:7:230350:bilal-yalcinkaya,Bilal Yalcinkaya,Hamburger SV,Bundesliga,Attacking Midfield,3000000,16000,7,2024,81,Transfermarkt; estimation
+BL1:7:220468:fabio-balde,Fabio Baldé,Hamburger SV,Bundesliga,Left Winger,1000000,5500,7,2025,81,Transfermarkt; estimation
+BL1:7:185185:damion-downs,Damion Downs,Hamburger SV,Bundesliga,Centre-Forward,7000000,25500,7,2025,87,Transfermarkt; estimation salaire
+BL1:7:183356:daniel-elfadli,Daniel Elfadli,Hamburger SV,Bundesliga,Defensive Midfield,5000000,21000,7,2024,81,Transfermarkt; estimation
+BL1:7:160442:william-mikelbrencis,William Mikelbrencis,Hamburger SV,Bundesliga,Right-Back,4500000,20000,7,2024,81,Transfermarkt; estimation
+BL1:7:149995:nicolai-remberg,Nicolai Remberg,Hamburger SV,Bundesliga,Central Midfield,8000000,27500,7,2024,81,Transfermarkt; estimation
+BL1:10:6491:alexander-nubel,Alexander Nübel,VfB Stuttgart,Bundesliga,Goalkeeper,18000000,75000,7,2020,96,Transfermarkt; Capology
+BL1:10:6603:fabian-bredlow,Fabian Bredlow,VfB Stuttgart,Bundesliga,Goalkeeper,1200000,8000,7,2024,81,Transfermarkt; estimation
+BL1:10:67401:stefan-drljaca,Stefan Drljača,VfB Stuttgart,Bundesliga,Goalkeeper,1000000,7000,7,2025,81,Transfermarkt; estimation
+BL1:10:280057:florian-hellstern,Florian Hellstern,VfB Stuttgart,Bundesliga,Goalkeeper,200000,2000,7,2025,81,Transfermarkt; estimation
+BL1:10:176711:luca-jaquez,Luca Jaquez,VfB Stuttgart,Bundesliga,Defence,12000000,50000,7,2025,87,Transfermarkt; estimation salaire
+BL1:10:249707:maximilian-herwerth,Maximilian Herwerth,VfB Stuttgart,Bundesliga,Defence,1000000,8000,7,2025,81,Transfermarkt; estimation
+BL1:10:7079:atakan-karazor,Atakan Karazor,VfB Stuttgart,Bundesliga,Midfield,12000000,55000,7,2019,96,Transfermarkt; Capology
+BL1:10:128565:angelo-stiller,Angelo Stiller,VfB Stuttgart,Bundesliga,Midfield,50000000,60000,7,2023,96,Transfermarkt; Capology

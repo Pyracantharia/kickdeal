@@ -418,8 +418,12 @@ final class TransferController extends AbstractController
         }
 
         $team = $membership->getTeam();
-        if ($negociation->getBuyerTeam()?->getId()?->toRfc4122() !== $team->getId()?->toRfc4122()) {
-            return $this->json(['errorMessage' => 'Seul le club acheteur peut inviter l’agent.'], 403);
+        $teamId = $team->getId()?->toRfc4122();
+        $sellerTeamId = $negociation->getListing()?->getSellerTeam()?->getId()?->toRfc4122();
+        $buyerTeamId = $negociation->getBuyerTeam()?->getId()?->toRfc4122();
+
+        if ($sellerTeamId !== $teamId && $buyerTeamId !== $teamId) {
+            return $this->json(['errorMessage' => 'Seuls les clubs impliqués dans cette négociation peuvent inviter l’agent.'], 403);
         }
 
         if (TransferNegociationStatusEnum::PENDING_AGENT !== $negociation->getStatus()) {
@@ -1043,7 +1047,7 @@ final class TransferController extends AbstractController
                 ? null !== $negociation->getExternalContractBuyerConfirmedAt()
                 : null !== $negociation->getExternalContractSellerConfirmedAt(),
             'viewerRole' => $viewerRole,
-            'canInviteAgent' => 'buyer' === $viewerRole && TransferNegociationStatusEnum::PENDING_AGENT === $negociation->getStatus(),
+            'canInviteAgent' => in_array($viewerRole, ['buyer', 'seller'], true) && TransferNegociationStatusEnum::PENDING_AGENT === $negociation->getStatus(),
             'canConfirmExternalAgreement' => in_array($negociation->getStatus(), [TransferNegociationStatusEnum::PENDING_AGENT, TransferNegociationStatusEnum::AGREED_CLUBS], true),
             'buyerTeamName' => $buyerTeam?->getName(),
             'sellerTeamName' => $sellerTeam?->getName(),

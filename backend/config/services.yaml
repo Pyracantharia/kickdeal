@@ -33,6 +33,10 @@ services:
     App\DataFixtures\Faker\Provider\PlayerProvider:
         tags: [{ name: nelmio_alice.faker.provider }]
 
+    App\DataFixtures\EnrichmentDataProvider:
+        arguments:
+            $fixturesDir: "%kernel.project_dir%/fixtures"
+
     # AJOUTE CE BLOC ICI :
     App\DataFixtures\CompetitionFixtures:
         tags: [{ name: doctrine.fixture.orm }]

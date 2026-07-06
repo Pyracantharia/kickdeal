@@ -4,12 +4,15 @@ namespace App\Command;
 
 use App\Entity\Contract\ContractNegociation;
 use App\Entity\Listing;
+use App\Entity\Transfer\TransferNegociation;
 use App\Entity\Transfer\TransferOffer;
 use App\Enum\ListingStatusEnum;
 use App\Enum\OfferStatusEnum;
 use App\Enum\PlayerContractNegociationStatusEnum;
+use App\Enum\TransferNegociationStatusEnum;
 use App\Repository\Contract\ContractNegociationRepository;
 use App\Repository\ListingRepository;
+use App\Repository\Transfer\TransferNegociationRepository;
 use App\Repository\Transfer\TransferOfferRepository;
 use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,6 +31,7 @@ final class PublicFeedBackfillCommand extends Command
     public function __construct(
         private readonly ListingRepository $listingRepository,
         private readonly TransferOfferRepository $transferOfferRepository,
+        private readonly TransferNegociationRepository $transferNegociationRepository,
         private readonly ContractNegociationRepository $contractNegociationRepository,
         private readonly PublicFeedPublisher $publicFeedPublisher,
         private readonly EntityManagerInterface $entityManager,
@@ -54,6 +58,16 @@ final class PublicFeedBackfillCommand extends Command
 
         foreach ($this->contractNegociationRepository->findBy(['status' => PlayerContractNegociationStatusEnum::COMPLETED]) as $negociation) {
             if ($negociation instanceof ContractNegociation && null !== $this->publicFeedPublisher->publishContractFinalized($negociation)) {
+                ++$count;
+            }
+        }
+
+        foreach ($this->transferNegociationRepository->findBy(['status' => TransferNegociationStatusEnum::COMPLETED]) as $negociation) {
+            if (
+                $negociation instanceof TransferNegociation
+                && null !== $negociation->getExternalContractWeeklySalary()
+                && null !== $this->publicFeedPublisher->publishExternalTransferFinalized($negociation)
+            ) {
                 ++$count;
             }
         }

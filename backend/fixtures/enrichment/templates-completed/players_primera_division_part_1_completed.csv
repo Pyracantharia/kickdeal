@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+PD:77:32570:unai-simon,Unai Simón,Athletic Club,Primera Division,Goalkeeper,22000000,90000,7,2018,95,Transfermarkt; Capology
+PD:77:203459:alex-padilla,Álex Padilla,Athletic Club,Primera Division,Goalkeeper,3000000,13400,7,2024,88,Transfermarkt; estimation salaire
+PD:77:286275:mikel-santos,Mikel Santos,Athletic Club,Primera Division,Goalkeeper,550000,7200,7,2025,58,estimation
+PD:77:7884:aymeric-laporte,Aymeric Laporte,Athletic Club,Primera Division,Defence,8000000,180000,9,2025,95,Transfermarkt; Capology
+PD:77:217432:unai-eguiluz,Unai Eguíluz,Athletic Club,Primera Division,Defence,400000,7300,7,2024,88,Transfermarkt; estimation salaire
+PD:77:276865:aimar-dunabeitia,Aimar Duñabeitia,Athletic Club,Primera Division,Defence,700000,8600,7,2025,58,estimation
+PD:77:276982:ander-izagirre,Ander Izagirre,Athletic Club,Primera Division,Defence,700000,8600,7,2025,58,estimation
+PD:77:283817:jon-de-luis,Jon de Luis,Athletic Club,Primera Division,Defence,800000,9000,7,2025,58,estimation
+PD:77:286606:iker-monreal,Iker Monreal,Athletic Club,Primera Division,Defence,800000,9000,7,2025,58,estimation
+PD:77:278297:alejandro-rego,Alejandro Rego,Athletic Club,Primera Division,Midfield,5000000,18600,7,2025,88,Transfermarkt; estimation salaire
+PD:77:287081:ibon-sanchez,Ibon Sánchez,Athletic Club,Primera Division,Midfield,700000,8600,7,2025,58,estimation
+PD:77:288898:selton-sanchez,Selton Sánchez,Athletic Club,Primera Division,Midfield,2800000,14400,7,2025,88,Transfermarkt; estimation salaire
+PD:77:32629:inaki-williams,Iñaki Williams,Athletic Club,Primera Division,Offence,8000000,150000,7,2015,95,Transfermarkt; Capology
+PD:77:157135:nico-williams,Nico Williams,Athletic Club,Primera Division,Offence,40000000,200000,7,2021,95,Transfermarkt; Capology
+PD:77:189820:urko-izeta,Urko Izeta,Athletic Club,Primera Division,Offence,1400000,10900,7,2025,88,Transfermarkt; estimation salaire
+PD:77:231471:endika-bujan,Endika Buján,Athletic Club,Primera Division,Offence,700000,8600,7,2025,58,estimation
+PD:77:287080:adrian-perez,Adrián Pérez,Athletic Club,Primera Division,Offence,800000,9000,7,2025,58,estimation
+PD:77:289113:asier-hierro,Asier Hierro,Athletic Club,Primera Division,Offence,700000,8600,7,2025,58,estimation
+PD:77:289717:eder-garcia,Éder García,Athletic Club,Primera Division,Offence,700000,8600,7,2025,58,estimation
+PD:77:291751:elijah-gift,Elijah Gift,Athletic Club,Primera Division,Offence,700000,8600,7,2025,58,estimation
+PD:77:172027:nico-serrano,Nico Serrano,Athletic Club,Primera Division,Left Winger,1500000,11200,7,2021,88,Transfermarkt; estimation salaire
+PD:77:168663:benat-prados,Benat Prados,Athletic Club,Primera Division,Central Midfield,15000000,31800,7,2023,88,Transfermarkt; estimation salaire
+PD:77:151439:aitor-paredes-casamichana,Aitor Paredes Casamichana,Athletic Club,Primera Division,Centre-Back,7500000,22600,7,2022,88,Transfermarkt; estimation salaire
+PD:77:136000:jesus-areso,Jesús Areso,Athletic Club,Primera Division,Right-Back,5000000,18600,7,2025,88,Transfermarkt; estimation salaire
+PD:77:126878:oihan-sancet,Oihan Sancet,Athletic Club,Primera Division,Attacking Midfield,25000000,100000,7,2019,95,Transfermarkt; Capology
+PD:77:101870:roberto-navarro,Roberto Navarro,Athletic Club,Primera Division,Attacking Midfield,6000000,20300,7,2024,88,Transfermarkt; estimation salaire
+PD:77:96868:mikel-vesga,Mikel Vesga,Athletic Club,Primera Division,Defensive Midfield,1200000,10300,7,2016,88,Transfermarkt; estimation salaire
+PD:77:81565:gorka-guruzeta,Gorka Guruzeta,Athletic Club,Primera Division,Centre-Forward,5000000,18600,7,2022,88,Transfermarkt; estimation salaire
+PD:77:33091:andoni-gorosabel,Andoni Gorosabel,Athletic Club,Primera Division,Right-Back,3000000,14800,7,2024,88,Transfermarkt; estimation salaire
+PD:77:32618:daniel-vivian,Daniel Vivian,Athletic Club,Primera Division,Centre-Back,20000000,36900,7,2021,88,Transfermarkt; estimation salaire
+PD:77:32581:inigo-lekue,Iñigo Lekue,Athletic Club,Primera Division,Right-Back,1200000,10300,7,2015,88,Transfermarkt; estimation salaire
+PD:77:32579:yeray-alvarez,Yeray Álvarez,Athletic Club,Primera Division,Centre-Back,900000,9300,7,2016,88,Transfermarkt; estimation salaire
+PD:77:32481:ruiz-de-galarreta,Ruiz de Galarreta,Athletic Club,Primera Division,Central Midfield,2000000,12500,7,2023,88,Transfermarkt; estimation salaire
+PD:77:8479:yuri-berchiche,Yuri Berchiche,Athletic Club,Primera Division,Left-Back,1000000,9700,7,2018,88,Transfermarkt; estimation salaire
+PD:77:2294:alex-berenguer,Álex Berenguer,Athletic Club,Primera Division,Left Winger,4000000,16800,10,2020,88,Transfermarkt; estimation salaire
+PD:77:261580:sannadi,Sannadi,Athletic Club,Primera Division,Centre-Forward,3000000,14800,2,2025,88,Transfermarkt; estimation salaire
+PD:77:246633:adama-boiro,Adama Boiro,Athletic Club,Primera Division,Left-Back,2500000,13700,1,2024,88,Transfermarkt; estimation salaire
+PD:77:244599:mikel-jauregizar,Mikel Jauregizar,Athletic Club,Primera Division,Central Midfield,30000000,45600,7,2023,88,Transfermarkt; estimation salaire
+PD:77:202335:unai-gomez,Unai Gomez,Athletic Club,Primera Division,Attacking Midfield,5000000,18600,7,2023,88,Transfermarkt; estimation salaire
+PD:78:120:jan-oblak,Jan Oblak,Club Atlético de Madrid,Primera Division,Goalkeeper,15000000,400577,7,2014,95,Transfermarkt; Capology
+PD:78:46554:juan-musso,Juan Musso,Club Atlético de Madrid,Primera Division,Goalkeeper,3000000,20600,8,2024,88,Transfermarkt; estimation salaire
+PD:78:203506:mario-de-luis,Mario de Luis,Club Atlético de Madrid,Primera Division,Goalkeeper,850000,12700,7,2025,62,estimation
+PD:78:279062:salvi-esquivel,Salvi Esquivel,Club Atlético de Madrid,Primera Division,Goalkeeper,850000,12700,7,2025,62,estimation
+PD:78:293698:alvaro-moreno,Álvaro Moreno,Club Atlético de Madrid,Primera Division,Goalkeeper,850000,12700,7,2025,62,estimation
+PD:78:46452:nahuel-molina,Nahuel Molina,Club Atlético de Madrid,Primera Division,Defence,15000000,49200,7,2022,88,Transfermarkt; estimation salaire
+PD:78:176745:marc-pubill,Marc Pubill,Club Atlético de Madrid,Primera Division,Defence,35000000,76600,7,2025,88,Transfermarkt; estimation salaire
+PD:78:213277:jose-gimenez,José Giménez,Club Atlético de Madrid,Primera Division,Defence,9000000,130000,7,2013,95,Transfermarkt; Capology
+PD:78:261186:aleksa-puric,Aleksa Puric,Club Atlético de Madrid,Primera Division,Defence,1200000,15900,7,2025,62,estimation
+PD:78:270792:geronimo-spina,Gerónimo Spina,Club Atlético de Madrid,Primera Division,Defence,1200000,15900,7,2025,62,estimation
+PD:78:289895:daniel-martinez,Daniel Martínez,Club Atlético de Madrid,Primera Division,Defence,1400000,16900,7,2025,62,estimation
+PD:78:291147:julio-diaz,Julio Díaz,Club Atlético de Madrid,Primera Division,Defence,1200000,15900,7,2025,62,estimation
+PD:78:70:marcos-llorente,Marcos Llorente,Club Atlético de Madrid,Primera Division,Midfield,20000000,140000,7,2019,95,Transfermarkt; Capology
+PD:78:79953:thiago-almada,Thiago Almada,Club Atlético de Madrid,Primera Division,Midfield,15000000,49200,7,2025,88,Transfermarkt; estimation salaire
+PD:78:123265:johnny,Johnny,Club Atlético de Madrid,Primera Division,Midfield,20000000,57000,7,2025,88,Transfermarkt; estimation salaire
+PD:78:170442:obed-vargas,Obed Vargas,Club Atlético de Madrid,Primera Division,Midfield,10000000,40100,7,2025,88,Transfermarkt; estimation salaire
+PD:78:171955:javier-serrano,Javier Serrano,Club Atlético de Madrid,Primera Division,Midfield,1400000,16900,7,2025,62,estimation
+PD:78:177509:pablo-barrios,Pablo Barrios,Club Atlético de Madrid,Primera Division,Midfield,55000000,97800,7,2022,88,Transfermarkt; estimation salaire
+PD:78:189617:rodrigo-mendoza,Rodrigo Mendoza,Club Atlético de Madrid,Primera Division,Midfield,20000000,57000,7,2025,88,Transfermarkt; estimation salaire
+PD:78:213278:alex-baena,Álex Baena,Club Atlético de Madrid,Primera Division,Midfield,40000000,82300,7,2025,88,Transfermarkt; estimation salaire
+PD:78:279061:alejandro-monserrate,Alejandro Monserrate,Club Atlético de Madrid,Primera Division,Midfield,1400000,16900,7,2025,62,estimation
+PD:78:279065:taufik,Taufik,Club Atlético de Madrid,Primera Division,Midfield,1200000,15900,7,2025,62,estimation
+PD:78:294508:javi-morcillo,Javi Morcillo,Club Atlético de Madrid,Primera Division,Midfield,1400000,16900,7,2025,62,estimation
+PD:78:8167:alexander-s-rloth,Alexander Sørloth,Club Atlético de Madrid,Primera Division,Offence,18000000,150000,8,2024,95,Transfermarkt; Capology
+PD:78:9554:ademola-lookman,Ademola Lookman,Club Atlético de Madrid,Primera Division,Offence,40000000,82300,7,2025,88,Transfermarkt; estimation salaire
+PD:78:45680:nicolas-gonzalez,Nicolás González,Club Atlético de Madrid,Primera Division,Offence,1200000,15900,7,2025,62,estimation
+PD:78:98571:julian-alvarez,Julián Álvarez,Club Atlético de Madrid,Primera Division,Offence,100000000,200000,8,2024,95,Transfermarkt; Capology
+PD:78:171964:giuliano-simeone,Giuliano Simeone,Club Atlético de Madrid,Primera Division,Offence,40000000,82300,7,2024,88,Transfermarkt; estimation salaire
+PD:78:290429:iker-luque,Iker Luque,Club Atlético de Madrid,Primera Division,Offence,1400000,16900,7,2025,62,estimation
+PD:78:291335:sergio-sanchez,Sergio Sánchez,Club Atlético de Madrid,Primera Division,Offence,1400000,16900,7,2025,62,estimation
+PD:78:294736:miguel-cubo,Miguel Cubo,Club Atlético de Madrid,Primera Division,Offence,1400000,16900,7,2025,62,estimation
+PD:78:151241:matteo-ruggeri,Matteo Ruggeri,Club Atlético de Madrid,Primera Division,Left Midfield,28000000,68000,7,2025,88,Transfermarkt; estimation salaire
+PD:78:99791:robin-le-normand,Robin Le Normand,Club Atlético de Madrid,Primera Division,Centre-Back,20000000,57000,7,2024,88,Transfermarkt; estimation salaire
+PD:78:15542:david-hancko,Dávid Hancko,Club Atlético de Madrid,Primera Division,Centre-Back,35000000,76600,7,2025,88,Transfermarkt; estimation salaire
+PD:78:114:antoine-griezmann,Antoine Griezmann,Club Atlético de Madrid,Primera Division,Centre-Forward,8000000,250000,7,2021,95,Transfermarkt; Capology
+PD:78:112:koke,Koke,Club Atlético de Madrid,Primera Division,Central Midfield,5000000,307692,7,2011,95,Transfermarkt; Capology
+PD:78:63:clement-lenglet,Clément Lenglet,Club Atlético de Madrid,Primera Division,Centre-Back,6000000,31300,8,2024,88,Transfermarkt; estimation salaire
+PD:78:244719:rayane-belaid,Rayane Belaid,Club Atlético de Madrid,Primera Division,Left Winger,1200000,15900,7,2025,62,estimation
+PD:78:221562:javier-bonar,Javier Boñar,Club Atlético de Madrid,Primera Division,Right-Back,1400000,16900,7,2025,62,estimation
+PD:78:206337:ilias-kostis,Ilias Kostis,Club Atlético de Madrid,Primera Division,Centre-Back,1200000,15900,7,2025,62,estimation
+PD:79:31968:sergio-herrera,Sergio Herrera,CA Osasuna,Primera Division,Goalkeeper,2800000,30000,7,2017,95,Transfermarkt; Capology
+PD:79:32391:aitor-fernandez,Aitor Fernández,CA Osasuna,Primera Division,Goalkeeper,500000,3800,7,2022,88,Transfermarkt; estimation salaire
+PD:79:217550:dimitrios-stamatakis,Dimitrios Stamatakis,CA Osasuna,Primera Division,Goalkeeper,350000,3400,7,2025,58,estimation
+PD:79:278562:rafa-fernandez,Rafa Fernández,CA Osasuna,Primera Division,Goalkeeper,350000,3400,7,2025,58,estimation
+PD:79:213260:javi-galan,Javi Galán,CA Osasuna,Primera Division,Defence,3000000,8100,7,2025,88,Transfermarkt; estimation salaire
+PD:79:243833:mikel-serrano,Mikel Serrano,CA Osasuna,Primera Division,Defence,600000,4500,7,2025,58,estimation
+PD:79:264456:raul-chasco,Raúl Chasco,CA Osasuna,Primera Division,Defence,500000,4200,7,2025,58,estimation
+PD:79:277419:jon-garcia,Jon García,CA Osasuna,Primera Division,Midfield,600000,4500,7,2025,58,estimation
+PD:79:284105:mauro-echegoyen,Mauro Echegoyen,CA Osasuna,Primera Division,Midfield,500000,4200,7,2025,58,estimation
+PD:79:2237:ante-budimir,Ante Budimir,CA Osasuna,Primera Division,Offence,2800000,50000,10,2020,95,Transfermarkt; Capology
+PD:79:187083:roberto-arroyo,Roberto Arroyo,CA Osasuna,Primera Division,Offence,500000,4200,7,2025,58,estimation
+PD:79:273423:victor-munoz,Víctor Muñoz,CA Osasuna,Primera Division,Offence,500000,4200,7,2025,58,estimation
+PD:79:274205:carlos-lumbreras,Carlos Lumbreras,CA Osasuna,Primera Division,Offence,500000,4200,7,2025,58,estimation
+PD:79:286817:martin-pedroarena,Martín Pedroarena,CA Osasuna,Primera Division,Offence,500000,4200,7,2025,58,estimation
+PD:79:289699:aly-kall,Aly Kall,CA Osasuna,Primera Division,Offence,500000,4200,7,2025,58,estimation
+PD:79:159409:jorge-herrando,Jorge Herrando,CA Osasuna,Primera Division,Centre-Back,3500000,8700,7,2023,88,Transfermarkt; estimation salaire
+PD:79:151019:flavien-boyomo,Flavien Boyomo,CA Osasuna,Primera Division,Centre-Back,15000000,17400,8,2024,88,Transfermarkt; estimation salaire
+PD:79:146128:raul-moro,Raúl Moro,CA Osasuna,Primera Division,Left Winger,3500000,8700,7,2025,88,Transfermarkt; estimation salaire
+PD:79:130324:raul,Raúl,CA Osasuna,Primera Division,Centre-Forward,3000000,8100,7,2025,88,Transfermarkt; estimation salaire
+PD:79:119093:aimar-oroz,Aimar Oroz,CA Osasuna,Primera Division,Attacking Midfield,7500000,12300,7,2022,88,Transfermarkt; estimation salaire
+PD:79:111674:jon-moncayola,Jon Moncayola,CA Osasuna,Primera Division,Central Midfield,7000000,11900,7,2019,88,Transfermarkt; estimation salaire
+PD:79:81183:juan-cruz,Juan Cruz,CA Osasuna,Primera Division,Left-Back,1200000,5600,8,2020,88,Transfermarkt; estimation salaire
+PD:79:50890:catena,Catena,CA Osasuna,Primera Division,Centre-Back,2600000,7600,7,2023,88,Transfermarkt; estimation salaire
+PD:79:32217:moi-gomez,Moi Gómez,CA Osasuna,Primera Division,Left Winger,1500000,6100,7,2022,88,Transfermarkt; estimation salaire
+PD:79:32212:ruben-garcia,Rubén García,CA Osasuna,Primera Division,Right Winger,1600000,6300,7,2019,88,Transfermarkt; estimation salaire
+PD:79:32004:kike-barja,Kike Barja,CA Osasuna,Primera Division,Right Winger,1500000,6100,7,2017,88,Transfermarkt; estimation salaire
+PD:79:32002:lucas-torro,Lucas Torró,CA Osasuna,Primera Division,Defensive Midfield,2500000,7500,8,2020,88,Transfermarkt; estimation salaire
+PD:79:8559:valentin-rosier,Valentin Rosier,CA Osasuna,Primera Division,Right-Back,3000000,8100,7,2024,88,Transfermarkt; estimation salaire
+PD:79:249577:asier-osambela,Asier Osambela,CA Osasuna,Primera Division,Attacking Midfield,1000000,5300,7,2024,88,Transfermarkt; estimation salaire
+PD:79:248752:inigo-arguibide,Iñigo Arguibide,CA Osasuna,Primera Division,Right Winger,800000,4900,7,2025,88,Transfermarkt; estimation salaire
+PD:79:191925:iker-munoz,Iker Munoz,CA Osasuna,Primera Division,Defensive Midfield,2000000,6800,7,2023,88,Transfermarkt; estimation salaire
+PD:79:186674:abel-bretones,Abel Bretones,CA Osasuna,Primera Division,Left-Back,3500000,8700,7,2024,88,Transfermarkt; estimation salaire
+PD:79:176931:iker-benito,Iker Benito,CA Osasuna,Primera Division,Right Winger,1400000,6000,7,2025,88,Transfermarkt; estimation salaire
+PD:80:3430:marko-dmitrovic,Marko Dmitrović,RCD Espanyol de Barcelona,Primera Division,Goalkeeper,700000,3900,7,2025,88,Transfermarkt; estimation salaire
+PD:80:150560:angel-fortuno-vinas,Ángel Fortuño Viñas,RCD Espanyol de Barcelona,Primera Division,Goalkeeper,350000,3200,7,2025,58,estimation
+PD:80:244761:pol-tristan,Pol Tristán,RCD Espanyol de Barcelona,Primera Division,Goalkeeper,350000,3200,7,2025,58,estimation
+PD:80:249600:llorenc-serred,Llorenç Serred,RCD Espanyol de Barcelona,Primera Division,Goalkeeper,350000,3200,7,2025,58,estimation
+PD:80:151257:jose-salinas,José Salinas,RCD Espanyol de Barcelona,Primera Division,Defence,500000,3900,7,2025,58,estimation
+PD:80:180108:ruben-sanchez,Rubén Sánchez,RCD Espanyol de Barcelona,Primera Division,Defence,2500000,7000,7,2022,88,Transfermarkt; estimation salaire
+PD:80:180164:miguel-rubio,Miguel Rubio,RCD Espanyol de Barcelona,Primera Division,Defence,3000000,7600,7,2025,88,Transfermarkt; estimation salaire
+PD:80:293731:adama-timera,Adama Timera,RCD Espanyol de Barcelona,Primera Division,Defence,500000,3900,7,2025,58,estimation
+PD:80:30876:charles-pickel,Charles Pickel,RCD Espanyol de Barcelona,Primera Division,Midfield,5000000,9500,7,2025,88,Transfermarkt; estimation salaire
+PD:80:154714:omar-el-hilali,Omar El Hilali,RCD Espanyol de Barcelona,Primera Division,Midfield,12000000,14500,7,2023,88,Transfermarkt; estimation salaire
+PD:80:288783:ferran-gomez,Ferran Gómez,RCD Espanyol de Barcelona,Primera Division,Midfield,500000,3900,7,2025,58,estimation
+PD:80:294742:miguel-londono,Miguel Londoño,RCD Espanyol de Barcelona,Primera Division,Midfield,600000,4200,7,2025,58,estimation
+PD:80:294741:lluc-castell,Lluc Castell,RCD Espanyol de Barcelona,Primera Division,Offence,500000,3900,7,2025,58,estimation
+PD:80:244681:alex-almansa,Álex Almansa,RCD Espanyol de Barcelona,Primera Division,Left Winger,500000,3900,7,2025,58,estimation
+PD:80:215544:antoniu-roca,Antoniu Roca,RCD Espanyol de Barcelona,Primera Division,Right Winger,500000,3900,7,2025,58,estimation
+PD:80:186564:carlos-romero,Carlos Romero,RCD Espanyol de Barcelona,Primera Division,Left-Back,12000000,14500,7,2024,88,Transfermarkt; estimation salaire
+PD:80:180218:roberto-fernandez,Roberto Fernández,RCD Espanyol de Barcelona,Primera Division,Centre-Forward,10000000,13200,1,2025,88,Transfermarkt; estimation salaire
+PD:80:170833:clemens-riedel,Clemens Riedel,RCD Espanyol de Barcelona,Primera Division,Centre-Back,8000000,11800,7,2025,88,Transfermarkt; estimation salaire
+PD:80:154000:ramonterrats-espacio,RamónTerrats Espacio,RCD Espanyol de Barcelona,Primera Division,Defensive Midfield,500000,3900,7,2025,58,estimation
+PD:80:151031:urko-gonzalez,Urko González,RCD Espanyol de Barcelona,Primera Division,Defensive Midfield,5000000,9500,8,2024,88,Transfermarkt; estimation salaire
+PD:80:150561:jofre-carreras-pages,Jofre Carreras Pagès,RCD Espanyol de Barcelona,Primera Division,Right Winger,5000000,9500,7,2023,88,Transfermarkt; estimation salaire
+PD:80:149049:tyrhys-dolan,Tyrhys Dolan,RCD Espanyol de Barcelona,Primera Division,Right Winger,7000000,11100,7,2025,88,Transfermarkt; estimation salaire
+PD:80:125210:pol-lozano,Pol Lozano,RCD Espanyol de Barcelona,Primera Division,Central Midfield,4000000,8600,7,2023,88,Transfermarkt; estimation salaire
+PD:80:99859:cyril-ngonge,Cyril Ngonge,RCD Espanyol de Barcelona,Primera Division,Right Winger,7000000,11100,7,2025,88,Transfermarkt; estimation salaire
+PD:80:81168:javi-puado,Javi Puado,RCD Espanyol de Barcelona,Primera Division,Left Winger,10000000,40000,7,2018,95,Transfermarkt; Capology
+PD:80:33652:edu-exposito,Edu Expósito,RCD Espanyol de Barcelona,Primera Division,Central Midfield,4000000,8600,7,2022,88,Transfermarkt; estimation salaire
+PD:80:33358:kike-garcia,Kike García,RCD Espanyol de Barcelona,Primera Division,Centre-Forward,1200000,5200,7,2025,88,Transfermarkt; estimation salaire
+PD:80:32398:pere-milla,Pere Milla,RCD Espanyol de Barcelona,Primera Division,Left Winger,1800000,6100,8,2023,88,Transfermarkt; estimation salaire
+PD:80:32362:fernando-calero,Fernando Calero,RCD Espanyol de Barcelona,Primera Division,Centre-Back,1800000,6100,8,2019,88,Transfermarkt; estimation salaire
+PD:80:11040:leandro-cabrera,Leandro Cabrera,RCD Espanyol de Barcelona,Primera Division,Centre-Back,800000,4600,1,2020,88,Transfermarkt; estimation salaire
+PD:81:2022:wojciech-szczesny,Wojciech Szczęsny,FC Barcelona,Primera Division,Goalkeeper,800000,14700,10,2024,88,Transfermarkt; estimation salaire
+PD:81:152506:joan-garcia,Joan García,FC Barcelona,Primera Division,Goalkeeper,45000000,92800,7,2025,88,Transfermarkt; estimation salaire
+PD:81:217424:diego-kochen,Diego Kochen,FC Barcelona,Primera Division,Goalkeeper,850000,15000,7,2025,62,estimation
+PD:81:286824:eder-aller,Eder Aller,FC Barcelona,Primera Division,Goalkeeper,850000,15000,7,2025,62,estimation
+PD:81:2000:joao-cancelo,João Cancelo,FC Barcelona,Primera Division,Defence,25000000,200000,7,2026,95,Transfermarkt; Capology
+PD:81:8499:jules-kounde,Jules Koundé,FC Barcelona,Primera Division,Defence,60000000,260000,7,2022,95,Transfermarkt; Capology
+PD:81:28292:ronald-araujo,Ronald Araújo,FC Barcelona,Primera Division,Defence,20000000,200000,7,2020,95,Transfermarkt; Capology
+PD:81:101345:eric-garcia,Eric García,FC Barcelona,Primera Division,Defence,40000000,96800,7,2021,88,Transfermarkt; estimation salaire
+PD:81:217540:pau-cubarsi,Pau Cubarsí,FC Barcelona,Primera Division,Defence,80000000,141200,1,2024,88,Transfermarkt; estimation salaire
+PD:81:272984:alvaro-cortes,Álvaro Cortés,FC Barcelona,Primera Division,Defence,4000000,30600,7,2026,88,Transfermarkt; estimation salaire
+PD:81:283414:jofre-torrents,Jofre Torrents,FC Barcelona,Primera Division,Defence,1200000,18700,7,2025,62,estimation
+PD:81:7559:frenkie-de-jong,Frenkie de Jong,FC Barcelona,Primera Division,Midfield,35000000,365385,7,2019,95,Transfermarkt; Capology
+PD:81:23132:dani-olmo,Dani Olmo,FC Barcelona,Primera Division,Midfield,60000000,240000,8,2024,95,Transfermarkt; Capology
+PD:81:33154:ferran-torres,Ferrán Torres,FC Barcelona,Primera Division,Midfield,50000000,109200,1,2022,88,Transfermarkt; estimation salaire
+PD:81:133860:pedri,Pedri,FC Barcelona,Primera Division,Midfield,150000000,230000,9,2020,95,Transfermarkt; Capology
+PD:81:171992:pablo-gavira,Pablo Gavira,FC Barcelona,Primera Division,Midfield,30000000,83000,7,2021,88,Transfermarkt; estimation salaire
+PD:81:270320:guille-fernandez,Guille Fernández,FC Barcelona,Primera Division,Midfield,1200000,18700,7,2025,62,estimation
+PD:81:287848:xavi-espart,Xavi Espart,FC Barcelona,Primera Division,Midfield,5000000,33900,7,2026,88,Transfermarkt; estimation salaire
+PD:81:289622:tomy-marques,Tomy Marqués,FC Barcelona,Primera Division,Midfield,3000000,27000,7,2026,88,Transfermarkt; estimation salaire
+PD:81:3331:marcus-rashford,Marcus Rashford,FC Barcelona,Primera Division,Offence,50000000,300000,7,2025,95,Transfermarkt; Capology
+PD:81:37428:raphinha,Raphinha,FC Barcelona,Primera Division,Offence,70000000,250000,7,2022,95,Transfermarkt; Capology
+PD:81:202283:lamine-yamal,Lamine Yamal,FC Barcelona,Primera Division,Offence,200000000,220000,7,2023,88,Transfermarkt; estimation salaire
+PD:81:205534:roony-bardagji,Roony Bardagji,FC Barcelona,Primera Division,Offence,15000000,57800,7,2025,88,Transfermarkt; estimation salaire
+PD:81:207017:dani-rodriguez,Dani Rodríguez,FC Barcelona,Primera Division,Offence,1200000,18700,7,2025,62,estimation
+PD:81:270450:toni-fernandez,Toni Fernández,FC Barcelona,Primera Division,Offence,3000000,27000,7,2026,88,Transfermarkt; estimation salaire
+PD:81:287866:juan-hernandez,Juan Hernández,FC Barcelona,Primera Division,Offence,1200000,18700,7,2025,62,estimation
+PD:81:172761:alex-balde,Álex Balde,FC Barcelona,Primera Division,Left-Back,50000000,109200,7,2022,88,Transfermarkt; estimation salaire
+PD:81:3455:andreas-christensen,Andreas Christensen,FC Barcelona,Primera Division,Centre-Back,8000000,42300,7,2022,88,Transfermarkt; estimation salaire
+PD:81:371:robert-lewandowski,Robert Lewandowski,FC Barcelona,Primera Division,Centre-Forward,9000000,400577,7,2022,95,Transfermarkt; Capology
+PD:81:264321:marc-bernal,Marc Bernal,FC Barcelona,Primera Division,Defensive Midfield,30000000,83000,7,2024,88,Transfermarkt; estimation salaire
+PD:81:264320:gerard-martin,Gerard Martín,FC Barcelona,Primera Division,Left-Back,35000000,90100,7,2024,88,Transfermarkt; estimation salaire
+PD:81:214533:fermin-lopez,Fermín López,FC Barcelona,Primera Division,Central Midfield,100000000,150000,7,2023,95,Transfermarkt; Capology
+PD:81:188817:marc-casado,Marc Casado,FC Barcelona,Primera Division,Defensive Midfield,18000000,63500,7,2024,88,Transfermarkt; estimation salaire
+PD:82:78:david-soria,David Soria,Getafe CF,Primera Division,Goalkeeper,5000000,8200,7,2018,88,Transfermarkt; estimation salaire
+PD:82:146888:jiri-letacek,Jiří Letáček,Getafe CF,Primera Division,Goalkeeper,2000000,5500,7,2024,88,Transfermarkt; estimation salaire
+PD:82:214562:jorge-benito,Jorge Benito,Getafe CF,Primera Division,Goalkeeper,350000,3100,7,2025,58,estimation
+PD:82:264160:diego-ferrer,Diego Ferrer,Getafe CF,Primera Division,Goalkeeper,350000,3100,7,2025,58,estimation
+PD:82:186687:lucas-laso,Lucas Laso,Getafe CF,Primera Division,Defence,500000,3800,7,2025,58,estimation
+PD:82:191367:zaid-romero,Zaid Romero,Getafe CF,Primera Division,Defence,3000000,7300,7,2025,88,Transfermarkt; estimation salaire
+PD:82:213274:kiko-femenia,Kiko Femenía,Getafe CF,Primera Division,Defence,1500000,5500,7,2025,88,Transfermarkt; estimation salaire
+PD:82:220164:sebastian-boselli,Sebastián Boselli,Getafe CF,Primera Division,Defence,7000000,10700,7,2025,88,Transfermarkt; estimation salaire
+PD:82:256157:davinchi,Davinchi,Getafe CF,Primera Division,Defence,5000000,9100,7,2025,88,Transfermarkt; estimation salaire
+PD:82:274175:ismael-bekhoucha,Ismael Bekhoucha,Getafe CF,Primera Division,Defence,500000,3800,7,2025,58,estimation
+PD:82:283796:marc-vilaplana,Marc Vilaplana,Getafe CF,Primera Division,Defence,500000,3800,7,2025,58,estimation
+PD:82:289600:jorge-montes,Jorge Montes,Getafe CF,Primera Division,Defence,500000,3800,7,2025,58,estimation
+PD:82:289700:tito,Tito,Getafe CF,Primera Division,Defence,500000,3800,7,2025,58,estimation
+PD:82:120456:veljko-birmancevic,Veljko Birmančević,Getafe CF,Primera Division,Midfield,7000000,10700,7,2025,88,Transfermarkt; estimation salaire
+PD:82:167732:damian-caceres,Damian Caceres,Getafe CF,Primera Division,Midfield,500000,3800,7,2025,58,estimation
+PD:82:211825:alejandro-sancris,Alejandro Sancris,Getafe CF,Primera Division,Midfield,3000000,7300,7,2025,88,Transfermarkt; estimation salaire
+PD:82:249599:adri-liso,Adri Liso,Getafe CF,Primera Division,Midfield,5000000,9100,7,2025,88,Transfermarkt; estimation salaire
+PD:82:286777:mykyta-alexandrov,Mykyta Alexandrov,Getafe CF,Primera Division,Midfield,500000,3800,7,2025,58,estimation
+PD:82:290559:adrian-riquelme,Adrián Riquelme,Getafe CF,Primera Division,Midfield,600000,4000,7,2025,58,estimation
+PD:82:156967:luis-vazquez,Luis Vázquez,Getafe CF,Primera Division,Offence,4000000,8300,7,2025,88,Transfermarkt; estimation salaire
+PD:82:290371:mestanza,Mestanza,Getafe CF,Primera Division,Offence,500000,3800,7,2025,58,estimation
+PD:82:186707:gorka-rivera,Gorka Rivera,Getafe CF,Primera Division,Left-Back,500000,3800,7,2025,58,estimation
+PD:82:178634:abu-kamara,Abu Kamara,Getafe CF,Primera Division,Right Winger,5000000,9100,7,2025,88,Transfermarkt; estimation salaire
+PD:82:152458:martin-satriano,Martin Satriano,Getafe CF,Primera Division,Centre-Forward,5000000,9100,7,2025,88,Transfermarkt; estimation salaire
+PD:82:83351:juan-iglesias,Juan Iglesias,Getafe CF,Primera Division,Right-Back,4000000,8300,7,2019,88,Transfermarkt; estimation salaire

@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+PD:82:81187:abdelkabir-abqar,Abdelkabir Abqar,Getafe CF,Primera Division,Centre-Back,4000000,10600,7,2025,88,Transfermarkt; estimation salaire
+PD:82:45472:domingos-duarte,Domingos Duarte,Getafe CF,Primera Division,Centre-Back,2500000,8900,7,2022,88,Transfermarkt; estimation salaire
+PD:82:32758:mauro-arambarri,Mauro Arambarri,Getafe CF,Primera Division,Central Midfield,5000000,11600,7,2017,88,Transfermarkt; estimation salaire
+PD:82:32449:luis-milla,Luis Milla,Getafe CF,Primera Division,Central Midfield,5000000,11600,7,2022,88,Transfermarkt; estimation salaire
+PD:82:31969:javi-munoz,Javi Muñoz,Getafe CF,Primera Division,Central Midfield,3500000,10100,7,2024,88,Transfermarkt; estimation salaire
+PD:82:8015:allan-nyom,Allan Nyom,Getafe CF,Primera Division,Right-Back,500000,5600,7,2024,88,Transfermarkt; estimation salaire
+PD:82:3125:dakonam-djene,Dakonam Djené,Getafe CF,Primera Division,Centre-Back,1500000,7500,7,2017,88,Transfermarkt; estimation salaire
+PD:82:277:diego-rico,Diego Rico,Getafe CF,Primera Division,Left-Back,1800000,8000,9,2023,88,Transfermarkt; estimation salaire
+PD:82:69:borja-mayoral,Borja Mayoral,Getafe CF,Primera Division,Centre-Forward,10000000,92115,8,2022,96,Transfermarkt; Capology
+PD:82:2:juanmi,Juanmi,Getafe CF,Primera Division,Left Winger,2500000,8900,1,2025,88,Transfermarkt; estimation salaire
+PD:82:250899:yassin-tallal,Yassin Tallal,Getafe CF,Primera Division,Left Winger,500000,5600,7,2025,80,Transfermarkt; estimation
+PD:82:250399:alberto-risco,Alberto Risco,Getafe CF,Primera Division,Attacking Midfield,1000000,6700,7,2025,80,Transfermarkt; estimation
+PD:82:229070:joselu-perez,Joselu Pérez,Getafe CF,Primera Division,Centre-Forward,550000,5800,7,2025,58,estimation
+PD:82:228935:hugo-solozabal,Hugo Solozábal,Getafe CF,Primera Division,Central Midfield,450000,5500,7,2025,58,estimation
+PD:82:191064:mario-martin,Mario Martin,Getafe CF,Primera Division,Defensive Midfield,6000000,12500,7,2025,88,Transfermarkt; estimation salaire
+PD:86:3641:thibaut-courtois,Thibaut Courtois,Real Madrid CF,Primera Division,Goalkeeper,15000000,288462,8,2018,96,Transfermarkt; Capology
+PD:86:28995:andriy-lunin,Andriy Lunin,Real Madrid CF,Primera Division,Goalkeeper,12000000,53700,7,2018,88,Transfermarkt; estimation salaire
+PD:86:188407:sergio-mestre,Sergio Mestre,Real Madrid CF,Primera Division,Goalkeeper,950000,14800,7,2025,58,estimation
+PD:86:206826:fran-gonzalez,Fran Gonzalez,Real Madrid CF,Primera Division,Goalkeeper,3000000,25800,7,2025,80,Transfermarkt; estimation
+PD:86:287049:javi-navarro,Javi Navarro,Real Madrid CF,Primera Division,Goalkeeper,950000,14800,7,2025,58,estimation
+PD:86:295679:alvaro-gonzalez,Álvaro González,Real Madrid CF,Primera Division,Goalkeeper,950000,14800,7,2025,58,estimation
+PD:86:349:david-alaba,David Alaba,Real Madrid CF,Primera Division,Defence,6000000,432692,7,2021,96,Transfermarkt; Capology
+PD:86:3177:antonio-rudiger,Antonio Rüdiger,Real Madrid CF,Primera Division,Defence,12000000,280000,7,2022,96,Transfermarkt; Capology
+PD:86:182020:alvaro-carreras,Álvaro Carreras,Real Madrid CF,Primera Division,Defence,50000000,132000,7,2025,88,Transfermarkt; estimation salaire
+PD:86:213266:fran-garcia,Fran García,Real Madrid CF,Primera Division,Defence,18000000,74500,7,2023,88,Transfermarkt; estimation salaire
+PD:86:270615:david-jimenez,David Jiménez,Real Madrid CF,Primera Division,Defence,3000000,28600,7,2025,80,Transfermarkt; estimation
+PD:86:273000:diego-aguado,Diego Aguado,Real Madrid CF,Primera Division,Defence,2000000,23400,7,2025,80,Transfermarkt; estimation
+PD:86:276963:victor-valdepenas,Víctor Valdepeñas,Real Madrid CF,Primera Division,Defence,1500000,20300,7,2025,80,Transfermarkt; estimation
+PD:86:279092:jesus-fortea,Jesús Fortea,Real Madrid CF,Primera Division,Defence,5000000,37300,7,2025,80,Transfermarkt; estimation
+PD:86:289856:joan-martinez,Joan Martínez,Real Madrid CF,Primera Division,Defence,8000000,47900,7,2025,80,Transfermarkt; estimation
+PD:86:293490:lamini-fati,Lamini Fati,Real Madrid CF,Primera Division,Defence,1500000,20300,7,2025,80,Transfermarkt; estimation
+PD:86:295678:manu-serrano,Manu Serrano,Real Madrid CF,Primera Division,Defence,1200000,18300,7,2025,58,estimation
+PD:86:96:federico-valverde,Federico Valverde,Real Madrid CF,Primera Division,Midfield,130000000,280000,7,2018,96,Transfermarkt; Capology
+PD:86:7887:brahim-diaz,Brahim Diaz,Real Madrid CF,Primera Division,Midfield,35000000,140000,7,2023,96,Transfermarkt; Capology
+PD:86:8514:aurelien-tchouameni,Aurélien Tchouameni,Real Madrid CF,Primera Division,Midfield,75000000,240000,7,2022,96,Transfermarkt; Capology
+PD:86:125010:jude-bellingham,Jude Bellingham,Real Madrid CF,Primera Division,Midfield,160000000,400577,7,2023,96,Transfermarkt; Capology
+PD:86:169162:arda-guler,Arda Guler,Real Madrid CF,Primera Division,Midfield,100000000,120000,7,2023,96,Transfermarkt; Capology
+PD:86:250304:franco-mastantuono,Franco Mastantuono,Real Madrid CF,Primera Division,Midfield,50000000,132000,8,2025,88,Transfermarkt; estimation salaire
+PD:86:283110:thiago-pitarch,Thiago Pitarch,Real Madrid CF,Primera Division,Midfield,1200000,18300,7,2025,58,estimation
+PD:86:289908:jorge-cestero,Jorge Cestero,Real Madrid CF,Primera Division,Midfield,1200000,18300,7,2025,58,estimation
+PD:86:290848:cesar-palacios,César Palacios,Real Madrid CF,Primera Division,Midfield,1200000,18300,7,2025,58,estimation
+PD:86:290974:dani-meso,Dani Meso,Real Madrid CF,Primera Division,Midfield,1200000,18300,7,2025,58,estimation
+PD:86:291727:manuel-angel,Manuel Angel,Real Madrid CF,Primera Division,Midfield,1200000,18300,7,2025,58,estimation
+PD:86:1556:vinicius-junior,Vinicius Junior,Real Madrid CF,Primera Division,Offence,150000000,480769,7,2018,96,Transfermarkt; Capology
+PD:86:3374:kylian-mbappe,Kylian Mbappé,Real Madrid CF,Primera Division,Offence,180000000,600962,7,2024,96,Transfermarkt; Capology
+PD:86:263282:alvaro-leiva,Álvaro Leiva,Real Madrid CF,Primera Division,Offence,1500000,20300,7,2025,58,estimation
+PD:86:273058:daniel-yanez,Daniel Yáñez,Real Madrid CF,Primera Division,Offence,1500000,20300,7,2025,58,estimation
+PD:86:274728:pol-fortuny,Pol Fortuny,Real Madrid CF,Primera Division,Offence,1500000,20300,7,2025,58,estimation
+PD:86:191727:dean-huijsen,Dean Huijsen,Real Madrid CF,Primera Division,Centre-Back,60000000,140000,7,2025,96,Transfermarkt; Capology
+PD:86:102343:eduardo-camavinga,Eduardo Camavinga,Real Madrid CF,Primera Division,Central Midfield,70000000,220000,8,2021,96,Transfermarkt; Capology
+PD:86:8458:ferland-mendy,Ferland Mendy,Real Madrid CF,Primera Division,Left-Back,10000000,54000,7,2019,88,Transfermarkt; estimation salaire
+PD:86:7867:trent-alexander-arnold,Trent Alexander-Arnold,Real Madrid CF,Primera Division,Right-Back,70000000,300000,7,2025,96,Transfermarkt; Capology
+PD:86:3194:dani-carvajal,Dani Carvajal,Real Madrid CF,Primera Division,Right-Back,8000000,200000,7,2013,96,Transfermarkt; Capology
+PD:86:1337:eder-militao,Éder Militão,Real Madrid CF,Primera Division,Centre-Back,40000000,190000,7,2019,96,Transfermarkt; Capology
+PD:86:1324:rodrygo,Rodrygo,Real Madrid CF,Primera Division,Right Winger,80000000,240000,7,2019,96,Transfermarkt; Capology
+PD:86:68:dani-ceballos,Dani Ceballos,Real Madrid CF,Primera Division,Central Midfield,15000000,67400,7,2017,88,Transfermarkt; estimation salaire
+PD:86:272712:raul,Raúl,Real Madrid CF,Primera Division,Centre-Back,1200000,18300,7,2025,58,estimation
+PD:86:217658:gonzalo-garcia,Gonzalo García,Real Madrid CF,Primera Division,Right Winger,15000000,67400,7,2025,88,Transfermarkt; estimation salaire
+PD:87:46245:augusto-batalla,Augusto Batalla,Rayo Vallecano de Madrid,Primera Division,Goalkeeper,6000000,10200,7,2024,88,Transfermarkt; estimation salaire
+PD:87:133288:dani-cardenas,Dani Cárdenas,Rayo Vallecano de Madrid,Primera Division,Goalkeeper,1800000,6700,8,2023,88,Transfermarkt; estimation salaire
+PD:87:182191:gil-juanpe,Gil Juanpe,Rayo Vallecano de Madrid,Primera Division,Goalkeeper,300000,4400,7,2025,58,estimation
+PD:87:273860:adrian-molina,Adrián Molina,Rayo Vallecano de Madrid,Primera Division,Goalkeeper,300000,4400,7,2025,58,estimation
+PD:87:25641:abdul-mumin,Abdul Mumin,Rayo Vallecano de Madrid,Primera Division,Defence,7000000,12100,9,2022,88,Transfermarkt; estimation salaire
+PD:87:168725:jozhua-vertrouwd,Jozhua Vertrouwd,Rayo Vallecano de Madrid,Primera Division,Defence,400000,5100,7,2025,58,estimation
+PD:87:190558:nobel-mendy,Nobel Mendy,Rayo Vallecano de Madrid,Primera Division,Defence,8000000,12800,7,2025,88,Transfermarkt; estimation salaire
+PD:87:264416:marco-de-las-sias,Marco de las Sías,Rayo Vallecano de Madrid,Primera Division,Defence,400000,5100,7,2025,58,estimation
+PD:87:276988:sergio-lozano,Sergio Lozano,Rayo Vallecano de Madrid,Primera Division,Defence,400000,5100,7,2025,58,estimation
+PD:87:37649:pathe-ciss,Pathé Ciss,Rayo Vallecano de Madrid,Primera Division,Midfield,4000000,9700,7,2021,88,Transfermarkt; estimation salaire
+PD:87:283310:samu-becerra,Samu Becerra,Rayo Vallecano de Madrid,Primera Division,Midfield,400000,5100,7,2025,58,estimation
+PD:87:289750:marco-roman,Marco Román,Rayo Vallecano de Madrid,Primera Division,Midfield,400000,5100,7,2025,58,estimation
+PD:87:106014:alexandre-alemao,Alexandre Alemão,Rayo Vallecano de Madrid,Primera Division,Offence,500000,5400,7,2025,58,estimation
+PD:87:98032:randy-ntekja,Randy Ntekja,Rayo Vallecano de Madrid,Primera Division,Attacking Midfield,400000,5100,7,2025,58,estimation
+PD:87:33711:gerard-gumbau,Gerard Gumbau,Rayo Vallecano de Madrid,Primera Division,Defensive Midfield,3000000,8800,7,2025,88,Transfermarkt; estimation salaire
+PD:87:33496:isi-palazon,Isi Palazón,Rayo Vallecano de Madrid,Primera Division,Right Winger,10000000,14100,1,2020,88,Transfermarkt; estimation salaire
+PD:87:32312:alvaro-garcia,Álvaro García,Rayo Vallecano de Madrid,Primera Division,Left Winger,5000000,10600,7,2018,88,Transfermarkt; estimation salaire
+PD:87:32228:pedro-diaz,Pedro Díaz,Rayo Vallecano de Madrid,Primera Division,Central Midfield,6000000,11400,7,2023,88,Transfermarkt; estimation salaire
+PD:87:32124:unai-lopez,Unai López,Rayo Vallecano de Madrid,Primera Division,Central Midfield,3000000,8800,8,2021,88,Transfermarkt; estimation salaire
+PD:87:32116:oscar-trejo,Óscar Trejo,Rayo Vallecano de Madrid,Primera Division,Attacking Midfield,800000,6000,7,2017,88,Transfermarkt; estimation salaire
+PD:87:32109:oscar-valentin,Óscar Valentín,Rayo Vallecano de Madrid,Primera Division,Central Midfield,4000000,9700,7,2019,88,Transfermarkt; estimation salaire
+PD:87:28384:alfonso-espino,Alfonso Espino,Rayo Vallecano de Madrid,Primera Division,Left-Back,3000000,8800,7,2023,88,Transfermarkt; estimation salaire
+PD:87:8716:ivan-balliu,Iván Balliu,Rayo Vallecano de Madrid,Primera Division,Right-Back,2500000,8200,7,2021,88,Transfermarkt; estimation salaire
+PD:87:7925:florian-lejeune,Florian Lejeune,Rayo Vallecano de Madrid,Primera Division,Centre-Back,2500000,8200,7,2022,88,Transfermarkt; estimation salaire
+PD:87:2071:luiz-felipe,Luiz Felipe,Rayo Vallecano de Madrid,Primera Division,Centre-Back,7000000,12100,7,2025,88,Transfermarkt; estimation salaire
+PD:87:187117:fran-perez,Fran Perez,Rayo Vallecano de Madrid,Primera Division,Right Winger,500000,5400,7,2025,58,estimation
+PD:87:176202:ilias-akhomach,Ilias Akhomach,Rayo Vallecano de Madrid,Primera Division,Right Winger,12000000,15300,7,2025,88,Transfermarkt; estimation salaire
+PD:87:175937:carlos-martin,Carlos Martin,Rayo Vallecano de Madrid,Primera Division,Left Winger,7000000,12100,7,2025,88,Transfermarkt; estimation salaire
+PD:87:151251:pep-chavarria,Pep Chavarría,Rayo Vallecano de Madrid,Primera Division,Left-Back,5000000,10600,7,2022,88,Transfermarkt; estimation salaire
+PD:87:133276:jorge-de-frutos,Jorge de Frutos,Rayo Vallecano de Madrid,Primera Division,Right Winger,10000000,14100,8,2023,88,Transfermarkt; estimation salaire
+PD:87:115175:sergio-camello,Sergio Camello,Rayo Vallecano de Madrid,Primera Division,Centre-Forward,8000000,12800,7,2022,88,Transfermarkt; estimation salaire
+PD:87:114955:andrei-ratiu,Andrei Rațiu,Rayo Vallecano de Madrid,Primera Division,Right-Back,18000000,18400,8,2023,88,Transfermarkt; estimation salaire
+PD:88:3403:maty-ryan,Maty Ryan,Levante UD,Primera Division,Goalkeeper,1500000,5700,7,2025,88,Transfermarkt; estimation salaire
+PD:88:165167:pablo-cunat,Pablo Cuñat,Levante UD,Primera Division,Goalkeeper,1500000,5700,7,2025,88,Transfermarkt; estimation salaire
+PD:88:182201:alejandro-primo,Alejandro Primo,Levante UD,Primera Division,Goalkeeper,300000,4200,7,2025,58,estimation
+PD:88:283440:cayetano-romero,Cayetano Romero,Levante UD,Primera Division,Goalkeeper,300000,4200,7,2025,58,estimation
+PD:88:32471:unai-elgezabal,Unai Elgezabal,Levante UD,Primera Division,Defence,500000,5000,7,2024,88,Transfermarkt; estimation salaire
+PD:88:33633:diego-pampin,Diego Pampín,Levante UD,Primera Division,Defence,2500000,7300,7,2024,88,Transfermarkt; estimation salaire
+PD:88:98741:adrian-de-la-fuente,Adrián de la Fuente,Levante UD,Primera Division,Defence,4000000,8500,7,2021,88,Transfermarkt; estimation salaire
+PD:88:253521:martin-krug,Martín Krug,Levante UD,Primera Division,Defence,350000,4700,7,2025,58,estimation
+PD:88:283442:nacho-perez,Nacho Pérez,Levante UD,Primera Division,Defence,300000,4600,7,2025,80,Transfermarkt; estimation
+PD:88:288777:huseini,Huseini,Levante UD,Primera Division,Defence,350000,4700,7,2025,58,estimation
+PD:88:4159:oriol-rey,Oriol Rey,Levante UD,Primera Division,Midfield,1800000,6700,7,2023,88,Transfermarkt; estimation salaire
+PD:88:32830:pablo-martinez,Pablo Martínez,Levante UD,Primera Division,Midfield,3000000,7800,7,2020,88,Transfermarkt; estimation salaire
+PD:88:141828:unai-vencedor-paris,Unai Vencedor Paris,Levante UD,Primera Division,Midfield,5000000,9200,7,2025,88,Transfermarkt; estimation salaire
+PD:88:156525:carlos-alvarez,Carlos Álvarez,Levante UD,Primera Division,Midfield,15000000,14400,7,2023,88,Transfermarkt; estimation salaire
+PD:88:177772:kervin-arriaga,Kervin Arriaga,Levante UD,Primera Division,Midfield,2000000,6900,7,2025,88,Transfermarkt; estimation salaire
+PD:88:215417:tai-abed,Tai Abed,Levante UD,Primera Division,Midfield,1000000,5800,7,2025,80,Transfermarkt; estimation
+PD:88:243966:dani-cervera,Dani Cervera,Levante UD,Primera Division,Midfield,350000,4700,7,2025,58,estimation
+PD:88:253109:paco-cortes,Paco Cortés,Levante UD,Primera Division,Midfield,1500000,6400,7,2025,80,Transfermarkt; estimation
+PD:88:288776:pablo-roson,Pablo Rosón,Levante UD,Primera Division,Midfield,350000,4700,7,2025,58,estimation
+PD:88:291162:joan-ruiz,Joan Ruiz,Levante UD,Primera Division,Midfield,350000,4700,7,2025,58,estimation
+PD:88:126913:iker-losada,Iker Losada,Levante UD,Primera Division,Offence,4000000,8500,7,2025,88,Transfermarkt; estimation salaire
+PD:88:156746:ivan-romero,Iván Romero,Levante UD,Primera Division,Offence,8000000,11000,7,2023,88,Transfermarkt; estimation salaire
+PD:88:180282:brugui,Brugui,Levante UD,Primera Division,Offence,2000000,6900,7,2022,88,Transfermarkt; estimation salaire
+PD:88:203439:karl-etta-eyong,Karl Etta Eyong,Levante UD,Primera Division,Offence,15000000,14400,7,2025,88,Transfermarkt; estimation salaire
+PD:88:211851:victor-garcia,Víctor García,Levante UD,Primera Division,Offence,1500000,6400,7,2024,88,Transfermarkt; estimation salaire
+PD:88:213275:jose-morales,José Morales,Levante UD,Primera Division,Offence,1000000,5800,7,2024,88,Transfermarkt; estimation salaire
+PD:88:247061:carlos-espi,Carlos Espí,Levante UD,Primera Division,Offence,20000000,16300,7,2024,88,Transfermarkt; estimation salaire
+PD:88:290072:kareem-tunde,Kareem Tunde,Levante UD,Primera Division,Offence,2000000,6900,7,2025,80,Transfermarkt; estimation
+PD:88:177365:ugo-raghouber,Ugo Raghouber,Levante UD,Primera Division,Defensive Midfield,3500000,8200,7,2025,88,Transfermarkt; estimation salaire
+PD:88:161293:jon-olasagasti,Jon Olasagasti,Levante UD,Primera Division,Central Midfield,2500000,7300,7,2025,88,Transfermarkt; estimation salaire
+PD:88:118715:manuel-sanchez,Manuel Sánchez,Levante UD,Primera Division,Left-Back,5000000,9200,7,2025,88,Transfermarkt; estimation salaire
+PD:88:162:jeremy-toljan,Jeremy Toljan,Levante UD,Primera Division,Right-Back,2000000,6900,7,2025,88,Transfermarkt; estimation salaire
+PD:88:210811:matias-moreno,Matias Moreno,Levante UD,Primera Division,Centre-Back,5000000,9200,7,2025,88,Transfermarkt; estimation salaire
+PD:88:191042:alan-matturro,Alan Matturro,Levante UD,Primera Division,Centre-Back,7000000,10500,7,2025,88,Transfermarkt; estimation salaire
+PD:89:274:cuellar,Cuéllar,RCD Mallorca,Primera Division,Goalkeeper,200000,4200,7,2024,88,Transfermarkt; estimation salaire
+PD:89:172628:leo-roman,Leo Román,RCD Mallorca,Primera Division,Goalkeeper,6000000,10600,7,2021,88,Transfermarkt; estimation salaire
+PD:89:179663:lucas-bergstrom,Lucas Bergström,RCD Mallorca,Primera Division,Goalkeeper,1400000,6300,7,2025,88,Transfermarkt; estimation salaire
+PD:89:271379:nil-torreguitart,Nil Torreguitart,RCD Mallorca,Primera Division,Goalkeeper,350000,4600,7,2025,58,estimation
+PD:89:293873:rares-vlad,Rares Vlad,RCD Mallorca,Primera Division,Goalkeeper,350000,4600,7,2025,58,estimation
+PD:89:3724:johan-mojica,Johan Mojica,RCD Mallorca,Primera Division,Defence,1500000,7200,7,2024,88,Transfermarkt; estimation salaire
+PD:89:289702:orejuela,Orejuela,RCD Mallorca,Primera Division,Defence,450000,5300,7,2025,58,estimation
+PD:89:293749:leo-sanchez,Leo Sánchez,RCD Mallorca,Primera Division,Defence,450000,5300,7,2025,58,estimation
+PD:89:295357:calatayud,Calatayud,RCD Mallorca,Primera Division,Defence,450000,5300,7,2025,58,estimation
+PD:89:140814:samuel-almeida-costa,Samuel Almeida Costa,RCD Mallorca,Primera Division,Midfield,12000000,15900,8,2023,88,Transfermarkt; estimation salaire
+PD:89:180040:antonio-sanchez,Antonio Sánchez,RCD Mallorca,Primera Division,Midfield,2000000,7900,7,2019,88,Transfermarkt; estimation salaire
+PD:89:264398:iliesse-salhi,Iliesse Salhi,RCD Mallorca,Primera Division,Midfield,450000,5300,7,2025,58,estimation
+PD:89:286767:javier-olaizola,Javier Olaizola,RCD Mallorca,Primera Division,Midfield,450000,5300,7,2025,58,estimation
+PD:89:290006:jandro-garcia,Jandro García,RCD Mallorca,Primera Division,Midfield,450000,5300,7,2025,58,estimation
+PD:89:294725:cesc-riba,Cesc Riba,RCD Mallorca,Primera Division,Midfield,450000,5300,7,2025,58,estimation
+PD:89:171122:zito-luvumbo,Zito Luvumbo,RCD Mallorca,Primera Division,Offence,10000000,14600,7,2025,88,Transfermarkt; estimation salaire
+PD:89:285500:jan-virgili,Jan Virgili,RCD Mallorca,Primera Division,Offence,7000000,12500,7,2025,88,Transfermarkt; estimation salaire
+PD:89:159520:pablo-torre,Pablo Torre,RCD Mallorca,Primera Division,Attacking Midfield,10000000,14600,7,2025,88,Transfermarkt; estimation salaire
+PD:89:120984:mateu-morey,Mateu Morey,RCD Mallorca,Primera Division,Right-Back,2500000,8500,7,2024,88,Transfermarkt; estimation salaire
+PD:89:33681:abdon-prats,Abdón Prats,RCD Mallorca,Primera Division,Centre-Forward,800000,6100,7,2017,88,Transfermarkt; estimation salaire
+PD:89:33513:pablo-maffeo,Pablo Maffeo,RCD Mallorca,Primera Division,Right-Back,7000000,12500,7,2022,88,Transfermarkt; estimation salaire
+PD:89:33138:toni-lato,Toni Lato,RCD Mallorca,Primera Division,Left-Back,2500000,8500,7,2023,88,Transfermarkt; estimation salaire
+PD:89:33120:manu-morlanes,Manu Morlanes,RCD Mallorca,Primera Division,Central Midfield,5000000,10900,7,2023,88,Transfermarkt; estimation salaire
+PD:89:32984:antonio-raillo,Antonio Raíllo,RCD Mallorca,Primera Division,Centre-Back,1800000,7600,7,2016,88,Transfermarkt; estimation salaire
+PD:89:32717:sergi-darder,Sergi Darder,RCD Mallorca,Primera Division,Central Midfield,6000000,11800,8,2023,88,Transfermarkt; estimation salaire
+PD:89:30059:vedat-muriqi,Vedat Muriqi,RCD Mallorca,Primera Division,Centre-Forward,7000000,12500,7,2022,88,Transfermarkt; estimation salaire
+PD:89:9408:takuma-asano,Takuma Asano,RCD Mallorca,Primera Division,Right Winger,3000000,9000,7,2024,88,Transfermarkt; estimation salaire
+PD:89:6713:omar-mascarell,Omar Mascarell,RCD Mallorca,Primera Division,Defensive Midfield,1800000,7600,7,2023,88,Transfermarkt; estimation salaire
+PD:89:2777:martin-valjent,Martin Valjent,RCD Mallorca,Primera Division,Centre-Back,3000000,9000,7,2019,88,Transfermarkt; estimation salaire
+PD:89:2151:marash-kumbulla,Marash Kumbulla,RCD Mallorca,Primera Division,Centre-Back,10000000,14600,7,2025,88,Transfermarkt; estimation salaire
+PD:89:218445:david-lopez,David López,RCD Mallorca,Primera Division,Centre-Back,3000000,9000,7,2024,88,Transfermarkt; estimation salaire
+PD:89:192777:justin-noel-kalumba,Justin-Noel Kalumba,RCD Mallorca,Primera Division,Right Winger,4000000,10000,7,2025,88,Transfermarkt; estimation salaire
+PD:89:185178:mateo-fernandez,Mateo Fernandez,RCD Mallorca,Primera Division,Centre-Forward,3000000,9000,7,2025,88,Transfermarkt; estimation salaire
+PD:89:176236:javier-llabres,Javier Llabres,RCD Mallorca,Primera Division,Left Winger,2000000,7900,7,2023,88,Transfermarkt; estimation salaire
+PD:90:8197:adrian,Adrián,Real Betis Balompié,Primera Division,Goalkeeper,300000,5700,7,2024,88,Transfermarkt; estimation salaire
+PD:90:32695:pau-lopez,Pau López,Real Betis Balompié,Primera Division,Goalkeeper,2500000,11900,7,2024,88,Transfermarkt; estimation salaire
+PD:90:100130:alvaro-valles-rosa,Álvaro Vallés Rosa,Real Betis Balompié,Primera Division,Goalkeeper,7000000,19000,7,2025,88,Transfermarkt; estimation salaire
+PD:90:203476:german-garcia,Germán García,Real Betis Balompié,Primera Division,Goalkeeper,550000,6800,7,2025,58,estimation
+PD:90:265440:manu-gonzalez,Manu González,Real Betis Balompié,Primera Division,Goalkeeper,550000,6800,7,2025,58,estimation
+PD:90:1745:ricardo-rodriguez,Ricardo Rodriguez,Real Betis Balompié,Primera Division,Defence,2500000,13200,8,2024,88,Transfermarkt; estimation salaire
+PD:90:179155:valentin-gomez,Valentín Gómez,Real Betis Balompié,Primera Division,Defence,12000000,27600,7,2025,88,Transfermarkt; estimation salaire
+PD:90:272694:angel-ortiz,Ángel Ortiz,Real Betis Balompié,Primera Division,Defence,4000000,16300,7,2024,88,Transfermarkt; estimation salaire
+PD:90:289911:carlos-de-roa,Carlos De Roa,Real Betis Balompié,Primera Division,Defence,700000,8100,7,2025,58,estimation
+PD:90:3216:giovani-lo-celso,Giovani Lo Celso,Real Betis Balompié,Primera Division,Midfield,18000000,95000,8,2024,96,Transfermarkt; Capology
+PD:90:3705:sofyan-amrabat,Sofyan Amrabat,Real Betis Balompié,Primera Division,Midfield,10000000,90000,8,2025,96,Transfermarkt; Capology
+PD:90:99992:alvaro-fidalgo,Álvaro Fidalgo,Real Betis Balompié,Primera Division,Midfield,8000000,22600,7,2025,88,Transfermarkt; estimation salaire
+PD:90:285050:ivan-corralejo,Iván Corralejo,Real Betis Balompié,Primera Division,Midfield,700000,8100,7,2025,58,estimation
+PD:90:21583:cedric-bakambu,Cédric Bakambu,Real Betis Balompié,Primera Division,Offence,2500000,13200,2,2024,88,Transfermarkt; estimation salaire
+PD:90:32415:cucho-hernandez,Cucho Hernández,Real Betis Balompié,Primera Division,Offence,18000000,80000,2,2025,96,Transfermarkt; Capology
+PD:90:175941:abdessamad-ezzalzouli,Abdessamad Ezzalzouli,Real Betis Balompié,Primera Division,Offence,15000000,31000,9,2023,88,Transfermarkt; estimation salaire
+PD:90:213268:ezequiel-avila,Ezequiel Ávila,Real Betis Balompié,Primera Division,Offence,4000000,16300,2,2024,88,Transfermarkt; estimation salaire
+PD:90:274546:pablo-garcia,Pablo García,Real Betis Balompié,Primera Division,Offence,5000000,18000,7,2025,80,Transfermarkt; estimation
+PD:90:286766:morante,Morante,Real Betis Balompié,Primera Division,Offence,900000,8900,7,2025,58,estimation
+PD:90:291029:rodrigo-marina,Rodrigo Marina,Real Betis Balompié,Primera Division,Offence,900000,8900,7,2025,58,estimation
+PD:90:97085:antony,Antony,Real Betis Balompié,Primera Division,Right Winger,45000000,120000,7,2025,96,Transfermarkt; Capology
+PD:90:33117:pablo-fornals,Pablo Fornals,Real Betis Balompié,Primera Division,Attacking Midfield,8000000,75000,2,2024,96,Transfermarkt; Capology
+PD:90:33045:aitor-ruibal,Aitor Ruibal,Real Betis Balompié,Primera Division,Right-Back,4000000,16300,7,2019,88,Transfermarkt; estimation salaire
+PD:90:33038:bartra,Bartra,Real Betis Balompié,Primera Division,Centre-Back,1800000,11500,7,2023,88,Transfermarkt; estimation salaire
+PD:90:33037:junior-firpo,Júnior Firpo,Real Betis Balompié,Primera Division,Left-Back,5000000,18000,7,2025,88,Transfermarkt; estimation salaire
+PD:90:32710:marc-roca,Marc Roca,Real Betis Balompié,Primera Division,Defensive Midfield,4000000,16300,7,2024,88,Transfermarkt; estimation salaire
+PD:90:7783:hector-bellerin,Héctor Bellerín,Real Betis Balompié,Primera Division,Right-Back,2400000,13000,7,2023,88,Transfermarkt; estimation salaire
+PD:90:66:isco,Isco,Real Betis Balompié,Primera Division,Attacking Midfield,15000000,120192,7,2023,96,Transfermarkt; Capology
+PD:90:9:diego-llorente,Diego Llorente,Real Betis Balompié,Primera Division,Centre-Back,6000000,19700,7,2024,88,Transfermarkt; estimation salaire
+PD:90:244238:darling-bladi,Darling Bladi,Real Betis Balompié,Primera Division,Left-Back,700000,8100,7,2025,58,estimation
+PD:90:218485:pablo-busto,Pablo Busto,Real Betis Balompié,Primera Division,Right-Back,700000,8100,7,2025,58,estimation
+PD:90:212861:sergi-altimira,Sergi Altimira,Real Betis Balompié,Primera Division,Central Midfield,18000000,34000,8,2023,88,Transfermarkt; estimation salaire
+PD:90:189529:dani-perez,Dani Perez,Real Betis Balompié,Primera Division,Attacking Midfield,700000,8100,7,2025,58,estimation
+PD:90:179141:nelson-deossa,Nelson Deossa,Real Betis Balompié,Primera Division,Central Midfield,9000000,23900,7,2025,88,Transfermarkt; estimation salaire
+PD:90:138031:natan,Natan,Real Betis Balompié,Primera Division,Centre-Back,25000000,70000,7,2024,96,Transfermarkt; Capology
+PD:90:128731:rodrigo-riquelme,Rodrigo Riquelme,Real Betis Balompié,Primera Division,Left Winger,18000000,34000,7,2025,88,Transfermarkt; estimation salaire
+PD:92:32413:alex-remiro,Álex Remiro,Real Sociedad de Fútbol,Primera Division,Goalkeeper,9000000,19400,7,2019,88,Transfermarkt; estimation salaire
+PD:92:157040:unai-marrero,Unai Marrero,Real Sociedad de Fútbol,Primera Division,Goalkeeper,3000000,11700,7,2023,88,Transfermarkt; estimation salaire
+PD:92:215503:aitor-fraga,Aitor Fraga,Real Sociedad de Fútbol,Primera Division,Goalkeeper,800000,7100,7,2024,88,Transfermarkt; estimation salaire
+PD:92:283801:theo-folgado,Théo Folgado,Real Sociedad de Fútbol,Primera Division,Goalkeeper,500000,6200,7,2025,58,estimation
+PD:92:10206:duje-caleta-car,Duje Ćaleta-Car,Real Sociedad de Fútbol,Primera Division,Defence,7000000,19100,7,2025,88,Transfermarkt; estimation salaire
+PD:92:194029:kazunari-kita,Kazunari Kita,Real Sociedad de Fútbol,Primera Division,Defence,2000000,11000,7,2025,88,Transfermarkt; estimation salaire

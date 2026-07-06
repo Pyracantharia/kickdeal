@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+DED:666:99:przemys-aw-tyton,Przemysław Tytoń,FC Twente '65,Eredivisie,Goalkeeper,3000000,7400,7,2024,72,Transfermarkt; estimation
+DED:666:7286:lars-unnerstall,Lars Unnerstall,FC Twente '65,Eredivisie,Goalkeeper,1000000,4300,7,2021,94,Transfermarkt; estimation salaire
+DED:666:67882:issam-el-maach,Issam El Maach,FC Twente '65,Eredivisie,Goalkeeper,100000,1900,8,2021,94,Transfermarkt; estimation salaire
+DED:666:179467:sam-karssies,Sam Karssies,FC Twente '65,Eredivisie,Goalkeeper,75000,1800,8,2024,94,Transfermarkt; estimation salaire
+DED:666:277822:yannick-gerritsen,Yannick Gerritsen,FC Twente '65,Eredivisie,Goalkeeper,50000,1700,8,2024,94,Transfermarkt; estimation salaire
+DED:666:7350:robin-propper,Robin Pröpper,FC Twente '65,Eredivisie,Defence,4750000,10200,9,2019,72,Transfermarkt; estimation
+DED:666:190596:stav-lemkin,Stav Lemkin,FC Twente '65,Eredivisie,Defence,4750000,10200,8,2021,72,Transfermarkt; estimation
+DED:666:262852:guilherme-peixoto,Guilherme Peixoto,FC Twente '65,Eredivisie,Defence,4500000,9900,7,2024,72,Transfermarkt; estimation
+DED:666:274443:ruud-nijstad,Ruud Nijstad,FC Twente '65,Eredivisie,Defence,4500000,9900,9,2021,72,Transfermarkt; estimation
+DED:666:289504:bjorn-titulaer,Björn Titulaer,FC Twente '65,Eredivisie,Defence,4250000,9600,9,2024,72,Transfermarkt; estimation
+DED:666:3558:marko-pjaca,Marko Pjaca,FC Twente '65,Eredivisie,Midfield,4500000,9900,1,2019,72,Transfermarkt; estimation
+DED:666:79901:thomas-van-den-belt,Thomas van den Belt,FC Twente '65,Eredivisie,Midfield,4500000,9900,7,2019,72,Transfermarkt; estimation
+DED:666:124715:ramiz-zerrouki,Ramiz Zerrouki,FC Twente '65,Eredivisie,Midfield,4250000,33846,7,2025,96,Transfermarkt; Capology
+DED:666:286471:benjamin-nagel,Benjamin Nagel,FC Twente '65,Eredivisie,Midfield,4250000,9600,7,2024,72,Transfermarkt; estimation
+DED:666:246352:lucas-vennegoor-of-hesselink,Lucas Vennegoor of Hesselink,FC Twente '65,Eredivisie,Offence,3500000,8700,7,2024,72,Transfermarkt; estimation
+DED:666:246761:sondre-rjas-ter,Sondre Ørjasæter,FC Twente '65,Eredivisie,Offence,5000000,10500,7,2025,94,Transfermarkt; estimation salaire
+DED:666:271959:owen-panneflek,Owen Panneflek,FC Twente '65,Eredivisie,Offence,3250000,8400,7,2024,72,Transfermarkt; estimation
+DED:666:292181:nigel-groenewald,Nigel Groenewald,FC Twente '65,Eredivisie,Offence,3250000,8400,7,2024,72,Transfermarkt; estimation
+DED:666:154793:max-bruns,Max Bruns,FC Twente '65,Eredivisie,Centre-Back,1500000,5700,7,2024,72,Transfermarkt; estimation
+DED:666:153600:daan-rots,Daan Rots,FC Twente '65,Eredivisie,Right Winger,5000000,10500,7,2024,94,Transfermarkt; estimation salaire
+DED:666:151518:mees-hilgers,Mees Hilgers,FC Twente '65,Eredivisie,Centre-Back,1250000,5200,7,2024,72,Transfermarkt; estimation
+DED:666:144600:taylor-booth,Taylor Booth,FC Twente '65,Eredivisie,Right Winger,1000000,4700,7,2025,94,Transfermarkt; estimation salaire
+DED:666:128457:mathias-kj-l,Mathias Kjølø,FC Twente '65,Eredivisie,Defensive Midfield,1250000,5200,7,2025,72,Transfermarkt; estimation
+DED:666:81022:bart-van-rooij,Bart van Rooij,FC Twente '65,Eredivisie,Right-Back,550000,3600,7,2025,60,estimation
+DED:666:16061:ricky-van-wolfswinkel,Ricky van Wolfswinkel,FC Twente '65,Eredivisie,Centre-Forward,400000,3200,7,2021,94,Transfermarkt; estimation salaire
+DED:666:7658:arno-verschueren,Arno Verschueren,FC Twente '65,Eredivisie,Attacking Midfield,500000,3500,7,2025,60,estimation
+DED:666:7455:sam-lammers,Sam Lammers,FC Twente '65,Eredivisie,Centre-Forward,3000000,8000,7,2024,94,Transfermarkt; estimation salaire
+DED:666:217937:daouda-weidmann,Daouda Weidmann,FC Twente '65,Eredivisie,Central Midfield,450000,3400,7,2025,60,estimation
+DED:666:192148:mats-rots,Mats Rots,FC Twente '65,Eredivisie,Left-Back,400000,3200,7,2025,60,estimation
+DED:666:167635:kristian-hlynsson,Kristian Hlynsson,FC Twente '65,Eredivisie,Attacking Midfield,400000,3200,7,2025,60,estimation
+DED:670:53496:stijn-van-gassel,Stijn van Gassel,SBV Excelsior,Eredivisie,Goalkeeper,1000000,4200,7,2024,94,Transfermarkt; estimation salaire
+DED:670:130107:calvin-raatsie,Calvin Raatsie,SBV Excelsior,Eredivisie,Goalkeeper,400000,3300,9,2021,60,estimation
+DED:670:272704:tijmen-holla,Tijmen Holla,SBV Excelsior,Eredivisie,Goalkeeper,400000,3300,8,2020,60,estimation
+DED:670:55224:ilias-bronkhorst,Ilias Bronkhorst,SBV Excelsior,Eredivisie,Defence,700000,4100,7,2024,60,estimation
+DED:670:81965:simon-janssen,Simon Janssen,SBV Excelsior,Eredivisie,Defence,650000,4000,8,2024,60,estimation
+DED:670:117956:arthur-zagre,Arthur Zagre,SBV Excelsior,Eredivisie,Defence,650000,4000,7,2023,60,estimation
+DED:670:144629:casper-widell,Casper Widell,SBV Excelsior,Eredivisie,Defence,1500000,5300,7,2023,94,Transfermarkt; estimation salaire
+DED:670:171630:stan-henderikx,Stan Henderikx,SBV Excelsior,Eredivisie,Defence,600000,3900,9,2024,60,estimation
+DED:670:263655:guilliano-cairo,Guilliano Caïro,SBV Excelsior,Eredivisie,Defence,600000,3900,8,2025,60,estimation
+DED:670:292283:gijs-van-den-berg,Gijs van den Berg,SBV Excelsior,Eredivisie,Defence,600000,3900,8,2021,60,estimation
+DED:670:7473:emil-hansson,Emil Hansson,SBV Excelsior,Eredivisie,Midfield,600000,3900,9,2024,60,estimation
+DED:670:124795:adam-carlen,Adam Carlén,SBV Excelsior,Eredivisie,Midfield,600000,3900,7,2023,60,estimation
+DED:670:154111:mathijs-tielemans,Mathijs Tielemans,SBV Excelsior,Eredivisie,Midfield,600000,3900,7,2024,60,estimation
+DED:670:171427:derensili-sanches-fernandes,Derensili Sanches Fernandes,SBV Excelsior,Eredivisie,Midfield,550000,3800,7,2024,60,estimation
+DED:670:171956:lennard-hartjes,Lennard Hartjes,SBV Excelsior,Eredivisie,Midfield,550000,3800,7,2024,60,estimation
+DED:670:176693:gyan-de-regt,Gyan de Regt,SBV Excelsior,Eredivisie,Midfield,500000,3700,7,2024,60,estimation
+DED:670:179498:noah-naujoks,Noah Naujoks,SBV Excelsior,Eredivisie,Midfield,500000,3700,7,2024,60,estimation
+DED:670:189609:miliano-jonathans,Miliano Jonathans,SBV Excelsior,Eredivisie,Midfield,500000,3700,7,2024,60,estimation
+DED:670:191155:irakli-yegoian,Irakli Yegoian,SBV Excelsior,Eredivisie,Midfield,450000,3600,7,2024,60,estimation
+DED:670:288528:noa-el-hamdaoui,Noa el Hamdaoui,SBV Excelsior,Eredivisie,Midfield,450000,3600,7,2025,60,estimation
+DED:670:7341:mike-van-duinen,Mike van Duinen,SBV Excelsior,Eredivisie,Offence,350000,3400,7,2025,60,estimation
+DED:670:145652:szymon-w-odarczyk,Szymon Włodarczyk,SBV Excelsior,Eredivisie,Offence,150000,2900,7,2025,60,estimation
+DED:670:261269:nesto-groen,Nesto Groen,SBV Excelsior,Eredivisie,Offence,150000,2900,7,2025,60,estimation
+DED:670:263649:jerroldino-armantrading,Jerroldino Armantrading,SBV Excelsior,Eredivisie,Offence,150000,2900,7,2025,60,estimation
+DED:670:177064:lewis-schouten,Lewis Schouten,SBV Excelsior,Eredivisie,Central Midfield,150000,2900,7,2025,60,estimation
+DED:670:149181:rick-meissen,Rick Meissen,SBV Excelsior,Eredivisie,Centre-Back,150000,2900,7,2025,60,estimation
+DED:670:124776:hamdi-akujobi,Hamdi Akujobi,SBV Excelsior,Eredivisie,Right-Back,100000,2700,7,2025,60,estimation
+DED:671:7578:remko-pasveer,Remko Pasveer,Heracles Almelo,Eredivisie,Goalkeeper,250000,5577,7,2025,96,Transfermarkt; Capology
+DED:671:56070:robin-mantel,Robin Mantel,Heracles Almelo,Eredivisie,Goalkeeper,250000,3700,9,2022,60,estimation
+DED:671:67930:fabian-de-keijzer,Fabian de Keijzer,Heracles Almelo,Eredivisie,Goalkeeper,250000,3700,8,2020,60,estimation
+DED:671:177975:timo-jansink,Timo Jansink,Heracles Almelo,Eredivisie,Goalkeeper,250000,3700,7,2023,60,estimation
+DED:671:279696:leco-zeevalkink,Leco Zeevalkink,Heracles Almelo,Eredivisie,Goalkeeper,250000,3700,1,2022,60,estimation
+DED:671:7521:mike-te-wierik,Mike te Wierik,Heracles Almelo,Eredivisie,Defence,400000,4400,1,2022,60,estimation
+DED:671:288488:jeppe-wijnreder,Jeppe Wijnreder,Heracles Almelo,Eredivisie,Defence,400000,4400,8,2021,60,estimation
+DED:671:294286:jesper-kerkdijk,Jesper Kerkdijk,Heracles Almelo,Eredivisie,Defence,400000,4400,7,2022,60,estimation
+DED:671:7528:ajdin-hrustic,Ajdin Hrustic,Heracles Almelo,Eredivisie,Midfield,450000,4500,1,2024,60,estimation
+DED:671:177605:rhys-bozinovski,Rhys Bozinovski,Heracles Almelo,Eredivisie,Midfield,400000,4400,1,2021,60,estimation
+DED:671:182042:tristan-van-gilst,Tristan van Gilst,Heracles Almelo,Eredivisie,Midfield,400000,4400,7,2020,60,estimation
+DED:671:288487:melle-roede,Melle Roede,Heracles Almelo,Eredivisie,Midfield,400000,4400,7,2020,60,estimation
+DED:671:288489:sil-blokhuis,Sil Blokhuis,Heracles Almelo,Eredivisie,Offence,350000,4300,8,2021,60,estimation
+DED:671:293491:tarik-hamamioglu,Tarik Hamamioğlu,Heracles Almelo,Eredivisie,Offence,350000,4300,7,2024,60,estimation
+DED:671:150521:sava-cestic,Sava Cestic,Heracles Almelo,Eredivisie,Centre-Back,350000,4300,8,2019,60,estimation
+DED:671:137026:naci-unuvar,Naci Ünüvar,Heracles Almelo,Eredivisie,Left Winger,300000,4100,7,2024,60,estimation
+DED:671:130178:bryan-limbombe,Bryan Limbombe,Heracles Almelo,Eredivisie,Right Winger,300000,4100,7,2024,60,estimation
+DED:671:118819:jannes-wieckhoff,Jannes Wieckhoff,Heracles Almelo,Eredivisie,Right-Back,300000,4100,7,2024,60,estimation
+DED:671:117473:ivan-mesik,Ivan Mesík,Heracles Almelo,Eredivisie,Centre-Back,300000,4100,7,2024,60,estimation
+DED:671:112779:jan-zamburek,Jan Žambůrek,Heracles Almelo,Eredivisie,Central Midfield,300000,4100,7,2024,60,estimation
+DED:671:111737:erik-ahlstrand,Erik Ahlstrand,Heracles Almelo,Eredivisie,Central Midfield,300000,4100,7,2024,60,estimation
+DED:671:100089:djevencio-van-der-kust,Djevencio van der Kust,Heracles Almelo,Eredivisie,Left-Back,250000,4000,7,2024,60,estimation
+DED:671:9714:damon-mirani,Damon Mirani,Heracles Almelo,Eredivisie,Centre-Back,250000,4000,7,2024,60,estimation
+DED:671:8651:jeff-reine-adelaide,Jeff Reine-Adelaïde,Heracles Almelo,Eredivisie,Attacking Midfield,250000,4000,7,2024,60,estimation
+DED:671:7596:thomas-bruns,Thomas Bruns,Heracles Almelo,Eredivisie,Attacking Midfield,250000,4000,7,2024,60,estimation
+DED:671:7235:mario-engels,Mario Engels,Heracles Almelo,Eredivisie,Right Winger,250000,4000,7,2025,60,estimation
+DED:671:263801:giandro-sambo,Giandro Sambo,Heracles Almelo,Eredivisie,Left Winger,250000,4000,7,2025,60,estimation
+DED:671:262684:luka-kulenovic,Luka Kulenović,Heracles Almelo,Eredivisie,Centre-Forward,100000,3400,7,2025,60,estimation
+DED:671:252865:jop-tijink,Jop Tijink,Heracles Almelo,Eredivisie,Centre-Back,100000,3400,7,2025,60,estimation
+DED:671:192656:alec-van-hoorenbeeck,Alec Van Hoorenbeeck,Heracles Almelo,Eredivisie,Centre-Back,100000,3400,7,2025,60,estimation
+DED:671:184974:yvandro-borges-sanches,Yvandro Borges Sanches,Heracles Almelo,Eredivisie,Left Winger,100000,3400,7,2025,60,estimation
+DED:671:178569:sem-scheperman,Sem Scheperman,Heracles Almelo,Eredivisie,Defensive Midfield,100000,3400,7,2025,60,estimation
+DED:671:177672:walid-ould-chikh,Walid Ould-Chikh,Heracles Almelo,Eredivisie,Attacking Midfield,100000,3400,7,2025,60,estimation
+DED:671:172448:mimeirhel-benita,Mimeirhel Benita,Heracles Almelo,Eredivisie,Right-Back,100000,3400,7,2025,60,estimation
+DED:671:167699:lequincio-zeefuik,Lequincio Zeefuik,Heracles Almelo,Eredivisie,Centre-Forward,100000,3400,7,2025,60,estimation
+DED:673:3053:andries-noppert,Andries Noppert,SC Heerenveen,Eredivisie,Goalkeeper,1250000,3800,7,2021,72,Transfermarkt; estimation
+DED:673:7410:jan-bekkema,Jan Bekkema,SC Heerenveen,Eredivisie,Goalkeeper,1250000,3800,7,2020,72,Transfermarkt; estimation
+DED:673:91983:nordin-bakker,Nordin Bakker,SC Heerenveen,Eredivisie,Goalkeeper,1250000,3800,1,2019,72,Transfermarkt; estimation
+DED:673:191291:bernt-klaverboer,Bernt Klaverboer,SC Heerenveen,Eredivisie,Goalkeeper,3000000,5700,7,2024,94,Transfermarkt; estimation salaire
+DED:673:273322:tjalling-van-keimpema,Tjalling van Keimpema,SC Heerenveen,Eredivisie,Goalkeeper,1250000,3800,9,2020,72,Transfermarkt; estimation
+DED:673:290648:timo-schreuder,Timo Schreuder,SC Heerenveen,Eredivisie,Goalkeeper,1250000,3800,9,2023,72,Transfermarkt; estimation
+DED:673:171410:maas-willemsen,Maas Willemsen,SC Heerenveen,Eredivisie,Defence,2000000,5100,1,2024,72,Transfermarkt; estimation
+DED:673:172254:hristiyan-petrov,Hristiyan Petrov,SC Heerenveen,Eredivisie,Defence,2000000,5100,1,2023,72,Transfermarkt; estimation
+DED:673:180528:nikolai-hopland,Nikolai Hopland,SC Heerenveen,Eredivisie,Defence,2000000,5100,7,2020,72,Transfermarkt; estimation
+DED:673:214149:mats-egbring,Mats Egbring,SC Heerenveen,Eredivisie,Defence,2000000,5100,1,2025,72,Transfermarkt; estimation
+DED:673:273452:robin-bouw,Robin Bouw,SC Heerenveen,Eredivisie,Defence,1750000,4800,8,2021,72,Transfermarkt; estimation
+DED:673:292039:ingmar-mulder,Ingmar Mulder,SC Heerenveen,Eredivisie,Defence,1750000,4800,1,2019,72,Transfermarkt; estimation
+DED:673:295318:clayton-bonevacia,Clayton Bonevacia,SC Heerenveen,Eredivisie,Defence,1750000,4800,8,2020,72,Transfermarkt; estimation
+DED:673:7684:joris-van-overeem,Joris van Overeem,SC Heerenveen,Eredivisie,Midfield,1750000,4800,7,2025,72,Transfermarkt; estimation
+DED:673:82116:luca-oyen,Luca Oyen,SC Heerenveen,Eredivisie,Midfield,1750000,4800,7,2024,72,Transfermarkt; estimation
+DED:673:246586:marcus-linday,Marcus Linday,SC Heerenveen,Eredivisie,Midfield,1750000,4800,7,2024,72,Transfermarkt; estimation
+DED:673:276661:kai-jansen,Kai Jansen,SC Heerenveen,Eredivisie,Midfield,1750000,4800,7,2024,72,Transfermarkt; estimation
+DED:673:280290:nolhan-courtens,Nolhan Courtens,SC Heerenveen,Eredivisie,Midfield,1750000,4800,7,2024,72,Transfermarkt; estimation
+DED:673:282707:jermaine-rijssel,Jermaine Rijssel,SC Heerenveen,Eredivisie,Midfield,750000,3300,7,2024,60,estimation
+DED:673:145170:lasse-nordas,Lasse Nordås,SC Heerenveen,Eredivisie,Offence,600000,3000,7,2024,60,estimation
+DED:673:272219:eser-gurbuz,Eser Gürbüz,SC Heerenveen,Eredivisie,Offence,600000,3000,7,2024,60,estimation
+DED:673:289599:kirayno-schaken,Kirayno Schaken,SC Heerenveen,Eredivisie,Offence,600000,3000,7,2024,60,estimation
+DED:673:171627:levi-smans,Levi Smans,SC Heerenveen,Eredivisie,Attacking Midfield,550000,2900,7,2024,60,estimation
+DED:673:168705:amourricho-van-axel-dongen,Amourricho van Axel Dongen,SC Heerenveen,Eredivisie,Left Winger,550000,2900,7,2025,60,estimation
+DED:673:137564:maxence-rivera,Maxence Rivera,SC Heerenveen,Eredivisie,Right Winger,550000,2900,7,2025,60,estimation
+DED:673:127930:vasilios-zagaritis,Vasilios Zagaritis,SC Heerenveen,Eredivisie,Left-Back,250000,2200,7,2025,60,estimation
+DED:673:125914:ringo-meerveld,Ringo Meerveld,SC Heerenveen,Eredivisie,Attacking Midfield,200000,2100,7,2025,60,estimation
+DED:673:53341:luuk-brouwers,Luuk Brouwers,SC Heerenveen,Eredivisie,Attacking Midfield,200000,2100,7,2025,60,estimation
+DED:673:53313:sam-kersten,Sam Kersten,SC Heerenveen,Eredivisie,Centre-Back,200000,2100,7,2025,60,estimation
+DED:673:7476:dylan-vente,Dylan Vente,SC Heerenveen,Eredivisie,Centre-Forward,200000,2100,7,2025,60,estimation
+DED:673:263863:isaiah-ahmed,Isaiah Ahmed,SC Heerenveen,Eredivisie,Central Midfield,200000,2100,7,2025,60,estimation
+DED:673:214414:oliver-braude,Oliver Braude,SC Heerenveen,Eredivisie,Right-Back,5000000,8100,7,2023,94,Transfermarkt; estimation salaire
+DED:673:210841:jacob-trenskow,Jacob Trenskow,SC Heerenveen,Eredivisie,Right Winger,7500000,10100,8,2024,94,Transfermarkt; estimation salaire
+DED:674:7673:nick-olij,Nick Olij,PSV,Eredivisie,Goalkeeper,11500000,23900,9,2025,72,Transfermarkt; estimation
+DED:674:136350:matej-kovar,Matej Kovar,PSV,Eredivisie,Goalkeeper,8000000,19300,7,2023,94,Transfermarkt; estimation salaire
+DED:674:172077:niek-schiks,Niek Schiks,PSV,Eredivisie,Goalkeeper,11000000,23300,7,2024,72,Transfermarkt; estimation
+DED:674:188079:tijn-smolenaars,Tijn Smolenaars,PSV,Eredivisie,Goalkeeper,11000000,23300,1,2024,72,Transfermarkt; estimation
+DED:674:7443:armando-obispo,Armando Obispo,PSV,Eredivisie,Defence,18500000,34600,7,2020,72,Transfermarkt; estimation
+DED:674:97534:sergino-dest,Sergiño Dest,PSV,Eredivisie,Defence,18000000,75385,7,2024,96,Transfermarkt; Capology
+DED:674:137693:anass-salah-eddine,Anass Salah-Eddine,PSV,Eredivisie,Defence,17500000,33400,9,2020,72,Transfermarkt; estimation
+DED:674:278178:fabian-merien,Fabian Merién,PSV,Eredivisie,Defence,17000000,32800,9,2025,72,Transfermarkt; estimation
+DED:674:7688:guus-til,Guus Til,PSV,Eredivisie,Midfield,18500000,34600,9,2024,72,Transfermarkt; estimation
+DED:674:130173:ismael-saibari,Ismael Saibari,PSV,Eredivisie,Midfield,18000000,34000,8,2019,72,Transfermarkt; estimation
+DED:674:176932:paul-wanner,Paul Wanner,PSV,Eredivisie,Midfield,17500000,33400,8,2024,72,Transfermarkt; estimation
+DED:674:215421:wessel-kuhn,Wessel Kuhn,PSV,Eredivisie,Midfield,17000000,32800,7,2023,72,Transfermarkt; estimation
+DED:674:218290:joel-van-den-berg,Joel van den Berg,PSV,Eredivisie,Midfield,16500000,32300,9,2025,72,Transfermarkt; estimation
+DED:674:218390:jordy-bawuah,Jordy Bawuah,PSV,Eredivisie,Midfield,16000000,31700,7,2024,72,Transfermarkt; estimation
+DED:674:220120:nicolas-verkooijen,Nicolas Verkooijen,PSV,Eredivisie,Midfield,15500000,31100,7,2024,72,Transfermarkt; estimation
+DED:674:263656:jim-koller,Jim Koller,PSV,Eredivisie,Midfield,15000000,30500,7,2024,72,Transfermarkt; estimation
+DED:674:283059:noah-fernandez,Noah Fernandez,PSV,Eredivisie,Midfield,4000000,14000,7,2024,94,Transfermarkt; estimation salaire
+DED:674:2004:ivan-perisic,Ivan Perišić,PSV,Eredivisie,Offence,12500000,27300,7,2024,72,Transfermarkt; estimation
+DED:674:119731:ricardo-pepi,Ricardo Pepi,PSV,Eredivisie,Offence,2750000,11300,7,2024,72,Transfermarkt; estimation
+DED:674:186380:esmir-bajraktarevic,Esmir Bajraktarevic,PSV,Eredivisie,Offence,2750000,11300,7,2024,72,Transfermarkt; estimation
+DED:674:53426:joey-veerman,Joey Veerman,PSV,Eredivisie,Central Midfield,2750000,11300,7,2024,72,Transfermarkt; estimation
+DED:674:15781:dennis-man,Dennis Man,PSV,Eredivisie,Right Winger,2500000,10700,7,2024,72,Transfermarkt; estimation
+DED:674:9770:jerdy-schouten,Jerdy Schouten,PSV,Eredivisie,Defensive Midfield,2500000,10700,7,2025,72,Transfermarkt; estimation
+DED:674:8443:alassane-plea,Alassane Pléa,PSV,Eredivisie,Centre-Forward,2500000,10700,7,2025,72,Transfermarkt; estimation
+DED:674:7703:myron-boadu,Myron Boadu,PSV,Eredivisie,Centre-Forward,1000000,6500,7,2025,72,Transfermarkt; estimation
+DED:674:7451:mauro-junior,Mauro Júnior,PSV,Eredivisie,Left-Back,1000000,6500,7,2025,72,Transfermarkt; estimation
+DED:674:221412:yarek-gasiorowski,Yarek Gasiorowski,PSV,Eredivisie,Centre-Back,950000,6400,7,2025,60,estimation
+DED:674:184642:ryan-flamingo,Ryan Flamingo,PSV,Eredivisie,Centre-Back,900000,6200,7,2025,60,estimation
+DED:674:181984:ruben-van-bommel,Ruben van Bommel,PSV,Eredivisie,Left Winger,850000,6000,7,2025,60,estimation
+DED:674:150536:couhaib-driouech,Couhaib Driouech,PSV,Eredivisie,Left Winger,800000,5800,7,2025,60,estimation
+DED:674:142790:kiliann-sildillia,Kiliann Sildillia,PSV,Eredivisie,Right-Back,800000,5800,7,2025,60,estimation
+DED:675:7375:timon-wellenreuther,Timon Wellenreuther,Feyenoord Rotterdam,Eredivisie,Goalkeeper,8000000,17200,7,2019,72,Transfermarkt; estimation
+DED:675:25610:liam-bossin,Liam Bossin,Feyenoord Rotterdam,Eredivisie,Goalkeeper,8000000,17200,7,2021,72,Transfermarkt; estimation
+DED:675:81055:steven-benda,Steven Benda,Feyenoord Rotterdam,Eredivisie,Goalkeeper,7750000,16900,1,2022,72,Transfermarkt; estimation
+DED:675:215555:mannou-berger,Mannou Berger,Feyenoord Rotterdam,Eredivisie,Goalkeeper,75000,1900,8,2024,94,Transfermarkt; estimation salaire
+DED:675:272665:ismail-ka,Ismail Ka,Feyenoord Rotterdam,Eredivisie,Goalkeeper,7500000,16600,7,2021,72,Transfermarkt; estimation
+DED:675:113595:tsuyoshi-watanabe,Tsuyoshi Watanabe,Feyenoord Rotterdam,Eredivisie,Defence,10000000,21300,7,2025,94,Transfermarkt; estimation salaire
+DED:675:176299:jordan-bos,Jordan Bos,Feyenoord Rotterdam,Eredivisie,Defence,12000000,23800,7,2025,94,Transfermarkt; estimation salaire
+DED:675:287879:lucas-gardenier,Lucas Gardenier,Feyenoord Rotterdam,Eredivisie,Defence,12500000,24300,1,2021,72,Transfermarkt; estimation
+DED:675:170561:in-beom-hwang,In-beom Hwang,Feyenoord Rotterdam,Eredivisie,Midfield,13500000,25500,8,2025,72,Transfermarkt; estimation
+DED:675:275067:tobias-van-den-elshout,Tobias van den Elshout,Feyenoord Rotterdam,Eredivisie,Midfield,13500000,25500,7,2022,72,Transfermarkt; estimation
+DED:675:276431:thijs-kraaijeveld,Thijs Kraaijeveld,Feyenoord Rotterdam,Eredivisie,Midfield,13000000,24900,7,2019,72,Transfermarkt; estimation
+DED:675:289522:ayoub-ouarghi,Ayoub Ouarghi,Feyenoord Rotterdam,Eredivisie,Midfield,13000000,24900,7,2025,72,Transfermarkt; estimation
+DED:675:290010:hakeem-agboluaje,Hakeem Agboluaje,Feyenoord Rotterdam,Eredivisie,Midfield,12500000,24300,9,2019,72,Transfermarkt; estimation
+DED:675:294289:ilai-grootfaam,Ilai Grootfaam,Feyenoord Rotterdam,Eredivisie,Midfield,12500000,24300,9,2020,72,Transfermarkt; estimation
+DED:675:119460:ayase-ueda,Ayase Ueda,Feyenoord Rotterdam,Eredivisie,Offence,10500000,22000,7,2019,72,Transfermarkt; estimation
+DED:675:244466:anis-moussa,Anis Moussa,Feyenoord Rotterdam,Eredivisie,Offence,10500000,22000,9,2022,72,Transfermarkt; estimation
+DED:675:265472:gaoussou-diarra,Gaoussou Diarra,Feyenoord Rotterdam,Eredivisie,Offence,10000000,21300,7,2024,72,Transfermarkt; estimation
+DED:675:272162:aymen-sliti,Aymen Sliti,Feyenoord Rotterdam,Eredivisie,Offence,10000000,21300,7,2019,72,Transfermarkt; estimation
+DED:675:289520:shaqueel-van-persie,Shaqueel van Persie,Feyenoord Rotterdam,Eredivisie,Offence,2250000,9100,7,2024,72,Transfermarkt; estimation
+DED:675:290011:jerayno-schaken,Jerayno Schaken,Feyenoord Rotterdam,Eredivisie,Offence,2250000,9100,7,2024,72,Transfermarkt; estimation
+DED:675:290649:arman-nahany,Arman Nahany,Feyenoord Rotterdam,Eredivisie,Offence,2250000,9100,7,2024,72,Transfermarkt; estimation
+DED:675:294282:jivayno-zinhagel,Jivayno Zinhagel,Feyenoord Rotterdam,Eredivisie,Offence,2250000,9100,7,2024,72,Transfermarkt; estimation
+DED:675:169190:luciano-valente,Luciano Valente,Feyenoord Rotterdam,Eredivisie,Left Winger,2000000,8500,7,2024,72,Transfermarkt; estimation
+DED:675:157781:oussama-targhalline,Oussama Targhalline,Feyenoord Rotterdam,Eredivisie,Central Midfield,2000000,8500,7,2024,72,Transfermarkt; estimation
+DED:675:129381:casper-tengstedt,Casper Tengstedt,Feyenoord Rotterdam,Eredivisie,Centre-Forward,2000000,8500,7,2024,72,Transfermarkt; estimation
+DED:675:126149:goncalo-borges,Gonçalo Borges,Feyenoord Rotterdam,Eredivisie,Right Winger,2000000,8500,7,2024,72,Transfermarkt; estimation
+DED:675:99952:jakub-moder,Jakub Moder,Feyenoord Rotterdam,Eredivisie,Central Midfield,2000000,8500,7,2024,72,Transfermarkt; estimation
+DED:675:80161:sem-steijn,Sem Steijn,Feyenoord Rotterdam,Eredivisie,Attacking Midfield,1750000,7900,7,2024,72,Transfermarkt; estimation
+DED:675:53430:gijs-smal,Gijs Smal,Feyenoord Rotterdam,Eredivisie,Left-Back,1750000,7900,7,2024,72,Transfermarkt; estimation
+DED:675:53317:mats-deijl,Mats Deijl,Feyenoord Rotterdam,Eredivisie,Right-Back,1750000,7900,7,2025,72,Transfermarkt; estimation
+DED:675:25615:anel-ahmedhodzic,Anel Ahmedhodzic,Feyenoord Rotterdam,Eredivisie,Centre-Back,1750000,7900,7,2025,72,Transfermarkt; estimation
+DED:675:16276:jordan-lotomba,Jordan Lotomba,Feyenoord Rotterdam,Eredivisie,Right-Back,750000,5100,7,2025,60,estimation
+DED:675:10716:gernot-trauner,Gernot Trauner,Feyenoord Rotterdam,Eredivisie,Centre-Back,750000,5100,7,2025,60,estimation
+DED:675:7471:bart-nieuwkoop,Bart Nieuwkoop,Feyenoord Rotterdam,Eredivisie,Right-Back,700000,5000,7,2025,60,estimation
+DED:675:7465:jerry-st-juste,Jerry St. Juste,Feyenoord Rotterdam,Eredivisie,Centre-Back,700000,5000,7,2025,60,estimation
+DED:675:3329:raheem-sterling,Raheem Sterling,Feyenoord Rotterdam,Eredivisie,Right Winger,650000,4800,7,2025,60,estimation
+DED:675:214587:leo-sauer,Leo Sauer,Feyenoord Rotterdam,Eredivisie,Left Winger,650000,4800,7,2025,60,estimation
+DED:675:214172:shiloh-t-zand,Shiloh 't Zand,Feyenoord Rotterdam,Eredivisie,Central Midfield,600000,4600,7,2025,60,estimation
+DED:675:202859:malcolm-jeng,Malcolm Jeng,Feyenoord Rotterdam,Eredivisie,Centre-Back,600000,4600,7,2025,60,estimation
+DED:675:186534:givairo-read,Givairo Read,Feyenoord Rotterdam,Eredivisie,Right-Back,550000,4400,7,2025,60,estimation
+DED:675:179504:thomas-beelen,Thomas Beelen,Feyenoord Rotterdam,Eredivisie,Centre-Back,550000,4400,7,2025,60,estimation
+DED:676:7345:michael-brouwer,Michael Brouwer,FC Utrecht,Eredivisie,Goalkeeper,2000000,92100,9,2025,72,Transfermarkt; estimation
+DED:676:157656:kevin-gadellaa,Kevin Gadellaa,FC Utrecht,Eredivisie,Goalkeeper,1500000,80100,7,2024,72,Transfermarkt; estimation
+DED:676:180855:vassilis-barkas,Vassilis Barkas,FC Utrecht,Eredivisie,Goalkeeper,450000,47800,7,2025,60,estimation

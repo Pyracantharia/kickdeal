@@ -1,0 +1,21 @@
+team_key,name,league,country,transfer_budget_eur,confidence_score,estimation_basis
+PL:57:arsenal-fc,Arsenal FC,Premier League,England,260000000,88,PSR headroom 2026-2027; revenus C1; plans mercato Sky Sports; Transfermarkt
+PL:58:aston-villa-fc,Aston Villa FC,Premier League,England,80000000,79,Contraintes PSR; revenus européens; activité mercato 2026-2027; estimation
+PL:61:chelsea-fc,Chelsea FC,Premier League,England,180000000,86,Ventes et achats 2026-2027; modèle BlueCo; activité Transfermarkt
+PL:62:everton-fc,Everton FC,Premier League,England,90000000,82,Nouvelle capacité financière; activité mercato 2026-2027; dépenses déjà engagées
+PL:63:fulham-fc,Fulham FC,Premier League,England,55000000,78,Budget club; besoins mercato Sky Sports; historique de dépenses; estimation
+PL:64:liverpool-fc,Liverpool FC,Premier League,England,190000000,87,Revenus C1; achats 2026-2027; puissance financière; activité Transfermarkt
+PL:65:manchester-city-fc,Manchester City FC,Premier League,England,250000000,85,PSR headroom élevé; revenus record; plans mercato 2026; activité Transfermarkt
+PL:66:manchester-united-fc,Manchester United FC,Premier League,England,140000000,82,Revenus élevés; dette et paiements différés; marge PSR estimée 2026-2027
+PL:67:newcastle-united-fc,Newcastle United FC,Premier League,England,150000000,88,Ventes majeures 2026; marge PSR accrue; dépenses déjà engagées; Transfermarkt
+PL:71:sunderland-afc,Sunderland AFC,Premier League,England,65000000,78,Budget club 2025-2026; maintien en Premier League; activité mercato 2026
+PL:73:tottenham-hotspur-fc,Tottenham Hotspur FC,Premier League,England,260000000,91,Dépenses majeures déjà engagées en 2026; puissance financière; Transfermarkt
+PL:76:wolverhampton-wanderers-fc,Wolverhampton Wanderers FC,Premier League,England,45000000,76,Budget club 2025-2026; ventes récentes; activité mercato 2026-2027
+PL:328:burnley-fc,Burnley FC,Premier League,England,55000000,77,Budget club 164 M€; maintien en Premier League; activité mercato 2026
+PL:341:leeds-united-fc,Leeds United FC,Premier League,England,70000000,79,Budget club 145 M€; maintien en Premier League; activité mercato 2026
+PL:351:nottingham-forest-fc,Nottingham Forest FC,Premier League,England,170000000,90,Vente record 2026; forte capacité de réinvestissement; activité Transfermarkt
+PL:354:crystal-palace-fc,Crystal Palace FC,Premier League,England,95000000,83,Revenus européens; valorisation effectif; plans mercato 2026; estimation
+PL:397:brighton-and-hove-albion-fc,Brighton & Hove Albion FC,Premier League,England,140000000,87,Forte capacité de trading; dépenses 2026; ventes récentes; Transfermarkt
+PL:402:brentford-fc,Brentford FC,Premier League,England,65000000,80,Budget club 180 M€; ventes récentes; activité mercato 2026-2027
+PL:563:west-ham-united-fc,West Ham United FC,Premier League,England,120000000,87,Vente majeure 2026; marge de réinvestissement; activité Transfermarkt
+PL:1044:afc-bournemouth,AFC Bournemouth,Premier League,England,90000000,83,Budget club 195 M€; activité mercato élevée; historique de dépenses récentes

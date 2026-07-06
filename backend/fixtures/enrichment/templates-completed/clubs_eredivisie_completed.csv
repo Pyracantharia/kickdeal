@@ -1,0 +1,19 @@
+team_key,name,league,country,transfer_budget_eur,confidence_score,estimation_basis
+DED:666:fc-twente-65,FC Twente '65,Eredivisie,Netherlands,18000000,80,Budget club; activité et solde Transfermarkt 2026-2027
+DED:670:sbv-excelsior,SBV Excelsior,Eredivisie,Netherlands,4000000,70,Capacité financière; activité transferts 2026-2027; estimation
+DED:671:heracles-almelo,Heracles Almelo,Eredivisie,Netherlands,5000000,72,Budget club; activité transferts 2026-2027; estimation
+DED:673:sc-heerenveen,SC Heerenveen,Eredivisie,Netherlands,10000000,78,Budget club; historique de dépenses; solde Transfermarkt 2026-2027
+DED:674:psv,PSV,Eredivisie,Netherlands,65000000,87,Puissance financière; revenus européens; activité Transfermarkt 2026-2027
+DED:675:feyenoord-rotterdam,Feyenoord Rotterdam,Eredivisie,Netherlands,50000000,86,Revenus européens; ventes récentes; solde Transfermarkt 2026-2027
+DED:676:fc-utrecht,FC Utrecht,Eredivisie,Netherlands,18000000,81,Budget club; activité et solde Transfermarkt 2026-2027
+DED:677:fc-groningen,FC Groningen,Eredivisie,Netherlands,9000000,77,Budget club; activité transferts 2026-2027; estimation
+DED:678:afc-ajax,AFC Ajax,Eredivisie,Netherlands,55000000,85,Puissance financière; ventes récentes; activité Transfermarkt 2026-2027
+DED:681:nac-breda,NAC Breda,Eredivisie,Netherlands,5000000,72,Capacité financière; activité transferts 2026-2027; estimation
+DED:682:az,AZ,Eredivisie,Netherlands,30000000,84,Ventes récentes; modèle de trading; solde Transfermarkt 2026-2027
+DED:684:pec-zwolle,PEC Zwolle,Eredivisie,Netherlands,5000000,72,Budget club; activité transferts 2026-2027; estimation
+DED:718:go-ahead-eagles,Go Ahead Eagles,Eredivisie,Netherlands,12000000,80,Progression sportive; activité et solde Transfermarkt 2026-2027
+DED:1912:telstar-1963,Telstar 1963,Eredivisie,Netherlands,2500000,65,Club promu; capacité financière estimée; activité 2026-2027
+DED:1915:nec,NEC,Eredivisie,Netherlands,15000000,80,Budget club; activité et solde Transfermarkt 2026-2027
+DED:1919:fc-volendam,FC Volendam,Eredivisie,Netherlands,4000000,68,Capacité financière; activité transferts 2026-2027; estimation
+DED:1920:fortuna-sittard,Fortuna Sittard,Eredivisie,Netherlands,8000000,76,Budget club; activité transferts 2026-2027; estimation
+DED:6806:sparta-rotterdam,Sparta Rotterdam,Eredivisie,Netherlands,12000000,80,Budget club; ventes récentes; solde Transfermarkt 2026-2027

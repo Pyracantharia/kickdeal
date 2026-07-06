@@ -1,0 +1,198 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+DED:684:53412:kaj-de-rooij,Kaj de Rooij,PEC Zwolle,Eredivisie,Right Winger,650000,5500,7,2025,86,Transfermarkt; estimation salaire
+DED:684:9701:koen-kostons,Koen Kostons,PEC Zwolle,Eredivisie,Centre-Forward,750000,5800,7,2025,86,Transfermarkt; estimation salaire
+DED:684:7607:thomas-buitink,Thomas Buitink,PEC Zwolle,Eredivisie,Centre-Forward,800000,6000,7,2024,86,Transfermarkt; estimation salaire
+DED:684:7499:odysseus-velanas,Odysseus Velanas,PEC Zwolle,Eredivisie,Attacking Midfield,900000,6300,7,2023,86,Transfermarkt; estimation salaire
+DED:684:214428:nick-fichtinger,Nick Fichtinger,PEC Zwolle,Eredivisie,Defensive Midfield,1200000,7200,7,2024,86,Transfermarkt; estimation salaire
+DED:718:17014:jari-de-busser,Jari De Busser,Go Ahead Eagles,Eredivisie,Goalkeeper,1500000,6300,7,2025,86,Transfermarkt; estimation salaire
+DED:718:56849:luca-plogmann,Luca Plogmann,Go Ahead Eagles,Eredivisie,Goalkeeper,600000,4100,7,2024,86,Transfermarkt; estimation salaire
+DED:718:154572:sven-jansen,Sven Jansen,Go Ahead Eagles,Eredivisie,Goalkeeper,100000,1200,7,2025,78,Transfermarkt; estimation
+DED:718:177271:nando-verdoni,Nando Verdoni,Go Ahead Eagles,Eredivisie,Goalkeeper,50000,1100,7,2025,78,Transfermarkt; estimation
+DED:718:192851:eus-waayers,Eus Waayers,Go Ahead Eagles,Eredivisie,Goalkeeper,75000,1200,7,2025,78,Transfermarkt; estimation
+DED:718:10139:melle-meulensteen,Melle  Meulensteen,Go Ahead Eagles,Eredivisie,Defence,1500000,7000,7,2025,78,Transfermarkt; estimation
+DED:718:31140:alfons-sampsted,Alfons Sampsted,Go Ahead Eagles,Eredivisie,Defence,1200000,6300,7,2025,78,Transfermarkt; estimation
+DED:718:214155:giovanni-van-zwam,Giovanni van Zwam,Go Ahead Eagles,Eredivisie,Defence,500000,4300,7,2025,78,Transfermarkt; estimation
+DED:718:289666:dani-tijman,Dani Tijman,Go Ahead Eagles,Eredivisie,Defence,75000,1300,7,2025,78,Transfermarkt; estimation
+DED:718:279695:yassir-salah-rahmouni,Yassir Salah Rahmouni,Go Ahead Eagles,Eredivisie,Midfield,100000,1400,7,2025,78,Transfermarkt; estimation
+DED:718:117884:stefan-ingi-sigur-arson,Stefán Ingi Sigurðarson,Go Ahead Eagles,Eredivisie,Offence,1200000,6300,7,2025,78,Transfermarkt; estimation
+DED:718:180531:oskar-sivertsen,Oskar Sivertsen,Go Ahead Eagles,Eredivisie,Offence,1500000,7000,7,2025,78,Transfermarkt; estimation
+DED:718:248997:jaden-slory,Jaden Slory,Go Ahead Eagles,Eredivisie,Offence,4000000,6731,7,2025,96,Transfermarkt; Capology
+DED:718:276080:ofosu-boakye,Ofosu Boakye,Go Ahead Eagles,Eredivisie,Offence,250000,2400,7,2025,78,Transfermarkt; estimation
+DED:718:187185:robbin-weijenberg,Robbin Weijenberg,Go Ahead Eagles,Eredivisie,Central Midfield,700000,4900,7,2025,78,Transfermarkt; estimation
+DED:718:187178:pim-saathof,Pim Saathof,Go Ahead Eagles,Eredivisie,Right-Back,500000,4300,7,2025,78,Transfermarkt; estimation
+DED:718:186571:aske-adelgaard,Aske Adelgaard,Go Ahead Eagles,Eredivisie,Left-Back,2500000,9000,7,2024,86,Transfermarkt; estimation salaire
+DED:718:157121:julius-dirksen,Julius Dirksen,Go Ahead Eagles,Eredivisie,Centre-Back,1800000,7600,7,2024,86,Transfermarkt; estimation salaire
+DED:718:151613:mathis-suray,Mathis Suray,Go Ahead Eagles,Eredivisie,Attacking Midfield,1800000,7600,7,2024,86,Transfermarkt; estimation salaire
+DED:718:149091:dean-james,Dean James,Go Ahead Eagles,Eredivisie,Left-Back,2200000,8400,7,2023,86,Transfermarkt; estimation salaire
+DED:718:147764:thibo-baeten,Thibo Baeten,Go Ahead Eagles,Eredivisie,Centre-Forward,1500000,7000,7,2025,78,Transfermarkt; estimation
+DED:718:144445:victor-edvardsen,Victor Edvardsen,Go Ahead Eagles,Eredivisie,Centre-Forward,1800000,7600,7,2023,86,Transfermarkt; estimation salaire
+DED:718:144367:jakob-breum,Jakob Breum,Go Ahead Eagles,Eredivisie,Left Winger,6000000,12000,7,2023,86,Transfermarkt; estimation salaire
+DED:718:121280:s-ren-tengstedt,Søren Tengstedt,Go Ahead Eagles,Eredivisie,Right Winger,1500000,7000,7,2025,78,Transfermarkt; estimation
+DED:718:102404:richonell-margaret,Richonell Margaret,Go Ahead Eagles,Eredivisie,Centre-Forward,1200000,6300,7,2025,78,Transfermarkt; estimation
+DED:718:67919:kenzo-goudmijn,Kenzo Goudmijn,Go Ahead Eagles,Eredivisie,Central Midfield,3000000,9900,7,2025,86,Transfermarkt; estimation salaire
+DED:718:53490:finn-stokkers,Finn Stokkers,Go Ahead Eagles,Eredivisie,Centre-Forward,500000,4300,7,2024,86,Transfermarkt; estimation salaire
+DED:718:9931:gerrit-nauber,Gerrit Nauber,Go Ahead Eagles,Eredivisie,Centre-Back,500000,4300,7,2021,86,Transfermarkt; estimation salaire
+DED:718:7682:joris-kramer,Joris Kramer,Go Ahead Eagles,Eredivisie,Centre-Back,1500000,7000,7,2023,86,Transfermarkt; estimation salaire
+DED:718:7303:evert-linthorst,Evert Linthorst,Go Ahead Eagles,Eredivisie,Defensive Midfield,2500000,9000,7,2022,86,Transfermarkt; estimation salaire
+DED:1912:102186:daan-reiziger,Daan Reiziger,Telstar 1963,Eredivisie,Goalkeeper,600000,2600,7,2024,86,Transfermarkt; estimation salaire
+DED:1912:171283:tyrick-bodak,Tyrick Bodak,Telstar 1963,Eredivisie,Goalkeeper,75000,900,7,2025,78,Transfermarkt; estimation
+DED:1912:171423:ronald-koeman-jr,Ronald Koeman Jr.,Telstar 1963,Eredivisie,Goalkeeper,250000,1300,7,2024,86,Transfermarkt; estimation salaire
+DED:1912:274551:finn-mulder,Finn Mulder,Telstar 1963,Eredivisie,Goalkeeper,50000,900,7,2025,78,Transfermarkt; estimation
+DED:1912:7354:jeff-hardeveld,Jeff Hardeveld,Telstar 1963,Eredivisie,Defence,250000,1500,7,2024,86,Transfermarkt; estimation salaire
+DED:1912:7624:danny-bakker,Danny Bakker,Telstar 1963,Eredivisie,Defence,300000,1600,7,2023,86,Transfermarkt; estimation salaire
+DED:1912:80283:dion-malone,Dion Malone,Telstar 1963,Eredivisie,Defence,250000,1500,7,2024,86,Transfermarkt; estimation salaire
+DED:1912:92124:nigel-nwankwo,Nigel Nwankwo,Telstar 1963,Eredivisie,Defence,150000,1300,7,2025,78,Transfermarkt; estimation
+DED:1912:171436:devon-koswal,Devon Koswal,Telstar 1963,Eredivisie,Defence,500000,2700,7,2025,78,Transfermarkt; estimation
+DED:1912:191954:tyrese-noslin,Tyrese Noslin,Telstar 1963,Eredivisie,Defence,250000,1500,7,2025,78,Transfermarkt; estimation
+DED:1912:219215:adil-lechkar,Adil Lechkar,Telstar 1963,Eredivisie,Defence,250000,1500,7,2025,78,Transfermarkt; estimation
+DED:1912:219280:neville-ogidi-nwankwo,Neville Ogidi Nwankwo,Telstar 1963,Eredivisie,Defence,250000,1500,7,2025,78,Transfermarkt; estimation
+DED:1912:226917:tyrone-owusu,Tyrone Owusu,Telstar 1963,Eredivisie,Defence,600000,2900,7,2023,86,Transfermarkt; estimation salaire
+DED:1912:244256:guus-offerhaus,Guus Offerhaus,Telstar 1963,Eredivisie,Defence,650000,3000,7,2023,86,Transfermarkt; estimation salaire
+DED:1912:263658:abdelraffie-benzzine,Abdelraffie Benzzine,Telstar 1963,Eredivisie,Defence,100000,900,7,2025,78,Transfermarkt; estimation
+DED:1912:275265:yamano-olfers,Yamano Olfers,Telstar 1963,Eredivisie,Defence,100000,900,7,2025,78,Transfermarkt; estimation
+DED:1912:292533:amin-bouchouari,Amin Bouchouari,Telstar 1963,Eredivisie,Defence,500000,2700,7,2025,78,Transfermarkt; estimation
+DED:1912:117796:nokkvi-orisson,Nökkvi Þórisson,Telstar 1963,Eredivisie,Midfield,1200000,4000,7,2025,86,Transfermarkt; estimation salaire
+DED:1912:177052:nils-rossen,Nils Rossen,Telstar 1963,Eredivisie,Midfield,700000,3100,7,2024,86,Transfermarkt; estimation salaire
+DED:1912:184643:patrick-brouwer,Patrick Brouwer,Telstar 1963,Eredivisie,Midfield,500000,2700,7,2023,86,Transfermarkt; estimation salaire
+DED:1912:217462:gerald-alders,Gerald Alders,Telstar 1963,Eredivisie,Midfield,1000000,3600,7,2025,86,Transfermarkt; estimation salaire
+DED:1912:245618:cedric-hatenboer,Cedric Hatenboer,Telstar 1963,Eredivisie,Midfield,3000000,6300,7,2025,86,Transfermarkt; estimation salaire
+DED:1912:279131:rayyan-koubini,Rayyan Koubini,Telstar 1963,Eredivisie,Midfield,100000,900,7,2025,78,Transfermarkt; estimation
+DED:1912:282877:rojendro-oudsten,Rojendro Oudsten,Telstar 1963,Eredivisie,Midfield,75000,900,7,2025,78,Transfermarkt; estimation
+DED:1912:183536:dylan-mertens,Dylan Mertens,Telstar 1963,Eredivisie,Offence,500000,2700,7,2024,86,Transfermarkt; estimation salaire
+DED:1912:244046:sem-van-duijn,Sem van Duijn,Telstar 1963,Eredivisie,Offence,250000,1500,7,2025,78,Transfermarkt; estimation
+DED:1912:244492:soufiane-hetli,Soufiane Hetli,Telstar 1963,Eredivisie,Offence,650000,3000,7,2024,86,Transfermarkt; estimation salaire
+DED:1912:273131:jelani-seedorf,Jelani Seedorf,Telstar 1963,Eredivisie,Offence,300000,1600,7,2025,78,Transfermarkt; estimation
+DED:1912:211708:jochem-ritmeester-van-de-kamp,Jochem Ritmeester van de Kamp,Telstar 1963,Eredivisie,Central Midfield,2500000,5700,7,2025,86,Transfermarkt; estimation salaire
+DED:1912:53432:kay-tejan,Kay Tejan,Telstar 1963,Eredivisie,Centre-Forward,600000,2900,7,2024,86,Transfermarkt; estimation salaire
+DED:1915:15860:jasper-cillessen,Jasper Cillessen,NEC,Eredivisie,Goalkeeper,300000,3200,7,2024,86,Transfermarkt; estimation salaire
+DED:1915:126924:gonzalo-crettaz,Gonzalo Crettaz,NEC,Eredivisie,Goalkeeper,4000000,14600,7,2025,86,Transfermarkt; estimation salaire
+DED:1915:176714:rijk-janse,Rijk Janse,NEC,Eredivisie,Goalkeeper,50000,1500,7,2025,78,Transfermarkt; estimation
+DED:1915:263653:martijn-overmars,Martijn Overmars,NEC,Eredivisie,Goalkeeper,50000,1500,7,2025,78,Transfermarkt; estimation
+DED:1915:273615:freek-entius,Freek Entius,NEC,Eredivisie,Goalkeeper,50000,1500,7,2025,78,Transfermarkt; estimation
+DED:1915:6708:jetro-willems,Jetro Willems,NEC,Eredivisie,Defence,500000,6000,7,2024,86,Transfermarkt; estimation salaire
+DED:1915:64612:eli-dasa,Eli Dasa,NEC,Eredivisie,Defence,600000,6400,7,2025,86,Transfermarkt; estimation salaire
+DED:1915:97164:darko-nejasmic,Darko Nejašmić,NEC,Eredivisie,Defence,3000000,13900,7,2025,86,Transfermarkt; estimation salaire
+DED:1915:177433:deveron-fonville,Deveron Fonville,NEC,Eredivisie,Defence,1500000,9800,7,2025,78,Transfermarkt; estimation
+DED:1915:285237:yassin-moslih,Yassin Moslih,NEC,Eredivisie,Defence,500000,6000,7,2025,78,Transfermarkt; estimation
+DED:1915:290976:douwe-vernooij,Douwe Vernooij,NEC,Eredivisie,Defence,75000,1800,7,2025,78,Transfermarkt; estimation
+DED:1915:293710:mees-rensen,Mees Rensen,NEC,Eredivisie,Defence,100000,1900,7,2025,78,Transfermarkt; estimation
+DED:1915:21733:tjaronn-chery,Tjaronn Chery,NEC,Eredivisie,Midfield,400000,5500,1,2024,86,Transfermarkt; estimation salaire
+DED:1915:184259:willum-thor-willumsson,Willum Thór Willumsson,NEC,Eredivisie,Midfield,4000000,16200,7,2025,86,Transfermarkt; estimation salaire
+DED:1915:282514:sam-de-laat,Sam de Laat,NEC,Eredivisie,Midfield,75000,1800,7,2025,78,Transfermarkt; estimation
+DED:1915:7602:bryan-linssen,Bryan Linssen,NEC,Eredivisie,Offence,500000,6000,7,2025,86,Transfermarkt; estimation salaire
+DED:1915:15463:virgil-misidjan,Virgil Misidjan,NEC,Eredivisie,Offence,800000,7300,7,2025,86,Transfermarkt; estimation salaire
+DED:1915:48659:koki-ogawa,Koki Ogawa,NEC,Eredivisie,Offence,7000000,18000,7,2023,86,Transfermarkt; estimation salaire
+DED:1915:67903:danilo,Danilo,NEC,Eredivisie,Offence,2500000,12600,7,2025,86,Transfermarkt; estimation salaire
+DED:1915:97017:youssef-el-kachati,Youssef El Kachati,NEC,Eredivisie,Offence,800000,7300,7,2025,78,Transfermarkt; estimation
+DED:1915:288803:jesaja-mustapha,Jesaja Mustapha,NEC,Eredivisie,Offence,1200000,8800,7,2025,78,Transfermarkt; estimation
+DED:1915:290975:kevin-kers,Kevin Kers,NEC,Eredivisie,Offence,100000,1900,7,2025,78,Transfermarkt; estimation
+DED:1915:150656:ahmetcan-kaplan,Ahmetcan Kaplan,NEC,Eredivisie,Centre-Back,5000000,18000,7,2025,86,Transfermarkt; estimation salaire
+DED:1915:145276:isak-hansen-aar-en,Isak Hansen-Aarøen,NEC,Eredivisie,Attacking Midfield,4000000,16200,7,2025,86,Transfermarkt; estimation salaire
+DED:1915:131178:dirk-proper,Dirk Proper,NEC,Eredivisie,Defensive Midfield,7000000,18000,7,2020,86,Transfermarkt; estimation salaire
+DED:1915:7726:philippe-sandler,Philippe Sandler,NEC,Eredivisie,Centre-Back,2000000,11300,8,2022,86,Transfermarkt; estimation salaire
+DED:1915:7685:thomas-ouwejan,Thomas Ouwejan,NEC,Eredivisie,Left-Back,700000,6900,7,2024,86,Transfermarkt; estimation salaire
+DED:1915:2119:bram-nuytinck,Bram Nuytinck,NEC,Eredivisie,Centre-Back,200000,3100,7,2023,86,Transfermarkt; estimation salaire
+DED:1915:217935:kodai-sano,Kodai Sano,NEC,Eredivisie,Left Winger,10000000,18000,7,2023,86,Transfermarkt; estimation salaire
+DED:1915:187040:sami-ouaissa,Sami Ouaissa,NEC,Eredivisie,Attacking Midfield,5000000,18000,7,2024,86,Transfermarkt; estimation salaire
+DED:1915:182241:noe-lebreton,Noe Lebreton,NEC,Eredivisie,Defensive Midfield,2500000,12600,7,2025,78,Transfermarkt; estimation
+DED:1915:178127:basar-onal,Basar Onal,NEC,Eredivisie,Left Winger,7000000,18000,7,2024,86,Transfermarkt; estimation salaire
+DED:1915:176767:brayann-pereira,Brayann Pereira,NEC,Eredivisie,Right-Back,1000000,8000,7,2025,86,Transfermarkt; estimation salaire
+DED:1919:150428:dion-vlak,Dion Vlak,FC Volendam,Eredivisie,Goalkeeper,700000,3500,7,2024,86,Transfermarkt; estimation salaire
+DED:1919:186557:kayne-van-oevelen,Kayne van Oevelen,FC Volendam,Eredivisie,Goalkeeper,1000000,4100,7,2024,86,Transfermarkt; estimation salaire
+DED:1919:190993:arouna-kabba,Arouna Kabba,FC Volendam,Eredivisie,Goalkeeper,100000,1000,7,2025,78,Transfermarkt; estimation
+DED:1919:191207:roy-steur,Roy Steur,FC Volendam,Eredivisie,Goalkeeper,50000,900,7,2025,78,Transfermarkt; estimation
+DED:1919:202307:yaell-samson,Yaell Samson,FC Volendam,Eredivisie,Goalkeeper,50000,900,7,2025,78,Transfermarkt; estimation
+DED:1919:9602:mawouna-amevor,Mawouna Amevor,FC Volendam,Eredivisie,Defence,250000,1900,7,2023,86,Transfermarkt; estimation salaire
+DED:1919:53429:alex-plat,Alex Plat,FC Volendam,Eredivisie,Defence,300000,2000,7,2022,86,Transfermarkt; estimation salaire
+DED:1919:130171:yannick-leliendal,Yannick Leliendal,FC Volendam,Eredivisie,Defence,1000000,4600,7,2025,86,Transfermarkt; estimation salaire
+DED:1919:189583:deron-payne,Deron Payne,FC Volendam,Eredivisie,Defence,500000,3400,7,2024,86,Transfermarkt; estimation salaire
+DED:1919:221767:nick-verschuren,Nick Verschuren,FC Volendam,Eredivisie,Defence,1000000,4600,7,2026,86,Transfermarkt; estimation salaire
+DED:1919:248937:precious-ugwu,Precious Ugwu,FC Volendam,Eredivisie,Defence,500000,3400,7,2025,78,Transfermarkt; estimation
+DED:1919:250646:myron-mau-asam,Myron Mau-Asam,FC Volendam,Eredivisie,Defence,100000,1100,7,2025,78,Transfermarkt; estimation
+DED:1919:267873:luca-blondeau,Luca Blondeau,FC Volendam,Eredivisie,Defence,150000,1600,7,2025,78,Transfermarkt; estimation
+DED:1919:7518:juninho-bacuna,Juninho Bacuna,FC Volendam,Eredivisie,Midfield,1200000,5000,7,2025,86,Transfermarkt; estimation salaire
+DED:1919:10138:ozan-kokcu,Özan Kökçü,FC Volendam,Eredivisie,Midfield,600000,3600,7,2024,86,Transfermarkt; estimation salaire
+DED:1919:161294:silvinho-esajas,Silvinho Esajas,FC Volendam,Eredivisie,Midfield,150000,1600,7,2025,78,Transfermarkt; estimation
+DED:1919:215429:nordin-bukala,Nordin Bukala,FC Volendam,Eredivisie,Midfield,600000,3600,7,2025,86,Transfermarkt; estimation salaire
+DED:1919:217987:gibbo-yah,Gibbo Yah,FC Volendam,Eredivisie,Midfield,500000,3400,7,2025,78,Transfermarkt; estimation
+DED:1919:246072:mika-van-der-horst,Mika van der Horst,FC Volendam,Eredivisie,Midfield,100000,1100,7,2025,78,Transfermarkt; estimation
+DED:1919:263909:tiago-codinha,Tiago Codinha,FC Volendam,Eredivisie,Midfield,100000,1100,7,2025,78,Transfermarkt; estimation
+DED:1919:270265:anass-bouziane,Anass Bouziane,FC Volendam,Eredivisie,Midfield,200000,1700,7,2025,78,Transfermarkt; estimation
+DED:1919:282705:robin-van-cruijsen,Robin van Cruijsen,FC Volendam,Eredivisie,Midfield,600000,3600,7,2025,78,Transfermarkt; estimation
+DED:1919:7429:henk-veerman,Henk Veerman,FC Volendam,Eredivisie,Offence,250000,1900,7,2023,86,Transfermarkt; estimation salaire
+DED:1919:7510:bilal-ould-chikh,Bilal Ould-Chikh,FC Volendam,Eredivisie,Offence,600000,3600,7,2022,86,Transfermarkt; estimation salaire
+DED:1919:7773:robert-muhren,Robert Mühren,FC Volendam,Eredivisie,Offence,150000,1600,7,2021,86,Transfermarkt; estimation salaire
+DED:1919:157061:aurelio-oehlers,Aurelio Oehlers,FC Volendam,Eredivisie,Offence,500000,3400,7,2025,78,Transfermarkt; estimation
+DED:1919:190770:brandley-kuwas,Brandley Kuwas,FC Volendam,Eredivisie,Offence,250000,1900,7,2025,78,Transfermarkt; estimation
+DED:1919:214142:joel-ideho,Joël Ideho,FC Volendam,Eredivisie,Offence,300000,2000,7,2026,86,Transfermarkt; estimation salaire
+DED:1919:231106:benjamin-pauwels,Benjamin Pauwels,FC Volendam,Eredivisie,Offence,1000000,4600,7,2025,86,Transfermarkt; estimation salaire
+DED:1919:273393:key-shawn-wong-a-soij,Key-Shawn Wong-a-Soij,FC Volendam,Eredivisie,Offence,250000,1900,7,2025,78,Transfermarkt; estimation
+DED:1919:282709:jesper-tielemans,Jesper Tielemans,FC Volendam,Eredivisie,Offence,50000,900,7,2025,78,Transfermarkt; estimation
+DED:1919:188075:dave-kwakman,Dave Kwakman,FC Volendam,Eredivisie,Central Midfield,1500000,5500,7,2024,86,Transfermarkt; estimation salaire
+DED:1919:136381:anthony-descotte,Anthony Descotte,FC Volendam,Eredivisie,Centre-Forward,1800000,6000,7,2025,86,Transfermarkt; estimation salaire
+DED:1919:7623:aaron-meijers,Aaron Meijers,FC Volendam,Eredivisie,Left-Back,150000,1600,7,2024,86,Transfermarkt; estimation salaire
+DED:1920:7373:mattijs-branderhorst,Mattijs Branderhorst,Fortuna Sittard,Eredivisie,Goalkeeper,700000,5600,7,2024,86,Transfermarkt; estimation salaire
+DED:1920:7434:luuk-koopmans,Luuk Koopmans,Fortuna Sittard,Eredivisie,Goalkeeper,200000,2500,7,2020,86,Transfermarkt; estimation salaire
+DED:1920:7486:nick-marsman,Nick Marsman,Fortuna Sittard,Eredivisie,Goalkeeper,125000,2200,7,2026,86,Transfermarkt; estimation salaire
+DED:1920:217955:niels-martens,Niels Martens,Fortuna Sittard,Eredivisie,Goalkeeper,50000,1400,7,2025,78,Transfermarkt; estimation
+DED:1920:251087:ramazan-bayram,Ramazan Bayram,Fortuna Sittard,Eredivisie,Goalkeeper,50000,1400,7,2025,78,Transfermarkt; estimation
+DED:1920:292026:lars-van-parys,Lars Van Parys,Fortuna Sittard,Eredivisie,Goalkeeper,50000,1400,7,2025,78,Transfermarkt; estimation
+DED:1920:251232:daan-bisschops,Daan Bisschops,Fortuna Sittard,Eredivisie,Defence,100000,1800,7,2025,78,Transfermarkt; estimation
+DED:1920:278365:alhaji-bah,Alhaji Bah,Fortuna Sittard,Eredivisie,Defence,150000,2600,7,2025,78,Transfermarkt; estimation
+DED:1920:290009:wassim-elasri,Wassim Elasri,Fortuna Sittard,Eredivisie,Defence,100000,1800,7,2025,78,Transfermarkt; estimation
+DED:1920:295317:gani-durmus-buyukhan,Gani Durmus Büyükhan,Fortuna Sittard,Eredivisie,Defence,100000,1800,7,2025,78,Transfermarkt; estimation
+DED:1920:43513:dimitris-limnios,Dimitris Limnios,Fortuna Sittard,Eredivisie,Midfield,1200000,8000,7,2025,86,Transfermarkt; estimation salaire
+DED:1920:67979:justin-lonwijk,Justin Lonwijk,Fortuna Sittard,Eredivisie,Midfield,800000,6600,7,2025,86,Transfermarkt; estimation salaire
+DED:1920:81053:lance-duijvestijn,Lance Duijvestijn,Fortuna Sittard,Eredivisie,Midfield,1200000,8000,7,2025,86,Transfermarkt; estimation salaire
+DED:1920:102339:mohammed-ihattaren,Mohammed Ihattaren,Fortuna Sittard,Eredivisie,Midfield,1500000,8900,1,2025,86,Transfermarkt; estimation salaire
+DED:1920:171440:philip-brittijn,Philip Brittijn,Fortuna Sittard,Eredivisie,Midfield,1000000,7400,7,2025,86,Transfermarkt; estimation salaire
+DED:1920:221391:owen-johnson,Owen Johnson,Fortuna Sittard,Eredivisie,Midfield,100000,1800,7,2025,78,Transfermarkt; estimation
+DED:1920:252886:tristan-schenkhuizen,Tristan Schenkhuizen,Fortuna Sittard,Eredivisie,Midfield,100000,1800,7,2025,78,Transfermarkt; estimation
+DED:1920:270541:hasip-korkmazyurek,Hasip Korkmazyürek,Fortuna Sittard,Eredivisie,Midfield,100000,1800,7,2025,78,Transfermarkt; estimation
+DED:1920:282441:moussa-gbemou,Moussa Gbemou,Fortuna Sittard,Eredivisie,Midfield,150000,2600,7,2025,78,Transfermarkt; estimation
+DED:1920:287444:amin-laoukili,Amin Laoukili,Fortuna Sittard,Eredivisie,Midfield,100000,1800,7,2025,78,Transfermarkt; estimation
+DED:1920:7370:paul-gladon,Paul Gladon,Fortuna Sittard,Eredivisie,Offence,250000,3000,7,2025,78,Transfermarkt; estimation
+DED:1920:160443:edouard-michut,Edouard Michut,Fortuna Sittard,Eredivisie,Offence,1200000,13077,7,2024,96,Transfermarkt; Capology
+DED:1920:137048:yassin-oukili,Yassin Oukili,Fortuna Sittard,Eredivisie,Central Midfield,700000,6300,7,2022,86,Transfermarkt; estimation salaire
+DED:1920:127235:neraysho-kasanwirjo,Neraysho Kasanwirjo,Fortuna Sittard,Eredivisie,Right-Back,1500000,8900,7,2025,86,Transfermarkt; estimation salaire
+DED:1920:122378:shawn-adewoye,Shawn Adewoye,Fortuna Sittard,Eredivisie,Centre-Back,900000,7000,7,2025,86,Transfermarkt; estimation salaire
+DED:1920:31986:ivan-marquez,Iván Márquez,Fortuna Sittard,Eredivisie,Centre-Back,350000,4700,7,2024,86,Transfermarkt; estimation salaire
+DED:1920:7574:kaj-sierhuis,Kaj Sierhuis,Fortuna Sittard,Eredivisie,Centre-Forward,1200000,8000,7,2024,86,Transfermarkt; estimation salaire
+DED:1920:7558:daley-sinkgraven,Daley Sinkgraven,Fortuna Sittard,Eredivisie,Left-Back,700000,6300,7,2024,86,Transfermarkt; estimation salaire
+DED:1920:7361:kristoffer-peterson,Kristoffer Peterson,Fortuna Sittard,Eredivisie,Left Winger,800000,6600,7,2024,86,Transfermarkt; estimation salaire
+DED:1920:3983:ivo-pinto,Ivo Pinto,Fortuna Sittard,Eredivisie,Right-Back,250000,3000,7,2023,86,Transfermarkt; estimation salaire
+DED:1920:3131:alen-halilovic,Alen Halilović,Fortuna Sittard,Eredivisie,Attacking Midfield,1000000,7400,7,2023,86,Transfermarkt; estimation salaire
+DED:1920:1948:samuel-bastien,Samuel Bastien,Fortuna Sittard,Eredivisie,Central Midfield,300000,3200,7,2024,86,Transfermarkt; estimation salaire
+DED:1920:262333:luka-tunjic,Luka Tunjic,Fortuna Sittard,Eredivisie,Attacking Midfield,700000,6300,7,2025,78,Transfermarkt; estimation
+DED:1920:244801:justin-hubner,Justin Hubner,Fortuna Sittard,Eredivisie,Centre-Back,1000000,7400,7,2025,86,Transfermarkt; estimation salaire
+DED:1920:150541:jasper-dahlhaus,Jasper Dahlhaus,Fortuna Sittard,Eredivisie,Left Midfield,600000,5900,7,2024,86,Transfermarkt; estimation salaire
+DED:1920:149037:syb-van-ottele,Syb Van Ottele,Fortuna Sittard,Eredivisie,Centre-Back,600000,5900,7,2024,86,Transfermarkt; estimation salaire
+DED:6806:7250:joel-drommel,Joël Drommel,Sparta Rotterdam,Eredivisie,Goalkeeper,2500000,8700,7,2025,86,Transfermarkt; estimation salaire
+DED:6806:9778:filip-bednarek,Filip Bednarek,Sparta Rotterdam,Eredivisie,Goalkeeper,200000,2100,7,2025,86,Transfermarkt; estimation salaire
+DED:6806:151104:pascal-kuiper,Pascal Kuiper,Sparta Rotterdam,Eredivisie,Goalkeeper,75000,1200,7,2026,86,Transfermarkt; estimation salaire
+DED:6806:295316:rik-suur,Rik Suur,Sparta Rotterdam,Eredivisie,Goalkeeper,50000,1100,7,2025,78,Transfermarkt; estimation
+DED:6806:8146:patrick-van-aanholt,Patrick van Aanholt,Sparta Rotterdam,Eredivisie,Defence,250000,2500,7,2025,86,Transfermarkt; estimation salaire
+DED:6806:137697:shurandy-sambo,Shurandy Sambo,Sparta Rotterdam,Eredivisie,Defence,1000000,6200,7,2025,86,Transfermarkt; estimation salaire
+DED:6806:220689:max-de-ligt,Max de Ligt,Sparta Rotterdam,Eredivisie,Defence,75000,1400,7,2025,78,Transfermarkt; estimation
+DED:6806:254333:marvin-young,Marvin Young,Sparta Rotterdam,Eredivisie,Defence,5000000,14000,7,2024,86,Transfermarkt; estimation salaire
+DED:6806:289506:lushendry-martes,Lushendry Martes,Sparta Rotterdam,Eredivisie,Defence,3000000,10600,7,2024,86,Transfermarkt; estimation salaire
+DED:6806:295558:justice-esser,Justice Esser,Sparta Rotterdam,Eredivisie,Defence,100000,1500,7,2025,78,Transfermarkt; estimation
+DED:6806:133204:casper-terho,Casper Terho,Sparta Rotterdam,Eredivisie,Midfield,1000000,6200,7,2026,86,Transfermarkt; estimation salaire
+DED:6806:218262:alwande-roalds-y,Alwande Roaldsøy,Sparta Rotterdam,Eredivisie,Midfield,800000,5600,7,2025,86,Transfermarkt; estimation salaire
+DED:6806:254376:ayoni-santos,Ayoni Santos,Sparta Rotterdam,Eredivisie,Midfield,2000000,8600,7,2025,86,Transfermarkt; estimation salaire
+DED:6806:255854:younes-jaber-el-meftahi,Younes Jaber El Meftahi,Sparta Rotterdam,Eredivisie,Midfield,150000,2200,7,2025,78,Transfermarkt; estimation
+DED:6806:7304:vito-van-crooij,Vito van Crooij,Sparta Rotterdam,Eredivisie,Offence,1500000,7500,7,2024,86,Transfermarkt; estimation salaire
+DED:6806:243902:milan-zonneveld,Milan Zonneveld,Sparta Rotterdam,Eredivisie,Offence,100000,1500,7,2025,78,Transfermarkt; estimation
+DED:6806:255723:giannino-vianello,Giannino Vianello,Sparta Rotterdam,Eredivisie,Offence,300000,2700,7,2025,78,Transfermarkt; estimation
+DED:6806:231030:teo-quintero,Teo Quintero,Sparta Rotterdam,Eredivisie,Centre-Back,1300000,7000,7,2025,86,Transfermarkt; estimation salaire
+DED:6806:178159:mike-kleijn,Mike Kleijn,Sparta Rotterdam,Eredivisie,Left-Back,300000,2700,7,2025,78,Transfermarkt; estimation
+DED:6806:161068:shunsuke-mito,Shunsuke Mito,Sparta Rotterdam,Eredivisie,Right Winger,2000000,8600,1,2024,86,Transfermarkt; estimation salaire
+DED:6806:149054:julian-baas,Julian Baas,Sparta Rotterdam,Eredivisie,Central Midfield,700000,5300,7,2025,86,Transfermarkt; estimation salaire
+DED:6806:38124:tobias-lauritsen,Tobias Lauritsen,Sparta Rotterdam,Eredivisie,Centre-Forward,2500000,9700,7,2022,86,Transfermarkt; estimation salaire
+DED:6806:38122:joshua-kitolano,Joshua Kitolano,Sparta Rotterdam,Eredivisie,Central Midfield,2500000,9700,7,2022,86,Transfermarkt; estimation salaire
+DED:6806:10150:said-bakari,Saïd Bakari,Sparta Rotterdam,Eredivisie,Right-Back,700000,5300,7,2023,86,Transfermarkt; estimation salaire
+DED:6806:7949:bruno-martins-indi,Bruno Martins Indi,Sparta Rotterdam,Eredivisie,Centre-Back,300000,11538,7,2025,96,Transfermarkt; Capology
+DED:6806:7592:mitchell-van-bergen,Mitchell van Bergen,Sparta Rotterdam,Eredivisie,Right Winger,1500000,7500,7,2025,86,Transfermarkt; estimation salaire
+DED:6806:7470:jens-toornstra,Jens Toornstra,Sparta Rotterdam,Eredivisie,Attacking Midfield,200000,2400,7,2025,86,Transfermarkt; estimation salaire
+DED:6806:6715:jonathan-de-guzman,Jonathan de Guzmán,Sparta Rotterdam,Eredivisie,Defensive Midfield,150000,2200,7,2022,86,Transfermarkt; estimation salaire
+DED:6806:4286:pelle-clement,Pelle Clement,Sparta Rotterdam,Eredivisie,Central Midfield,700000,5300,7,2023,86,Transfermarkt; estimation salaire

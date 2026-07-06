@@ -300,6 +300,48 @@ final class PublicFeedPublisher
         );
     }
 
+    public function publishExternalTransferFinalized(TransferNegociation $negociation): ?PublicFeedPost
+    {
+        if (TransferNegociationStatusEnum::COMPLETED !== $negociation->getStatus()) {
+            return null;
+        }
+
+        $listing = $negociation->getListing();
+        $player = $listing?->getPlayer();
+        $buyerTeam = $negociation->getBuyerTeam();
+        $sellerTeam = $listing?->getSellerTeam();
+
+        if (!$player instanceof Player || !$buyerTeam instanceof Team) {
+            return null;
+        }
+
+        $acceptedTransferOffer = $this->findAcceptedTransferOffer($negociation);
+        $playerName = $this->playerName($player);
+        $publishedAt = $negociation->getAgreedAt() ?? $negociation->getUpdatedAt() ?? $negociation->getCreatedAt();
+
+        return $this->upsertPost(
+            sourceType: 'transfer_negociation',
+            sourceId: (string) $negociation->getId(),
+            eventType: PublicFeedEventTypeEnum::TRANSFER_OFFICIAL->value,
+            bucket: 'official',
+            isFeatured: true,
+            publishedAt: $this->immutableDate($publishedAt),
+            headline: 'OFFICIEL ! HERE WE GO',
+            body: sprintf('%s rejoint %s. Le transfert est finalisé sur KickDeal.', $playerName, $buyerTeam->getName() ?? 'son nouveau club'),
+            player: $player,
+            sellerTeam: $sellerTeam,
+            buyerTeam: $buyerTeam,
+            amount: $acceptedTransferOffer?->getAmount(),
+            details: [
+                'contractType' => 'external_transfer',
+                'weeklySalaryLabel' => $this->formatMoney($negociation->getExternalContractWeeklySalary()),
+                'transferAmountLabel' => $this->formatMoney($acceptedTransferOffer?->getAmount()),
+                'amountLabel' => $this->formatMoney($acceptedTransferOffer?->getAmount()),
+                'finalizedWithoutAgent' => true,
+            ],
+        );
+    }
+
     public function publishContractNegotiation(ContractNegociation $negociation): ?PublicFeedPost
     {
         if (!$negociation->isPublicFeedEnabled()) {
