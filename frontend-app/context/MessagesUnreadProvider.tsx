@@ -13,6 +13,31 @@ interface MessagesUnreadContextValue {
 
 const MessagesUnreadContext = React.createContext<MessagesUnreadContextValue | null>(null)
 
+function runAfterInitialPaint(callback: () => void) {
+  if (typeof window === 'undefined') {
+    return () => undefined
+  }
+
+  let timeoutHandle: number | null = null
+
+  const schedule = () => {
+    timeoutHandle = window.setTimeout(callback, 2_500)
+  }
+
+  if (document.readyState === 'complete') {
+    schedule()
+  } else {
+    window.addEventListener('load', schedule, { once: true })
+  }
+
+  return () => {
+    window.removeEventListener('load', schedule)
+    if (timeoutHandle !== null) {
+      window.clearTimeout(timeoutHandle)
+    }
+  }
+}
+
 declare global {
   interface Window {
     __INITIAL_MESSAGES_MERCURE__?: { hubUrl: string; topic: string } | null
@@ -97,9 +122,12 @@ export function MessagesUnreadProvider({ children }: { children: React.ReactNode
       eventSource.onmessage = handleEvent
     }
 
-    if (initialMercureToken !== undefined) {
-      connect(initialMercureToken)
-    } else {
+    const cancelDeferredConnection = runAfterInitialPaint(() => {
+      if (initialMercureToken !== undefined) {
+        connect(initialMercureToken)
+        return
+      }
+
       messagesManager.prepareMercureSubscription()
         .then((response) => {
           if (!isActive || !response.ok) return
@@ -107,10 +135,11 @@ export function MessagesUnreadProvider({ children }: { children: React.ReactNode
           connect(response.data)
         })
         .catch(() => undefined)
-    }
+    })
 
     return () => {
       isActive = false
+      cancelDeferredConnection()
       eventSource?.close()
     }
   }, [initialMercureToken, user])

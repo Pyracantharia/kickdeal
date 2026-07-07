@@ -33,6 +33,31 @@ const EMPTY_SUMMARY: NotificationsSummary = {
 
 const NotificationsContext = React.createContext<NotificationsContextValue | null>(null)
 
+function runAfterInitialPaint(callback: () => void) {
+  if (typeof window === 'undefined') {
+    return () => undefined
+  }
+
+  let timeoutHandle: number | null = null
+
+  const schedule = () => {
+    timeoutHandle = window.setTimeout(callback, 2_500)
+  }
+
+  if (document.readyState === 'complete') {
+    schedule()
+  } else {
+    window.addEventListener('load', schedule, { once: true })
+  }
+
+  return () => {
+    window.removeEventListener('load', schedule)
+    if (timeoutHandle !== null) {
+      window.clearTimeout(timeoutHandle)
+    }
+  }
+}
+
 declare global {
   interface Window {
     __INITIAL_NOTIFICATIONS_SUMMARY__?: NotificationsSummary | null
@@ -122,9 +147,12 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
       eventSource.onmessage = handleEvent
     }
 
-    if (initialMercureToken !== undefined) {
-      connect(initialMercureToken)
-    } else {
+    const cancelDeferredConnection = runAfterInitialPaint(() => {
+      if (initialMercureToken !== undefined) {
+        connect(initialMercureToken)
+        return
+      }
+
       notificationsManager.prepareMercureSubscription()
         .then((response) => {
           if (!isActive || !response.ok) return
@@ -132,10 +160,11 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
           connect(response.data)
         })
         .catch(() => undefined)
-    }
+    })
 
     return () => {
       isActive = false
+      cancelDeferredConnection()
       eventSource?.close()
     }
   }, [initialMercureToken, user])
