@@ -54,7 +54,7 @@ class PlayerAgentRequest
 
     public function __construct()
     {
-        $this->id = Uuid::v4();
+        $this->id = Uuid::v6();
     }
 
     #[ORM\PrePersist]

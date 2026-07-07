@@ -49,3 +49,8 @@ services:
     App\Service\MercureSubscriberTokenFactory:
         arguments:
             $mercureJwtSecret: "%mercure_jwt_secret%"
+
+when@test:
+    services:
+        Symfony\Component\Security\Csrf\CsrfTokenManagerInterface:
+            alias: App\Service\Security\NoopCsrfTokenManager

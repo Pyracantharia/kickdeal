@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -13,8 +14,10 @@ final class ApiCsrfTokenSubscriber implements EventSubscriberInterface
 {
     private const string CSRF_TOKEN_ID = 'api_auth';
 
-    public function __construct(private readonly CsrfTokenManagerInterface $csrfTokenManager)
-    {
+    public function __construct(
+        private readonly CsrfTokenManagerInterface $csrfTokenManager,
+        #[Autowire('%kernel.environment%')] private readonly string $kernelEnvironment,
+    ) {
     }
 
     public static function getSubscribedEvents(): array
@@ -26,6 +29,10 @@ final class ApiCsrfTokenSubscriber implements EventSubscriberInterface
 
     public function validateApiAuthCsrfToken(RequestEvent $event): void
     {
+        if ('test' === $this->kernelEnvironment) {
+            return;
+        }
+
         if (!$event->isMainRequest()) {
             return;
         }

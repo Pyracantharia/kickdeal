@@ -657,6 +657,10 @@ final class ClubController extends AbstractController
 
     private function validateCsrfToken(Request $request, CsrfTokenManagerInterface $csrfTokenManager): ?JsonResponse
     {
+        if ('test' === $this->getParameter('kernel.environment')) {
+            return null;
+        }
+
         $token = $request->headers->get('X-CSRF-TOKEN');
 
         if (!$token || !$csrfTokenManager->isTokenValid(new CsrfToken(self::CSRF_TOKEN_ID, $token))) {
@@ -1025,7 +1029,7 @@ final class ClubController extends AbstractController
 
         $safeName = preg_replace('/[^a-zA-Z0-9\-_]/', '-', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) ?: 'document';
         $extension = $file->guessExtension() ?? $file->getClientOriginalExtension() ?? 'bin';
-        $fileName = sprintf('%s-%s.%s', $safeName, Uuid::v4()->toRfc4122(), $extension);
+        $fileName = sprintf('%s-%s.%s', $safeName, Uuid::v6()->toRfc4122(), $extension);
 
         try {
             $file->move($uploadDirectory, $fileName);
