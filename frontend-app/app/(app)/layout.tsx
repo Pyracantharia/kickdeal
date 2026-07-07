@@ -22,6 +22,21 @@ function serializeForScript(value: unknown): string {
   return JSON.stringify(value).replace(/</g, '\\u003c')
 }
 
+function buildInitialAppDataScript(initialData: {
+  user: Awaited<ReturnType<typeof loadCurrentUser>>
+  notificationsSummary: Awaited<ReturnType<typeof loadNotificationsSummary>>
+}): string {
+  const lines = [
+    `window.__INITIAL_NOTIFICATIONS_SUMMARY__ = ${serializeForScript(initialData.notificationsSummary)};`,
+  ]
+
+  if (initialData.user) {
+    lines.unshift(`window.__INITIAL_AUTH_USER__ = ${serializeForScript(initialData.user)};`)
+  }
+
+  return lines.join('\n')
+}
+
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const initialData = await loadInitialAppData()
 
@@ -29,7 +44,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     <>
       <script
         dangerouslySetInnerHTML={{
-          __html: `window.__INITIAL_AUTH_USER__ = ${serializeForScript(initialData.user)};\nwindow.__INITIAL_NOTIFICATIONS_SUMMARY__ = ${serializeForScript(initialData.notificationsSummary)};`,
+          __html: buildInitialAppDataScript(initialData),
         }}
       />
       <AuthProvider>
