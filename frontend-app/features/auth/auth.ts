@@ -1,4 +1,4 @@
-import { User } from "@/context/AuthProvider";
+import type { User } from "@/context/AuthProvider";
 import httpClient from "../api";
 import { LoginDTO } from "./login.dto";
 import { RegisterDTO } from "./register.dto";

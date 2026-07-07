@@ -33,9 +33,56 @@ const EMPTY_SUMMARY: NotificationsSummary = {
 
 const NotificationsContext = React.createContext<NotificationsContextValue | null>(null)
 
+function runAfterInitialPaint(callback: () => void) {
+  if (typeof window === 'undefined') {
+    return () => undefined
+  }
+
+  let timeoutHandle: number | null = null
+
+  const schedule = () => {
+    timeoutHandle = window.setTimeout(callback, 2_500)
+  }
+
+  if (document.readyState === 'complete') {
+    schedule()
+  } else {
+    window.addEventListener('load', schedule, { once: true })
+  }
+
+  return () => {
+    window.removeEventListener('load', schedule)
+    if (timeoutHandle !== null) {
+      window.clearTimeout(timeoutHandle)
+    }
+  }
+}
+
+declare global {
+  interface Window {
+    __INITIAL_NOTIFICATIONS_SUMMARY__?: NotificationsSummary | null
+    __INITIAL_NOTIFICATIONS_MERCURE__?: { hubUrl: string; topic: string } | null
+  }
+}
+
+function getInitialWindowValue<T>(key: keyof Window): T | undefined {
+  if (typeof window === 'undefined') {
+    return undefined
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(window, key)) {
+    return undefined
+  }
+
+  return window[key] as T
+}
+
 export function NotificationsProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth()
-  const [summary, setSummary] = React.useState<NotificationsSummary>(EMPTY_SUMMARY)
+  const initialSummary = getInitialWindowValue<NotificationsSummary | null>('__INITIAL_NOTIFICATIONS_SUMMARY__')
+  const initialMercureToken = getInitialWindowValue<{ hubUrl: string; topic: string } | null>('__INITIAL_NOTIFICATIONS_MERCURE__')
+  const hasInitialSummary = initialSummary !== undefined
+  const [summary, setSummary] = React.useState<NotificationsSummary>(initialSummary ?? EMPTY_SUMMARY)
   const [latestNotification, setLatestNotification] = React.useState<AppNotification | null>(null)
 
   const refreshSummary = React.useCallback(async () => {
@@ -66,8 +113,12 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
   }, [summary.unreadCounts])
 
   React.useEffect(() => {
+    if (hasInitialSummary) {
+      return
+    }
+
     void refreshSummary()
-  }, [refreshSummary])
+  }, [hasInitialSummary, refreshSummary])
 
   React.useEffect(() => {
     if (!user) {
@@ -79,30 +130,44 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
     let eventSource: EventSource | null = null
     let isActive = true
 
-    notificationsManager.prepareMercureSubscription()
-      .then((response) => {
-        if (!isActive || !response.ok || !response.data.hubUrl || !response.data.topic) return
+    const connect = (token: { hubUrl: string; topic: string } | null | undefined) => {
+      if (!isActive || !token?.hubUrl || !token.topic) return
 
-        const url = new URL(response.data.hubUrl)
-        url.searchParams.append('topic', response.data.topic)
-        eventSource = new EventSource(url.toString(), { withCredentials: true })
+      const url = new URL(token.hubUrl)
+      url.searchParams.append('topic', token.topic)
+      eventSource = new EventSource(url.toString(), { withCredentials: true })
 
-        const handleEvent = (event: MessageEvent<string>) => {
-          const payload = JSON.parse(event.data) as NotificationEventPayload
-          setLatestNotification(payload.notification)
-          setSummary(payload.summary)
-        }
+      const handleEvent = (event: MessageEvent<string>) => {
+        const payload = JSON.parse(event.data) as NotificationEventPayload
+        setLatestNotification(payload.notification)
+        setSummary(payload.summary)
+      }
 
-        eventSource.addEventListener('notification.created', handleEvent as EventListener)
-        eventSource.onmessage = handleEvent
-      })
-      .catch(() => undefined)
+      eventSource.addEventListener('notification.created', handleEvent as EventListener)
+      eventSource.onmessage = handleEvent
+    }
+
+    const cancelDeferredConnection = runAfterInitialPaint(() => {
+      if (initialMercureToken !== undefined) {
+        connect(initialMercureToken)
+        return
+      }
+
+      notificationsManager.prepareMercureSubscription()
+        .then((response) => {
+          if (!isActive || !response.ok) return
+
+          connect(response.data)
+        })
+        .catch(() => undefined)
+    })
 
     return () => {
       isActive = false
+      cancelDeferredConnection()
       eventSource?.close()
     }
-  }, [user])
+  }, [initialMercureToken, user])
 
   const value = React.useMemo<NotificationsContextValue>(() => ({
     summary,

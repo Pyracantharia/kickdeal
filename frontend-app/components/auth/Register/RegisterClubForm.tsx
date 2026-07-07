@@ -3,7 +3,6 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { authManager } from '@/features/auth/auth'
-import { useAuth } from '@/context/AuthProvider'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -17,7 +16,6 @@ import PasswordStrengthMeter from '@/components/account/PasswordStrengthMeter'
 
 function RegisterClubForm() {
   const router = useRouter()
-  const { updateUser } = useAuth()
   const [selectedPlan, setSelectedPlan] = React.useState<SubscriptionPlan>('club_free')
 
   const {
@@ -93,8 +91,6 @@ function RegisterClubForm() {
 
         return
       }
-
-      updateUser(loginResponse.data.user)
 
       router.push(selectedPlan === 'club_free' ? '/club' : `/subscription?plan=${selectedPlan}`)
     } catch {

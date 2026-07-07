@@ -31,6 +31,11 @@ import {
   messagesManager,
   type DirectConversation,
 } from '@/features/messages/messages'
+
+interface AgentDashboardHomeProps {
+  initialDashboard?: AgentDashboardHomeData | null
+  initialRecentConversations?: DirectConversation[] | null
+}
 import { getPositionDisplayName } from '@/features/players/position'
 
 const EMPTY_DASHBOARD: AgentDashboardHomeData = {
@@ -69,13 +74,15 @@ function formatRelativeDate(value?: string | null): string {
   return `Mis à jour il y a ${days} jour${days > 1 ? 's' : ''}`
 }
 
-function AgentDashboardHome() {
+function AgentDashboardHome({ initialDashboard, initialRecentConversations }: AgentDashboardHomeProps) {
   const router = useRouter()
   const { user } = useAuth()
-  const [dashboard, setDashboard] = useState<AgentDashboardHomeData>(EMPTY_DASHBOARD)
-  const [recentConversations, setRecentConversations] = useState<DirectConversation[]>([])
+  const hasInitialDashboard = initialDashboard !== undefined
+  const hasInitialRecentConversations = initialRecentConversations !== undefined
+  const [dashboard, setDashboard] = useState<AgentDashboardHomeData>(initialDashboard ?? EMPTY_DASHBOARD)
+  const [recentConversations, setRecentConversations] = useState<DirectConversation[]>(initialRecentConversations ?? [])
   const [expandedPlayers, setExpandedPlayers] = useState<Record<string, boolean>>({})
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(!hasInitialDashboard)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const dateLabel = useMemo(() => formatCurrentDate(new Date()), [])
@@ -107,6 +114,11 @@ function AgentDashboardHome() {
   }, [dashboard.negotiations])
 
   useEffect(() => {
+    if (hasInitialDashboard && hasInitialRecentConversations) {
+      setIsLoading(false)
+      return
+    }
+
     let isMounted = true
 
     async function loadDashboard() {
@@ -147,7 +159,7 @@ function AgentDashboardHome() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [hasInitialDashboard, hasInitialRecentConversations])
 
   function togglePlayerGroup(playerKey: string) {
     setExpandedPlayers((current) => ({

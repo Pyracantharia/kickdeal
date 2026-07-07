@@ -12,6 +12,16 @@ import { getDaysUntilNextTransferWindow } from '@/features/dashboard/mockClubDas
 import { dashboardManager, type DashboardActiveDeal } from '@/features/dashboard/dashboard'
 import { publicFeedManager, type PublicFeedPost } from '@/features/public-feed/publicFeed'
 
+interface ClubDashboardHomeProps {
+  initialDashboard?: {
+    activeDeal: DashboardActiveDeal | null
+    pendingOffersCount: number
+    unreadMessagesCount: number
+    pendingRenewalsCount: number
+  } | null
+  initialMarketNews?: PublicFeedPost[] | null
+}
+
 function formatCurrentDate(date: Date): string {
   const rawLabel = date.toLocaleDateString('fr-FR', {
     weekday: 'long',
@@ -78,18 +88,20 @@ function getNewsSummary(post: PublicFeedPost): string {
   return post.body ?? post.subtitle ?? 'Une nouvelle officialisation vient d’être publiée sur KickDeal.'
 }
 
-function ClubDashboardHome() {
+function ClubDashboardHome({ initialDashboard, initialMarketNews }: ClubDashboardHomeProps) {
   const router = useRouter()
   const { unreadConversationIds } = useMessagesUnread()
   const { getActionCount, getUnreadCount } = useNotifications()
   const [activeNewsIndex, setActiveNewsIndex] = useState(0)
-  const [activeDeal, setActiveDeal] = useState<DashboardActiveDeal | null>(null)
-  const [pendingOffersCount, setPendingOffersCount] = useState(0)
-  const [unreadMessagesCount, setUnreadMessagesCount] = useState(0)
-  const [pendingRenewalsCount, setPendingRenewalsCount] = useState(0)
-  const [marketNews, setMarketNews] = useState<PublicFeedPost[]>([])
-  const [isMarketNewsLoading, setIsMarketNewsLoading] = useState(true)
-  const [isLoading, setIsLoading] = useState(true)
+  const hasInitialDashboard = initialDashboard !== undefined
+  const hasInitialMarketNews = initialMarketNews !== undefined
+  const [activeDeal, setActiveDeal] = useState<DashboardActiveDeal | null>(initialDashboard?.activeDeal ?? null)
+  const [pendingOffersCount, setPendingOffersCount] = useState(initialDashboard?.pendingOffersCount ?? 0)
+  const [unreadMessagesCount, setUnreadMessagesCount] = useState(initialDashboard?.unreadMessagesCount ?? 0)
+  const [pendingRenewalsCount, setPendingRenewalsCount] = useState(initialDashboard?.pendingRenewalsCount ?? 0)
+  const [marketNews, setMarketNews] = useState<PublicFeedPost[]>(initialMarketNews ?? [])
+  const [isMarketNewsLoading, setIsMarketNewsLoading] = useState(!hasInitialMarketNews)
+  const [isLoading, setIsLoading] = useState(!hasInitialDashboard)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [marketNewsError, setMarketNewsError] = useState<string | null>(null)
 
@@ -113,6 +125,11 @@ function ClubDashboardHome() {
   )
 
   useEffect(() => {
+    if (hasInitialDashboard) {
+      setIsLoading(false)
+      return
+    }
+
     let isMounted = true
 
     async function loadDashboard() {
@@ -152,9 +169,14 @@ function ClubDashboardHome() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [hasInitialDashboard])
 
   useEffect(() => {
+    if (hasInitialMarketNews) {
+      setIsMarketNewsLoading(false)
+      return
+    }
+
     let isMounted = true
 
     async function loadMarketNews() {
@@ -187,7 +209,7 @@ function ClubDashboardHome() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [hasInitialMarketNews])
 
   return (
     <div className="auth-bg min-h-screen w-full pt-28 pb-10 px-4">
