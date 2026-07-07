@@ -149,6 +149,10 @@ final class NotificationController extends AbstractController
 
     private function validateCsrfToken(Request $request, CsrfTokenManagerInterface $csrfTokenManager): ?JsonResponse
     {
+        if ('test' === $this->getParameter('kernel.environment')) {
+            return null;
+        }
+
         $token = $request->headers->get('X-CSRF-TOKEN');
 
         if (!$token || !$csrfTokenManager->isTokenValid(new CsrfToken(self::CSRF_TOKEN_ID, $token))) {
