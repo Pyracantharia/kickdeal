@@ -98,6 +98,8 @@ final class DashboardController extends AbstractController
                     'activeNegotiations' => 0,
                     'pendingOffers' => 0,
                     'availablePlayers' => 0,
+                    'portfolioMarketValue' => 0,
+                    'portfolioMarketValueLabel' => '0 EUR',
                 ],
                 'players' => [],
                 'negotiations' => [],
@@ -107,6 +109,10 @@ final class DashboardController extends AbstractController
         $players = $playerRepository->findRepresentedByAgent($agent);
         $recentPlayers = array_slice($players, 0, 4);
         $recentNegotiations = $contractNegociationRepository->findRecentForAgent($agent, 4);
+        $portfolioMarketValue = array_sum(array_map(
+            static fn (Player $player): int => $player->getMarketValue() ?? 0,
+            $players,
+        ));
 
         return $this->json([
             'profile' => [
@@ -121,6 +127,8 @@ final class DashboardController extends AbstractController
                     $players,
                     static fn (Player $player): bool => PlayerMarketStatusEnum::NOT_LISTED !== $player->getMarketStatus(),
                 )),
+                'portfolioMarketValue' => $portfolioMarketValue,
+                'portfolioMarketValueLabel' => $this->formatMoney($portfolioMarketValue),
             ],
             'players' => array_map(
                 fn (Player $player): array => $this->serializeAgentPlayer($player),

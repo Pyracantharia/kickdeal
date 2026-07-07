@@ -562,12 +562,20 @@ final class TransferController extends AbstractController
         if ($isBuyer) {
             $payload = json_decode($request->getContent(), true);
             $weeklySalary = $this->moneyToCents(is_array($payload) ? ($payload['weeklySalary'] ?? null) : null);
+            $durationMonths = is_numeric(is_array($payload) ? ($payload['durationMonths'] ?? null) : null)
+                ? (int) $payload['durationMonths']
+                : null;
 
             if (null === $weeklySalary || $weeklySalary <= 0) {
                 return $this->json(['errorMessage' => 'Le salaire hebdomadaire convenu est requis.'], 422);
             }
 
+            if (null === $durationMonths || $durationMonths < 1 || $durationMonths > 120) {
+                return $this->json(['errorMessage' => 'La durée du contrat convenue doit être comprise entre 1 et 120 mois.'], 422);
+            }
+
             $negociation->setExternalContractWeeklySalary($weeklySalary);
+            $negociation->setExternalContractDurationMonths($durationMonths);
             $negociation->setExternalContractBuyerConfirmedAt($now);
         }
         if ($isSeller) {
@@ -577,6 +585,8 @@ final class TransferController extends AbstractController
         if (
             null !== $negociation->getExternalContractBuyerConfirmedAt()
             && null !== $negociation->getExternalContractSellerConfirmedAt()
+            && null !== $negociation->getExternalContractWeeklySalary()
+            && null !== $negociation->getExternalContractDurationMonths()
         ) {
             $contractNegotiationWorkflow->finalizeExternalTransfer($negociation);
         }
@@ -1037,20 +1047,28 @@ final class TransferController extends AbstractController
         $sellerTeam = $listing?->getSellerTeam();
         $buyerTeam = $negociation->getBuyerTeam();
         $viewerRole = $sellerTeam?->getId()?->toRfc4122() === $viewerTeam->getId()?->toRfc4122() ? 'seller' : 'buyer';
+        $buyerContractTermsComplete = null !== $negociation->getExternalContractBuyerConfirmedAt()
+            && null !== $negociation->getExternalContractWeeklySalary()
+            && null !== $negociation->getExternalContractDurationMonths();
+        $sellerConfirmedExternalAgreement = null !== $negociation->getExternalContractSellerConfirmedAt();
 
         return [
             'requiresAction' => TransferNegociationStatusEnum::PENDING_AGENT === $negociation->getStatus(),
             'playerHasAgent' => null !== $listing?->getPlayer()?->getAgent(),
-            'buyerConfirmedExternalAgreement' => null !== $negociation->getExternalContractBuyerConfirmedAt(),
-            'sellerConfirmedExternalAgreement' => null !== $negociation->getExternalContractSellerConfirmedAt(),
+            'buyerConfirmedExternalAgreement' => $buyerContractTermsComplete,
+            'sellerConfirmedExternalAgreement' => $sellerConfirmedExternalAgreement,
             'viewerConfirmedExternalAgreement' => 'buyer' === $viewerRole
-                ? null !== $negociation->getExternalContractBuyerConfirmedAt()
-                : null !== $negociation->getExternalContractSellerConfirmedAt(),
+                ? $buyerContractTermsComplete
+                : $sellerConfirmedExternalAgreement,
             'viewerRole' => $viewerRole,
             'canInviteAgent' => in_array($viewerRole, ['buyer', 'seller'], true) && TransferNegociationStatusEnum::PENDING_AGENT === $negociation->getStatus(),
             'canConfirmExternalAgreement' => in_array($negociation->getStatus(), [TransferNegociationStatusEnum::PENDING_AGENT, TransferNegociationStatusEnum::AGREED_CLUBS], true),
             'buyerTeamName' => $buyerTeam?->getName(),
             'sellerTeamName' => $sellerTeam?->getName(),
+            'externalContractDurationMonths' => $negociation->getExternalContractDurationMonths(),
+            'externalContractWeeklySalary' => null !== $negociation->getExternalContractWeeklySalary()
+                ? $this->formatMoney($negociation->getExternalContractWeeklySalary())
+                : null,
         ];
     }
 

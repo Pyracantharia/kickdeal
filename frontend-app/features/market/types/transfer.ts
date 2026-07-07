@@ -15,6 +15,8 @@ export interface ContractResolution {
   canConfirmExternalAgreement: boolean
   buyerTeamName?: string | null
   sellerTeamName?: string | null
+  externalContractDurationMonths?: number | null
+  externalContractWeeklySalary?: string | null
 }
 
 export interface TransferListPlayer {
