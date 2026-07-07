@@ -21,7 +21,7 @@ body {
   z-index: -1;
   background-image:
     linear-gradient(180deg, rgba(8, 12, 25, 0.45) 0%, rgba(8, 12, 25, 0.85) 60%, #080C19 100%),
-    url('/images/landing-bg.png');
+    url('/images/landing-bg.webp');
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
