@@ -18,7 +18,7 @@ final class UserController extends AbstractController
     {
         $users = $userRepository->findAll();
 
-        return $this->json($users, 200);
+        return $this->json($users, 200, [], ['groups' => 'user:read']);
     }
 
     #[Route('/agents-and-clubs', name: 'getAgentsAndClubs', methods: ['GET'])]
@@ -59,16 +59,16 @@ final class UserController extends AbstractController
         return $this->json($agentsAndClubs, 200);
     }
 
-    #[Route('/{id}', methods: ['GET'])]
-    public function show(UserRepository $userRepository, int $id): JsonResponse
+    #[Route('/{email}', methods: ['GET'])]
+    public function show(UserRepository $userRepository, string $email): JsonResponse
     {
-        $user = $userRepository->find($id);
+        $user = $userRepository->findOneBy(['email' => $email]);
         if (!$user) {
             return $this->json([
                 'message' => 'Utilisateur introuvable',
-            ]);
+            ], 404);
         }
 
-        return $this->json($user);
+        return $this->json($user, 200, [], ['groups' => 'user:read']);
     }
 }
