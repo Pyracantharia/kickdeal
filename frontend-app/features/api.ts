@@ -122,11 +122,17 @@ class HttpClient {
   }
 
   async post<T, U = unknown>(endpoint: string, data: U): Promise<HttpClientResponse<T>> {
-    return this.requestWithCsrf<T>(endpoint, (headers) => ({
+    const result = await this.requestWithCsrf<T>(endpoint, (headers) => ({
       method: "POST",
       headers,
       body: JSON.stringify(data),
     }));
+
+    if (result.ok && (endpoint === "/auth/register" || endpoint === "/auth/login")) {
+      this.clearCsrfToken();
+    }
+
+    return result;
   }
 
   async postFormData<T>(endpoint: string, formData: FormData): Promise<HttpClientResponse<T>> {
