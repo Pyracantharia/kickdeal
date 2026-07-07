@@ -13,10 +13,29 @@ interface MessagesUnreadContextValue {
 
 const MessagesUnreadContext = React.createContext<MessagesUnreadContextValue | null>(null)
 
+declare global {
+  interface Window {
+    __INITIAL_MESSAGES_MERCURE__?: { hubUrl: string; topic: string } | null
+  }
+}
+
+function getInitialWindowValue<T>(key: keyof Window): T | undefined {
+  if (typeof window === 'undefined') {
+    return undefined
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(window, key)) {
+    return undefined
+  }
+
+  return window[key] as T
+}
+
 export function MessagesUnreadProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth()
   const [unreadConversationIds, setUnreadConversationIds] = React.useState<Set<string>>(new Set())
   const activeConversationIdRef = React.useRef<string | null>(null)
+  const initialMercureToken = getInitialWindowValue<{ hubUrl: string; topic: string } | null>('__INITIAL_MESSAGES_MERCURE__')
 
   const markConversationRead = React.useCallback((conversationId: string) => {
     setUnreadConversationIds((current) => {
@@ -46,45 +65,55 @@ export function MessagesUnreadProvider({ children }: { children: React.ReactNode
     let eventSource: EventSource | null = null
     let isActive = true
 
-    messagesManager.prepareMercureSubscription()
-      .then((response) => {
-        if (!isActive || !response.ok || !response.data.hubUrl || !response.data.topic) return
+    const connect = (token: { hubUrl: string; topic: string } | null | undefined) => {
+      if (!isActive || !token?.hubUrl || !token.topic) return
 
-        const url = new URL(response.data.hubUrl)
-        url.searchParams.append('topic', response.data.topic)
-        eventSource = new EventSource(url.toString(), { withCredentials: true })
+      const url = new URL(token.hubUrl)
+      url.searchParams.append('topic', token.topic)
+      eventSource = new EventSource(url.toString(), { withCredentials: true })
 
-        const handleEvent = (event: MessageEvent<string>) => {
-          const payload = JSON.parse(event.data) as MessageEventPayload
-          const conversationId = payload.message.conversationId
+      const handleEvent = (event: MessageEvent<string>) => {
+        const payload = JSON.parse(event.data) as MessageEventPayload
+        const conversationId = payload.message.conversationId
 
-          if (
-            !conversationId ||
-            conversationId === activeConversationIdRef.current ||
-            payload.message.sender?.id === user.id
-          ) {
-            return
-          }
-
-          setUnreadConversationIds((current) => {
-            if (current.has(conversationId)) return current
-
-            const nextUnreadConversationIds = new Set(current)
-            nextUnreadConversationIds.add(conversationId)
-            return nextUnreadConversationIds
-          })
+        if (
+          !conversationId ||
+          conversationId === activeConversationIdRef.current ||
+          payload.message.sender?.id === user.id
+        ) {
+          return
         }
 
-        eventSource.addEventListener('message.created', handleEvent as EventListener)
-        eventSource.onmessage = handleEvent
-      })
-      .catch(() => undefined)
+        setUnreadConversationIds((current) => {
+          if (current.has(conversationId)) return current
+
+          const nextUnreadConversationIds = new Set(current)
+          nextUnreadConversationIds.add(conversationId)
+          return nextUnreadConversationIds
+        })
+      }
+
+      eventSource.addEventListener('message.created', handleEvent as EventListener)
+      eventSource.onmessage = handleEvent
+    }
+
+    if (initialMercureToken !== undefined) {
+      connect(initialMercureToken)
+    } else {
+      messagesManager.prepareMercureSubscription()
+        .then((response) => {
+          if (!isActive || !response.ok) return
+
+          connect(response.data)
+        })
+        .catch(() => undefined)
+    }
 
     return () => {
       isActive = false
       eventSource?.close()
     }
-  }, [user])
+  }, [initialMercureToken, user])
 
   const value = React.useMemo<MessagesUnreadContextValue>(() => ({
     unreadConversationIds,

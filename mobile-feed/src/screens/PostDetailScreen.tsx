@@ -19,7 +19,7 @@ import { getFeedPost } from '../services/api'
 import type { PublicFeedPostDetail, PublicFeedTeam } from '../types/feed'
 import type { RootStackParamList } from '../types/navigation'
 
-const backgroundImage = require('../../assets/images/app-bg.png')
+const backgroundImage = require('../../assets/images/app-bg.webp')
 const logoImage = require('../../assets/images/logo.png')
 
 type PostDetailScreenProps = NativeStackScreenProps<RootStackParamList, 'PostDetail'>

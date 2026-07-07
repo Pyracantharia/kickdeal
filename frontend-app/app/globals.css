@@ -32,7 +32,7 @@ body {
   position: relative;
   background:
     linear-gradient(180deg, rgba(10, 15, 30, 0.24) 0%, rgba(10, 15, 30, 0.24) 0%),
-    url('/images/app-bg.png') center / cover no-repeat fixed;
+    url('/images/app-bg.webp') center / cover no-repeat fixed;
 }
 
 /* ── Gradient utilities ──────────────────────────────── */

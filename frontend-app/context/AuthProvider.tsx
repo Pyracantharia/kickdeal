@@ -24,22 +24,48 @@ interface AuthContextType {
   updateUser: (user: User | null) => void;
 }
 
+declare global {
+  interface Window {
+    __INITIAL_AUTH_USER__?: User | null
+  }
+}
+
+function getInitialAuthUser(): User | null | undefined {
+  if (typeof window === 'undefined') {
+    return undefined
+  }
+
+  if (Object.prototype.hasOwnProperty.call(window, '__INITIAL_AUTH_USER__')) {
+    return window.__INITIAL_AUTH_USER__ ?? null
+  }
+
+  return undefined
+}
+
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 
 interface AuthProviderProps {
   children: ReactNode;
+  initialUser?: User | null;
 }
 
-function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+function AuthProvider({ children, initialUser }: AuthProviderProps) {
+  const initialWindowUser = getInitialAuthUser()
+  const hasInitialUser = initialUser !== undefined || initialWindowUser !== undefined
+  const [user, setUser] = useState<User | null>(() => initialUser ?? initialWindowUser ?? null);
+  const [isLoading, setIsLoading] = useState(!hasInitialUser);
   
   function updateUser(user: User | null) {
     setUser(user);
   }
   
   useEffect(() => {
+    if (hasInitialUser) {
+      setIsLoading(false)
+      return
+    }
+
     async function fetchMe(){
       try {
         const meResponse = await authManager.me();
@@ -53,7 +79,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       }
     }
     fetchMe();
-  }, []);
+  }, [hasInitialUser]);
 
   return (
     <AuthContext.Provider value={{ user, isLoading, updateUser }}>
