@@ -23,7 +23,7 @@ function CtaSection() {
               Rejoignez les 350+ clubs et agents qui utilisent déjà KickDeal pour simplifier leurs transferts.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="home-cta mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
               <LinkButton href={APP_ROUTES.register} icon={<ArrowRight className="h-4 w-4" />}>
                 Commencer maintenant
               </LinkButton>

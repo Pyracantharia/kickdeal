@@ -8,20 +8,10 @@ else
 	COMPOSE += -f docker-compose.yml -f docker-compose.override.yml
 endif
 
-ifeq ($(WITH_DOCKER), 1)
-	API=$(COMPOSE) run --rm backend
-	FRONT_APP=$(COMPOSE) run --rm frontend-app
-	FRONT_LANDING=$(COMPOSE) run --rm frontend-landing
-
-	PHP_FIXER=$(API) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php'
-else
-	API=cd backend &&
-	FRONT_APP=cd frontend-app &&
-	FRONT_LANDING=cd frontend-landing &&
-
-	PHP_FIXER=export PHP_CS_FIXER_IGNORE_ENV=1 && $(API) vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php
-endif
-
+API=$(COMPOSE) exec backend
+FRONT_APP=$(COMPOSE) exec frontend-app
+FRONT_LANDING=$(COMPOSE) exec frontend-landing
+PHP_FIXER=$(API) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php'
 CONSOLE := $(API) bin/console
 
 .PHONY: help start up stop install perm php-lint php-lint-dry symfony-lint phpstan tests phpunit db drop-db fixtures
@@ -33,25 +23,13 @@ help:
 
 ############################## BOOT #################################
 
-start: install perm up drop-db db fixtures
+start: up db fixtures
 
 up:
-	$(COMPOSE) up -d
+	$(COMPOSE) up --build -d
 
 stop:
 	$(COMPOSE) stop
-
-install:
-	echo "Installing dependencies..."
-	$(API) composer install
-	$(FRONT_APP) npm install
-	$(FRONT_LANDING) npm install
-
-perm:
-	sudo chown -R $(USER):$(USER) .
-	mkdir -p ./backend/var
-	sudo chown -R www-data:$(USER) ./backend/var
-	sudo chmod -R g+rwx .
 
 ############################## LINTING ##############################
 
