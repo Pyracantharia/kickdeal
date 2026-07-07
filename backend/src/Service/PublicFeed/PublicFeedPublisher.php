@@ -36,6 +36,21 @@ final class PublicFeedPublisher
             return null;
         }
 
+        $marketStatus = $player->getMarketStatus();
+        if (
+            TransferTypeEnum::LOAN === $listing->getTransferType()
+            && PlayerMarketStatusEnum::LOAN_LISTED !== $marketStatus
+        ) {
+            return null;
+        }
+
+        if (
+            TransferTypeEnum::LOAN !== $listing->getTransferType()
+            && PlayerMarketStatusEnum::ON_MARKET !== $marketStatus
+        ) {
+            return null;
+        }
+
         $eventType = TransferTypeEnum::LOAN === $listing->getTransferType()
             ? PublicFeedEventTypeEnum::LOAN
             : PublicFeedEventTypeEnum::MARKET_LISTING;
