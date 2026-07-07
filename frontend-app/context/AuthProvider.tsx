@@ -1,5 +1,6 @@
 'use client'
 import { authManager } from '@/features/auth/auth';
+import { usePathname } from 'next/navigation';
 import React, { ReactNode, useContext, useEffect, useState } from 'react'
 import { createContext } from "react";
 
@@ -51,8 +52,10 @@ interface AuthProviderProps {
 }
 
 function AuthProvider({ children, initialUser }: AuthProviderProps) {
+  const pathname = usePathname()
+  const shouldSkipInitialFetch = pathname.startsWith('/auth')
   const initialWindowUser = getInitialAuthUser()
-  const hasInitialUser = initialUser !== undefined || initialWindowUser !== undefined
+  const hasInitialUser = initialUser !== undefined || initialWindowUser !== undefined || shouldSkipInitialFetch
   const [user, setUser] = useState<User | null>(() => initialUser ?? initialWindowUser ?? null);
   const [isLoading, setIsLoading] = useState(!hasInitialUser);
   
@@ -61,6 +64,11 @@ function AuthProvider({ children, initialUser }: AuthProviderProps) {
   }
   
   useEffect(() => {
+    if (shouldSkipInitialFetch) {
+      setIsLoading(false)
+      return
+    }
+
     if (hasInitialUser) {
       setIsLoading(false)
       return
@@ -68,6 +76,7 @@ function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
     async function fetchMe(){
       try {
+        setIsLoading(true);
         const meResponse = await authManager.me();
         if(meResponse.ok) {
           setUser(meResponse.data);
@@ -79,7 +88,7 @@ function AuthProvider({ children, initialUser }: AuthProviderProps) {
       }
     }
     fetchMe();
-  }, [hasInitialUser]);
+  }, [hasInitialUser, shouldSkipInitialFetch]);
 
   return (
     <AuthContext.Provider value={{ user, isLoading, updateUser }}>

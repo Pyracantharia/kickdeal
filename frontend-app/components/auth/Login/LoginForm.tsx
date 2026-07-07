@@ -1,58 +1,96 @@
 'use client'
 
 import React from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { Mail, Lock, ArrowRight, ShieldCheck } from 'lucide-react'
 
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
-import { loginSchema, type LoginFormData } from '@/features/auth/schemas/login.schema'
 import { authManager } from '@/features/auth/auth'
-import { useAuth } from '@/context/AuthProvider'
 import Link from 'next/link'
-import { transfersManager } from '@/features/market/transfers'
+
+type LoginFormData = {
+  email: string
+  password: string
+  twoFactorCode: string
+}
+
+type LoginFormErrors = Partial<Record<keyof LoginFormData | 'root', string>>
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 function LoginForm() {
   const router = useRouter()
-  const { updateUser } = useAuth()
   const [requiresTwoFactor, setRequiresTwoFactor] = React.useState(false)
-
-  const {
-    register,
-    handleSubmit,
-    setError,
-    clearErrors,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-      twoFactorCode: '',
-    },
+  const [formData, setFormData] = React.useState<LoginFormData>({
+    email: '',
+    password: '',
+    twoFactorCode: '',
   })
+  const [errors, setErrors] = React.useState<LoginFormErrors>({})
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
 
-  async function onSubmit(data: LoginFormData) {
+  function updateField(field: keyof LoginFormData, value: string) {
+    setFormData((current) => ({
+      ...current,
+      [field]: value,
+    }))
+    setErrors((current) => ({
+      ...current,
+      [field]: undefined,
+      root: undefined,
+    }))
+  }
+
+  function validateForm(data: LoginFormData): LoginFormErrors {
+    const nextErrors: LoginFormErrors = {}
+
+    if (!data.email.trim()) {
+      nextErrors.email = 'Email requis'
+    } else if (!EMAIL_PATTERN.test(data.email)) {
+      nextErrors.email = 'Email invalide'
+    }
+
+    if (!data.password) {
+      nextErrors.password = 'Mot de passe requis'
+    }
+
+    if (requiresTwoFactor && !data.twoFactorCode.trim()) {
+      nextErrors.twoFactorCode = 'Code requis'
+    }
+
+    return nextErrors
+  }
+
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const validationErrors = validateForm(formData)
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+
+    setIsSubmitting(true)
+
     try {
       const payload = {
-        email: data.email,
-        password: data.password,
-        ...(requiresTwoFactor ? { twoFactorCode: data.twoFactorCode } : {}),
+        email: formData.email,
+        password: formData.password,
+        ...(requiresTwoFactor ? { twoFactorCode: formData.twoFactorCode } : {}),
       }
       const response = await authManager.login(payload)
 
       if (response.status === 202 && response.data.requiresTwoFactor) {
         setRequiresTwoFactor(true)
-        clearErrors('root')
+        setErrors({})
         return
       }
 
       if (!response.ok) {
         if (response.status === 429) {
-          setError('root', {
-            message: 'Trop de tentatives de connexion echouees. Veuillez patienter quelques minutes avant de reessayer.',
+          setErrors({
+            root: 'Trop de tentatives de connexion echouees. Veuillez patienter quelques minutes avant de reessayer.',
           })
           return
         }
@@ -66,7 +104,7 @@ function LoginForm() {
 
         if (errorData.errors?.twoFactorCode) {
           setRequiresTwoFactor(true)
-          setError('twoFactorCode', { message: errorData.errors.twoFactorCode })
+          setErrors({ twoFactorCode: errorData.errors.twoFactorCode })
           return
         }
 
@@ -78,15 +116,16 @@ function LoginForm() {
 
         const serverMessage = getLoginErrorMessage(rawServerMessage)
 
-        setError('root', { message: serverMessage })
+        setErrors({ root: serverMessage })
         return
       }
 
-      updateUser(response.data.user)
       const requestedPlan = new URLSearchParams(window.location.search).get('plan')
       const invitationToken = new URLSearchParams(window.location.search).get('invitationToken')
       const payablePlans = ['agent_pro', 'club_pro', 'club_enterprise']
       if (invitationToken && response.data.user.roles.includes('ROLE_AGENT')) {
+        const { transfersManager } = await import('@/features/market/transfers')
+
         await transfersManager.claimAgentInvitation(invitationToken)
         router.push('/negociations')
         return
@@ -98,20 +137,22 @@ function LoginForm() {
           ? `/subscription?plan=${requestedPlan}`
           : '/dashboard')
     } catch {
-      setError('root', {
-        message: 'Une erreur est survenue. Veuillez réessayer.',
+      setErrors({
+        root: 'Une erreur est survenue. Veuillez réessayer.',
       })
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-5">
+    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
       {errors.root && (
         <div
           className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-center text-sm text-red-400"
           role="alert"
         >
-          {errors.root.message}
+          {errors.root}
         </div>
       )}
 
@@ -120,10 +161,12 @@ function LoginForm() {
         type="email"
         placeholder="votre@email.com"
         icon={<Mail className="h-5 w-5" />}
-        error={errors.email?.message}
+        error={errors.email}
         autoComplete="email"
         autoFocus
-        {...register('email')}
+        name="email"
+        value={formData.email}
+        onChange={(event) => updateField('email', event.target.value)}
       />
 
       <Input
@@ -131,9 +174,11 @@ function LoginForm() {
         type="password"
         placeholder="••••••••"
         icon={<Lock className="h-5 w-5" />}
-        error={errors.password?.message}
+        error={errors.password}
         autoComplete="current-password"
-        {...register('password')}
+        name="password"
+        value={formData.password}
+        onChange={(event) => updateField('password', event.target.value)}
       />
 
       {requiresTwoFactor && (
@@ -143,10 +188,12 @@ function LoginForm() {
           inputMode="numeric"
           placeholder="123456"
           icon={<ShieldCheck className="h-5 w-5" />}
-          error={errors.twoFactorCode?.message}
+          error={errors.twoFactorCode}
           autoComplete="one-time-code"
           autoFocus
-          {...register('twoFactorCode')}
+          name="twoFactorCode"
+          value={formData.twoFactorCode}
+          onChange={(event) => updateField('twoFactorCode', event.target.value)}
         />
       )}
 
