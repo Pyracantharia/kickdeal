@@ -52,6 +52,9 @@ class TransferNegociation
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?string $externalContractWeeklySalary = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $externalContractDurationMonths = null;
+
     #[ORM\Column(options: ['default' => false])]
     private bool $publicFeedEnabled = false;
 
@@ -177,6 +180,18 @@ class TransferNegociation
     public function setExternalContractWeeklySalary(?int $externalContractWeeklySalary): static
     {
         $this->externalContractWeeklySalary = null === $externalContractWeeklySalary ? null : (string) $externalContractWeeklySalary;
+
+        return $this;
+    }
+
+    public function getExternalContractDurationMonths(): ?int
+    {
+        return $this->externalContractDurationMonths;
+    }
+
+    public function setExternalContractDurationMonths(?int $externalContractDurationMonths): static
+    {
+        $this->externalContractDurationMonths = $externalContractDurationMonths;
 
         return $this;
     }

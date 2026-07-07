@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { useRouter } from 'next/navigation'
 import { Mail, Lock, ArrowRight, ShieldCheck } from 'lucide-react'
 
 import Input from '@/components/ui/Input'
@@ -20,7 +19,6 @@ type LoginFormErrors = Partial<Record<keyof LoginFormData | 'root', string>>
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 function LoginForm() {
-  const router = useRouter()
   const [requiresTwoFactor, setRequiresTwoFactor] = React.useState(false)
   const [formData, setFormData] = React.useState<LoginFormData>({
     email: '',
@@ -127,11 +125,11 @@ function LoginForm() {
         const { transfersManager } = await import('@/features/market/transfers')
 
         await transfersManager.claimAgentInvitation(invitationToken)
-        router.push('/negociations')
+        navigateAfterLogin('/negociations')
         return
       }
 
-      router.push(response.data.user.passwordExpired
+      navigateAfterLogin(response.data.user.passwordExpired
         ? '/account'
         : requestedPlan && payablePlans.includes(requestedPlan)
           ? `/subscription?plan=${requestedPlan}`
@@ -208,6 +206,10 @@ function LoginForm() {
       </Button>
     </form>
   )
+}
+
+function navigateAfterLogin(path: string) {
+  window.location.assign(path)
 }
 
 function getLoginErrorMessage(message: string): string {

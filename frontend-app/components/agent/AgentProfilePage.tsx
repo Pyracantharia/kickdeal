@@ -7,6 +7,7 @@ import {
   BriefcaseBusiness,
   CalendarClock,
   Clock3,
+  CircleDollarSign,
   FileCheck2,
   Handshake,
   Search,
@@ -33,6 +34,8 @@ const EMPTY_DASHBOARD: AgentDashboardHomeData = {
     activeNegotiations: 0,
     pendingOffers: 0,
     availablePlayers: 0,
+    portfolioMarketValue: 0,
+    portfolioMarketValueLabel: '0 EUR',
   },
   players: [],
   negotiations: [],
@@ -100,14 +103,6 @@ function AgentProfilePage() {
     () => players.filter((player) => {
       const status = player.transferStatus.toLocaleLowerCase('fr')
       return status.includes('marché') || status.includes('marche')
-    }),
-    [players],
-  )
-
-  const loanListedPlayers = useMemo(
-    () => players.filter((player) => {
-      const status = player.transferStatus.toLocaleLowerCase('fr')
-      return status.includes('prêt') || status.includes('pret')
     }),
     [players],
   )
@@ -218,10 +213,10 @@ function AgentProfilePage() {
 
         <section className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-6">
           <MetricCard label="Portefeuille" value={dashboard.stats.representedPlayers} icon={<UsersRound className="h-5 w-5" />} tone="cyan" />
+          <MetricCard label="Force financière" value={dashboard.stats.portfolioMarketValueLabel} icon={<CircleDollarSign className="h-5 w-5" />} tone="emerald" />
           <MetricCard label="Négociations" value={dashboard.stats.activeNegotiations} icon={<Handshake className="h-5 w-5" />} tone="purple" />
           <MetricCard label="Offres à traiter" value={dashboard.stats.pendingOffers} icon={<Send className="h-5 w-5" />} tone="blue" />
           <MetricCard label="Sur le marché" value={playersOnMarket.length} icon={<BadgeCheck className="h-5 w-5" />} tone="emerald" />
-          <MetricCard label="En prêt" value={loanListedPlayers.length} icon={<ArrowRight className="h-5 w-5" />} tone="purple" />
           <MetricCard label="À sécuriser" value={expiringPlayers.length} icon={<CalendarClock className="h-5 w-5" />} tone="amber" />
         </section>
 
@@ -368,7 +363,7 @@ function MetricCard({
   tone,
 }: {
   label: string
-  value: number
+  value: number | string
   icon: React.ReactNode
   tone: 'cyan' | 'purple' | 'blue' | 'emerald' | 'amber'
 }) {
@@ -385,7 +380,7 @@ function MetricCard({
       <div className={`flex h-10 w-10 items-center justify-center rounded-xl border ${tones[tone]}`}>
         {icon}
       </div>
-      <p className="mt-4 text-3xl font-bold text-white">{value}</p>
+      <p className="mt-4 text-3xl font-bold leading-none text-white">{value}</p>
       <p className="mt-1 text-sm text-white/60">{label}</p>
     </article>
   )

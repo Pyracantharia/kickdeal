@@ -71,6 +71,8 @@ export interface AgentDashboardHomeData {
     activeNegotiations: number
     pendingOffers: number
     availablePlayers: number
+    portfolioMarketValue: number
+    portfolioMarketValueLabel: string
   }
   players: AgentDashboardPlayer[]
   negotiations: AgentDashboardNegotiation[]

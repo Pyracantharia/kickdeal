@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowRightLeft, ChevronUp, Send } from 'lucide-react'
 
 import Button from '@/components/ui/Button'
+import ActionConfirmationModal from '@/components/ui/ActionConfirmationModal'
 import {
   ChoiceButton,
   FieldLabel,
@@ -39,6 +40,7 @@ function TransferNegotiationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [subscription, setSubscription] = useState<SubscriptionSummary | null>(null)
+  const [pendingOfferPayload, setPendingOfferPayload] = useState<TransferOfferPayload | null>(null)
 
   const [type, setType] = useState<OfferType>('purchase')
   const [amount, setAmount] = useState('')
@@ -185,7 +187,6 @@ function TransferNegotiationPage() {
       return
     }
 
-    setIsSubmitting(true)
     setErrorMessage(null)
 
     const payload: TransferOfferPayload = {
@@ -203,10 +204,19 @@ function TransferNegotiationPage() {
       message: message || undefined,
     }
 
+    setPendingOfferPayload(payload)
+  }
+
+  const confirmSubmitOffer = async () => {
+    if (!pendingOfferPayload) return
+
+    setIsSubmitting(true)
+    setErrorMessage(null)
+
     try {
       const response = offerId
-        ? await transfersManager.counterOffer(offerId, payload)
-        : await transfersManager.createOffer(payload)
+        ? await transfersManager.counterOffer(offerId, pendingOfferPayload)
+        : await transfersManager.createOffer(pendingOfferPayload)
 
       if (!response.ok) {
         const errorData = response.data as { errorMessage?: unknown }
@@ -215,6 +225,7 @@ function TransferNegotiationPage() {
       }
 
       await refreshSummary()
+      setPendingOfferPayload(null)
       router.push('/market/transfers')
     } catch {
       setErrorMessage("Impossible d'envoyer l'offre.")
@@ -442,6 +453,26 @@ function TransferNegotiationPage() {
           </aside>
         </div>
       </form>
+
+      <ActionConfirmationModal
+        isOpen={!!pendingOfferPayload}
+        title={offerId ? 'Confirmer la contre-offre' : 'Confirmer l’offre'}
+        description="Vous êtes sur le point d’envoyer une proposition financière à un autre club. Vérifiez bien les montants et les conditions avant de continuer."
+        confirmLabel={offerId ? 'Envoyer la contre-offre' : 'Envoyer l’offre'}
+        isLoading={isSubmitting}
+        items={[
+          { label: 'Joueur', value: `${context.player.firstName} ${context.player.lastName}` },
+          { label: 'Opération', value: operationLabel },
+          { label: 'Montant garanti', value: formatCurrency(amountValue) },
+          { label: 'Bonus potentiels', value: hasBonus && canShowAdvancedTransferTerms ? formatCurrency(bonusValue) : '-' },
+          { label: 'Montant total', value: formatCurrency(totalValue) },
+          { label: 'Paiement', value: type !== 'loan' && paymentMode === 'installments' ? `${paymentInstallments} versements` : 'Paiement comptant' },
+          { label: 'Club concerné', value: counterparty?.name ?? '-' },
+        ]}
+        warning="Une offre envoyée entre dans l’historique de négociation et peut déclencher une décision du club adverse."
+        onClose={() => setPendingOfferPayload(null)}
+        onConfirm={() => void confirmSubmitOffer()}
+      />
     </div>
   )
 }

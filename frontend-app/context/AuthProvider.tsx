@@ -27,24 +27,6 @@ interface AuthContextType {
   updateUser: (user: User | null) => void;
 }
 
-declare global {
-  interface Window {
-    __INITIAL_AUTH_USER__?: User | null
-  }
-}
-
-function getInitialAuthUser(): User | null | undefined {
-  if (typeof window === 'undefined') {
-    return undefined
-  }
-
-  if (Object.prototype.hasOwnProperty.call(window, '__INITIAL_AUTH_USER__')) {
-    return window.__INITIAL_AUTH_USER__ ?? null
-  }
-
-  return undefined
-}
-
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 
@@ -56,10 +38,9 @@ interface AuthProviderProps {
 function AuthProvider({ children, initialUser }: AuthProviderProps) {
   const pathname = usePathname()
   const shouldSkipInitialFetch = pathname.startsWith('/auth')
-  const initialWindowUser = getInitialAuthUser()
-  const hasInitialUser = initialUser !== undefined || initialWindowUser !== undefined || shouldSkipInitialFetch
-  const [user, setUser] = useState<User | null>(() => initialUser ?? initialWindowUser ?? null);
-  const [isLoading, setIsLoading] = useState(!hasInitialUser);
+  const hasInitialUser = Boolean(initialUser)
+  const [user, setUser] = useState<User | null>(() => initialUser ?? null);
+  const [isLoading, setIsLoading] = useState(!shouldSkipInitialFetch && !hasInitialUser);
   
   function updateUser(user: User | null) {
     setUser(user);
@@ -71,7 +52,8 @@ function AuthProvider({ children, initialUser }: AuthProviderProps) {
       return
     }
 
-    if (hasInitialUser) {
+    if (initialUser) {
+      setUser(initialUser)
       setIsLoading(false)
       return
     }
@@ -80,17 +62,20 @@ function AuthProvider({ children, initialUser }: AuthProviderProps) {
       try {
         setIsLoading(true);
         const meResponse = await authManager.me();
-        if(meResponse.ok) {
+        if(meResponse.ok && meResponse.data) {
           setUser(meResponse.data);
+        } else {
+          setUser(null)
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
+        setUser(null)
       } finally {
         setIsLoading(false);
       }
     }
     fetchMe();
-  }, [hasInitialUser, shouldSkipInitialFetch]);
+  }, [initialUser, shouldSkipInitialFetch]);
 
   return (
     <AuthContext.Provider value={{ user, isLoading, updateUser }}>

@@ -350,6 +350,7 @@ final class PublicFeedPublisher
             details: [
                 'contractType' => 'external_transfer',
                 'weeklySalaryLabel' => $this->formatMoney($negociation->getExternalContractWeeklySalary()),
+                'durationMonths' => $negociation->getExternalContractDurationMonths(),
                 'transferAmountLabel' => $this->formatMoney($acceptedTransferOffer?->getAmount()),
                 'amountLabel' => $this->formatMoney($acceptedTransferOffer?->getAmount()),
                 'finalizedWithoutAgent' => true,

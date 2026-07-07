@@ -157,6 +157,11 @@ final class ContractNegotiationWorkflow
             throw new \LogicException('Le salaire hebdomadaire convenu est requis pour finaliser ce transfert.');
         }
 
+        $durationMonths = $transferNegociation->getExternalContractDurationMonths();
+        if (null === $durationMonths || $durationMonths <= 0) {
+            throw new \LogicException('La durée du contrat convenue est requise pour finaliser ce transfert.');
+        }
+
         $transferNegociation
             ->setStatus(TransferNegociationStatusEnum::COMPLETED)
             ->setAgreedAt(new \DateTimeImmutable('today'));
@@ -164,6 +169,8 @@ final class ContractNegotiationWorkflow
         $player
             ->setTeam($buyerTeam)
             ->setWeeklySalary($weeklySalary)
+            ->setJoinedAt(new \DateTimeImmutable('today'))
+            ->setContractEndDate((new \DateTimeImmutable('today'))->modify(sprintf('+%d months', $durationMonths)))
             ->setContractStatus(PlayerContractStatusEnum::UNDER_CONTRACT)
             ->setMarketStatus(PlayerMarketStatusEnum::NOT_LISTED)
             ->setUpdatedAt(new \DateTimeImmutable());
@@ -239,6 +246,7 @@ final class ContractNegotiationWorkflow
         $player
             ->setTeam($buyerTeam)
             ->setWeeklySalary((int) round($annualSalary / 52))
+            ->setJoinedAt(new \DateTimeImmutable('today'))
             ->setContractEndDate((new \DateTimeImmutable('today'))->modify(sprintf('+%d months', $durationMonths)))
             ->setReleaseClause($acceptedOffer->getReleaseClause())
             ->setContractStatus(PlayerContractStatusEnum::UNDER_CONTRACT)
@@ -289,6 +297,7 @@ final class ContractNegotiationWorkflow
         $player
             ->setTeam(null)
             ->setWeeklySalary(null)
+            ->setJoinedAt(null)
             ->setReleaseClause(null)
             ->setContractEndDate($effectiveDate)
             ->setContractStatus(PlayerContractStatusEnum::FREE_AGENT)

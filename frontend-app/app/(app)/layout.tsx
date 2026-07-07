@@ -29,10 +29,10 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     <>
       <script
         dangerouslySetInnerHTML={{
-          __html: `window.__INITIAL_AUTH_USER__ = ${serializeForScript(initialData.user)};\nwindow.__INITIAL_NOTIFICATIONS_SUMMARY__ = ${serializeForScript(initialData.notificationsSummary)};`,
+          __html: `window.__INITIAL_NOTIFICATIONS_SUMMARY__ = ${serializeForScript(initialData.notificationsSummary)};`,
         }}
       />
-      <AuthProvider>
+      <AuthProvider initialUser={initialData.user}>
         <AppAccessGuard>
           <MessagesUnreadProvider>
             <NotificationsProvider>

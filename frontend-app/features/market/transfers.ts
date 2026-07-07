@@ -108,7 +108,10 @@ class TransfersManager {
     return httpClient.post<{ message: string; contractNegociationIds: string[] }>(`/transfers/agent-invitations/${encodeURIComponent(token)}/claim`, {})
   }
 
-  async confirmExternalContractAgreement(negociationId: string, payload: { weeklySalary?: number } = {}) {
+  async confirmExternalContractAgreement(
+    negociationId: string,
+    payload: { weeklySalary?: number; durationMonths?: number } = {},
+  ) {
     return httpClient.post<{ negociation: { id: string; status: string; contractResolution: unknown } }>(
       `/transfers/negotiations/${negociationId}/external-contract-agreement`,
       payload,

@@ -16,6 +16,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
+import ActionConfirmationModal from '@/components/ui/ActionConfirmationModal'
 import { useNotifications } from '@/context/NotificationsProvider'
 import {
   contractsManager,
@@ -50,6 +51,8 @@ function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [actionInProgress, setActionInProgress] = useState<'accept' | 'reject' | 'cancel' | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [pendingContractPayload, setPendingContractPayload] = useState<ContractOfferPayload | null>(null)
+  const [pendingOfferAction, setPendingOfferAction] = useState<'accept' | 'reject' | null>(null)
 
   const loadNegotiation = useCallback(async () => {
     try {
@@ -188,7 +191,6 @@ function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps
     event.preventDefault()
     if (!negotiation || (!isTermination && salaryValue <= 0)) return
 
-    setIsSubmitting(true)
     setErrorMessage(null)
 
     const payload: ContractOfferPayload = isTermination ? {
@@ -205,12 +207,22 @@ function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps
       notes: notes.trim() || undefined,
     }
 
+    setPendingContractPayload(payload)
+  }
+
+  async function confirmSubmitOffer() {
+    if (!negotiation || !pendingContractPayload) return
+
+    setIsSubmitting(true)
+    setErrorMessage(null)
+
     try {
-      const response = await contractsManager.createOffer(negotiation.id, payload)
+      const response = await contractsManager.createOffer(negotiation.id, pendingContractPayload)
       if (!response.ok) {
         setErrorMessage(readError(response.data, 'Impossible d’envoyer la proposition.'))
         return
       }
+      setPendingContractPayload(null)
       await loadNegotiation()
       await refreshSummary()
     } catch {
@@ -235,6 +247,7 @@ function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps
         return
       }
       setNegotiation(response.data.negotiation)
+      setPendingOfferAction(null)
       await refreshSummary()
     } catch {
       setErrorMessage('Impossible de mettre à jour la négociation.')
@@ -450,7 +463,7 @@ function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps
                   <div className="mt-5 grid gap-3 sm:grid-cols-2">
                     <Button
                       type="button"
-                      onClick={() => handleOfferAction('accept')}
+                      onClick={() => setPendingOfferAction('accept')}
                       isLoading={actionInProgress === 'accept'}
                       icon={<CheckCircle2 className="h-4 w-4" />}
                     >
@@ -459,7 +472,7 @@ function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps
                     <Button
                       type="button"
                       variant="secondary"
-                      onClick={() => handleOfferAction('reject')}
+                      onClick={() => setPendingOfferAction('reject')}
                       disabled={Boolean(actionInProgress)}
                       icon={<XCircle className="h-4 w-4" />}
                     >
@@ -606,6 +619,63 @@ function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps
           </aside>
         </div>
       </div>
+
+      <ActionConfirmationModal
+        isOpen={!!pendingContractPayload}
+        title={isTermination ? 'Confirmer la proposition de résiliation' : 'Confirmer la proposition contractuelle'}
+        description={
+          isTermination
+            ? 'Vous êtes sur le point d’envoyer une proposition de résiliation. Vérifiez bien les conditions avant envoi.'
+            : 'Vous êtes sur le point d’envoyer une proposition contractuelle avec un salaire et une durée. Vérifiez bien les montants avant envoi.'
+        }
+        confirmLabel={isTermination ? 'Envoyer la résiliation' : 'Envoyer la proposition'}
+        isLoading={isSubmitting}
+        items={isTermination ? [
+          { label: 'Joueur', value: `${negotiation.player.firstName} ${negotiation.player.lastName}` },
+          { label: 'Indemnité', value: formatCurrency(terminationCompensationValue) },
+          { label: 'Prise d’effet', value: 'Immédiate après acceptation' },
+          { label: 'Club concerné', value: negotiation.buyerTeam.name ?? '-' },
+        ] : [
+          { label: 'Joueur', value: `${negotiation.player.firstName} ${negotiation.player.lastName}` },
+          { label: 'Salaire annuel', value: formatCurrency(salaryValue) },
+          { label: 'Salaire hebdomadaire estimé', value: formatCurrency(weeklyValue) },
+          { label: 'Durée', value: `${durationMonths} mois` },
+          { label: 'Prime signature', value: bonusValue > 0 ? formatCurrency(bonusValue) : '-' },
+          { label: 'Clause libératoire', value: releaseClauseValue > 0 ? formatCurrency(releaseClauseValue) : '-' },
+        ]}
+        warning="Une fois envoyée, cette proposition sera visible par la contrepartie et entrera dans l’historique contractuel."
+        onClose={() => setPendingContractPayload(null)}
+        onConfirm={() => void confirmSubmitOffer()}
+      />
+
+      <ActionConfirmationModal
+        isOpen={!!pendingOfferAction}
+        title={pendingOfferAction === 'accept' ? 'Confirmer l’acceptation' : 'Confirmer le refus'}
+        description={
+          pendingOfferAction === 'accept'
+            ? 'Vous êtes sur le point d’accepter cette proposition contractuelle. Selon le type de dossier, cela peut finaliser le contrat ou le transfert.'
+            : 'Vous êtes sur le point de refuser cette proposition contractuelle. La contrepartie sera informée.'
+        }
+        confirmLabel={pendingOfferAction === 'accept' ? 'Oui, accepter' : 'Oui, refuser'}
+        tone={pendingOfferAction === 'reject' ? 'danger' : 'default'}
+        isLoading={pendingOfferAction ? actionInProgress === pendingOfferAction : false}
+        items={[
+          { label: 'Joueur', value: `${negotiation.player.firstName} ${negotiation.player.lastName}` },
+          {
+            label: isTermination ? 'Indemnité' : 'Salaire annuel',
+            value: isTermination ? latestOffer?.terminationCompensation : latestOffer?.annualSalary,
+          },
+          { label: 'Durée', value: isTermination ? '-' : `${latestOffer?.durationMonths ?? '-'} mois` },
+          { label: 'Auteur', value: latestOffer?.authorLabel ?? '-' },
+        ]}
+        warning="Cette décision peut modifier définitivement le statut contractuel du joueur."
+        onClose={() => setPendingOfferAction(null)}
+        onConfirm={() => {
+          if (pendingOfferAction) {
+            void handleOfferAction(pendingOfferAction)
+          }
+        }}
+      />
     </div>
   )
 }

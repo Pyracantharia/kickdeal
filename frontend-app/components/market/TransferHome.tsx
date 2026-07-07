@@ -1,11 +1,12 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { BadgeEuro, CheckCircle2, Clock3, Mail, ReceiptText, Send, Users } from 'lucide-react'
+import { BadgeEuro, CalendarClock, CheckCircle2, Clock3, Mail, ReceiptText, Send, Users } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
 import Modal from '@/components/ui/Modal'
+import ActionConfirmationModal from '@/components/ui/ActionConfirmationModal'
 import { CountryFlag } from '@/components/media/CountryFlag'
 import { useNotifications } from '@/context/NotificationsProvider'
 import OfferDetailsModal from './modals/OfferDetailsModal'
@@ -42,6 +43,10 @@ function TransferHome() {
   const [actionMessage, setActionMessage] = useState<string | null>(null)
   const [pendingActionId, setPendingActionId] = useState<string | null>(null)
   const [externalAgreementOffer, setExternalAgreementOffer] = useState<SentOffer | ReceivedOffer | null>(null)
+  const [pendingOfferDecision, setPendingOfferDecision] = useState<{
+    offer: SentOffer | ReceivedOffer
+    action: 'accept' | 'reject'
+  } | null>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -133,9 +138,11 @@ function TransferHome() {
   }
 
   const updateOfferStatus = async (offer: SentOffer | ReceivedOffer, action: 'accept' | 'reject') => {
+    setPendingActionId(`${action}-${offer.id}`)
     const response = action === 'accept'
       ? await transfersManager.acceptOffer(offer.id)
       : await transfersManager.rejectOffer(offer.id)
+    setPendingActionId(null)
 
     if (!response.ok) {
       setOffersError(readError(response.data, "Impossible de mettre à jour l'offre."))
@@ -143,6 +150,7 @@ function TransferHome() {
     }
 
     setSelectedOffer(null)
+    setPendingOfferDecision(null)
     if (action === 'accept' && response.data.contractNegociationId) {
       setActionMessage("Accord entre clubs trouvé. La négociation contractuelle est prête.")
     }
@@ -183,7 +191,10 @@ function TransferHome() {
     confirmExternalAgreement(offer)
   }
 
-  const confirmExternalAgreement = async (offer: SentOffer | ReceivedOffer, weeklySalary?: number) => {
+  const confirmExternalAgreement = async (
+    offer: SentOffer | ReceivedOffer,
+    contractTerms?: { weeklySalary: number; durationMonths: number },
+  ) => {
     if (!offer.negociationId) return
 
     setPendingActionId(`external-${offer.id}`)
@@ -192,7 +203,7 @@ function TransferHome() {
 
     const response = await transfersManager.confirmExternalContractAgreement(
       offer.negociationId,
-      weeklySalary ? { weeklySalary } : {},
+      contractTerms ?? {},
     )
     setPendingActionId(null)
 
@@ -454,7 +465,7 @@ function TransferHome() {
                   <div className="flex flex-wrap gap-2">
                     <Button
                       type="button"
-                      onClick={() => updateOfferStatus(offer, 'accept')}
+                      onClick={() => setPendingOfferDecision({ offer, action: 'accept' })}
                       className="flex-1 min-w-[110px]"
                     >
                       Accepter
@@ -471,7 +482,7 @@ function TransferHome() {
                     </Button>
                     <Button
                       type="button"
-                      onClick={() => updateOfferStatus(offer, 'reject')}
+                      onClick={() => setPendingOfferDecision({ offer, action: 'reject' })}
                       className="flex-1 min-w-[110px] bg-red-500/20 border border-red-500/50 hover:bg-red-500/30 text-red-400"
                     >
                       Rejeter
@@ -511,23 +522,53 @@ function TransferHome() {
             setSelectedOffer(null)
             router.push(`/market/transfers/negotiate?offerId=${selectedOffer.id}`)
           }}
-          onAccept={() => updateOfferStatus(selectedOffer, 'accept')}
+          onAccept={() => setPendingOfferDecision({ offer: selectedOffer, action: 'accept' })}
           onNegotiate={() => {
             setSelectedOffer(null)
             router.push(`/market/transfers/negotiate?offerId=${selectedOffer.id}`)
           }}
-          onReject={() => updateOfferStatus(selectedOffer, 'reject')}
+          onReject={() => setPendingOfferDecision({ offer: selectedOffer, action: 'reject' })}
         />
       )}
+
+      <ActionConfirmationModal
+        isOpen={!!pendingOfferDecision}
+        title={pendingOfferDecision?.action === 'accept' ? 'Confirmer l’acceptation' : 'Confirmer le refus'}
+        description={
+          pendingOfferDecision?.action === 'accept'
+            ? 'Vous êtes sur le point d’accepter cette offre de transfert. Un accord entre clubs pourra être créé et la suite contractuelle sera lancée.'
+            : 'Vous êtes sur le point de refuser cette offre de transfert. Le club émetteur sera informé de votre décision.'
+        }
+        confirmLabel={pendingOfferDecision?.action === 'accept' ? 'Oui, accepter l’offre' : 'Oui, refuser l’offre'}
+        tone={pendingOfferDecision?.action === 'reject' ? 'danger' : 'default'}
+        isLoading={pendingOfferDecision ? pendingActionId === `${pendingOfferDecision.action}-${pendingOfferDecision.offer.id}` : false}
+        items={[
+          {
+            label: 'Joueur',
+            value: pendingOfferDecision
+              ? `${pendingOfferDecision.offer.player.firstName} ${pendingOfferDecision.offer.player.lastName}`
+              : null,
+          },
+          { label: 'Montant', value: pendingOfferDecision?.offer.amount },
+          { label: 'Bonus', value: pendingOfferDecision?.offer.performanceBonus ?? '-' },
+          { label: 'Club émetteur', value: pendingOfferDecision ? pendingOfferDecision.offer.fromClub : null },
+        ]}
+        onClose={() => setPendingOfferDecision(null)}
+        onConfirm={() => {
+          if (pendingOfferDecision) {
+            void updateOfferStatus(pendingOfferDecision.offer, pendingOfferDecision.action)
+          }
+        }}
+      />
 
       <ExternalAgreementSalaryModal
         key={externalAgreementOffer?.id ?? 'closed'}
         offer={externalAgreementOffer}
         isLoading={externalAgreementOffer ? pendingActionId === `external-${externalAgreementOffer.id}` : false}
         onClose={() => setExternalAgreementOffer(null)}
-        onConfirm={(weeklySalary) => {
+        onConfirm={(contractTerms) => {
           if (externalAgreementOffer) {
-            confirmExternalAgreement(externalAgreementOffer, weeklySalary)
+            confirmExternalAgreement(externalAgreementOffer, contractTerms)
           }
         }}
       />
@@ -609,6 +650,14 @@ function ContractResolutionPanel({
                   {resolution.sellerTeamName}: {resolution.sellerConfirmedExternalAgreement ? 'validé' : 'en attente'}
                 </span>
               </div>
+              {(resolution.externalContractWeeklySalary || resolution.externalContractDurationMonths) && (
+                <div className="mt-3 rounded-lg border border-white/10 bg-[#071722]/70 px-3 py-2 text-xs text-white/60">
+                  Conditions joueur :{' '}
+                  {resolution.externalContractWeeklySalary ? `${resolution.externalContractWeeklySalary} / semaine` : 'salaire à confirmer'}
+                  {' · '}
+                  {resolution.externalContractDurationMonths ? `${resolution.externalContractDurationMonths} mois` : 'durée à confirmer'}
+                </div>
+              )}
               <Button
                 type="button"
                 variant="secondary"
@@ -636,15 +685,21 @@ function ExternalAgreementSalaryModal({
   offer: SentOffer | ReceivedOffer | null
   isLoading: boolean
   onClose: () => void
-  onConfirm: (weeklySalary: number) => void
+  onConfirm: (contractTerms: { weeklySalary: number; durationMonths: number }) => void
 }) {
   const [weeklySalary, setWeeklySalary] = useState('')
+  const [durationMonths, setDurationMonths] = useState('60')
   const weeklySalaryValue = parseFormattedNumber(weeklySalary)
+  const durationMonthsValue = Number.parseInt(durationMonths, 10)
 
   if (!offer) return null
 
   const playerName = `${offer.player.firstName} ${offer.player.lastName}`
-  const canSubmit = typeof weeklySalaryValue === 'number' && weeklySalaryValue > 0
+  const canSubmit = typeof weeklySalaryValue === 'number'
+    && weeklySalaryValue > 0
+    && Number.isInteger(durationMonthsValue)
+    && durationMonthsValue >= 1
+    && durationMonthsValue <= 120
 
   return (
     <Modal
@@ -657,8 +712,8 @@ function ExternalAgreementSalaryModal({
         <div className="rounded-xl border border-brand-cyan/25 bg-brand-cyan/10 px-4 py-3">
           <p className="text-sm text-white/70">
             Avant de valider l’accord externe, indiquez le salaire hebdomadaire convenu avec{' '}
-            <span className="font-semibold text-white">{playerName}</span>. Ce montant sera appliqué au joueur
-            uniquement lorsque les deux clubs auront confirmé l’accord.
+            <span className="font-semibold text-white">{playerName}</span> ainsi que la durée du contrat. Ces conditions
+            seront appliquées au joueur uniquement lorsque les deux clubs auront confirmé l’accord.
           </p>
         </div>
 
@@ -689,6 +744,33 @@ function ExternalAgreementSalaryModal({
           </div>
         </label>
 
+        <label className="block">
+          <span className="mb-2 block text-sm font-medium text-white/80">
+            Durée du contrat convenue
+          </span>
+          <div className="flex items-center gap-3 rounded-xl border border-white/15 bg-[#071722] px-4 py-3 focus-within:border-brand-cyan">
+            <CalendarClock className="h-5 w-5 shrink-0 text-brand-cyan" />
+            <select
+              value={durationMonths}
+              onChange={(event) => setDurationMonths(event.target.value)}
+              className="min-w-0 flex-1 bg-transparent text-white outline-none"
+            >
+              <option value="12" className="bg-[#071722]">12 mois</option>
+              <option value="24" className="bg-[#071722]">24 mois</option>
+              <option value="36" className="bg-[#071722]">36 mois</option>
+              <option value="48" className="bg-[#071722]">48 mois</option>
+              <option value="60" className="bg-[#071722]">60 mois</option>
+              <option value="72" className="bg-[#071722]">72 mois</option>
+              <option value="84" className="bg-[#071722]">84 mois</option>
+              <option value="96" className="bg-[#071722]">96 mois</option>
+              <option value="120" className="bg-[#071722]">120 mois</option>
+            </select>
+            <span className="shrink-0 text-sm font-semibold text-white/45">
+              {Number.isInteger(durationMonthsValue) ? `${Math.round(durationMonthsValue / 12)} an(s)` : ''}
+            </span>
+          </div>
+        </label>
+
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button type="button" variant="secondary" className="flex-1" onClick={onClose}>
             Annuler
@@ -700,7 +782,10 @@ function ExternalAgreementSalaryModal({
             isLoading={isLoading}
             onClick={() => {
               if (canSubmit) {
-                onConfirm(weeklySalaryValue)
+                onConfirm({
+                  weeklySalary: weeklySalaryValue,
+                  durationMonths: durationMonthsValue,
+                })
               }
             }}
           >
