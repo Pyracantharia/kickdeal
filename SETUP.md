@@ -184,3 +184,7 @@ openssl rand -hex 32
 
 backend\.env
 MERCURE_JWT_SECRET=ChangeThisMercureSecretInProduction
+
+# ajotuer le compte admin
+php bin/console app:create-admin
+
