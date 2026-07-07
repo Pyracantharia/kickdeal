@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\PublicFeedPost;
+use App\Enum\PlayerMarketStatusEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,17 @@ class PublicFeedPostRepository extends ServiceEntityRepository
             ->leftJoin('post.sellerTeam', 'sellerTeam')
             ->leftJoin('post.buyerTeam', 'buyerTeam')
             ->addSelect('player', 'sellerTeam', 'buyerTeam')
+            ->andWhere('NOT (
+                post.sourceType = :listingSource
+                AND post.eventType IN (:listingEventTypes)
+                AND (player.id IS NULL OR player.marketStatus NOT IN (:listedMarketStatuses))
+            )')
+            ->setParameter('listingSource', 'listing')
+            ->setParameter('listingEventTypes', ['market_listing', 'loan'])
+            ->setParameter('listedMarketStatuses', [
+                PlayerMarketStatusEnum::ON_MARKET,
+                PlayerMarketStatusEnum::LOAN_LISTED,
+            ])
             ->orderBy('post.publishedAt', 'DESC')
             ->addOrderBy('post.id', 'DESC')
             ->setMaxResults($filters['limit'] ?? 30);
