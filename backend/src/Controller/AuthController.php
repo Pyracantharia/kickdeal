@@ -463,8 +463,9 @@ final class AuthController extends AbstractController
         return null;
     }
 
-    public function sendResetPasswordEmail(string $email, string $resetLink, MailerInterface $mailer,string $mailerFrom = '%env(MAILER_FROM)%'): array
+    public function sendResetPasswordEmail(string $email, string $resetLink, MailerInterface $mailer): array
     {
+        $mailerFrom = $this->getParameter('mailer_from');
         $message = (new Email())
             ->from($mailerFrom)
             ->to($email)
