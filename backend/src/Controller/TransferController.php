@@ -26,6 +26,7 @@ use App\Repository\Transfer\TransferClubInvitationRepository;
 use App\Service\Subscription\SubscriptionLimits;
 use App\Service\Contract\ContractNegotiationWorkflow;
 use App\Service\MarketRealtimePublisher;
+use App\Service\Mail\TransactionalMailer;
 use App\Service\MercureSubscriberTokenFactory;
 use App\Service\Notification\NotificationService;
 use App\Service\PublicFeed\PublicFeedPublisher;
@@ -34,8 +35,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
@@ -453,7 +452,7 @@ final class TransferController extends AbstractController
         #[CurrentUser] ?User $user,
         TeamMembershipRepository $teamMembershipRepository,
         EntityManagerInterface $entityManager,
-        MailerInterface $mailer,
+        TransactionalMailer $transactionalMailer,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -493,7 +492,7 @@ final class TransferController extends AbstractController
         $entityManager->flush();
 
         $invitationUrl = rtrim((string) $this->getParameter('frontend_url'), '/').'/agent/invitation?token='.rawurlencode($token);
-        $this->sendAgentInvitationEmail($email, $invitationUrl, $negociation, $mailer);
+        $this->sendAgentInvitationEmail($email, $invitationUrl, $negociation, $transactionalMailer);
 
         return $this->json([
             'message' => 'Invitation envoyée à l’agent.',
@@ -522,7 +521,7 @@ final class TransferController extends AbstractController
         #[CurrentUser] ?User $user,
         TeamMembershipRepository $teamMembershipRepository,
         EntityManagerInterface $entityManager,
-        MailerInterface $mailer,
+        TransactionalMailer $transactionalMailer,
         MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
@@ -572,7 +571,7 @@ final class TransferController extends AbstractController
         $entityManager->flush();
 
         $invitationUrl = rtrim((string) $this->getParameter('frontend_url'), '/').'/club/invitation?token='.rawurlencode($token);
-        $this->sendClubInvitationEmail($email, $invitationUrl, $invitation, $mailer);
+        $this->sendClubInvitationEmail($email, $invitationUrl, $invitation, $transactionalMailer);
         $latestOffer = $this->getLatestOffer($negociation);
         if ($latestOffer instanceof TransferOffer) {
             $marketRealtimePublisher->publishTransferNegotiationUpdate($latestOffer, 'transfer_seller_club.invited');
@@ -1412,65 +1411,33 @@ final class TransferController extends AbstractController
         string $email,
         string $invitationUrl,
         TransferNegociation $negociation,
-        MailerInterface $mailer,
+        TransactionalMailer $transactionalMailer,
     ): void {
         $player = $negociation->getListing()?->getPlayer();
         $sellerTeam = $negociation->getListing()?->getSellerTeam();
         $buyerTeam = $negociation->getBuyerTeam();
         $playerName = trim(($player?->getFirstName() ?? '').' '.($player?->getLastName() ?? '')) ?: 'un joueur';
-        $subject = sprintf('KickDeal - transfert en attente pour %s', $playerName);
-        $text = sprintf(
-            "Bonjour,\n\nUn transfert impliquant %s est en attente sur KickDeal. %s et %s ont déjà trouvé un accord entre clubs.\n\nRejoignez KickDeal pour confirmer que vous représentez le joueur et négocier son contrat directement sur la plateforme :\n%s\n\nL'équipe KickDeal",
+        $transactionalMailer->sendTransferAgentInvitation(
+            $email,
+            $invitationUrl,
             $playerName,
             $buyerTeam?->getName() ?? 'le club acheteur',
             $sellerTeam?->getName() ?? 'le club vendeur',
-            $invitationUrl,
         );
-
-        $message = (new Email())
-            ->from('kickdeal@no-reply.com')
-            ->to($email)
-            ->subject($subject)
-            ->text($text);
-
-        try {
-            $mailer->send($message);
-        } catch (\Throwable) {
-            // In local environments MAILER_DSN may be null; the invitation URL is still returned by the API.
-        }
     }
 
     private function sendClubInvitationEmail(
         string $email,
         string $invitationUrl,
         TransferClubInvitation $invitation,
-        MailerInterface $mailer,
+        TransactionalMailer $transactionalMailer,
     ): void {
         $negociation = $invitation->getTransferNegociation();
         $player = $negociation?->getListing()?->getPlayer();
         $playerName = trim(($player?->getFirstName() ?? '').' '.($player?->getLastName() ?? '')) ?: 'un joueur';
         $buyerTeamName = $invitation->getBuyerTeam()?->getName() ?? 'Un club';
         $sellerTeamName = $invitation->getSellerTeam()?->getName() ?? 'votre club';
-        $subject = sprintf('KickDeal - %s souhaite recruter %s', $buyerTeamName, $playerName);
-        $text = sprintf(
-            "Bonjour,\n\n%s souhaite recruter %s, joueur de %s.\n\nVotre club n'est pas encore représenté sur KickDeal. En rejoignant la plateforme, vous pourrez consulter l'offre, négocier, accepter ou refuser, puis gérer officiellement votre club.\n\nRejoindre KickDeal :\n%s\n\nL'équipe KickDeal",
-            $buyerTeamName,
-            $playerName,
-            $sellerTeamName,
-            $invitationUrl,
-        );
-
-        $message = (new Email())
-            ->from('kickdeal@no-reply.com')
-            ->to($email)
-            ->subject($subject)
-            ->text($text);
-
-        try {
-            $mailer->send($message);
-        } catch (\Throwable) {
-            // In local environments MAILER_DSN may be null; the invitation URL is still returned by the API.
-        }
+        $transactionalMailer->sendTransferClubInvitation($email, $invitationUrl, $playerName, $buyerTeamName, $sellerTeamName);
     }
 
     private function serializeOfferType(?TransferOfferKindEnum $kind): string

@@ -22,6 +22,7 @@ use App\Repository\PlayerRepository;
 use App\Repository\TeamRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\UserRepository;
+use App\Service\Mail\TransactionalMailer;
 use App\Service\Notification\NotificationService;
 use App\Service\Player\PlayerMarketContextResolver;
 use App\Service\PublicFeed\PublicFeedPublisher;
@@ -50,6 +51,7 @@ final class AgentPlayerController extends AbstractController
         private readonly PlayerMarketContextResolver $marketContextResolver,
         private readonly PublicFeedPublisher $publicFeedPublisher,
         private readonly NotificationService $notificationService,
+        private readonly TransactionalMailer $transactionalMailer,
         private readonly CsrfTokenManagerInterface $csrfTokenManager,
         private readonly SluggerInterface $slugger,
         #[Autowire('%kernel.project_dir%/public/uploads/player-agent-verifications')]
@@ -193,7 +195,8 @@ final class AgentPlayerController extends AbstractController
         $this->entityManager->persist($representationRequest);
         $this->entityManager->flush();
 
-        foreach ($this->userRepository->findAdminUsers() as $adminUser) {
+        $adminUsers = $this->userRepository->findAdminUsers();
+        foreach ($adminUsers as $adminUser) {
             $this->notificationService->notify(
                 recipient: $adminUser,
                 type: $currentAgent instanceof Agent ? 'agent_handover.admin_requested' : 'player_representation.admin_requested',
@@ -214,6 +217,7 @@ final class AgentPlayerController extends AbstractController
                 sourceId: $representationRequest->getId()?->toRfc4122(),
             );
         }
+        $this->transactionalMailer->sendPlayerAgentRequestCreated($adminUsers, $representationRequest);
 
         return $this->json([
             'message' => $currentAgent instanceof Agent
@@ -268,6 +272,7 @@ final class AgentPlayerController extends AbstractController
                 sourceId: $representationRequest->getId()?->toRfc4122(),
             );
         }
+        $this->transactionalMailer->sendAgentHandoverDecision($representationRequest, true);
 
         return $this->json([
             'message' => 'Passation validée. Le joueur a été transféré au nouvel agent.',
@@ -312,6 +317,7 @@ final class AgentPlayerController extends AbstractController
                 sourceId: $representationRequest->getId()?->toRfc4122(),
             );
         }
+        $this->transactionalMailer->sendAgentHandoverDecision($representationRequest, false);
 
         return $this->json([
             'message' => 'Demande de passation refusée.',
@@ -380,7 +386,8 @@ final class AgentPlayerController extends AbstractController
 
         if ($player->getTeam() instanceof Team) {
             $playerId = $player->getId()?->toRfc4122();
-            foreach ($teamMembershipRepository->findUsersByTeam($player->getTeam()) as $clubUser) {
+            $clubUsers = $teamMembershipRepository->findUsersByTeam($player->getTeam());
+            foreach ($clubUsers as $clubUser) {
                 $this->notificationService->notify(
                     recipient: $clubUser,
                     type: 'market_authorization.requested',
@@ -396,6 +403,7 @@ final class AgentPlayerController extends AbstractController
                     sourceId: $playerId,
                 );
             }
+            $this->transactionalMailer->sendMarketAuthorizationRequested($clubUsers, $player, $this->agentName($agent));
         }
 
         return $this->json([

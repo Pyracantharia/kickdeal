@@ -8,6 +8,7 @@ use App\Enum\PaymentProviderEnum;
 use App\Enum\PaymentStatusEnum;
 use App\Enum\SubscriptionPlanEnum;
 use App\Repository\PaymentRepository;
+use App\Service\Mail\TransactionalMailer;
 use App\Service\Payment\ChilizPaymentVerifier;
 use App\Service\Payment\StripeSubscriptionService;
 use App\Service\Subscription\SubscriptionLimits;
@@ -79,6 +80,7 @@ final class SubscriptionController extends AbstractController
         PaymentRepository $paymentRepository,
         SubscriptionLimits $subscriptionLimits,
         EntityManagerInterface $entityManager,
+        TransactionalMailer $transactionalMailer,
     ): JsonResponse {
         if (!$user) {
             return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
@@ -137,6 +139,7 @@ final class SubscriptionController extends AbstractController
         } catch (UniqueConstraintViolationException) {
             return $this->json(['errorMessage' => 'Cette transaction a déjà été utilisée.'], 409);
         }
+        $transactionalMailer->sendPaymentConfirmed($user, $targetPlan, $payment);
 
         return $this->json([
             'payment' => [
@@ -207,6 +210,7 @@ final class SubscriptionController extends AbstractController
         StripeSubscriptionService $stripeSubscriptionService,
         SubscriptionLimits $subscriptionLimits,
         EntityManagerInterface $entityManager,
+        TransactionalMailer $transactionalMailer,
     ): JsonResponse {
         if (!$user) {
             return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
@@ -235,6 +239,7 @@ final class SubscriptionController extends AbstractController
 
         $user->setSubscriptionPlan($plan);
         $entityManager->flush();
+        $transactionalMailer->sendPaymentConfirmed($user, $plan);
 
         return $this->json(['subscription' => $subscriptionLimits->getSummary($user)]);
     }

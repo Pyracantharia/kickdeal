@@ -65,6 +65,12 @@ declare global {
   }
 }
 
+type NotificationsProviderProps = {
+  children: React.ReactNode
+  initialSummary?: NotificationsSummary | null
+  initialMercureToken?: { hubUrl: string; topic: string } | null
+}
+
 function getInitialWindowValue<T>(key: keyof Window): T | undefined {
   if (typeof window === 'undefined') {
     return undefined
@@ -77,10 +83,14 @@ function getInitialWindowValue<T>(key: keyof Window): T | undefined {
   return window[key] as T
 }
 
-export function NotificationsProvider({ children }: { children: React.ReactNode }) {
+export function NotificationsProvider({ children, initialSummary: initialSummaryProp, initialMercureToken: initialMercureTokenProp }: NotificationsProviderProps) {
   const { user } = useAuth()
-  const initialSummary = getInitialWindowValue<NotificationsSummary | null>('__INITIAL_NOTIFICATIONS_SUMMARY__')
-  const initialMercureToken = getInitialWindowValue<{ hubUrl: string; topic: string } | null>('__INITIAL_NOTIFICATIONS_MERCURE__')
+  const initialSummary = initialSummaryProp !== undefined
+    ? initialSummaryProp
+    : getInitialWindowValue<NotificationsSummary | null>('__INITIAL_NOTIFICATIONS_SUMMARY__')
+  const initialMercureToken = initialMercureTokenProp !== undefined
+    ? initialMercureTokenProp
+    : getInitialWindowValue<{ hubUrl: string; topic: string } | null>('__INITIAL_NOTIFICATIONS_MERCURE__')
   const hasInitialSummary = initialSummary !== undefined
   const [summary, setSummary] = React.useState<NotificationsSummary>(initialSummary ?? EMPTY_SUMMARY)
   const [latestNotification, setLatestNotification] = React.useState<AppNotification | null>(null)

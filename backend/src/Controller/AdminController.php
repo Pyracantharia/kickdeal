@@ -20,6 +20,7 @@ use App\Repository\MessageReportRepository;
 use App\Repository\PlayerAgentRequestRepository;
 use App\Repository\Transfer\TransferNegociationRepository;
 use App\Repository\UserRepository;
+use App\Service\Mail\TransactionalMailer;
 use App\Service\Notification\NotificationService;
 use App\Service\Security\PasswordPolicy;
 use DateTimeImmutable;
@@ -464,6 +465,7 @@ final class AdminController extends AbstractController
         EntityManagerInterface $entityManager,
         NotificationService $notificationService,
         TransferNegociationRepository $transferNegociationRepository,
+        TransactionalMailer $transactionalMailer,
     ): JsonResponse
     {
 
@@ -532,6 +534,9 @@ final class AdminController extends AbstractController
             sourceType: 'club_request',
             sourceId: $clubRequest->getId()?->toRfc4122(),
         );
+        if ($clubRequest->getRequester() instanceof User && $clubRequest->getTeam() instanceof \App\Entity\Team) {
+            $transactionalMailer->sendClubRequestDecision($clubRequest->getRequester(), $clubRequest->getTeam(), true);
+        }
 
         if (count($awaitingNegotiations) > 0) {
             $notificationService->notify(
@@ -609,6 +614,7 @@ final class AdminController extends AbstractController
         PlayerAgentRequest $playerAgentRequest,
         EntityManagerInterface $entityManager,
         NotificationService $notificationService,
+        TransactionalMailer $transactionalMailer,
     ): JsonResponse {
         if (!$this->isAdmin($user)) {
             return $this->json([
@@ -663,6 +669,7 @@ final class AdminController extends AbstractController
                     sourceId: $playerAgentRequest->getId()?->toRfc4122(),
                 );
             }
+            $transactionalMailer->sendPlayerAgentRequestDecision($playerAgentRequest, true);
         } else {
             if (null !== $player->getAgent()) {
                 return $this->json([
@@ -694,6 +701,7 @@ final class AdminController extends AbstractController
                     sourceId: $playerAgentRequest->getId()?->toRfc4122(),
                 );
             }
+            $transactionalMailer->sendPlayerAgentRequestDecision($playerAgentRequest, true);
         }
 
         $entityManager->flush();
@@ -745,6 +753,7 @@ final class AdminController extends AbstractController
                 sourceId: $playerAgentRequest->getId()?->toRfc4122(),
             );
         }
+        $transactionalMailer->sendPlayerAgentRequestDecision($playerAgentRequest, false);
 
         $entityManager->flush();
 
@@ -760,6 +769,7 @@ final class AdminController extends AbstractController
         ClubRequest $clubRequest,
         EntityManagerInterface $entityManager,
         NotificationService $notificationService,
+        TransactionalMailer $transactionalMailer,
     ): JsonResponse {
         if (!$this->isAdmin($user)) {
             return $this->json([
@@ -792,6 +802,9 @@ final class AdminController extends AbstractController
             sourceType: 'club_request',
             sourceId: $clubRequest->getId()?->toRfc4122(),
         );
+        if ($clubRequest->getRequester() instanceof User && $clubRequest->getTeam() instanceof \App\Entity\Team) {
+            $transactionalMailer->sendClubRequestDecision($clubRequest->getRequester(), $clubRequest->getTeam(), false);
+        }
 
         return $this->json([
             'message' => 'Demande de club refusée.',
@@ -956,7 +969,7 @@ final class AdminController extends AbstractController
     private function sendModerationEmail(MailerInterface $mailer, User $recipient, string $subject, string $body): void
     {
         $email = (new Email())
-            ->from('kickdeal@no-reply.com')
+            ->from((string) $this->getParameter('mailer_from'))
             ->to($recipient->getEmail())
             ->subject($subject)
             ->text("Bonjour,\n\n{$body}\n\nL'équipe KickDeal");

@@ -20,10 +20,12 @@ interface ClubDashboardHomeProps {
     pendingRenewalsCount: number
   } | null
   initialMarketNews?: PublicFeedPost[] | null
+  initialNow?: string
 }
 
 function formatCurrentDate(date: Date): string {
   const rawLabel = date.toLocaleDateString('fr-FR', {
+    timeZone: 'Europe/Paris',
     weekday: 'long',
     day: 'numeric',
     month: 'long',
@@ -88,7 +90,7 @@ function getNewsSummary(post: PublicFeedPost): string {
   return post.body ?? post.subtitle ?? 'Une nouvelle officialisation vient d’être publiée sur KickDeal.'
 }
 
-function ClubDashboardHome({ initialDashboard, initialMarketNews }: ClubDashboardHomeProps) {
+function ClubDashboardHome({ initialDashboard, initialMarketNews, initialNow }: ClubDashboardHomeProps) {
   const router = useRouter()
   const { unreadConversationIds } = useMessagesUnread()
   const { getActionCount, getUnreadCount } = useNotifications()
@@ -105,7 +107,11 @@ function ClubDashboardHome({ initialDashboard, initialMarketNews }: ClubDashboar
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [marketNewsError, setMarketNewsError] = useState<string | null>(null)
 
-  const today = useMemo(() => new Date(), [])
+  const today = useMemo(() => {
+    const parsedDate = initialNow ? new Date(initialNow) : new Date()
+
+    return Number.isNaN(parsedDate.getTime()) ? new Date() : parsedDate
+  }, [initialNow])
   const dateLabel = useMemo(() => formatCurrentDate(today), [today])
   const transferWindowStatus = useMemo(() => getTransferWindowStatus(today), [today])
   const activeNews = marketNews[activeNewsIndex] ?? null
