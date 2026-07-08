@@ -8,10 +8,10 @@ import { APP_ROUTES } from '@/lib/config'
 import LinkButton from '@/components/ui/LinkButton'
 
 const NAV_LINKS = [
-  { href: '#fonctionnalites', label: 'Fonctionnalités' },
-  { href: '#clubs', label: 'Pour les clubs' },
-  { href: '#agents', label: 'Pour les agents' },
-  { href: '#tarifs', label: 'Tarifs' },
+  { href: '/#fonctionnalites', label: 'Fonctionnalités' },
+  { href: '/#clubs', label: 'Pour les clubs' },
+  { href: '/#agents', label: 'Pour les agents' },
+  { href: '/#tarifs', label: 'Tarifs' },
 ]
 
 function AppHeader() {

@@ -13,6 +13,7 @@ import { RegisterClubFormData, registerClubSchema } from '@/features/auth/schema
 import PlanSelection from './PlanSelection'
 import type { SubscriptionPlan } from '@/features/subscription/subscription'
 import PasswordStrengthMeter from '@/components/account/PasswordStrengthMeter'
+import TermsAcceptance from './TermsAcceptance'
 
 function RegisterClubForm() {
   const router = useRouter()
@@ -34,6 +35,7 @@ function RegisterClubForm() {
       confirmation: '',
       jobTitle: '',
       professionalContact: '',
+      termsAccepted: false,
     },
   })
   const password = useWatch({ control, name: 'password' }) ?? ''
@@ -210,6 +212,11 @@ function RegisterClubForm() {
         </div>
 
         <PlanSelection audience="club" selectedPlan={selectedPlan} onChange={setSelectedPlan} />
+
+        <TermsAcceptance
+          inputProps={register('termsAccepted')}
+          error={errors.termsAccepted?.message}
+        />
         
         <div>
           <Button type="submit" isLoading={isSubmitting} className='w-full' icon={<ArrowRight className="h-4 w-4" />}>

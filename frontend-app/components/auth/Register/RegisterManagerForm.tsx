@@ -14,6 +14,7 @@ import PlanSelection from './PlanSelection'
 import type { SubscriptionPlan } from '@/features/subscription/subscription'
 import PasswordStrengthMeter from '@/components/account/PasswordStrengthMeter'
 import CountrySelect from '@/components/country/CountrySelect'
+import TermsAcceptance from './TermsAcceptance'
 
 function RegisterManagerForm() {
   const router = useRouter()
@@ -37,15 +38,21 @@ function RegisterManagerForm() {
       confirmation: '',
       agencyName: '',
       country: '',
+      termsAccepted: false,
     },
   })
   const password = useWatch({ control, name: 'password' }) ?? ''
 
   async function onSubmit(data: RegisterManagerFormData) {
     try {
-      
       const payload = {
-        ...data,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        confirmation: data.confirmation,
+        agencyName: data.agencyName,
+        country: data.country,
         roles: ['ROLE_AGENT'],
         subscriptionPlan: selectedPlan,
         invitationToken: invitationToken ?? undefined,
@@ -201,6 +208,11 @@ function RegisterManagerForm() {
         </div>
 
         <PlanSelection audience="agent" selectedPlan={selectedPlan} onChange={setSelectedPlan} />
+
+        <TermsAcceptance
+          inputProps={register('termsAccepted')}
+          error={errors.termsAccepted?.message}
+        />
 
         <div>
           <Button type="submit" isLoading={isSubmitting} className='w-full' icon={<ArrowRight className="h-4 w-4" />}>

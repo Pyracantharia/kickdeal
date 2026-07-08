@@ -2,20 +2,21 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const PRODUCT_LINKS = [
-  { href: '#fonctionnalites', label: 'Fonctionnalités' },
-  { href: '#tarifs', label: 'Tarifs' },
+  { href: '/#fonctionnalites', label: 'Fonctionnalités' },
+  { href: '/#tarifs', label: 'Tarifs' },
   { href: '#', label: 'Roadmap' },
   { href: '#', label: 'Changelog' },
 ]
 
 const ENTERPRISE_LINKS = [
-  { href: '#clubs', label: 'Clubs' },
-  { href: '#agents', label: 'Agents' },
+  { href: '/#clubs', label: 'Clubs' },
+  { href: '/#agents', label: 'Agents' },
   { href: '#', label: 'Carrières' },
   { href: '/contact', label: 'Contact' },
 ]
 
 const LEGAL_LINKS = [
+  { href: '/legal', label: 'Legal' },
   { href: '/legal/confidentialite', label: 'Confidentialité' },
   { href: '/legal/cgu', label: 'CGU' },
   { href: '/legal/cookies', label: 'Cookies' },

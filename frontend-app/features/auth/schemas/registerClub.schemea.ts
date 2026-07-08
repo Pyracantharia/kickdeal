@@ -14,6 +14,9 @@ export const registerClubSchema = z.object({
   confirmation: z.string().min(1, 'La confirmation du mot de passe est requise'),
   jobTitle: z.string().min(1, 'Le titre du poste est requis'),
   professionalContact: z.string().optional(),
+  termsAccepted: z.boolean().refine((value) => value, {
+    message: 'Vous devez accepter les CGU et la Politique de Confidentialité pour créer un compte',
+  }),
 }).refine((data) => data.password === data.confirmation, {
   message: 'Les mots de passe ne correspondent pas',
   path: ['confirmation'],
