@@ -59,17 +59,76 @@ export const MOCK_GLOBAL_TRANSFER_NEWS: TransferNewsItem[] = [
   },
 ]
 
-export function getDaysUntilNextTransferWindow(referenceDate = new Date()): number {
-  const year = referenceDate.getFullYear()
+export type TransferWindowStatus =
+  | {
+      isOpen: true
+      label: string
+      daysRemaining: number
+    }
+  | {
+      isOpen: false
+      label: string
+      daysUntilOpen: number
+    }
 
-  const januaryWindow = new Date(year, 0, 1)
-  const julyWindow = new Date(year, 6, 1)
+function startOfDay(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+}
 
-  const targets = [januaryWindow, julyWindow, new Date(year + 1, 0, 1)]
-  const nextTarget = targets.find((target) => target.getTime() > referenceDate.getTime())
-
-  if (!nextTarget) return 0
-
+function daysBetween(from: Date, to: Date): number {
   const msPerDay = 1000 * 60 * 60 * 24
-  return Math.ceil((nextTarget.getTime() - referenceDate.getTime()) / msPerDay)
+
+  return Math.max(0, Math.ceil((startOfDay(to).getTime() - startOfDay(from).getTime()) / msPerDay))
+}
+
+function getTransferWindowsForYear(year: number) {
+  return [
+    {
+      name: 'mercato hivernal',
+      start: new Date(year, 0, 1),
+      end: new Date(year, 1, 3),
+    },
+    {
+      name: 'mercato estival',
+      start: new Date(year, 5, 10),
+      end: new Date(year, 7, 30),
+    },
+  ]
+}
+
+export function getTransferWindowStatus(referenceDate = new Date()): TransferWindowStatus {
+  const year = referenceDate.getFullYear()
+  const windows = [
+    ...getTransferWindowsForYear(year - 1),
+    ...getTransferWindowsForYear(year),
+    ...getTransferWindowsForYear(year + 1),
+  ]
+  const currentWindow = windows.find(
+    (window) => referenceDate >= window.start && referenceDate <= window.end,
+  )
+
+  if (currentWindow) {
+    const daysRemaining = daysBetween(referenceDate, currentWindow.end)
+
+    return {
+      isOpen: true,
+      daysRemaining,
+      label: `Le ${currentWindow.name} actuel se termine dans ${daysRemaining} jour${daysRemaining > 1 ? 's' : ''}`,
+    }
+  }
+
+  const nextWindow = windows.find((window) => window.start > referenceDate) ?? getTransferWindowsForYear(year + 1)[0]
+  const daysUntilOpen = daysBetween(referenceDate, nextWindow.start)
+
+  return {
+    isOpen: false,
+    daysUntilOpen,
+    label: `La prochaine fenêtre de mercato ouvre dans ${daysUntilOpen} jour${daysUntilOpen > 1 ? 's' : ''}`,
+  }
+}
+
+export function getDaysUntilNextTransferWindow(referenceDate = new Date()): number {
+  const status = getTransferWindowStatus(referenceDate)
+
+  return status.isOpen ? status.daysRemaining : status.daysUntilOpen
 }

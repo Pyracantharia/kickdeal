@@ -3,7 +3,10 @@ import type { NotificationsSummary } from '@/features/notifications/notification
 import { cookies } from 'next/headers'
 import { cache } from 'react'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000/api'
+const SERVER_BACKEND_URL = process.env.NEXT_SERVER_BACKEND_URL?.replace(/\/$/, '')
+const API_URL = SERVER_BACKEND_URL
+  ? `${SERVER_BACKEND_URL}/api`
+  : process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000/api'
 
 async function getCookieHeader() {
   const cookieStore = await cookies()
