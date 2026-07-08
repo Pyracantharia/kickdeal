@@ -120,12 +120,21 @@ function LoginForm() {
 
       const requestedPlan = new URLSearchParams(window.location.search).get('plan')
       const invitationToken = new URLSearchParams(window.location.search).get('invitationToken')
+      const clubInvitationToken = new URLSearchParams(window.location.search).get('clubInvitationToken')
       const payablePlans = ['agent_pro', 'club_pro', 'club_enterprise']
       if (invitationToken && response.data.user.roles.includes('ROLE_AGENT')) {
         const { transfersManager } = await import('@/features/market/transfers')
 
         await transfersManager.claimAgentInvitation(invitationToken)
         navigateAfterLogin('/negociations')
+        return
+      }
+
+      if (clubInvitationToken && response.data.user.roles.includes('ROLE_CLUB')) {
+        const { transfersManager } = await import('@/features/market/transfers')
+
+        await transfersManager.claimClubInvitation(clubInvitationToken)
+        navigateAfterLogin('/club')
         return
       }
 

@@ -3,11 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Agent;
+use App\Entity\ClubRequest;
 use App\Entity\Player;
 use App\Entity\Transfer\TransferAgentInvitation;
+use App\Entity\Transfer\TransferClubInvitation;
 use App\Entity\User;
 use App\Enum\SubscriptionPlanEnum;
+use App\Repository\ClubRequestRepository;
 use App\Repository\Transfer\TransferAgentInvitationRepository;
+use App\Repository\Transfer\TransferClubInvitationRepository;
 use App\Repository\UserRepository;
 use App\Service\Contract\ContractNegotiationWorkflow;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -57,6 +61,8 @@ final class AuthController extends AbstractController
         CsrfTokenManagerInterface $csrfTokenManager,
         PasswordPolicy $passwordPolicy,
         TransferAgentInvitationRepository $transferAgentInvitationRepository,
+        TransferClubInvitationRepository $transferClubInvitationRepository,
+        ClubRequestRepository $clubRequestRepository,
         ContractNegotiationWorkflow $contractNegotiationWorkflow,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
@@ -181,6 +187,26 @@ final class AuthController extends AbstractController
                         ->setAcceptedAt(new \DateTimeImmutable())
                         ->setUpdatedAt(new \DateTimeImmutable());
                     $contractNegotiationWorkflow->ensurePendingAgentNegotiationsForPlayer($player, $newUser);
+                }
+            }
+
+            $clubInvitationToken = $this->optionalString($payload['clubInvitationToken'] ?? null);
+            if (!$isAgentAccount && null !== $clubInvitationToken && in_array(User::ROLE_CLUB, $newUser->getRoles(), true)) {
+                $invitation = $transferClubInvitationRepository->findActiveByToken($clubInvitationToken);
+                $team = $invitation?->getSellerTeam();
+
+                if ($invitation instanceof TransferClubInvitation && null !== $team && !$clubRequestRepository->hasPendingRequest($newUser, $team)) {
+                    $clubRequest = (new ClubRequest())
+                        ->setRequester($newUser)
+                        ->setTeam($team)
+                        ->setVerificationEmail($newUser->getEmail())
+                        ->setVerificationMessage('Demande créée depuis une invitation liée à une offre de transfert KickDeal.');
+                    $entityManager->persist($clubRequest);
+
+                    $invitation
+                        ->setAcceptedBy($newUser)
+                        ->setAcceptedAt(new \DateTimeImmutable())
+                        ->setUpdatedAt(new \DateTimeImmutable());
                 }
             }
 

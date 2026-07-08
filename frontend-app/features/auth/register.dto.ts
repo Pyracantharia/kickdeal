@@ -11,4 +11,5 @@ export type RegisterDTO = {
   jobTitle?: string;
   professionalContact?: string;
   invitationToken?: string;
+  clubInvitationToken?: string;
 }

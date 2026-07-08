@@ -49,6 +49,9 @@ class TransferNegociation
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $externalContractSellerConfirmedAt = null;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $sellerClubExternalContactedAt = null;
+
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?string $externalContractWeeklySalary = null;
 
@@ -98,6 +101,12 @@ class TransferNegociation
     #[ORM\OneToMany(targetEntity: TransferAgentInvitation::class, mappedBy: 'transferNegociation')]
     private Collection $agentInvitations;
 
+    /**
+     * @var Collection<int, TransferClubInvitation>
+     */
+    #[ORM\OneToMany(targetEntity: TransferClubInvitation::class, mappedBy: 'transferNegociation')]
+    private Collection $clubInvitations;
+
     public function __construct()
     {
         $this->transferOffers = new ArrayCollection();
@@ -105,6 +114,7 @@ class TransferNegociation
         $this->transferAgreements = new ArrayCollection();
         $this->contractNegociations = new ArrayCollection();
         $this->agentInvitations = new ArrayCollection();
+        $this->clubInvitations = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -168,6 +178,18 @@ class TransferNegociation
     public function setExternalContractSellerConfirmedAt(?\DateTimeImmutable $externalContractSellerConfirmedAt): static
     {
         $this->externalContractSellerConfirmedAt = $externalContractSellerConfirmedAt;
+
+        return $this;
+    }
+
+    public function getSellerClubExternalContactedAt(): ?\DateTimeImmutable
+    {
+        return $this->sellerClubExternalContactedAt;
+    }
+
+    public function setSellerClubExternalContactedAt(?\DateTimeImmutable $sellerClubExternalContactedAt): static
+    {
+        $this->sellerClubExternalContactedAt = $sellerClubExternalContactedAt;
 
         return $this;
     }
@@ -375,6 +397,35 @@ class TransferNegociation
         if ($this->agentInvitations->removeElement($agentInvitation)) {
             if ($agentInvitation->getTransferNegociation() === $this) {
                 $agentInvitation->setTransferNegociation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TransferClubInvitation>
+     */
+    public function getClubInvitations(): Collection
+    {
+        return $this->clubInvitations;
+    }
+
+    public function addClubInvitation(TransferClubInvitation $clubInvitation): static
+    {
+        if (!$this->clubInvitations->contains($clubInvitation)) {
+            $this->clubInvitations->add($clubInvitation);
+            $clubInvitation->setTransferNegociation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClubInvitation(TransferClubInvitation $clubInvitation): static
+    {
+        if ($this->clubInvitations->removeElement($clubInvitation)) {
+            if ($clubInvitation->getTransferNegociation() === $this) {
+                $clubInvitation->setTransferNegociation(null);
             }
         }
 
