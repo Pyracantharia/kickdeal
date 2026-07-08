@@ -24,11 +24,16 @@ async function loadImportantMarketNews(limit = 3): Promise<PublicFeedPost[] | nu
   const responses = await Promise.all(
     IMPORTANT_FEED_TYPES.map((type) => fetchApiJson<PublicFeedResponse>(`/public-feed?tab=official&limit=${limit}&type=${type}`)),
   )
+  const successfulResponses = responses.filter((response): response is PublicFeedResponse => response !== null)
+
+  if (successfulResponses.length === 0) {
+    return null
+  }
 
   const postsById = new Map<string, PublicFeedPost>()
 
-  for (const response of responses) {
-    for (const post of response?.posts ?? []) {
+  for (const response of successfulResponses) {
+    for (const post of response.posts ?? []) {
       postsById.set(post.id, post)
     }
   }

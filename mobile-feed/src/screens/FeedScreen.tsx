@@ -21,7 +21,7 @@ import { getFeedFilterOptions, getFeedPreview } from '../services/api'
 import type { FeedFilter, FeedFilterOptions, FeedTab, PublicFeedPost } from '../types/feed'
 import type { RootStackParamList } from '../types/navigation'
 
-const backgroundImage = require('../../assets/images/app-bg.webp')
+const backgroundImage = require('../../assets/images/app-bg.png')
 const logoImage = require('../../assets/images/logo.png')
 
 const FEED_TABS: Array<{ value: FeedTab; label: string }> = [

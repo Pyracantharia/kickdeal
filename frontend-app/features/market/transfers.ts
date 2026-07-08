@@ -46,7 +46,16 @@ interface TransferHistoryResponse {
   stats: TransferHistoryStats
 }
 
+interface MercureTokenResponse {
+  hubUrl: string
+  topic: string
+}
+
 class TransfersManager {
+  async prepareMercureSubscription() {
+    return httpClient.get<MercureTokenResponse>('/transfers/mercure-token')
+  }
+
   async getMyList() {
     return httpClient.get<TransferListResponse>('/listings/mine')
   }

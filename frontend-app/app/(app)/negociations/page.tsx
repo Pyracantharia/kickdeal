@@ -1,11 +1,13 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ArrowRight, BriefcaseBusiness, CheckCircle2, ChevronDown, ChevronUp, Clock3 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
+import { MARKET_REALTIME_EVENT, type MarketRealtimePayload } from '@/context/MarketRealtimeProvider'
+import { useNotifications } from '@/context/NotificationsProvider'
 import {
   contractsManager,
   type ContractNegotiation,
@@ -16,6 +18,7 @@ type NegotiationFilter = 'all' | 'active' | 'closed'
 
 function NegotiationsPage() {
   const router = useRouter()
+  const { refreshSummary } = useNotifications()
   const [viewerRole, setViewerRole] = useState<ContractViewerRole | null>(null)
   const [negotiations, setNegotiations] = useState<ContractNegotiation[]>([])
   const [expandedPlayers, setExpandedPlayers] = useState<Record<string, boolean>>({})
@@ -23,31 +26,43 @@ function NegotiationsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-  useEffect(() => {
-    let isMounted = true
+  const loadNegotiations = useCallback(async () => {
+    try {
+      const response = await contractsManager.getMine()
+      if (!response.ok) {
+        setErrorMessage('Impossible de charger les négociations.')
+        return
+      }
 
-    contractsManager.getMine()
-      .then((response) => {
-        if (!isMounted) return
-        if (!response.ok) {
-          setErrorMessage('Impossible de charger les négociations.')
-          return
-        }
-
-        setViewerRole(response.data.viewerRole)
-        setNegotiations(response.data.negotiations ?? [])
-      })
-      .catch(() => {
-        if (isMounted) setErrorMessage('Impossible de charger les négociations.')
-      })
-      .finally(() => {
-        if (isMounted) setIsLoading(false)
-      })
-
-    return () => {
-      isMounted = false
+      setViewerRole(response.data.viewerRole)
+      setNegotiations(response.data.negotiations ?? [])
+      setErrorMessage(null)
+    } catch {
+      setErrorMessage('Impossible de charger les négociations.')
+    } finally {
+      setIsLoading(false)
     }
   }, [])
+
+  useEffect(() => {
+    void loadNegotiations()
+  }, [loadNegotiations])
+
+  useEffect(() => {
+    const handleMarketUpdate = (event: Event) => {
+      const detail = (event as CustomEvent<MarketRealtimePayload>).detail
+      if (detail.payload?.domain !== 'contract') return
+
+      void loadNegotiations()
+      void refreshSummary()
+    }
+
+    window.addEventListener(MARKET_REALTIME_EVENT, handleMarketUpdate)
+
+    return () => {
+      window.removeEventListener(MARKET_REALTIME_EVENT, handleMarketUpdate)
+    }
+  }, [loadNegotiations, refreshSummary])
 
   const groupedNegotiations = useMemo(() => {
     const groups = new Map<string, {

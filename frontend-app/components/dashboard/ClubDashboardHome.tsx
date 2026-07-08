@@ -8,7 +8,7 @@ import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
 import { useMessagesUnread } from '@/context/MessagesUnreadProvider'
 import { useNotifications } from '@/context/NotificationsProvider'
-import { getDaysUntilNextTransferWindow } from '@/features/dashboard/mockClubDashboard'
+import { getTransferWindowStatus } from '@/features/dashboard/mockClubDashboard'
 import { dashboardManager, type DashboardActiveDeal } from '@/features/dashboard/dashboard'
 import { publicFeedManager, type PublicFeedPost } from '@/features/public-feed/publicFeed'
 
@@ -94,12 +94,12 @@ function ClubDashboardHome({ initialDashboard, initialMarketNews }: ClubDashboar
   const { getActionCount, getUnreadCount } = useNotifications()
   const [activeNewsIndex, setActiveNewsIndex] = useState(0)
   const hasInitialDashboard = initialDashboard !== undefined
-  const hasInitialMarketNews = initialMarketNews !== undefined
+  const hasInitialMarketNews = Array.isArray(initialMarketNews)
   const [activeDeal, setActiveDeal] = useState<DashboardActiveDeal | null>(initialDashboard?.activeDeal ?? null)
   const [pendingOffersCount, setPendingOffersCount] = useState(initialDashboard?.pendingOffersCount ?? 0)
   const [unreadMessagesCount, setUnreadMessagesCount] = useState(initialDashboard?.unreadMessagesCount ?? 0)
   const [pendingRenewalsCount, setPendingRenewalsCount] = useState(initialDashboard?.pendingRenewalsCount ?? 0)
-  const [marketNews, setMarketNews] = useState<PublicFeedPost[]>(initialMarketNews ?? [])
+  const [marketNews, setMarketNews] = useState<PublicFeedPost[]>(hasInitialMarketNews ? initialMarketNews : [])
   const [isMarketNewsLoading, setIsMarketNewsLoading] = useState(!hasInitialMarketNews)
   const [isLoading, setIsLoading] = useState(!hasInitialDashboard)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -107,7 +107,7 @@ function ClubDashboardHome({ initialDashboard, initialMarketNews }: ClubDashboar
 
   const today = useMemo(() => new Date(), [])
   const dateLabel = useMemo(() => formatCurrentDate(today), [today])
-  const daysUntilNextWindow = useMemo(() => getDaysUntilNextTransferWindow(today), [today])
+  const transferWindowStatus = useMemo(() => getTransferWindowStatus(today), [today])
   const activeNews = marketNews[activeNewsIndex] ?? null
   const activeDealDateLabel = useMemo(
     () => formatEventDate(activeDeal?.eventDate ?? null),
@@ -224,7 +224,7 @@ function ClubDashboardHome({ initialDashboard, initialMarketNews }: ClubDashboar
                 {dateLabel}
               </h1>
               <p className="mt-2 text-white/80 text-lg">
-                La prochaine fenêtre de mercato ouvre dans {daysUntilNextWindow} jour{daysUntilNextWindow > 1 ? 's' : ''}
+                {transferWindowStatus.label}
               </p>
             </div>
 

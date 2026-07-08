@@ -17,6 +17,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
 import ActionConfirmationModal from '@/components/ui/ActionConfirmationModal'
+import { MARKET_REALTIME_EVENT, type MarketRealtimePayload } from '@/context/MarketRealtimeProvider'
 import { useNotifications } from '@/context/NotificationsProvider'
 import {
   contractsManager,
@@ -112,6 +113,23 @@ function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps
   useEffect(() => {
     void loadNegotiation()
   }, [loadNegotiation])
+
+  useEffect(() => {
+    const handleMarketUpdate = (event: Event) => {
+      const detail = (event as CustomEvent<MarketRealtimePayload>).detail
+      if (detail.payload?.domain !== 'contract') return
+      if (detail.payload.negotiationId !== negotiationId) return
+
+      void loadNegotiation()
+      void refreshSummary()
+    }
+
+    window.addEventListener(MARKET_REALTIME_EVENT, handleMarketUpdate)
+
+    return () => {
+      window.removeEventListener(MARKET_REALTIME_EVENT, handleMarketUpdate)
+    }
+  }, [loadNegotiation, negotiationId, refreshSummary])
 
   const isClosed = negotiation
     ? ['completed', 'rejected', 'expired'].includes(negotiation.status)

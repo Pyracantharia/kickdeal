@@ -23,10 +23,13 @@ use App\Repository\Transfer\TransferOfferRepository;
 use App\Repository\Transfer\TransferAgentInvitationRepository;
 use App\Service\Subscription\SubscriptionLimits;
 use App\Service\Contract\ContractNegotiationWorkflow;
+use App\Service\MarketRealtimePublisher;
+use App\Service\MercureSubscriberTokenFactory;
 use App\Service\Notification\NotificationService;
 use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -37,6 +40,33 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 #[Route('/api/transfers')]
 final class TransferController extends AbstractController
 {
+    #[Route('/mercure-token', name: 'app_transfer_mercure_token', methods: ['GET'])]
+    public function mercureToken(
+        #[CurrentUser] ?User $user,
+        MercureSubscriberTokenFactory $tokenFactory,
+        MarketRealtimePublisher $marketRealtimePublisher,
+    ): JsonResponse {
+        if (!$user instanceof User) {
+            return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
+        }
+
+        $topic = $marketRealtimePublisher->topicForUser($user);
+        $token = $tokenFactory->create([$topic]);
+        $response = $this->json([
+            'hubUrl' => $this->getParameter('mercure_public_url'),
+            'topic' => $topic,
+        ]);
+
+        $response->headers->setCookie(Cookie::create('mercureAuthorization')
+            ->withValue($token)
+            ->withPath('/.well-known/mercure')
+            ->withSecure(false)
+            ->withHttpOnly(true)
+            ->withSameSite(Cookie::SAMESITE_LAX));
+
+        return $response;
+    }
+
     #[Route('/offers/mine', name: 'app_transfer_offers_mine', methods: ['GET'])]
     public function mine(
         #[CurrentUser] ?User $user,
@@ -180,6 +210,7 @@ final class TransferController extends AbstractController
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
         NotificationService $notificationService,
+        MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -227,6 +258,7 @@ final class TransferController extends AbstractController
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
         NotificationService $notificationService,
+        MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -290,6 +322,7 @@ final class TransferController extends AbstractController
         $entityManager->persist($offer);
         $publicFeedPublisher->publishTransferOffer($offer);
         $entityManager->flush();
+        $marketRealtimePublisher->publishTransferOfferUpdate($offer, 'transfer_offer.created');
 
         if ($listing->getSellerTeam() instanceof Team) {
             foreach ($teamMembershipRepository->findUsersByTeam($listing->getSellerTeam()) as $recipient) {
@@ -324,6 +357,7 @@ final class TransferController extends AbstractController
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
         NotificationService $notificationService,
+        MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -363,7 +397,7 @@ final class TransferController extends AbstractController
                 : TransferNegociationStatusEnum::AGREED_CLUBS;
             $transferNegociation
                 ?->setStatus($nextStatus)
-                ->setAgreedAt(new \DateTimeImmutable('today'));
+                ->setAgreedAt(new \DateTimeImmutable());
 
             if ($transferNegociation && TransferNegociationStatusEnum::PENDING_AGENT === $nextStatus) {
                 $this->ensureTransferAgreement($transferNegociation, $offer, $entityManager);
@@ -379,6 +413,10 @@ final class TransferController extends AbstractController
         });
 
         $notificationService->resolveSource('transfer_offer', $offer->getId()?->toRfc4122() ?? '');
+        $marketRealtimePublisher->publishTransferOfferUpdate($offer, 'transfer_offer.accepted');
+        if ($contractNegociation instanceof \App\Entity\Contract\ContractNegociation) {
+            $marketRealtimePublisher->publishContractNegotiationUpdate($contractNegociation, 'contract_negociation.opened');
+        }
         if ($offer->getAuthor() instanceof User) {
             $notificationService->notify(
                 recipient: $offer->getAuthor(),
@@ -478,6 +516,7 @@ final class TransferController extends AbstractController
         TransferAgentInvitationRepository $invitationRepository,
         ContractNegotiationWorkflow $contractNegotiationWorkflow,
         EntityManagerInterface $entityManager,
+        MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         if (!$user) {
             return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
@@ -521,6 +560,12 @@ final class TransferController extends AbstractController
             return $contractNegociations;
         });
 
+        foreach ($contractNegociations as $contractNegociation) {
+            if ($contractNegociation instanceof \App\Entity\Contract\ContractNegociation) {
+                $marketRealtimePublisher->publishContractNegotiationUpdate($contractNegociation, 'contract_negociation.opened');
+            }
+        }
+
         return $this->json([
             'message' => 'Représentation confirmée. La négociation contractuelle est prête.',
             'contractNegociationIds' => array_map(
@@ -538,6 +583,7 @@ final class TransferController extends AbstractController
         TeamMembershipRepository $teamMembershipRepository,
         ContractNegotiationWorkflow $contractNegotiationWorkflow,
         EntityManagerInterface $entityManager,
+        MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -592,6 +638,10 @@ final class TransferController extends AbstractController
         }
 
         $entityManager->flush();
+        $latestOffer = $this->getLatestOffer($negociation);
+        if ($latestOffer instanceof TransferOffer) {
+            $marketRealtimePublisher->publishTransferNegotiationUpdate($latestOffer, 'transfer_external_contract.updated');
+        }
 
         return $this->json([
             'negociation' => $this->serializeNegotiationState($negociation, $team),
@@ -606,6 +656,7 @@ final class TransferController extends AbstractController
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
         NotificationService $notificationService,
+        MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -627,6 +678,7 @@ final class TransferController extends AbstractController
         $publicFeedPublisher->publishTransferOffer($offer);
 
         $entityManager->flush();
+        $marketRealtimePublisher->publishTransferOfferUpdate($offer, 'transfer_offer.rejected');
 
         $notificationService->resolveSource('transfer_offer', $offer->getId()?->toRfc4122() ?? '');
         if ($offer->getAuthor() instanceof User) {
@@ -660,6 +712,7 @@ final class TransferController extends AbstractController
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
         NotificationService $notificationService,
+        MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
 
@@ -714,6 +767,7 @@ final class TransferController extends AbstractController
         $entityManager->persist($counterOffer);
         $publicFeedPublisher->publishTransferOffer($counterOffer);
         $entityManager->flush();
+        $marketRealtimePublisher->publishTransferOfferUpdate($counterOffer, 'transfer_offer.counter_created');
 
         $notificationService->resolveSource('transfer_offer', $sourceOffer->getId()?->toRfc4122() ?? '');
         $targetTeam = $isSeller ? $negociation?->getBuyerTeam() : $listing?->getSellerTeam();

@@ -16,6 +16,7 @@ use App\Repository\Contract\ContractNegociationRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\Transfer\TransferNegociationRepository;
 use App\Service\Contract\ContractNegotiationWorkflow;
+use App\Service\MarketRealtimePublisher;
 use App\Service\Notification\NotificationService;
 use App\Service\PublicFeed\PublicFeedPublisher;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,6 +41,7 @@ final class ContractNegotiationController extends AbstractController
         CsrfTokenManagerInterface $csrfTokenManager,
         EntityManagerInterface $entityManager,
         NotificationService $notificationService,
+        MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrf($request, $csrfTokenManager)) {
             return $csrfError;
@@ -101,6 +103,8 @@ final class ContractNegotiationController extends AbstractController
                     sourceId: $negociation->getId()?->toRfc4122(),
                 );
             }
+
+            $marketRealtimePublisher->publishContractNegotiationUpdate($negociation, 'contract_negociation.opened');
         }
 
         return $this->json([
@@ -218,6 +222,7 @@ final class ContractNegotiationController extends AbstractController
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
         NotificationService $notificationService,
+        MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrf($request, $csrfTokenManager)) {
             return $csrfError;
@@ -316,6 +321,7 @@ final class ContractNegotiationController extends AbstractController
         $entityManager->persist($offer);
         $publicFeedPublisher->publishContractNegotiation($negociation);
         $entityManager->flush();
+        $marketRealtimePublisher->publishContractNegotiationUpdate($negociation, $hadPreviousOffer ? 'contract_offer.counter_created' : 'contract_offer.created');
         $notificationService->resolveSource('contract_negociation', $negociation->getId()?->toRfc4122() ?? '');
 
         $targetUsers = 'agent' === $viewerRole
@@ -359,6 +365,7 @@ final class ContractNegotiationController extends AbstractController
         CsrfTokenManagerInterface $csrfTokenManager,
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
+        MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrf($request, $csrfTokenManager)) {
             return $csrfError;
@@ -383,6 +390,7 @@ final class ContractNegotiationController extends AbstractController
 
         $entityManager->remove($negociation);
         $entityManager->flush();
+        $marketRealtimePublisher->publishContractNegotiationUpdate($negociation, 'contract_negociation.cancelled');
 
         return $this->json([
             'message' => 'La négociation contractuelle a été annulée.',
@@ -400,6 +408,7 @@ final class ContractNegotiationController extends AbstractController
         ContractNegotiationWorkflow $workflow,
         EntityManagerInterface $entityManager,
         NotificationService $notificationService,
+        MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrf($request, $csrfTokenManager)) {
             return $csrfError;
@@ -432,6 +441,7 @@ final class ContractNegotiationController extends AbstractController
 
         $notificationService->resolveSource('contract_offer', $offer->getId()?->toRfc4122() ?? '');
         $notificationService->resolveSource('contract_negociation', $negociation->getId()?->toRfc4122() ?? '');
+        $marketRealtimePublisher->publishContractNegotiationUpdate($negociation, 'contract_offer.accepted');
         if ($offer->getAuthor() instanceof User) {
             $notificationService->notify(
                 recipient: $offer->getAuthor(),
@@ -470,6 +480,7 @@ final class ContractNegotiationController extends AbstractController
         EntityManagerInterface $entityManager,
         PublicFeedPublisher $publicFeedPublisher,
         NotificationService $notificationService,
+        MarketRealtimePublisher $marketRealtimePublisher,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrf($request, $csrfTokenManager)) {
             return $csrfError;
@@ -494,6 +505,7 @@ final class ContractNegotiationController extends AbstractController
             ->setUpdatedAt(new \DateTimeImmutable());
         $publicFeedPublisher->publishContractNegotiation($negociation);
         $entityManager->flush();
+        $marketRealtimePublisher->publishContractNegotiationUpdate($negociation, 'contract_offer.rejected');
 
         $notificationService->resolveSource('contract_offer', $offer->getId()?->toRfc4122() ?? '');
         if ($offer->getAuthor() instanceof User) {

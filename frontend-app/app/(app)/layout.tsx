@@ -1,6 +1,7 @@
 import AppHeader from '@/components/AppHeader'
 import AppAccessGuard from '@/components/auth/AppAccessGuard'
 import AuthProvider from '@/context/AuthProvider'
+import { MarketRealtimeProvider } from '@/context/MarketRealtimeProvider'
 import { MessagesUnreadProvider } from '@/context/MessagesUnreadProvider'
 import { NotificationsProvider } from '@/context/NotificationsProvider'
 import { loadCurrentUser, loadNotificationsSummary } from '@/features/server/appInitialData'
@@ -22,21 +23,6 @@ function serializeForScript(value: unknown): string {
   return JSON.stringify(value).replace(/</g, '\\u003c')
 }
 
-function buildInitialAppDataScript(initialData: {
-  user: Awaited<ReturnType<typeof loadCurrentUser>>
-  notificationsSummary: Awaited<ReturnType<typeof loadNotificationsSummary>>
-}): string {
-  const lines = [
-    `window.__INITIAL_NOTIFICATIONS_SUMMARY__ = ${serializeForScript(initialData.notificationsSummary)};`,
-  ]
-
-  if (initialData.user) {
-    lines.unshift(`window.__INITIAL_AUTH_USER__ = ${serializeForScript(initialData.user)};`)
-  }
-
-  return lines.join('\n')
-}
-
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const initialData = await loadInitialAppData()
 
@@ -51,14 +37,16 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         <AppAccessGuard>
           <MessagesUnreadProvider>
             <NotificationsProvider>
-              <div className="min-h-screen flex flex-col">
-                <div className="absolute top-0 left-0 right-0 z-40">
-                  <AppHeader />
+              <MarketRealtimeProvider>
+                <div className="min-h-screen flex flex-col">
+                  <div className="absolute top-0 left-0 right-0 z-40">
+                    <AppHeader />
+                  </div>
+                  <main className="flex-1 w-full">
+                    {children}
+                  </main>
                 </div>
-                <main className="flex-1 w-full">
-                  {children}
-                </main>
-              </div>
+              </MarketRealtimeProvider>
             </NotificationsProvider>
           </MessagesUnreadProvider>
         </AppAccessGuard>

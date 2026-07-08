@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { BadgeEuro, CalendarClock, CheckCircle2, Clock3, Mail, ReceiptText, Send, Users } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button'
 import Modal from '@/components/ui/Modal'
 import ActionConfirmationModal from '@/components/ui/ActionConfirmationModal'
 import { CountryFlag } from '@/components/media/CountryFlag'
+import { MARKET_REALTIME_EVENT, type MarketRealtimePayload } from '@/context/MarketRealtimeProvider'
 import { useNotifications } from '@/context/NotificationsProvider'
 import OfferDetailsModal from './modals/OfferDetailsModal'
 import { ClubLogo, EmptyState, ErrorMessage, OfferDirection, PlayerAvatar } from './TransferHomeParts'
@@ -47,6 +48,16 @@ function TransferHome() {
     offer: SentOffer | ReceivedOffer
     action: 'accept' | 'reject'
   } | null>(null)
+
+  const refreshOffers = useCallback(async () => {
+    const response = await transfersManager.getMyOffers()
+
+    if (response.ok) {
+      setSentOffers((response.data.sentOffers ?? []).filter((item) => item.player))
+      setReceivedOffers((response.data.receivedOffers ?? []).filter((item) => item.player))
+      setOffersError(null)
+    }
+  }, [])
 
   useEffect(() => {
     let isMounted = true
@@ -97,6 +108,22 @@ function TransferHome() {
   }, [])
 
   useEffect(() => {
+    const handleMarketUpdate = (event: Event) => {
+      const detail = (event as CustomEvent<MarketRealtimePayload>).detail
+      if (detail.payload?.domain !== 'transfer') return
+
+      void refreshOffers()
+      void refreshSummary()
+    }
+
+    window.addEventListener(MARKET_REALTIME_EVENT, handleMarketUpdate)
+
+    return () => {
+      window.removeEventListener(MARKET_REALTIME_EVENT, handleMarketUpdate)
+    }
+  }, [refreshOffers, refreshSummary])
+
+  useEffect(() => {
     if (!focusedOfferId || isLoadingOffers) {
       return
     }
@@ -127,15 +154,6 @@ function TransferHome() {
       window.clearTimeout(highlightTimeout)
     }
   }, [focusedOfferId, isLoadingOffers, receivedOffers, sentOffers])
-
-  const refreshOffers = async () => {
-    const response = await transfersManager.getMyOffers()
-
-    if (response.ok) {
-      setSentOffers((response.data.sentOffers ?? []).filter((item) => item.player))
-      setReceivedOffers((response.data.receivedOffers ?? []).filter((item) => item.player))
-    }
-  }
 
   const updateOfferStatus = async (offer: SentOffer | ReceivedOffer, action: 'accept' | 'reject') => {
     setPendingActionId(`${action}-${offer.id}`)

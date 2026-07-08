@@ -164,7 +164,7 @@ final class ContractNegotiationWorkflow
 
         $transferNegociation
             ->setStatus(TransferNegociationStatusEnum::COMPLETED)
-            ->setAgreedAt(new \DateTimeImmutable('today'));
+            ->setAgreedAt(new \DateTimeImmutable());
         $listing->setStatus(ListingStatusEnum::CLOSED);
         $player
             ->setTeam($buyerTeam)
@@ -238,7 +238,7 @@ final class ContractNegotiationWorkflow
 
         $transferNegociation
             ->setStatus(TransferNegociationStatusEnum::COMPLETED)
-            ->setAgreedAt(new \DateTimeImmutable('today'));
+            ->setAgreedAt(new \DateTimeImmutable());
         $listing->setStatus(ListingStatusEnum::CLOSED);
 
         $durationMonths = max(1, $acceptedOffer->getDurationMonths() ?? 1);
