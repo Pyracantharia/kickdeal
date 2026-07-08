@@ -45,6 +45,8 @@ const EMPTY_DASHBOARD: AgentDashboardHomeData = {
     activeNegotiations: 0,
     pendingOffers: 0,
     availablePlayers: 0,
+    portfolioMarketValue: 0,
+    portfolioMarketValueLabel: '0 EUR',
   },
   players: [],
   negotiations: [],
