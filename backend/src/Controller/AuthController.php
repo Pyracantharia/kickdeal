@@ -463,10 +463,10 @@ final class AuthController extends AbstractController
         return null;
     }
 
-    public function sendResetPasswordEmail(string $email, string $resetLink, MailerInterface $mailer): array
+    public function sendResetPasswordEmail(string $email, string $resetLink, MailerInterface $mailer,string $mailerFrom = '%env(MAILER_FROM)%'): array
     {
         $message = (new Email())
-            ->from('kickdeal@no-reply.com')
+            ->from($mailerFrom)
             ->to($email)
             ->subject('Réinitialisation de votre mot de passe KickDeal')
             ->text($this->buildResetPasswordEmailText($resetLink))
