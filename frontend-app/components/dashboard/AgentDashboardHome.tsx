@@ -54,6 +54,7 @@ const EMPTY_DASHBOARD: AgentDashboardHomeData = {
 
 function formatCurrentDate(date: Date): string {
   const label = date.toLocaleDateString('fr-FR', {
+    timeZone: 'Europe/Paris',
     weekday: 'long',
     day: 'numeric',
     month: 'long',

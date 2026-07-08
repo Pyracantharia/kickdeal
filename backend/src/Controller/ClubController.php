@@ -19,6 +19,7 @@ use App\Repository\ClubRequestRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
+use App\Service\Mail\TransactionalMailer;
 use App\Service\Notification\NotificationService;
 use App\Service\Player\PlayerMarketContextResolver;
 use App\Service\PublicFeed\PublicFeedPublisher;
@@ -42,6 +43,7 @@ final class ClubController extends AbstractController
         private readonly PlayerMarketContextResolver $marketContextResolver,
         private readonly PublicFeedPublisher $publicFeedPublisher,
         private readonly NotificationService $notificationService,
+        private readonly TransactionalMailer $transactionalMailer,
     ) {
     }
 
@@ -319,6 +321,7 @@ final class ClubController extends AbstractController
                     sourceType: 'player_market_authorization',
                     sourceId: $player->getId()?->toRfc4122(),
                 );
+                $this->transactionalMailer->sendMarketAuthorizationDecision($player->getAgent()->getUser(), $player, 'revoked');
             }
 
             return $this->json([
@@ -374,6 +377,7 @@ final class ClubController extends AbstractController
                 sourceType: 'player_market_authorization',
                 sourceId: $player->getId()?->toRfc4122(),
             );
+            $this->transactionalMailer->sendMarketAuthorizationDecision($player->getAgent()->getUser(), $player, $nextStatus);
         }
 
         return $this->json([

@@ -18,6 +18,7 @@ type DashboardPayload = {
   agentDashboard: AgentDashboardHomeData | null
   marketNews: PublicFeedPost[] | null
   recentConversations: DirectConversation[] | null
+  now: string
 }
 
 async function loadImportantMarketNews(limit = 3): Promise<PublicFeedPost[] | null> {
@@ -45,6 +46,7 @@ async function loadImportantMarketNews(limit = 3): Promise<PublicFeedPost[] | nu
 
 async function loadDashboardPayload(): Promise<DashboardPayload> {
   const user = await loadCurrentUser()
+  const now = new Date().toISOString()
 
   if (!user) {
     const publicFeedResponse = await loadImportantMarketNews()
@@ -55,6 +57,7 @@ async function loadDashboardPayload(): Promise<DashboardPayload> {
       agentDashboard: null,
       marketNews: publicFeedResponse,
       recentConversations: null,
+      now,
     }
   }
 
@@ -72,6 +75,7 @@ async function loadDashboardPayload(): Promise<DashboardPayload> {
       agentDashboard: dashboardResponse,
       marketNews: null,
       recentConversations: conversationsResponse?.conversations?.filter((conversation) => conversation.lastMessage).slice(0, 4) ?? null,
+      now,
     }
   }
 
@@ -86,6 +90,7 @@ async function loadDashboardPayload(): Promise<DashboardPayload> {
     agentDashboard: null,
     marketNews: publicFeedResponse,
     recentConversations: null,
+    now,
   }
 }
 
@@ -103,6 +108,7 @@ export default async function DashboardPage() {
         <ClubDashboardHome
           initialDashboard={payload.clubDashboard}
           initialMarketNews={payload.marketNews}
+          initialNow={payload.now}
         />
       )}
     </>
