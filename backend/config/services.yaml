@@ -8,6 +8,7 @@ parameters:
     mercure_internal_url: "%env(default::MERCURE_INTERNAL_URL)%"
     mercure_public_url: "%env(default::MERCURE_PUBLIC_URL)%"
     mercure_jwt_secret: "%env(default::MERCURE_JWT_SECRET)%"
+    mailer_from: '%env(MAILER_FROM)%'
 
 services:
     # default configuration for services in *this* file
