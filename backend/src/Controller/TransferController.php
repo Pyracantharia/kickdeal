@@ -8,6 +8,7 @@ use App\Entity\Team;
 use App\Entity\TeamMembership;
 use App\Entity\Transfer\TransferAgentInvitation;
 use App\Entity\Transfer\TransferAgreement;
+use App\Entity\Transfer\TransferClubInvitation;
 use App\Entity\Transfer\TransferNegociation;
 use App\Entity\Transfer\TransferOffer;
 use App\Entity\User;
@@ -21,6 +22,7 @@ use App\Repository\TeamMembershipRepository;
 use App\Repository\Transfer\TransferNegociationRepository;
 use App\Repository\Transfer\TransferOfferRepository;
 use App\Repository\Transfer\TransferAgentInvitationRepository;
+use App\Repository\Transfer\TransferClubInvitationRepository;
 use App\Service\Subscription\SubscriptionLimits;
 use App\Service\Contract\ContractNegotiationWorkflow;
 use App\Service\MarketRealtimePublisher;
@@ -279,6 +281,8 @@ final class TransferController extends AbstractController
         }
 
         $buyerTeam = $membership->getTeam();
+        $sellerTeam = $listing->getSellerTeam();
+        $sellerClubRepresented = !$sellerTeam instanceof Team || $teamMembershipRepository->countByTeam($sellerTeam) > 0;
 
         if (!$subscriptionLimits->canCreateClubOffer($user)) {
             return $this->json([
@@ -299,11 +303,13 @@ final class TransferController extends AbstractController
             $negociation = (new TransferNegociation())
                 ->setListing($listing)
                 ->setBuyerTeam($buyerTeam)
-                ->setStatus(TransferNegociationStatusEnum::OPEN)
+                ->setStatus($sellerClubRepresented ? TransferNegociationStatusEnum::OPEN : TransferNegociationStatusEnum::PENDING_SELLER_CLUB)
                 ->setCreatedBy($user)
                 ->setCreatedAt(new \DateTimeImmutable());
 
             $entityManager->persist($negociation);
+        } elseif (!$sellerClubRepresented && TransferNegociationStatusEnum::OPEN === $negociation->getStatus()) {
+            $negociation->setStatus(TransferNegociationStatusEnum::PENDING_SELLER_CLUB);
         }
 
         $offer = $this->buildOfferFromPayload($payload, $negociation, $user, $buyerTeam, $playerRepository);
@@ -324,8 +330,8 @@ final class TransferController extends AbstractController
         $entityManager->flush();
         $marketRealtimePublisher->publishTransferOfferUpdate($offer, 'transfer_offer.created');
 
-        if ($listing->getSellerTeam() instanceof Team) {
-            foreach ($teamMembershipRepository->findUsersByTeam($listing->getSellerTeam()) as $recipient) {
+        if ($sellerClubRepresented && $sellerTeam instanceof Team) {
+            foreach ($teamMembershipRepository->findUsersByTeam($sellerTeam) as $recipient) {
                 $notificationService->notify(
                     recipient: $recipient,
                     type: 'transfer_offer.received',
@@ -507,6 +513,180 @@ final class TransferController extends AbstractController
         }
 
         return $this->json(['invitation' => $this->serializeAgentInvitation($invitation)]);
+    }
+
+    #[Route('/negotiations/{id}/club-invitations', name: 'app_transfer_club_invitation_create', methods: ['POST'])]
+    public function inviteSellerClub(
+        TransferNegociation $negociation,
+        Request $request,
+        #[CurrentUser] ?User $user,
+        TeamMembershipRepository $teamMembershipRepository,
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer,
+        MarketRealtimePublisher $marketRealtimePublisher,
+    ): JsonResponse {
+        $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
+
+        if ($membership instanceof JsonResponse) {
+            return $membership;
+        }
+
+        $buyerTeam = $negociation->getBuyerTeam();
+        $sellerTeam = $negociation->getListing()?->getSellerTeam();
+
+        if (!$buyerTeam instanceof Team || !$sellerTeam instanceof Team) {
+            return $this->json(['errorMessage' => 'La négociation est incomplète.'], 422);
+        }
+
+        if ($buyerTeam->getId()?->toRfc4122() !== $membership->getTeam()?->getId()?->toRfc4122()) {
+            return $this->json(['errorMessage' => 'Seul le club acheteur peut inviter le club vendeur.'], 403);
+        }
+
+        if ($teamMembershipRepository->countByTeam($sellerTeam) > 0) {
+            return $this->json(['errorMessage' => 'Ce club vendeur est déjà représenté sur KickDeal.'], 409);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        $email = $this->optionalString(is_array($payload) ? ($payload['email'] ?? null) : null);
+
+        if (null === $email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $this->json(['errorMessage' => 'Email du représentant du club requis.'], 422);
+        }
+
+        $token = bin2hex(random_bytes(32));
+        $invitation = (new TransferClubInvitation())
+            ->setTransferNegociation($negociation)
+            ->setSellerTeam($sellerTeam)
+            ->setBuyerTeam($buyerTeam)
+            ->setInvitedBy($user)
+            ->setEmail($email)
+            ->setToken($token)
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
+
+        $negociation
+            ->setStatus(TransferNegociationStatusEnum::SELLER_CLUB_INVITED)
+            ->setUpdatedAt(new \DateTimeImmutable());
+
+        $entityManager->persist($invitation);
+        $entityManager->flush();
+
+        $invitationUrl = rtrim((string) $this->getParameter('frontend_url'), '/').'/club/invitation?token='.rawurlencode($token);
+        $this->sendClubInvitationEmail($email, $invitationUrl, $invitation, $mailer);
+        $latestOffer = $this->getLatestOffer($negociation);
+        if ($latestOffer instanceof TransferOffer) {
+            $marketRealtimePublisher->publishTransferNegotiationUpdate($latestOffer, 'transfer_seller_club.invited');
+        }
+
+        return $this->json([
+            'message' => 'Invitation envoyée au club vendeur.',
+            'invitationUrl' => $invitationUrl,
+        ], 201);
+    }
+
+    #[Route('/club-invitations/{token}', name: 'app_transfer_club_invitation_show', methods: ['GET'])]
+    public function clubInvitation(
+        string $token,
+        TransferClubInvitationRepository $invitationRepository,
+    ): JsonResponse {
+        $invitation = $invitationRepository->findActiveByToken($token);
+
+        if (!$invitation instanceof TransferClubInvitation) {
+            return $this->json(['errorMessage' => 'Invitation introuvable ou déjà utilisée.'], 404);
+        }
+
+        return $this->json(['invitation' => $this->serializeClubInvitation($invitation)]);
+    }
+
+    #[Route('/club-invitations/{token}/claim', name: 'app_transfer_club_invitation_claim', methods: ['POST'])]
+    public function claimClubInvitation(
+        string $token,
+        #[CurrentUser] ?User $user,
+        TransferClubInvitationRepository $invitationRepository,
+        TeamMembershipRepository $teamMembershipRepository,
+        \App\Repository\ClubRequestRepository $clubRequestRepository,
+        EntityManagerInterface $entityManager,
+    ): JsonResponse {
+        if (!$user instanceof User || !in_array(User::ROLE_CLUB, $user->getRoles(), true)) {
+            return $this->json(['errorMessage' => 'Cette invitation doit être acceptée avec un compte club.'], 403);
+        }
+
+        $invitation = $invitationRepository->findActiveByToken($token);
+        if (!$invitation instanceof TransferClubInvitation || !$invitation->getSellerTeam() instanceof Team) {
+            return $this->json(['errorMessage' => 'Invitation introuvable ou déjà utilisée.'], 404);
+        }
+
+        $team = $invitation->getSellerTeam();
+        if ($teamMembershipRepository->countByTeam($team) > 0) {
+            return $this->json(['errorMessage' => 'Ce club est déjà représenté sur KickDeal.'], 409);
+        }
+
+        if (!$clubRequestRepository->hasPendingRequest($user, $team)) {
+            $clubRequest = (new \App\Entity\ClubRequest())
+                ->setRequester($user)
+                ->setTeam($team)
+                ->setVerificationEmail($user->getEmail())
+                ->setVerificationMessage('Demande créée depuis une invitation liée à une offre de transfert KickDeal.');
+            $entityManager->persist($clubRequest);
+        }
+
+        $invitation
+            ->setAcceptedBy($user)
+            ->setAcceptedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
+
+        $entityManager->flush();
+
+        return $this->json([
+            'message' => 'Demande de gestion créée. Elle doit maintenant être validée par l’administration.',
+            'teamId' => $team->getId()?->toRfc4122(),
+        ]);
+    }
+
+    #[Route('/negotiations/{id}/seller-club-external-contact', name: 'app_transfer_seller_club_external_contact', methods: ['POST'])]
+    public function markSellerClubExternalContact(
+        TransferNegociation $negociation,
+        #[CurrentUser] ?User $user,
+        TeamMembershipRepository $teamMembershipRepository,
+        EntityManagerInterface $entityManager,
+        MarketRealtimePublisher $marketRealtimePublisher,
+    ): JsonResponse {
+        $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
+
+        if ($membership instanceof JsonResponse) {
+            return $membership;
+        }
+
+        $buyerTeam = $negociation->getBuyerTeam();
+        $sellerTeam = $negociation->getListing()?->getSellerTeam();
+
+        if (!$buyerTeam instanceof Team || !$sellerTeam instanceof Team) {
+            return $this->json(['errorMessage' => 'La négociation est incomplète.'], 422);
+        }
+
+        if ($buyerTeam->getId()?->toRfc4122() !== $membership->getTeam()?->getId()?->toRfc4122()) {
+            return $this->json(['errorMessage' => 'Seul le club acheteur peut déclarer un contact externe.'], 403);
+        }
+
+        if ($teamMembershipRepository->countByTeam($sellerTeam) > 0) {
+            return $this->json(['errorMessage' => 'Ce club vendeur est déjà représenté sur KickDeal.'], 409);
+        }
+
+        $negociation
+            ->setSellerClubExternalContactedAt(new \DateTimeImmutable())
+            ->setStatus(TransferNegociationStatusEnum::SELLER_CLUB_EXTERNAL_CONTACTED)
+            ->setUpdatedAt(new \DateTimeImmutable());
+        $entityManager->flush();
+
+        $latestOffer = $this->getLatestOffer($negociation);
+        if ($latestOffer instanceof TransferOffer) {
+            $marketRealtimePublisher->publishTransferNegotiationUpdate($latestOffer, 'transfer_seller_club.external_contacted');
+        }
+
+        return $this->json([
+            'message' => 'Contact externe déclaré. L’offre reste traçable dans KickDeal.',
+            'negociation' => $this->serializeNegotiationState($negociation, $membership->getTeam()),
+        ]);
     }
 
     #[Route('/agent-invitations/{token}/claim', name: 'app_transfer_agent_invitation_claim', methods: ['POST'])]
@@ -949,6 +1129,7 @@ final class TransferController extends AbstractController
             'sellerTeamId' => $sellerTeam?->getId()?->toRfc4122(),
             'viewerRole' => $viewerRole,
             'contractResolution' => $negociation ? $this->serializeContractResolution($negociation, $viewerTeam) : null,
+            'sellerClubResolution' => $negociation ? $this->serializeSellerClubResolution($negociation, $viewerTeam) : null,
             'player' => $player ? $this->serializePlayer($player) : null,
             'type' => $this->serializeOfferType($offer->getKind()),
             'kind' => $offer->getKind()?->value,
@@ -1012,6 +1193,7 @@ final class TransferController extends AbstractController
             'viewerRole' => $viewerRole,
             'exchangeTeamId' => 'seller' === $viewerRole ? $buyerTeam->getId()?->toRfc4122() : $viewerTeam->getId()?->toRfc4122(),
             'contractResolution' => $negociation ? $this->serializeContractResolution($negociation, $viewerTeam) : null,
+            'sellerClubResolution' => $negociation ? $this->serializeSellerClubResolution($negociation, $viewerTeam) : null,
             'player' => $player ? $this->serializePlayer($player) : null,
             'sellerTeam' => $sellerTeam ? $this->serializeTeam($sellerTeam) : null,
             'buyerTeam' => $this->serializeTeam($buyerTeam),
@@ -1092,6 +1274,37 @@ final class TransferController extends AbstractController
             'id' => $negociation->getId()?->toRfc4122(),
             'status' => $negociation->getStatus()?->value,
             'contractResolution' => $this->serializeContractResolution($negociation, $viewerTeam),
+            'sellerClubResolution' => $this->serializeSellerClubResolution($negociation, $viewerTeam),
+        ];
+    }
+
+    private function serializeSellerClubResolution(TransferNegociation $negociation, Team $viewerTeam): array
+    {
+        $status = $negociation->getStatus();
+        $sellerTeam = $negociation->getListing()?->getSellerTeam();
+        $buyerTeam = $negociation->getBuyerTeam();
+        $viewerRole = $buyerTeam?->getId()?->toRfc4122() === $viewerTeam->getId()?->toRfc4122() ? 'buyer' : 'seller';
+        $latestInvitation = $this->getLatestClubInvitation($negociation);
+        $isAwaitingSellerClub = in_array($status, [
+            TransferNegociationStatusEnum::PENDING_SELLER_CLUB,
+            TransferNegociationStatusEnum::SELLER_CLUB_EXTERNAL_CONTACTED,
+            TransferNegociationStatusEnum::SELLER_CLUB_INVITED,
+        ], true);
+
+        return [
+            'requiresAction' => $isAwaitingSellerClub,
+            'viewerRole' => $viewerRole,
+            'sellerClubRepresented' => !$isAwaitingSellerClub,
+            'canInviteSellerClub' => 'buyer' === $viewerRole && $isAwaitingSellerClub,
+            'canMarkExternalContact' => 'buyer' === $viewerRole && $isAwaitingSellerClub,
+            'sellerTeamName' => $sellerTeam?->getName(),
+            'buyerTeamName' => $buyerTeam?->getName(),
+            'invitationSent' => TransferNegociationStatusEnum::SELLER_CLUB_INVITED === $status,
+            'invitedEmail' => $latestInvitation?->getEmail(),
+            'invitedAt' => $latestInvitation?->getCreatedAt()?->format(\DateTimeInterface::ATOM),
+            'externalContacted' => null !== $negociation->getSellerClubExternalContactedAt()
+                || TransferNegociationStatusEnum::SELLER_CLUB_EXTERNAL_CONTACTED === $status,
+            'externalContactedAt' => $negociation->getSellerClubExternalContactedAt()?->format(\DateTimeInterface::ATOM),
         ];
     }
 
@@ -1144,6 +1357,34 @@ final class TransferController extends AbstractController
         ];
     }
 
+    private function serializeClubInvitation(TransferClubInvitation $invitation): array
+    {
+        $negociation = $invitation->getTransferNegociation();
+        $listing = $negociation?->getListing();
+        $player = $listing?->getPlayer();
+
+        return [
+            'email' => $invitation->getEmail(),
+            'acceptedAt' => $invitation->getAcceptedAt()?->format(\DateTimeInterface::ATOM),
+            'player' => $player ? $this->serializePlayer($player) : null,
+            'buyerTeam' => $invitation->getBuyerTeam() ? $this->serializeTeam($invitation->getBuyerTeam()) : null,
+            'sellerTeam' => $invitation->getSellerTeam() ? $this->serializeTeam($invitation->getSellerTeam()) : null,
+            'negociationStatus' => $negociation?->getStatus()?->value,
+        ];
+    }
+
+    private function getLatestClubInvitation(TransferNegociation $negociation): ?TransferClubInvitation
+    {
+        $invitations = $negociation->getClubInvitations()->toArray();
+
+        usort(
+            $invitations,
+            static fn (TransferClubInvitation $a, TransferClubInvitation $b): int => ($b->getCreatedAt()?->getTimestamp() ?? 0) <=> ($a->getCreatedAt()?->getTimestamp() ?? 0),
+        );
+
+        return $invitations[0] ?? null;
+    }
+
     private function ensureTransferAgreement(
         TransferNegociation $transferNegociation,
         TransferOffer $acceptedOffer,
@@ -1183,6 +1424,39 @@ final class TransferController extends AbstractController
             $playerName,
             $buyerTeam?->getName() ?? 'le club acheteur',
             $sellerTeam?->getName() ?? 'le club vendeur',
+            $invitationUrl,
+        );
+
+        $message = (new Email())
+            ->from('kickdeal@no-reply.com')
+            ->to($email)
+            ->subject($subject)
+            ->text($text);
+
+        try {
+            $mailer->send($message);
+        } catch (\Throwable) {
+            // In local environments MAILER_DSN may be null; the invitation URL is still returned by the API.
+        }
+    }
+
+    private function sendClubInvitationEmail(
+        string $email,
+        string $invitationUrl,
+        TransferClubInvitation $invitation,
+        MailerInterface $mailer,
+    ): void {
+        $negociation = $invitation->getTransferNegociation();
+        $player = $negociation?->getListing()?->getPlayer();
+        $playerName = trim(($player?->getFirstName() ?? '').' '.($player?->getLastName() ?? '')) ?: 'un joueur';
+        $buyerTeamName = $invitation->getBuyerTeam()?->getName() ?? 'Un club';
+        $sellerTeamName = $invitation->getSellerTeam()?->getName() ?? 'votre club';
+        $subject = sprintf('KickDeal - %s souhaite recruter %s', $buyerTeamName, $playerName);
+        $text = sprintf(
+            "Bonjour,\n\n%s souhaite recruter %s, joueur de %s.\n\nVotre club n'est pas encore représenté sur KickDeal. En rejoignant la plateforme, vous pourrez consulter l'offre, négocier, accepter ou refuser, puis gérer officiellement votre club.\n\nRejoindre KickDeal :\n%s\n\nL'équipe KickDeal",
+            $buyerTeamName,
+            $playerName,
+            $sellerTeamName,
             $invitationUrl,
         );
 

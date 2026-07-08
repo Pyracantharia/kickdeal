@@ -5,6 +5,7 @@ import type {
   TransferHistoryItem,
   TransferHistoryStats,
   TransferAgentInvitation,
+  TransferClubInvitation,
   TransferListPlayer,
   TransferNegotiationContext,
   TransferOfferPayload,
@@ -35,6 +36,15 @@ interface AgentInvitationResponse {
 
 interface AgentInvitationContextResponse {
   invitation: TransferAgentInvitation
+}
+
+interface ClubInvitationResponse {
+  message: string
+  invitationUrl: string
+}
+
+interface ClubInvitationContextResponse {
+  invitation: TransferClubInvitation
 }
 
 interface TransferNegotiationContextResponse {
@@ -115,6 +125,25 @@ class TransfersManager {
 
   async claimAgentInvitation(token: string) {
     return httpClient.post<{ message: string; contractNegociationIds: string[] }>(`/transfers/agent-invitations/${encodeURIComponent(token)}/claim`, {})
+  }
+
+  async inviteSellerClub(negociationId: string, email: string) {
+    return httpClient.post<ClubInvitationResponse>(`/transfers/negotiations/${negociationId}/club-invitations`, { email })
+  }
+
+  async getClubInvitation(token: string) {
+    return httpClient.get<ClubInvitationContextResponse>(`/transfers/club-invitations/${encodeURIComponent(token)}`)
+  }
+
+  async claimClubInvitation(token: string) {
+    return httpClient.post<{ message: string; teamId?: string | null }>(`/transfers/club-invitations/${encodeURIComponent(token)}/claim`, {})
+  }
+
+  async markSellerClubExternalContact(negociationId: string) {
+    return httpClient.post<{ message: string; negociation: { id: string; status: string } }>(
+      `/transfers/negotiations/${negociationId}/seller-club-external-contact`,
+      {},
+    )
   }
 
   async confirmExternalContractAgreement(

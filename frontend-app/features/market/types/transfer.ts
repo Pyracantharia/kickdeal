@@ -2,7 +2,7 @@ import type { Player } from './player'
 
 export type OfferStatus = 'pending' | 'accepted' | 'rejected' | 'expired'
 export type OfferType = 'purchase' | 'loan' | 'exchange'
-export type TransferNegotiationStatus = 'open' | 'counter_offer' | 'permission_to_speak' | 'agreed_clubs' | 'pending_agent' | 'completed' | 'expired' | 'rejected'
+export type TransferNegotiationStatus = 'open' | 'counter_offer' | 'permission_to_speak' | 'agreed_clubs' | 'pending_agent' | 'pending_seller_club' | 'seller_club_invited' | 'seller_club_external_contacted' | 'completed' | 'expired' | 'rejected'
 
 export interface ContractResolution {
   requiresAction: boolean
@@ -17,6 +17,21 @@ export interface ContractResolution {
   sellerTeamName?: string | null
   externalContractDurationMonths?: number | null
   externalContractWeeklySalary?: string | null
+}
+
+export interface SellerClubResolution {
+  requiresAction: boolean
+  viewerRole: 'buyer' | 'seller'
+  sellerClubRepresented: boolean
+  canInviteSellerClub: boolean
+  canMarkExternalContact: boolean
+  sellerTeamName?: string | null
+  buyerTeamName?: string | null
+  invitationSent: boolean
+  invitedEmail?: string | null
+  invitedAt?: string | null
+  externalContacted: boolean
+  externalContactedAt?: string | null
 }
 
 export interface TransferListPlayer {
@@ -41,6 +56,7 @@ export interface TransferOffer {
   sellerTeamId?: string | null
   viewerRole?: 'buyer' | 'seller'
   contractResolution?: ContractResolution | null
+  sellerClubResolution?: SellerClubResolution | null
   player: Player
   type: OfferType
   kind?: string
@@ -105,6 +121,7 @@ export interface TransferNegotiationContext {
   viewerRole: 'buyer' | 'seller'
   exchangeTeamId?: string | null
   contractResolution?: ContractResolution | null
+  sellerClubResolution?: SellerClubResolution | null
   player: Player
   sellerTeam: NegotiationTeam
   buyerTeam: NegotiationTeam
@@ -114,6 +131,15 @@ export interface TransferNegotiationContext {
 }
 
 export interface TransferAgentInvitation {
+  email: string
+  acceptedAt?: string | null
+  player: Player
+  buyerTeam: NegotiationTeam
+  sellerTeam: NegotiationTeam
+  negociationStatus?: TransferNegotiationStatus | null
+}
+
+export interface TransferClubInvitation {
   email: string
   acceptedAt?: string | null
   player: Player

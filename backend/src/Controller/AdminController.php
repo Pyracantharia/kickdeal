@@ -14,9 +14,11 @@ use App\Enum\ClubRequestStatusEnum;
 use App\Enum\MembershipRoleEnum;
 use App\Enum\PlayerAgentRequestStatusEnum;
 use App\Enum\PlayerAgentRequestTypeEnum;
+use App\Enum\TransferNegociationStatusEnum;
 use App\Repository\ClubRequestRepository;
 use App\Repository\MessageReportRepository;
 use App\Repository\PlayerAgentRequestRepository;
+use App\Repository\Transfer\TransferNegociationRepository;
 use App\Repository\UserRepository;
 use App\Service\Notification\NotificationService;
 use App\Service\Security\PasswordPolicy;
@@ -461,6 +463,7 @@ final class AdminController extends AbstractController
         ClubRequest $clubRequest,
         EntityManagerInterface $entityManager,
         NotificationService $notificationService,
+        TransferNegociationRepository $transferNegociationRepository,
     ): JsonResponse
     {
 
@@ -501,6 +504,17 @@ final class AdminController extends AbstractController
             ->setCreatedAt(new DateTimeImmutable());
 
         $entityManager->persist($clubProfile);
+
+        $awaitingNegotiations = null !== $clubRequest->getTeam()
+            ? $transferNegociationRepository->findAwaitingSellerClubForTeam($clubRequest->getTeam())
+            : [];
+
+        foreach ($awaitingNegotiations as $negociation) {
+            $negociation
+                ->setStatus(TransferNegociationStatusEnum::OPEN)
+                ->setUpdatedAt(new DateTimeImmutable());
+        }
+
         $entityManager->flush();
 
         $notificationService->resolveSource('club_request', $clubRequest->getId()?->toRfc4122() ?? '');
@@ -518,6 +532,27 @@ final class AdminController extends AbstractController
             sourceType: 'club_request',
             sourceId: $clubRequest->getId()?->toRfc4122(),
         );
+
+        if (count($awaitingNegotiations) > 0) {
+            $notificationService->notify(
+                recipient: $clubRequest->getRequester(),
+                type: 'transfer_seller_club.joined',
+                category: 'negotiations',
+                title: 'Offres en attente retrouvées',
+                body: sprintf(
+                    '%d offre(s) concernant %s sont maintenant disponibles dans votre espace marché.',
+                    count($awaitingNegotiations),
+                    $clubRequest->getTeam()?->getName() ?? 'votre club',
+                ),
+                actionUrl: '/market/transfers',
+                targetRoute: '/market',
+                requiresAction: true,
+                severity: 'warning',
+                actor: $user,
+                sourceType: 'club_request',
+                sourceId: $clubRequest->getId()?->toRfc4122(),
+            );
+        }
 
         return $this->json([
             "message" => "Club request approved successfully",

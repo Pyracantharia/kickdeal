@@ -41,6 +41,7 @@ function TransferHome() {
   const [listError, setListError] = useState<string | null>(null)
   const [offersError, setOffersError] = useState<string | null>(null)
   const [agentEmails, setAgentEmails] = useState<Record<string, string>>({})
+  const [sellerClubEmails, setSellerClubEmails] = useState<Record<string, string>>({})
   const [actionMessage, setActionMessage] = useState<string | null>(null)
   const [pendingActionId, setPendingActionId] = useState<string | null>(null)
   const [externalAgreementOffer, setExternalAgreementOffer] = useState<SentOffer | ReceivedOffer | null>(null)
@@ -198,6 +199,52 @@ function TransferHome() {
     }
 
     setActionMessage("Invitation envoyée. L'agent pourra rejoindre KickDeal et reprendre la négociation contractuelle.")
+  }
+
+  const inviteSellerClub = async (offer: SentOffer | ReceivedOffer) => {
+    if (!offer.negociationId) return
+
+    const email = (sellerClubEmails[offer.id] ?? '').trim()
+    if (!email) {
+      setOffersError("Renseignez l'adresse email d'un représentant du club vendeur.")
+      return
+    }
+
+    setPendingActionId(`seller-club-invite-${offer.id}`)
+    setOffersError(null)
+    setActionMessage(null)
+
+    const response = await transfersManager.inviteSellerClub(offer.negociationId, email)
+    setPendingActionId(null)
+
+    if (!response.ok) {
+      setOffersError(readError(response.data, "Impossible d'envoyer l'invitation au club vendeur."))
+      return
+    }
+
+    setActionMessage("Invitation envoyée. Le club vendeur pourra rejoindre KickDeal et répondre à votre offre après validation.")
+    await refreshOffers()
+    await refreshSummary()
+  }
+
+  const markSellerClubExternalContact = async (offer: SentOffer | ReceivedOffer) => {
+    if (!offer.negociationId) return
+
+    setPendingActionId(`seller-club-external-${offer.id}`)
+    setOffersError(null)
+    setActionMessage(null)
+
+    const response = await transfersManager.markSellerClubExternalContact(offer.negociationId)
+    setPendingActionId(null)
+
+    if (!response.ok) {
+      setOffersError(readError(response.data, "Impossible de déclarer le contact externe."))
+      return
+    }
+
+    setActionMessage("Contact externe déclaré. L'offre reste traçable et pourra être reprise si le club vendeur rejoint KickDeal.")
+    await refreshOffers()
+    await refreshSummary()
   }
 
   const handleExternalAgreementRequest = (offer: SentOffer | ReceivedOffer) => {
@@ -423,6 +470,15 @@ function TransferHome() {
                   isInviting={pendingActionId === `invite-${offer.id}`}
                   isConfirmingExternal={pendingActionId === `external-${offer.id}`}
                 />
+                <SellerClubResolutionPanel
+                  offer={offer}
+                  email={sellerClubEmails[offer.id] ?? ''}
+                  onEmailChange={(email) => setSellerClubEmails((current) => ({ ...current, [offer.id]: email }))}
+                  onInvite={() => inviteSellerClub(offer)}
+                  onExternalContact={() => markSellerClubExternalContact(offer)}
+                  isInviting={pendingActionId === `seller-club-invite-${offer.id}`}
+                  isMarkingExternal={pendingActionId === `seller-club-external-${offer.id}`}
+                />
               </div>
             ))}
           </div>
@@ -524,6 +580,15 @@ function TransferHome() {
                   isInviting={pendingActionId === `invite-${offer.id}`}
                   isConfirmingExternal={pendingActionId === `external-${offer.id}`}
                 />
+                <SellerClubResolutionPanel
+                  offer={offer}
+                  email={sellerClubEmails[offer.id] ?? ''}
+                  onEmailChange={(email) => setSellerClubEmails((current) => ({ ...current, [offer.id]: email }))}
+                  onInvite={() => inviteSellerClub(offer)}
+                  onExternalContact={() => markSellerClubExternalContact(offer)}
+                  isInviting={pendingActionId === `seller-club-invite-${offer.id}`}
+                  isMarkingExternal={pendingActionId === `seller-club-external-${offer.id}`}
+                />
               </div>
             ))}
           </div>
@@ -602,6 +667,93 @@ function SuccessMessage({ message }: { message: string }) {
   )
 }
 
+function SellerClubResolutionPanel({
+  offer,
+  email,
+  onEmailChange,
+  onInvite,
+  onExternalContact,
+  isInviting,
+  isMarkingExternal,
+}: {
+  offer: SentOffer | ReceivedOffer
+  email: string
+  onEmailChange: (email: string) => void
+  onInvite: () => void
+  onExternalContact: () => void
+  isInviting: boolean
+  isMarkingExternal: boolean
+}) {
+  const resolution = offer.sellerClubResolution
+
+  if (!resolution?.requiresAction || resolution.viewerRole !== 'buyer') {
+    return null
+  }
+
+  return (
+    <div className="mt-5 rounded-xl border border-brand-cyan/35 bg-brand-cyan/10 p-4">
+      <div className="flex gap-3">
+        <Clock3 className="mt-0.5 h-5 w-5 shrink-0 text-brand-cyan" />
+        <div className="min-w-0 flex-1">
+          <p className="font-semibold text-white">Club vendeur non représenté</p>
+          <p className="mt-1 text-sm text-white/65">
+            {resolution.sellerTeamName ?? 'Le club vendeur'} n’est pas encore représenté sur KickDeal. Vous pouvez
+            inviter un dirigeant du club afin qu’il rejoigne la plateforme et réponde à votre offre.
+          </p>
+
+          {(resolution.invitationSent || resolution.externalContacted) && (
+            <div className="mt-3 rounded-lg border border-white/10 bg-[#071722]/75 px-3 py-2 text-xs text-white/65">
+              {resolution.invitationSent && (
+                <p>
+                  Invitation envoyée{resolution.invitedEmail ? ` à ${resolution.invitedEmail}` : ''}. En attente de
+                  l’arrivée du club vendeur.
+                </p>
+              )}
+              {resolution.externalContacted && (
+                <p>Contact externe déclaré. L’offre reste conservée dans l’historique KickDeal.</p>
+              )}
+            </div>
+          )}
+
+          <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_auto]">
+            <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+              <label className="text-xs font-semibold uppercase tracking-wide text-white/55">
+                Email d’un représentant du club
+              </label>
+              <div className="mt-2 flex flex-col gap-2 sm:flex-row">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) => onEmailChange(event.target.value)}
+                  placeholder="dirigeant@club.com"
+                  className="min-w-0 flex-1 rounded-lg border border-white/15 bg-[#071722] px-3 py-2 text-sm text-white outline-none focus:border-brand-cyan"
+                />
+                <Button type="button" onClick={onInvite} isLoading={isInviting} icon={<Mail className="h-4 w-4" />}>
+                  Inviter
+                </Button>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-white/10 bg-white/5 p-3 lg:min-w-[240px]">
+              <p className="text-sm text-white/70">Vous avez déjà avancé hors plateforme ?</p>
+              <Button
+                type="button"
+                variant="secondary"
+                className="mt-3 w-full"
+                onClick={onExternalContact}
+                isLoading={isMarkingExternal}
+                disabled={resolution.externalContacted}
+              >
+                {resolution.externalContacted ? 'Contact externe enregistré' : 'Marquer contact externe'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function ContractResolutionPanel({
   offer,
   email,
@@ -621,7 +773,7 @@ function ContractResolutionPanel({
 }) {
   const resolution = offer.contractResolution
 
-  if (offer.negociationStatus !== 'pending_agent' || !resolution) {
+  if (offer.sellerClubResolution?.requiresAction || offer.negociationStatus !== 'pending_agent' || !resolution) {
     return null
   }
 

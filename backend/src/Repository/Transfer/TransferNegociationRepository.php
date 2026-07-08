@@ -38,6 +38,9 @@ class TransferNegociationRepository extends ServiceEntityRepository
                 TransferNegociationStatusEnum::PERMISSION_TO_SPEAK,
                 TransferNegociationStatusEnum::AGREED_CLUBS,
                 TransferNegociationStatusEnum::PENDING_AGENT,
+                TransferNegociationStatusEnum::PENDING_SELLER_CLUB,
+                TransferNegociationStatusEnum::SELLER_CLUB_EXTERNAL_CONTACTED,
+                TransferNegociationStatusEnum::SELLER_CLUB_INVITED,
             ])
             ->orderBy('negociation.updatedAt', 'DESC')
             ->addOrderBy('negociation.createdAt', 'DESC')
@@ -65,6 +68,9 @@ class TransferNegociationRepository extends ServiceEntityRepository
                 TransferNegociationStatusEnum::PERMISSION_TO_SPEAK,
                 TransferNegociationStatusEnum::AGREED_CLUBS,
                 TransferNegociationStatusEnum::PENDING_AGENT,
+                TransferNegociationStatusEnum::PENDING_SELLER_CLUB,
+                TransferNegociationStatusEnum::SELLER_CLUB_EXTERNAL_CONTACTED,
+                TransferNegociationStatusEnum::SELLER_CLUB_INVITED,
             ]);
 
         return (int) $queryBuilder->getQuery()->getSingleScalarResult();
@@ -121,6 +127,29 @@ class TransferNegociationRepository extends ServiceEntityRepository
             ->andWhere('contractNegociation.id IS NULL')
             ->setParameter('player', $player)
             ->setParameter('status', TransferNegociationStatusEnum::PENDING_AGENT)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return TransferNegociation[]
+     */
+    public function findAwaitingSellerClubForTeam(Team $team): array
+    {
+        return $this->createQueryBuilder('negociation')
+            ->addSelect('listing', 'player', 'buyerTeam', 'offers')
+            ->innerJoin('negociation.listing', 'listing')
+            ->innerJoin('listing.player', 'player')
+            ->innerJoin('negociation.buyerTeam', 'buyerTeam')
+            ->leftJoin('negociation.transferOffers', 'offers')
+            ->andWhere('listing.sellerTeam = :team')
+            ->andWhere('negociation.status IN (:statuses)')
+            ->setParameter('team', $team)
+            ->setParameter('statuses', [
+                TransferNegociationStatusEnum::PENDING_SELLER_CLUB,
+                TransferNegociationStatusEnum::SELLER_CLUB_EXTERNAL_CONTACTED,
+                TransferNegociationStatusEnum::SELLER_CLUB_INVITED,
+            ])
             ->getQuery()
             ->getResult();
     }

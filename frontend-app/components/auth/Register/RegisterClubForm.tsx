@@ -18,6 +18,11 @@ import TermsAcceptance from './TermsAcceptance'
 function RegisterClubForm() {
   const router = useRouter()
   const [selectedPlan, setSelectedPlan] = React.useState<SubscriptionPlan>('club_free')
+  const [clubInvitationToken, setClubInvitationToken] = React.useState<string | null>(null)
+
+  React.useEffect(() => {
+    setClubInvitationToken(new URLSearchParams(window.location.search).get('clubInvitationToken'))
+  }, [])
 
   const {
     register,
@@ -50,6 +55,7 @@ function RegisterClubForm() {
         confirmation: data.confirmation,
         roles: ['ROLE_CLUB'],
         subscriptionPlan: selectedPlan,
+        clubInvitationToken: clubInvitationToken ?? undefined,
       }
 
       const response = await authManager.register(payload)
