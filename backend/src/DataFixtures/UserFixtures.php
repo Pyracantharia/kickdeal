@@ -9,30 +9,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    public const USERS = [
-        [
-            'firstName' => 'John',
-            'lastName' => 'Doe',
-            'email' => 'john@example.com',
-            'password' => 'Password123!',
-            'roles' => ['ROLE_USER'],
-        ],
-        [
-            'firstName' => 'Jane',
-            'lastName' => 'Smith',
-            'email' => 'jane@example.com',
-            'password' => 'Password123!',
-            'roles' => ['ROLE_USER'],
-        ],
-        [
-            'firstName' => 'Admin',
-            'lastName' => 'User',
-            'email' => 'admin@example.com',
-            'password' => 'Password123!',
-            'roles' => ['ROLE_ADMIN'],
-        ],
-    ];
-
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher
     ) {
@@ -40,14 +16,42 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::USERS as $userData) {
+        $users = [
+            [
+                'firstName' => 'John',
+                'lastName' => 'Doe',
+                'email' => 'john@example.com',
+                'password' => 'Password123!',
+                'roles' => ['ROLE_USER'],
+                'passwordChangedAt' => (new \DateTimeImmutable())->modify('-30 days'),
+            ],
+            [
+                'firstName' => 'Jane',
+                'lastName' => 'Smith',
+                'email' => 'jane@example.com',
+                'password' => 'Password123!',
+                'roles' => ['ROLE_USER'],
+                'passwordChangedAt' => (new \DateTimeImmutable())->modify('-1 year'),
+            ],
+            [
+                'firstName' => 'Admin',
+                'lastName' => 'User',
+                'email' => 'admin@example.com',
+                'password' => 'Password123!',
+                'roles' => ['ROLE_ADMIN'],
+                'passwordChangedAt' => (new \DateTimeImmutable())->modify('-1 day'),
+            ],
+        ];
+
+        foreach ($users as $userData) {
             $user = new User();
             $user
                 ->setFirstName($userData['firstName'])
                 ->setLastName($userData['lastName'])
                 ->setEmail($userData['email'])
                 ->setPassword($this->passwordHasher->hashPassword($user, $userData['password']))
-                ->setRoles($userData['roles']);
+                ->setRoles($userData['roles'])
+                ->setPasswordChangedAt($userData['passwordChangedAt']);
 
             $manager->persist($user);
             $this->addReference('user_'.$userData['email'], $user);

@@ -1,5 +1,5 @@
-describe("Inscription agent", () => {
-  it("permet de créer un compte agent avec le plan gratuit", () => {
+describe("Agent creation", () => {
+  it("should create an agent account with the free plan", () => {
     cy.fixture("register-manager").then((manager) => {
       cy.visit("http://localhost:3000");
 
@@ -41,8 +41,7 @@ describe("Inscription agent", () => {
 
       cy.contains("button", "Créer mon compte gratuit").click();
 
-      // À adapter selon le comportement réel après inscription
-      cy.url().should("not.include", "/auth/register/manager");
+      cy.url().should("include", "/auth/login");
     });
   });
 });

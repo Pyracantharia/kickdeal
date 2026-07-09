@@ -214,13 +214,13 @@ function AccountSecurityPage() {
         </header>
 
         {successMessage && (
-          <div className="mb-6 rounded-lg border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
+          <div className="password-reset-success mb-6 rounded-lg border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
             {successMessage}
           </div>
         )}
 
         {user?.passwordExpired && (
-          <div className="mb-6 rounded-lg border border-amber-300/35 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">
+          <div className="password-expired-warning mb-6 rounded-lg border border-amber-300/35 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">
             Votre mot de passe a expiré. Veuillez le modifier pour continuer a utiliser votre compte.
           </div>
         )}
@@ -242,6 +242,8 @@ function AccountSecurityPage() {
               <Input
                 label="Mot de passe actuel"
                 type="password"
+                name="currentPassword"
+                id="currentPassword"
                 autoComplete="current-password"
                 value={passwordForm.currentPassword}
                 error={passwordErrors.currentPassword}
@@ -251,6 +253,8 @@ function AccountSecurityPage() {
                 <Input
                   label="Nouveau mot de passe"
                   type="password"
+                  name="newPassword"
+                  id="newPassword"
                   autoComplete="new-password"
                   value={passwordForm.newPassword}
                   error={passwordErrors.newPassword}
@@ -261,6 +265,8 @@ function AccountSecurityPage() {
               <Input
                 label="Confirmer le nouveau mot de passe"
                 type="password"
+                name="newPasswordConfirm"
+                id="newPasswordConfirm"
                 autoComplete="new-password"
                 value={passwordForm.newPasswordConfirm}
                 error={passwordErrors.newPasswordConfirm}
