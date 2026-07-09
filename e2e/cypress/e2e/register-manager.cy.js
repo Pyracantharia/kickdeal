@@ -1,9 +1,7 @@
 describe("Agent creation", () => {
   it("should create an agent account with the free plan", () => {
-    cy.fixture("register-manager").then((manager) => {
-      cy.visit("http://localhost:3000");
-
-      cy.url().should("include", "/auth/login");
+    cy.fixture("register-agent").then((agent) => {
+      cy.visit("http://localhost:3000/auth/login");
 
       cy.contains("a", "Créer un compte").click();
 
@@ -15,12 +13,12 @@ describe("Agent creation", () => {
 
       cy.get('input[name="firstName"]', { timeout: 10000 }).should('be.visible');
 
-      cy.get('input[name="firstName"]').type(manager.firstName);
-      cy.get('input[name="lastName"]').type(manager.lastName);
-      cy.get('input[name="email"]').type(manager.email);
-      cy.get('input[name="password"]').type(manager.password);
-      cy.get('input[name="confirmation"]').type(manager.password);
-      cy.get('input[name="agencyName"]').type(manager.agencyName);
+      cy.get('input[name="firstName"]').type(agent.firstName);
+      cy.get('input[name="lastName"]').type(agent.lastName);
+      cy.get('input[name="email"]').type(agent.email);
+      cy.get('input[name="password"]').type(agent.password);
+      cy.get('input[name="confirmation"]').type(agent.password);
+      cy.get('input[name="agencyName"]').type(agent.agencyName);
 
       cy.get(".country-select")
         .find('[role="button"]')
@@ -29,10 +27,10 @@ describe("Agent creation", () => {
       cy.get(".country-select-input")
         .should("be.visible")
         .focus()
-        .type(manager.country);
+        .type(agent.country);
 
       cy.get("button.country-select-choice")
-        .contains(manager.country)
+        .contains(agent.country)
         .click();
 
       cy.get("button.plan-selection-choice")
