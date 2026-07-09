@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Rajdhani } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const rajdhani = Rajdhani({
@@ -38,6 +39,12 @@ export default function RootLayout({
       <body className={`min-h-screen ${rajdhani.variable} ${rajdhani.className}`}>
         <div className="fixed-bg" aria-hidden="true" />
         {children}
+        <Script
+          defer
+          data-domain="kickdeal.space"
+          src="https://analytics.kickdeal.space/js/script.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
