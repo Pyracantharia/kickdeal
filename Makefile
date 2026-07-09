@@ -68,3 +68,5 @@ drop-db:
 
 fixtures:
 	$(CONSOLE) doctrine:fixtures:load --no-interaction
+
+reset-db: drop-db db fixtures

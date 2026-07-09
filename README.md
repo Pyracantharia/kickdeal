@@ -54,3 +54,12 @@ Les tests peuvent être exécutés avec la commande `make phpunit`
 ### Tests E2E
 
 Les tests E2E (end-to-end) utilisent Cypress pour simuler des interactions utilisateur et vérifier le bon fonctionnement de l'application dans son ensemble.
+
+Pour lancer les tests e2e, soyez sur d'avoir une base de données neuve. Les tests d'ajout peuvent entrer en conflit si répétés plusieurs fois sur des formulaires avec des contraintes d'unicité.
+Si besoin, lancer `make reset-db`
+
+Afin de les lancer :
+
+1. Ouvrez un terminal et allez dans le dossier des tests e2e `cd e2e`.
+2. Installez les dépendances avec `npm install`
+3. Exécutez `npx cypress open` pour ouvrir l'interface graphique de Cypress.
