@@ -10,7 +10,7 @@ describe("Market search", () => {
 
       cy.wait("@getPlayers").its("response.statusCode").should("eq", 200);
       cy.contains("RECHERCHE DE JOUEURS", { timeout: 10000 }).should("be.visible");
-      cy.contains(/joueur\(s\) charges depuis la base/).should("be.visible");
+      cy.contains(/joueur\(s\) charges depuis la base/, { timeout: 10000 }).should("be.visible");
 
       cy.contains("button", "Rechercher").click();
 

@@ -1,4 +1,4 @@
-describe("Agent login with an outdated password, reset password and logout", () => {
+describe("Agent login with an outdated password, reset password", () => {
   beforeEach(() => {
     cy.loginViaUi("jane@example.com", "Password123!");
   });
@@ -9,7 +9,7 @@ describe("Agent login with an outdated password, reset password and logout", () 
     cy.get('.password-expired-warning', { timeout: 10000 }).should("be.visible");
   });
 
-  it("should reset password and logout", () => {
+  it("should reset password", () => {
     cy.fixture("update-password").then((passwords) => {
       cy.get('input[name="currentPassword"]', { timeout: 10000 }).type(passwords.currentPassword);
       cy.get('input[name="newPassword"]').type(passwords.newPassword);
