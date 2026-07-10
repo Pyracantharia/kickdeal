@@ -241,6 +241,12 @@ export type AdminAgent = {
   players: Array<{ id: string; firstName: string; lastName: string; position?: string | null; team?: string | null }>;
 }
 
+export type AdminMarketData = {
+  listings:Array<{id:string;status:'active'|'paused'|'closed';transferType:string;askingPrice?:number|null;createdAt?:string|null;player:{id:string;name:string;photoUrl?:string|null;marketStatus?:string|null};sellerTeam:{id:string;name:string;logoUrl?:string|null}}>;
+  offers:Array<{id:string;status:'pending'|'accepted'|'rejected'|'expired';kind:string;amount?:number|null;validUntil?:string|null;createdAt?:string|null;author?:string|null;player:string;sellerTeam?:string|null;buyerTeam?:string|null}>;
+  transfers:Array<{id:string;status:string;createdAt?:string|null;updatedAt?:string|null;publicFeedEnabled:boolean;offersCount:number;player:string;sellerTeam?:string|null;buyerTeam?:string|null}>;
+}
+
 class AdminManager {
   async getDashboard() {
     return httpClient.get<AdminDashboardData>('/admin/dashboard');
@@ -256,6 +262,10 @@ class AdminManager {
   async getAgents() { return httpClient.get<{ agents: AdminAgent[] }>('/admin/agents'); }
   async updateAgentLicense(agentId: string, status: NonNullable<AdminAgent['license']>['status']) { return httpClient.patch<{ message: string }>(`/admin/agents/${agentId}/license`, { status }); }
   async removeAgentPlayer(agentId: string, playerId: string) { return httpClient.remove<{ message: string }>(`/admin/agents/${agentId}/players/${playerId}`); }
+  async getMarket() { return httpClient.get<AdminMarketData>('/admin/market'); }
+  async updateMarketListing(id:string,status:'active'|'paused'|'closed') { return httpClient.patch<{message:string}>(`/admin/market/listings/${id}`,{status}); }
+  async moderateMarketOffer(id:string,status:'rejected'|'expired') { return httpClient.patch<{message:string}>(`/admin/market/offers/${id}`,{status}); }
+  async moderateMarketTransfer(id:string,status:'rejected'|'expired') { return httpClient.patch<{message:string}>(`/admin/market/transfers/${id}`,{status}); }
 
   async getUsers(search?: string) {
     const query = search ? `?search=${encodeURIComponent(search)}` : '';

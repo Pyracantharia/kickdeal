@@ -74,4 +74,8 @@ body {
   .btn-secondary {
     @apply inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold transition hover:bg-white/10;
   }
+
+  .market-row {
+    @apply flex flex-col gap-4 rounded-xl border border-white/10 bg-[#071722]/85 p-5 md:flex-row md:items-center md:justify-between;
+  }
 }

@@ -10,6 +10,7 @@ import {
   ClipboardList,
   Clock3,
   ShieldAlert,
+  Store,
   UserPlus,
   UserRoundX,
   UsersRound,
@@ -20,6 +21,7 @@ const quickActions = [
   { title: 'Gestion utilisateurs', meta: 'Comptes', href: '/admin/users', icon: UsersRound, accent: 'border-brand-cyan/25 text-brand-cyan', iconBox: 'border-brand-cyan/30 bg-brand-cyan/10', links: [] },
   { title: 'Gestion des clubs', meta: 'Clubs', href: '/admin/clubs', icon: Building2, accent: 'border-emerald-400/25 text-emerald-300', iconBox: 'border-emerald-400/30 bg-emerald-400/10', links: [{ label: 'Demandes de création', href: '/admin/club-requests' }] },
   { title: 'Gestion des agents', meta: 'Agents & joueurs', href: '/admin/agents', icon: ClipboardList, accent: 'border-brand-purple/25 text-brand-purple', iconBox: 'border-brand-purple/30 bg-brand-purple/10', links: [{ label: 'Demandes et passations', href: '/admin/player-agent-requests' }] },
+  { title: 'Gestion du marché', meta: 'Marché & transferts', href: '/admin/market', icon: Store, accent: 'border-amber-400/25 text-amber-300', iconBox: 'border-amber-400/30 bg-amber-400/10', links: [] },
   { title: 'Signalements', meta: 'Modération', href: '/admin/message-reports', icon: ShieldAlert, accent: 'border-red-500/25 text-red-300', iconBox: 'border-red-500/30 bg-red-500/10', links: [] },
 ]
 

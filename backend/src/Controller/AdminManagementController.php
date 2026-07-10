@@ -4,19 +4,28 @@ namespace App\Controller;
 
 use App\Entity\Agent;
 use App\Entity\Player;
+use App\Entity\Listing;
 use App\Entity\Team;
 use App\Entity\TeamMembership;
+use App\Entity\Transfer\TransferNegociation;
+use App\Entity\Transfer\TransferOffer;
 use App\Entity\User;
 use App\Enum\AgentLicenseStatusEnum;
 use App\Enum\MembershipRoleEnum;
+use App\Enum\ListingStatusEnum;
+use App\Enum\OfferStatusEnum;
 use App\Enum\PlayerAvailabilityStatusEnum;
 use App\Enum\PlayerContractStatusEnum;
 use App\Enum\PlayerMarketStatusEnum;
 use App\Enum\TeamVerificationStatusEnum;
+use App\Enum\TransferNegociationStatusEnum;
 use App\Repository\AgentRepository;
+use App\Repository\ListingRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\TeamRepository;
+use App\Repository\Transfer\TransferNegociationRepository;
+use App\Repository\Transfer\TransferOfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,6 +36,56 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 #[Route('/api/admin')]
 final class AdminManagementController extends AbstractController
 {
+    #[Route('/market', methods: ['GET'])]
+    public function market(
+        #[CurrentUser] ?User $admin,
+        ListingRepository $listings,
+        TransferOfferRepository $offers,
+        TransferNegociationRepository $negociations,
+    ): JsonResponse {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+
+        return $this->json([
+            'listings' => array_map($this->serializeListing(...), $listings->findBy([], ['createdAt' => 'DESC'], 250)),
+            'offers' => array_map($this->serializeMarketOffer(...), $offers->findBy([], ['createdAt' => 'DESC'], 250)),
+            'transfers' => array_map($this->serializeMarketTransfer(...), $negociations->findBy([], ['updatedAt' => 'DESC'], 250)),
+        ]);
+    }
+
+    #[Route('/market/listings/{id}', methods: ['PATCH'])]
+    public function moderateListing(Request $request, #[CurrentUser] ?User $admin, Listing $listing, EntityManagerInterface $em): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        $data = json_decode($request->getContent(), true);
+        $status = ListingStatusEnum::tryFrom((string) ($data['status'] ?? ''));
+        if (!$status) return $this->json(['message' => 'Statut invalide.'], 422);
+        $listing->setStatus($status); $em->flush();
+        return $this->json(['message' => 'Annonce mise à jour.']);
+    }
+
+    #[Route('/market/offers/{id}', methods: ['PATCH'])]
+    public function moderateOffer(Request $request, #[CurrentUser] ?User $admin, TransferOffer $offer, EntityManagerInterface $em): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        $data = json_decode($request->getContent(), true);
+        $status = OfferStatusEnum::tryFrom((string) ($data['status'] ?? ''));
+        if (!in_array($status, [OfferStatusEnum::REJECTED, OfferStatusEnum::EXPIRED], true)) return $this->json(['message' => 'Une modération ne peut que rejeter ou expirer une offre.'], 422);
+        if (OfferStatusEnum::PENDING !== $offer->getStatus()) return $this->json(['message' => 'Cette offre a déjà été traitée.'], 409);
+        $offer->setStatus($status); $em->flush();
+        return $this->json(['message' => 'Offre modérée.']);
+    }
+
+    #[Route('/market/transfers/{id}', methods: ['PATCH'])]
+    public function moderateTransfer(Request $request, #[CurrentUser] ?User $admin, TransferNegociation $negociation, EntityManagerInterface $em): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        $data = json_decode($request->getContent(), true);
+        $status = TransferNegociationStatusEnum::tryFrom((string) ($data['status'] ?? ''));
+        if (!in_array($status, [TransferNegociationStatusEnum::REJECTED, TransferNegociationStatusEnum::EXPIRED], true)) return $this->json(['message' => 'Une modération ne peut que rejeter ou expirer une négociation.'], 422);
+        if (in_array($negociation->getStatus(), [TransferNegociationStatusEnum::COMPLETED, TransferNegociationStatusEnum::REJECTED, TransferNegociationStatusEnum::EXPIRED], true)) return $this->json(['message' => 'Ce transfert est déjà terminé.'], 409);
+        $negociation->setStatus($status); $em->flush();
+        return $this->json(['message' => 'Transfert modéré.']);
+    }
     #[Route('/clubs', methods: ['GET'])]
     public function clubs(#[CurrentUser] ?User $admin, TeamRepository $teams): JsonResponse
     {
@@ -183,6 +242,23 @@ final class AdminManagementController extends AbstractController
     private function serializePlayer(Player $player): array
     {
         return ['id' => $player->getId()?->toRfc4122(), 'firstName' => $player->getFirstName(), 'lastName' => $player->getLastName(), 'photoUrl' => $player->getPhotoUrl(), 'birthDate' => $player->getBirthDate()?->format('Y-m-d'), 'nationality' => $player->getNationality(), 'position' => $player->getPosition(), 'heightCm' => $player->getHeightCm(), 'weightKg' => $player->getWeightKg(), 'preferredFoot' => $player->getPreferredFoot(), 'marketValue' => $player->getMarketValue(), 'weeklySalary' => $player->getWeeklySalary(), 'releaseClause' => $player->getReleaseClause(), 'contractStatus' => $player->getContractStatus()?->value, 'contractEndDate' => $player->getContractEndDate()?->format('Y-m-d'), 'joinedAt' => $player->getJoinedAt()?->format('Y-m-d'), 'marketStatus' => $player->getMarketStatus()?->value, 'availabilityStatus' => $player->getAvailabilityStatus()?->value, 'team' => $player->getTeam() ? ['id' => $player->getTeam()?->getId()?->toRfc4122(), 'name' => $player->getTeam()?->getName()] : null, 'agent' => $player->getAgent() ? ['id' => $player->getAgent()?->getId()?->toRfc4122(), 'name' => $player->getAgent()?->getAgencyName() ?: $player->getAgent()?->getUser()?->getEmail()] : null];
+    }
+
+    private function serializeListing(Listing $listing): array
+    {
+        return ['id' => $listing->getId()?->toRfc4122(), 'status' => $listing->getStatus()?->value, 'transferType' => $listing->getTransferType()?->value, 'askingPrice' => $listing->getAskingPrice(), 'createdAt' => $listing->getCreatedAt()?->format(DATE_ATOM), 'player' => ['id' => $listing->getPlayer()?->getId()?->toRfc4122(), 'name' => trim(($listing->getPlayer()?->getFirstName() ?? '').' '.($listing->getPlayer()?->getLastName() ?? '')), 'photoUrl' => $listing->getPlayer()?->getPhotoUrl(), 'marketStatus' => $listing->getPlayer()?->getMarketStatus()?->value], 'sellerTeam' => ['id' => $listing->getSellerTeam()?->getId()?->toRfc4122(), 'name' => $listing->getSellerTeam()?->getName(), 'logoUrl' => $listing->getSellerTeam()?->getLogoUrl()]];
+    }
+
+    private function serializeMarketOffer(TransferOffer $offer): array
+    {
+        $negociation = $offer->getTransferNegociation(); $listing = $negociation?->getListing(); $player = $listing?->getPlayer();
+        return ['id' => $offer->getId()?->toRfc4122(), 'status' => $offer->getStatus()?->value, 'kind' => $offer->getKind()?->value, 'amount' => $offer->getAmount(), 'validUntil' => $offer->getValidUntil()?->format('Y-m-d'), 'createdAt' => $offer->getCreatedAt()?->format(DATE_ATOM), 'author' => $offer->getAuthor()?->getEmail(), 'player' => trim(($player?->getFirstName() ?? '').' '.($player?->getLastName() ?? '')), 'sellerTeam' => $listing?->getSellerTeam()?->getName(), 'buyerTeam' => $negociation?->getBuyerTeam()?->getName()];
+    }
+
+    private function serializeMarketTransfer(TransferNegociation $negociation): array
+    {
+        $listing = $negociation->getListing(); $player = $listing?->getPlayer();
+        return ['id' => $negociation->getId()?->toRfc4122(), 'status' => $negociation->getStatus()?->value, 'createdAt' => $negociation->getCreatedAt()?->format(DATE_ATOM), 'updatedAt' => $negociation->getUpdatedAt()?->format(DATE_ATOM), 'publicFeedEnabled' => $negociation->isPublicFeedEnabled(), 'offersCount' => $negociation->getTransferOffers()->count(), 'player' => trim(($player?->getFirstName() ?? '').' '.($player?->getLastName() ?? '')), 'sellerTeam' => $listing?->getSellerTeam()?->getName(), 'buyerTeam' => $negociation->getBuyerTeam()?->getName()];
     }
 
     private function nullableString(mixed $value): ?string { $value = trim((string) $value); return '' === $value ? null : $value; }

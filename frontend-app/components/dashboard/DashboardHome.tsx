@@ -4,6 +4,7 @@ import { useAuth } from '@/context/AuthProvider'
 import type { AgentDashboardHomeData } from '@/features/dashboard/dashboard'
 import AgentDashboardHome from './AgentDashboardHome'
 import ClubDashboardHome from './ClubDashboardHome'
+import AdminDashboardHome from '@/components/admin/AdminDashboardHome'
 
 interface DashboardHomeProps {
   initialUser?: {
@@ -23,15 +24,13 @@ function DashboardHome({
   initialRecentConversations,
 }: DashboardHomeProps) {
   const { user } = useAuth()
-  const currentUser = initialUser ?? user
 
-  if (currentUser?.roles.includes('ROLE_AGENT') || currentUser?.roles.includes('ROLE_MANAGER')) {
-    return (
-      <AgentDashboardHome
-        initialDashboard={initialAgentDashboard}
-        initialRecentConversations={initialRecentConversations}
-      />
-    )
+  if (user?.roles.includes('ROLE_ADMIN')) {
+    return <AdminDashboardHome />
+  }
+
+  if (user?.roles.includes('ROLE_AGENT')) {
+    return <AgentDashboardHome />
   }
 
   return (

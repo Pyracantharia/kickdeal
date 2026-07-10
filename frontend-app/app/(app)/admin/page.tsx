@@ -1,10 +1,7 @@
-import AdminDashboardHome from '@/components/admin/AdminDashboardHome'
-import React from 'react'
+import { redirect } from 'next/navigation'
 
 function AdminPage() {
-  return (
-    <AdminDashboardHome />
-  )
+  redirect('/dashboard')
 }
 
 export default AdminPage
