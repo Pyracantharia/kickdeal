@@ -63,15 +63,6 @@ Si besoin, lancer `make reset-db`
 
 Afin de les lancer :
 
-Prerequis:
-
-8 go ram recommandé 
-
-
-sudo apt install -y libnspr4 libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libgtk-3-0 libgbm1 libasound2t64 libxss1 libxshmfence1
-
-Pour plus de details :
-https://docs.cypress.io/app/get-started/install-cypress#Linux-Prerequisites
 
 1. Ouvrez un terminal et allez dans le dossier des tests e2e `cd e2e`.
 2. Installez les dépendances avec `npm install` (tester avec nodev22 et npm v10)
