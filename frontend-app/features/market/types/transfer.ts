@@ -34,6 +34,12 @@ export interface SellerClubResolution {
   externalContactedAt?: string | null
 }
 
+export interface MessageRecipient {
+  id: string
+  name?: string | null
+  label?: string | null
+}
+
 export interface TransferListPlayer {
   id?: string
   listingId?: string | null
@@ -57,6 +63,7 @@ export interface TransferOffer {
   viewerRole?: 'buyer' | 'seller'
   contractResolution?: ContractResolution | null
   sellerClubResolution?: SellerClubResolution | null
+  messageRecipient?: MessageRecipient | null
   player: Player
   type: OfferType
   kind?: string
@@ -126,6 +133,7 @@ export interface TransferNegotiationContext {
   sellerTeam: NegotiationTeam
   buyerTeam: NegotiationTeam
   viewerTeam: NegotiationTeam
+  messageRecipient?: MessageRecipient | null
   latestOffer?: TransferOffer | null
   history: NegotiationHistoryItem[]
 }

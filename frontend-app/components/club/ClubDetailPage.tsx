@@ -22,10 +22,12 @@ import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import Modal from '@/components/ui/Modal'
+import CountrySelect from '@/components/country/CountrySelect'
 import { ActionCard, ClubLogo, FinanceCard, InfoCard, StatCard } from '@/components/club/ClubDetailParts'
-import { clubManager } from '@/features/club/club'
+import { clubManager, type PlayerPositionOption } from '@/features/club/club'
 import type { ClubAccounts, ClubDetail, CreatePlayerPayload } from '@/features/club/types/club'
 import { formatNumberInput, parseFormattedNumber, parseOptionalNumber } from '@/features/format/number'
+import { getPositionDisplayName } from '@/features/players/position'
 
 const INITIAL_PLAYER_FORM = {
   firstName: '',
@@ -55,6 +57,8 @@ function ClubDetailPage() {
   const [budgetError, setBudgetError] = useState<string | null>(null)
   const [playerForm, setPlayerForm] = useState(INITIAL_PLAYER_FORM)
   const [budgetForm, setBudgetForm] = useState('')
+  const [positionOptions, setPositionOptions] = useState<PlayerPositionOption[]>([])
+  const [isLoadingPositions, setIsLoadingPositions] = useState(false)
 
   useEffect(() => {
     let isMounted = true
@@ -90,6 +94,39 @@ function ClubDetailPage() {
       isMounted = false
     }
   }, [])
+
+  useEffect(() => {
+    if (!isCreateModalOpen || positionOptions.length > 0) {
+      return
+    }
+
+    let isMounted = true
+
+    async function loadPositions() {
+      setIsLoadingPositions(true)
+
+      try {
+        const response = await clubManager.getPlayerPositions()
+        if (isMounted && response.ok) {
+          setPositionOptions(response.data.positions ?? [])
+        }
+      } catch {
+        if (isMounted) {
+          setPositionOptions([])
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoadingPositions(false)
+        }
+      }
+    }
+
+    void loadPositions()
+
+    return () => {
+      isMounted = false
+    }
+  }, [isCreateModalOpen, positionOptions.length])
 
   const updatePlayerField = (field: keyof typeof INITIAL_PLAYER_FORM, value: string) => {
     setPlayerForm((current) => ({
@@ -404,13 +441,30 @@ function ClubDetailPage() {
             />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <Input
-              label="Poste"
-              value={playerForm.position}
-              onChange={(event) => updatePlayerField('position', event.target.value)}
-              placeholder="BU, MC, DC..."
-              required
-            />
+            <label className="flex flex-col gap-1.5">
+              <span className="text-sm font-medium text-gray-200">Poste</span>
+              <select
+                value={playerForm.position}
+                onChange={(event) => updatePlayerField('position', event.target.value)}
+                className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-all focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/50 disabled:cursor-not-allowed disabled:opacity-60"
+                required
+                disabled={isLoadingPositions || positionOptions.length === 0}
+              >
+                <option value="" className="bg-[#071722]">
+                  {isLoadingPositions ? 'Chargement des postes...' : 'Sélectionner un poste'}
+                </option>
+                {positionOptions.map((position) => (
+                  <option key={position.id} value={position.id} className="bg-[#071722]">
+                    {getPositionDisplayName(position.label || position.id)}
+                  </option>
+                ))}
+              </select>
+              {!isLoadingPositions && positionOptions.length === 0 && (
+                <span className="text-xs text-amber-200">
+                  Aucun poste existant n’est disponible en base pour le moment.
+                </span>
+              )}
+            </label>
             <Input
               label="Date de naissance"
               type="date"
@@ -418,11 +472,11 @@ function ClubDetailPage() {
               onChange={(event) => updatePlayerField('birthDate', event.target.value)}
             />
           </div>
-          <Input
+          <CountrySelect
             label="Nationalité"
             value={playerForm.nationality}
-            onChange={(event) => updatePlayerField('nationality', event.target.value)}
-            placeholder="France"
+            onChange={(value) => updatePlayerField('nationality', value)}
+            placeholder="Choisir une nationalité"
           />
           <Input
             label="Photo URL"

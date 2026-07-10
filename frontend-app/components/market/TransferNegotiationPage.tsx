@@ -6,6 +6,7 @@ import { ArrowRightLeft, ChevronUp, Send } from 'lucide-react'
 
 import Button from '@/components/ui/Button'
 import ActionConfirmationModal from '@/components/ui/ActionConfirmationModal'
+import StartConversationButton from '@/components/messages/StartConversationButton'
 import {
   ChoiceButton,
   FieldLabel,
@@ -421,6 +422,12 @@ function TransferNegotiationPage() {
                   Offre identique à la dernière proposition : acceptez-la directement ou modifiez un élément pour contre-proposer.
                 </p>
               )}
+
+              <StartConversationButton
+                recipient={context.messageRecipient}
+                className="mt-5 w-full"
+                onError={(message) => setErrorMessage(message || null)}
+              />
 
               <Button type="submit" className="mt-5 w-full" isLoading={isSubmitting} disabled={Boolean(subscription && !subscription.canCreateOffer) || isSameAsLatestOffer} icon={<Send className="h-4 w-4" />}>
                 Envoyer l&apos;offre

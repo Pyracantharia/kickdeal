@@ -34,6 +34,12 @@ export interface ContractOffer {
   createdAt: string
 }
 
+export interface MessageRecipient {
+  id: string
+  name?: string | null
+  label?: string | null
+}
+
 export interface ContractNegotiation {
   id: string
   viewerRole: ContractViewerRole
@@ -69,6 +75,7 @@ export interface ContractNegotiation {
     agencyName?: string | null
     name?: string | null
   }
+  messageRecipient?: MessageRecipient | null
   transferAgreement: {
     amount: string
     amountValue?: number | null

@@ -39,7 +39,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
             <NotificationsProvider initialSummary={initialData.notificationsSummary}>
               <MarketRealtimeProvider>
                 <div className="min-h-screen flex flex-col">
-                  <div className="absolute top-0 left-0 right-0 z-40">
+                  <div className="fixed top-0 left-0 right-0 z-40">
                     <AppHeader />
                   </div>
                   <main className="flex-1 w-full">

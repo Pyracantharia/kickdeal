@@ -108,7 +108,7 @@ final class ContractNegotiationController extends AbstractController
         }
 
         return $this->json([
-            'negotiation' => $this->serializeNegotiation($negociation, 'club'),
+            'negotiation' => $this->serializeNegotiation($negociation, 'club', $teamMembershipRepository),
         ], 201);
     }
 
@@ -138,7 +138,7 @@ final class ContractNegotiationController extends AbstractController
             return $this->json([
                 'viewerRole' => 'agent',
                 'negotiations' => array_map(
-                    fn (ContractNegociation $negociation): array => $this->serializeNegotiation($negociation, 'agent'),
+                    fn (ContractNegociation $negociation): array => $this->serializeNegotiation($negociation, 'agent', $teamMembershipRepository),
                     $negociations,
                 ),
             ]);
@@ -151,7 +151,7 @@ final class ContractNegotiationController extends AbstractController
             return $this->json([
                 'viewerRole' => 'club',
                 'negotiations' => array_map(
-                    fn (ContractNegociation $negociation): array => $this->serializeNegotiation($negociation, 'club'),
+                    fn (ContractNegociation $negociation): array => $this->serializeNegotiation($negociation, 'club', $teamMembershipRepository),
                     $negociations,
                 ),
             ]);
@@ -173,7 +173,7 @@ final class ContractNegotiationController extends AbstractController
         }
 
         return $this->json([
-            'negotiation' => $this->serializeNegotiation($negociation, $viewerRole),
+            'negotiation' => $this->serializeNegotiation($negociation, $viewerRole, $teamMembershipRepository),
         ]);
     }
 
@@ -284,7 +284,7 @@ final class ContractNegotiationController extends AbstractController
             ) {
                 return $this->json([
                     'offer' => $this->serializeOffer($previousOffer, $negociation, $viewerRole),
-                    'negotiation' => $this->serializeNegotiation($negociation, $viewerRole),
+                    'negotiation' => $this->serializeNegotiation($negociation, $viewerRole, $teamMembershipRepository),
                 ]);
             }
         }
@@ -351,7 +351,7 @@ final class ContractNegotiationController extends AbstractController
 
         return $this->json([
             'offer' => $this->serializeOffer($offer, $negociation, $viewerRole),
-            'negotiation' => $this->serializeNegotiation($negociation, $viewerRole),
+            'negotiation' => $this->serializeNegotiation($negociation, $viewerRole, $teamMembershipRepository),
         ], 201);
     }
 
@@ -465,7 +465,7 @@ final class ContractNegotiationController extends AbstractController
                 ContractNegotiationTypeEnum::RENEWAL => 'Le nouveau contrat du joueur est désormais en vigueur.',
                 ContractNegotiationTypeEnum::TERMINATION => 'La résiliation est validée. Le joueur est désormais libre.',
             },
-            'negotiation' => $this->serializeNegotiation($negociation, $viewerRole),
+            'negotiation' => $this->serializeNegotiation($negociation, $viewerRole, $teamMembershipRepository),
         ]);
     }
 
@@ -526,7 +526,7 @@ final class ContractNegotiationController extends AbstractController
         }
 
         return $this->json([
-            'negotiation' => $this->serializeNegotiation($negociation, $viewerRole),
+            'negotiation' => $this->serializeNegotiation($negociation, $viewerRole, $teamMembershipRepository),
         ]);
     }
 
@@ -556,7 +556,11 @@ final class ContractNegotiationController extends AbstractController
     /**
      * @return array<string, mixed>
      */
-    private function serializeNegotiation(ContractNegociation $negociation, string $viewerRole): array
+    private function serializeNegotiation(
+        ContractNegociation $negociation,
+        string $viewerRole,
+        TeamMembershipRepository $teamMembershipRepository,
+    ): array
     {
         $offers = $negociation->getContractOffers()->toArray();
         usort(
@@ -572,6 +576,11 @@ final class ContractNegotiationController extends AbstractController
         $sellerTeam = $negociation->getTransferNegociation()?->getListing()?->getSellerTeam();
         $acceptedTransferOffer = $this->findAcceptedTransferOffer($negociation);
         $type = $negociation->getType();
+        $agentUser = $negociation->getAgent()?->getUser();
+        $clubUser = $this->findTeamContactUser($buyerTeam, $teamMembershipRepository);
+        $messageRecipient = 'agent' === $viewerRole
+            ? $this->serializeMessageRecipient($clubUser, $buyerTeam?->getName() ?? 'Club')
+            : $this->serializeMessageRecipient($agentUser, $negociation->getAgent()?->getAgencyName() ?? 'Agent du joueur');
 
         return [
             'id' => $negociation->getId()?->toRfc4122(),
@@ -604,6 +613,7 @@ final class ContractNegotiationController extends AbstractController
                 'agencyName' => $negociation->getAgent()?->getAgencyName(),
                 'name' => trim(($negociation->getAgent()?->getUser()?->getFirstName() ?? '').' '.($negociation->getAgent()?->getUser()?->getLastName() ?? '')),
             ],
+            'messageRecipient' => $messageRecipient,
             'transferAgreement' => [
                 'amount' => ContractNegotiationTypeEnum::TRANSFER === $type
                     ? $this->formatMoney($acceptedTransferOffer?->getAmount())
@@ -674,6 +684,35 @@ final class ContractNegotiationController extends AbstractController
             'id' => $team?->getId()?->toRfc4122(),
             'name' => $team?->getName(),
             'logoUrl' => $team?->getLogoUrl(),
+        ];
+    }
+
+    private function findTeamContactUser(?Team $team, TeamMembershipRepository $teamMembershipRepository): ?User
+    {
+        if (!$team instanceof Team) {
+            return null;
+        }
+
+        $users = $teamMembershipRepository->findUsersByTeam($team);
+
+        return $users[0] ?? null;
+    }
+
+    /**
+     * @return array{id: string, name: string, label: string}|null
+     */
+    private function serializeMessageRecipient(?User $user, string $fallbackLabel): ?array
+    {
+        if (!$user instanceof User) {
+            return null;
+        }
+
+        $name = trim(($user->getFirstName() ?? '').' '.($user->getLastName() ?? ''));
+
+        return [
+            'id' => $user->getId()?->toRfc4122(),
+            'name' => '' !== $name ? $name : $fallbackLabel,
+            'label' => $fallbackLabel,
         ];
     }
 

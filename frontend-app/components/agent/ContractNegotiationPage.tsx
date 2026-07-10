@@ -17,6 +17,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Button from '@/components/ui/Button'
 import CircleImage from '@/components/media/CircleImage'
 import ActionConfirmationModal from '@/components/ui/ActionConfirmationModal'
+import StartConversationButton from '@/components/messages/StartConversationButton'
 import { MARKET_REALTIME_EVENT, type MarketRealtimePayload } from '@/context/MarketRealtimeProvider'
 import { useNotifications } from '@/context/NotificationsProvider'
 import {
@@ -340,6 +341,11 @@ function ContractNegotiationPage({ negotiationId }: ContractNegotiationPageProps
               Discussion entre {negotiation.buyerTeam.name} et l’agent du joueur
             </p>
           )}
+          <StartConversationButton
+            recipient={negotiation.messageRecipient}
+            className="mt-5"
+            onError={(message) => setErrorMessage(message || null)}
+          />
         </header>
 
         <div className="mb-6 grid gap-4 md:grid-cols-3">

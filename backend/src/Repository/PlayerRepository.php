@@ -52,6 +52,26 @@ class PlayerRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return string[]
+     */
+    public function findDistinctPositions(): array
+    {
+        $rows = $this->createQueryBuilder('player')
+            ->select('DISTINCT player.position AS position')
+            ->andWhere('player.position IS NOT NULL')
+            ->andWhere('player.position != :empty')
+            ->setParameter('empty', '')
+            ->orderBy('player.position', 'ASC')
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_values(array_filter(array_map(
+            static fn (array $row): ?string => isset($row['position']) ? (string) $row['position'] : null,
+            $rows,
+        )));
+    }
+
+    /**
      * @return Player[]
      */
     public function findRepresentedByAgent(Agent $agent, ?int $limit = null): array
