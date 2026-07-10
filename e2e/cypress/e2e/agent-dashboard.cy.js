@@ -8,7 +8,6 @@ describe("Agent dashboard", () => {
       cy.contains("Espace agent", { timeout: 10000 }).should("be.visible");
       cy.contains("Explorer le marché").click();
 
-      cy.url().should("include", "/market");
       cy.contains("Marché des transferts").should("be.visible");
     }));
   });

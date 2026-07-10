@@ -3,16 +3,24 @@ Cypress.Commands.add("uniqueEmail", (email) => {
   return cy.wrap(`${localPart}+${Date.now()}-${Cypress._.random(1000, 9999)}@${domain}`, { log: false });
 });
 
-Cypress.Commands.add("waitForApi", (alias, expectedStatusCode) => {
+function waitForApiResponse(alias, expectedStatusCode, validateResponse = () => {}) {
   cy.wait(alias).then((interception) => {
     if (interception.response?.statusCode === 403) {
       expect(interception.response.body).to.have.property("errorMessage", "Token CSRF invalide.");
-      cy.wait(alias).its("response.statusCode").should("eq", expectedStatusCode);
+      cy.wait(alias).then((retryInterception) => {
+        expect(retryInterception.response?.statusCode).to.eq(expectedStatusCode);
+        validateResponse(retryInterception.response);
+      });
       return;
     }
 
     expect(interception.response?.statusCode).to.eq(expectedStatusCode);
+    validateResponse(interception.response);
   });
+}
+
+Cypress.Commands.add("waitForApi", (alias, expectedStatusCode) => {
+  waitForApiResponse(alias, expectedStatusCode);
 });
 
 Cypress.Commands.add("resetBrowserState", () => {
@@ -20,7 +28,7 @@ Cypress.Commands.add("resetBrowserState", () => {
   cy.clearLocalStorage();
 });
 
-Cypress.Commands.add("loginViaUi", (email, password) => {
+Cypress.Commands.add("loginViaUi", (email, password, expectedRole) => {
   cy.resetBrowserState();
 
   cy.intercept("GET", "**/api/auth/csrf-token").as("csrfToken");
@@ -33,7 +41,11 @@ Cypress.Commands.add("loginViaUi", (email, password) => {
   cy.contains("button", "Se connecter").click();
 
   cy.wait("@csrfToken").its("response.statusCode").should("eq", 200);
-  cy.waitForApi("@login", 200);
+  waitForApiResponse("@login", 200, (response) => {
+    if (expectedRole) {
+      expect(response?.body.user.roles).to.include(expectedRole);
+    }
+  });
 });
 
 Cypress.Commands.add("fillAgentRegistrationForm", (agent, email) => {
@@ -62,6 +74,8 @@ Cypress.Commands.add("fillAgentRegistrationForm", (agent, email) => {
   cy.get("button.plan-selection-choice")
     .contains("Agent Free")
     .click();
+
+  cy.get('input[name="termsAccepted"]').check();
 });
 
 Cypress.Commands.add("registerAgentViaUi", (agent, email) => {
