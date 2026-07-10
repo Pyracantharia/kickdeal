@@ -61,7 +61,7 @@ Si besoin, lancer `make reset-db`
 Afin de les lancer :
 
 1. Ouvrez un terminal et allez dans le dossier des tests e2e `cd e2e`.
-2. Installez les dépendances avec `npm install`
+2. Installez les dépendances avec `npm install` (tester avec nodev22 et npm v10)
 3. Exécutez `npx cypress open` pour ouvrir l'interface graphique de Cypress.
 
 > Pour les lancer en mode headless, utilisez `npx cypress run`.
