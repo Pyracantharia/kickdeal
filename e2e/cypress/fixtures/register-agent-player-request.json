@@ -1,0 +1,8 @@
+{
+  "firstName": "Rami",
+  "lastName": "Request",
+  "email": "rami.request.agent.test@example.com",
+  "password": "Password123!",
+  "agencyName": "Agence Player Request Cypress",
+  "country": "France"
+}
