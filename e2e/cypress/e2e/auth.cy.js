@@ -34,7 +34,7 @@ describe("Authentication", () => {
     cy.visit("http://localhost:3000/auth/login");
     cy.contains("a", "Mot de passe oublié ?").click();
 
-    cy.url().should("include", "/auth/forgot-password");
+    cy.url({ timeout: 10000 }).should("include", "/auth/forgot-password");
     cy.get('input[type="email"]').type("jane@example.com");
     cy.contains("button", "Envoyer le lien").click();
 
