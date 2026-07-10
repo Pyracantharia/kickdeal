@@ -49,8 +49,8 @@ lint: php-lint symfony-lint
 tests: phpstan phpunit
 
 phpunit:
-	$(CONSOLE) doctrine:database:drop --env=test --force
-	$(CONSOLE) doctrine:database:create --env=test --if-not-exists
+	$(CONSOLE) doctrine:database:drop --env=test --force --if-exists
+	$(CONSOLE) doctrine:database:create --env=test
 	$(CONSOLE) doctrine:migrations:migrate --env=test --no-interaction
 	$(API) php bin/phpunit
 
