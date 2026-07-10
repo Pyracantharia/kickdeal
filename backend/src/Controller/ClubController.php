@@ -16,6 +16,7 @@ use App\Enum\PlayerMarketListingSourceEnum;
 use App\Enum\PlayerMarketStatusEnum;
 use App\Enum\TeamVerificationStatusEnum;
 use App\Repository\ClubRequestRepository;
+use App\Repository\PlayerRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
@@ -130,6 +131,29 @@ final class ClubController extends AbstractController
             'message' => 'Joueur créé avec succès.',
             'club' => $this->serializeClubDetail($membership),
         ], 201);
+    }
+
+    #[Route('/player-positions', name: 'app_club_player_positions', methods: ['GET'])]
+    public function playerPositions(
+        #[CurrentUser] ?User $user,
+        TeamMembershipRepository $teamMembershipRepository,
+        PlayerRepository $playerRepository,
+    ): JsonResponse {
+        $membership = $this->getCurrentMembership($user, $teamMembershipRepository);
+
+        if ($membership instanceof JsonResponse) {
+            return $membership;
+        }
+
+        return $this->json([
+            'positions' => array_map(
+                static fn (string $position): array => [
+                    'id' => $position,
+                    'label' => $position,
+                ],
+                $playerRepository->findDistinctPositions(),
+            ),
+        ]);
     }
 
     #[Route('/mine/budget', name: 'app_club_budget_update', methods: ['PUT', 'PATCH'])]

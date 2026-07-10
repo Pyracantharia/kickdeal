@@ -84,11 +84,11 @@ final class TransferController extends AbstractController
 
         return $this->json([
             'sentOffers' => array_map(
-                fn (TransferOffer $offer): array => $this->serializeOffer($offer, $team),
+                fn (TransferOffer $offer): array => $this->serializeOffer($offer, $team, $teamMembershipRepository),
                 $transferOfferRepository->findSentByTeam($team),
             ),
             'receivedOffers' => array_map(
-                fn (TransferOffer $offer): array => $this->serializeOffer($offer, $team),
+                fn (TransferOffer $offer): array => $this->serializeOffer($offer, $team, $teamMembershipRepository),
                 $transferOfferRepository->findReceivedByTeam($team),
             ),
         ]);
@@ -349,7 +349,7 @@ final class TransferController extends AbstractController
         }
 
         return $this->json([
-            'offer' => $this->serializeOffer($offer, $buyerTeam),
+            'offer' => $this->serializeOffer($offer, $buyerTeam, $teamMembershipRepository),
         ], 201);
     }
 
@@ -440,7 +440,7 @@ final class TransferController extends AbstractController
         }
 
         return $this->json([
-            'offer' => $this->serializeOffer($offer, $team),
+            'offer' => $this->serializeOffer($offer, $team, $teamMembershipRepository),
             'contractNegociationId' => $contractNegociation?->getId()?->toRfc4122(),
         ]);
     }
@@ -877,7 +877,7 @@ final class TransferController extends AbstractController
             );
         }
 
-        return $this->json(['offer' => $this->serializeOffer($offer, $team)]);
+        return $this->json(['offer' => $this->serializeOffer($offer, $team, $teamMembershipRepository)]);
     }
 
     #[Route('/offers/{id}/counter', name: 'app_transfer_offer_counter', methods: ['POST'])]
@@ -969,7 +969,7 @@ final class TransferController extends AbstractController
             }
         }
 
-        return $this->json(['offer' => $this->serializeOffer($counterOffer, $team)], 201);
+        return $this->json(['offer' => $this->serializeOffer($counterOffer, $team, $teamMembershipRepository)], 201);
     }
 
     private function getCurrentMembership(?User $user, TeamMembershipRepository $teamMembershipRepository): TeamMembership|JsonResponse
@@ -1108,7 +1108,11 @@ final class TransferController extends AbstractController
         return trim($value ?? '');
     }
 
-    private function serializeOffer(TransferOffer $offer, Team $viewerTeam): array
+    private function serializeOffer(
+        TransferOffer $offer,
+        Team $viewerTeam,
+        TeamMembershipRepository $teamMembershipRepository,
+    ): array
     {
         $negociation = $offer->getTransferNegociation();
         $listing = $negociation?->getListing();
@@ -1117,6 +1121,10 @@ final class TransferController extends AbstractController
         $buyerTeam = $negociation?->getBuyerTeam();
         $isSent = $buyerTeam?->getId()?->toRfc4122() === $viewerTeam->getId()?->toRfc4122();
         $viewerRole = $sellerTeam?->getId()?->toRfc4122() === $viewerTeam->getId()?->toRfc4122() ? 'seller' : 'buyer';
+        $recipientTeam = 'seller' === $viewerRole ? $buyerTeam : $sellerTeam;
+        $recipientUser = $recipientTeam instanceof Team
+            ? ($teamMembershipRepository->findUsersByTeam($recipientTeam)[0] ?? null)
+            : null;
 
         return [
             'id' => $offer->getId()?->toRfc4122(),
@@ -1129,6 +1137,10 @@ final class TransferController extends AbstractController
             'viewerRole' => $viewerRole,
             'contractResolution' => $negociation ? $this->serializeContractResolution($negociation, $viewerTeam) : null,
             'sellerClubResolution' => $negociation ? $this->serializeSellerClubResolution($negociation, $viewerTeam) : null,
+            'messageRecipient' => $this->serializeMessageRecipient(
+                $recipientUser instanceof User ? $recipientUser : null,
+                $recipientTeam?->getName() ?? 'Club',
+            ),
             'player' => $player ? $this->serializePlayer($player) : null,
             'type' => $this->serializeOfferType($offer->getKind()),
             'kind' => $offer->getKind()?->value,
@@ -1183,6 +1195,7 @@ final class TransferController extends AbstractController
             $offers,
             static fn (TransferOffer $a, TransferOffer $b): int => ($b->getCreatedAt()?->getTimestamp() ?? 0) <=> ($a->getCreatedAt()?->getTimestamp() ?? 0),
         );
+        $messageRecipientTeam = 'seller' === $viewerRole ? $buyerTeam : $sellerTeam;
 
         return [
             'listingId' => $listing->getId()?->toRfc4122(),
@@ -1197,7 +1210,11 @@ final class TransferController extends AbstractController
             'sellerTeam' => $sellerTeam ? $this->serializeTeam($sellerTeam) : null,
             'buyerTeam' => $this->serializeTeam($buyerTeam),
             'viewerTeam' => $this->serializeTeam($viewerTeam),
-            'latestOffer' => $offers[0] ?? null ? $this->serializeOffer($offers[0], $viewerTeam) : null,
+            'messageRecipient' => $this->serializeMessageRecipient(
+                $this->findTeamContactUser($messageRecipientTeam, $teamMembershipRepository),
+                $messageRecipientTeam?->getName() ?? 'Club',
+            ),
+            'latestOffer' => $offers[0] ?? null ? $this->serializeOffer($offers[0], $viewerTeam, $teamMembershipRepository) : null,
             'history' => array_map(
                 fn (TransferOffer $offer): array => $this->serializeOfferHistoryItem($offer, $teamMembershipRepository),
                 $offers,
@@ -1251,6 +1268,35 @@ final class TransferController extends AbstractController
             'clubLogoUrl' => $authorTeam?->getLogoUrl(),
             'summary' => $summary,
             'createdAt' => $offer->getCreatedAt()?->format(\DateTimeInterface::ATOM),
+        ];
+    }
+
+    private function findTeamContactUser(?Team $team, TeamMembershipRepository $teamMembershipRepository): ?User
+    {
+        if (!$team instanceof Team) {
+            return null;
+        }
+
+        $users = $teamMembershipRepository->findUsersByTeam($team);
+
+        return $users[0] ?? null;
+    }
+
+    /**
+     * @return array{id: string, name: string, label: string}|null
+     */
+    private function serializeMessageRecipient(?User $user, string $fallbackLabel): ?array
+    {
+        if (!$user instanceof User) {
+            return null;
+        }
+
+        $name = trim(($user->getFirstName() ?? '').' '.($user->getLastName() ?? ''));
+
+        return [
+            'id' => $user->getId()?->toRfc4122(),
+            'name' => '' !== $name ? $name : $fallbackLabel,
+            'label' => $fallbackLabel,
         ];
     }
 
@@ -1312,6 +1358,7 @@ final class TransferController extends AbstractController
         $listing = $negociation->getListing();
         $sellerTeam = $listing?->getSellerTeam();
         $buyerTeam = $negociation->getBuyerTeam();
+        $playerHasAgent = null !== $listing?->getPlayer()?->getAgent();
         $viewerRole = $sellerTeam?->getId()?->toRfc4122() === $viewerTeam->getId()?->toRfc4122() ? 'seller' : 'buyer';
         $buyerContractTermsComplete = null !== $negociation->getExternalContractBuyerConfirmedAt()
             && null !== $negociation->getExternalContractWeeklySalary()
@@ -1320,15 +1367,15 @@ final class TransferController extends AbstractController
 
         return [
             'requiresAction' => TransferNegociationStatusEnum::PENDING_AGENT === $negociation->getStatus(),
-            'playerHasAgent' => null !== $listing?->getPlayer()?->getAgent(),
+            'playerHasAgent' => $playerHasAgent,
             'buyerConfirmedExternalAgreement' => $buyerContractTermsComplete,
             'sellerConfirmedExternalAgreement' => $sellerConfirmedExternalAgreement,
             'viewerConfirmedExternalAgreement' => 'buyer' === $viewerRole
                 ? $buyerContractTermsComplete
                 : $sellerConfirmedExternalAgreement,
             'viewerRole' => $viewerRole,
-            'canInviteAgent' => in_array($viewerRole, ['buyer', 'seller'], true) && TransferNegociationStatusEnum::PENDING_AGENT === $negociation->getStatus(),
-            'canConfirmExternalAgreement' => in_array($negociation->getStatus(), [TransferNegociationStatusEnum::PENDING_AGENT, TransferNegociationStatusEnum::AGREED_CLUBS], true),
+            'canInviteAgent' => !$playerHasAgent && in_array($viewerRole, ['buyer', 'seller'], true) && TransferNegociationStatusEnum::PENDING_AGENT === $negociation->getStatus(),
+            'canConfirmExternalAgreement' => !$playerHasAgent && in_array($negociation->getStatus(), [TransferNegociationStatusEnum::PENDING_AGENT, TransferNegociationStatusEnum::AGREED_CLUBS], true),
             'buyerTeamName' => $buyerTeam?->getName(),
             'sellerTeamName' => $sellerTeam?->getName(),
             'externalContractDurationMonths' => $negociation->getExternalContractDurationMonths(),

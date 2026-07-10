@@ -90,6 +90,22 @@ function getNewsSummary(post: PublicFeedPost): string {
   return post.body ?? post.subtitle ?? 'Une nouvelle officialisation vient d’être publiée sur KickDeal.'
 }
 
+function getNewsAmountLabel(post: PublicFeedPost): string | null {
+  if (post.amountLabel) {
+    return post.amountLabel
+  }
+
+  if (typeof post.amount === 'number' && Number.isFinite(post.amount)) {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: post.currency ?? 'EUR',
+      maximumFractionDigits: post.amount >= 1_000_000 ? 1 : 0,
+    }).format(post.amount)
+  }
+
+  return null
+}
+
 function ClubDashboardHome({ initialDashboard, initialMarketNews, initialNow }: ClubDashboardHomeProps) {
   const router = useRouter()
   const { unreadConversationIds } = useMessagesUnread()
@@ -115,6 +131,7 @@ function ClubDashboardHome({ initialDashboard, initialMarketNews, initialNow }: 
   const dateLabel = useMemo(() => formatCurrentDate(today), [today])
   const transferWindowStatus = useMemo(() => getTransferWindowStatus(today), [today])
   const activeNews = marketNews[activeNewsIndex] ?? null
+  const activeNewsAmountLabel = activeNews ? getNewsAmountLabel(activeNews) : null
   const activeDealDateLabel = useMemo(
     () => formatEventDate(activeDeal?.eventDate ?? null),
     [activeDeal?.eventDate],
@@ -341,6 +358,11 @@ function ClubDashboardHome({ initialDashboard, initialMarketNews, initialNow }: 
                   {activeNews ? (
                     <>
                       <NewsClubLogos post={activeNews} />
+                      {activeNewsAmountLabel && (
+                        <div className="mb-3 inline-flex items-center rounded-full border border-brand-cyan/35 bg-brand-cyan/10 px-4 py-1.5 text-sm font-black uppercase tracking-wide text-brand-cyan shadow-lg shadow-brand-cyan/10">
+                          Montant : {activeNewsAmountLabel}
+                        </div>
+                      )}
                       <h3 className="mx-auto max-w-xl text-white text-2xl md:text-[30px] font-bold leading-tight">
                         {getNewsHeadline(activeNews)}
                       </h3>

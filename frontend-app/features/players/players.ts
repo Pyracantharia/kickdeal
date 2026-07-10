@@ -222,16 +222,16 @@ export function getTransferFilterId(
     return 'free_agent'
   }
 
-  if (player.contractStatus === 'under_contract') {
-    return 'under_contract'
-  }
-
   if (player.marketStatusValue === 'loan_listed') {
     return 'loan_listed'
   }
 
   if (player.marketStatusValue === 'on_market') {
     return 'on_market'
+  }
+
+  if (player.contractStatus === 'under_contract') {
+    return 'under_contract'
   }
 
   return 'not_listed'

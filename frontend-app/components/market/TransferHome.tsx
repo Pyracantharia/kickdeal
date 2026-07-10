@@ -1,12 +1,13 @@
 'use client'
 
 import React, { useCallback, useEffect, useState } from 'react'
-import { BadgeEuro, CalendarClock, CheckCircle2, Clock3, Mail, ReceiptText, Send, Users } from 'lucide-react'
+import { BadgeEuro, CalendarClock, CheckCircle2, Clock3, Mail, ReceiptText, Search, Send, Users } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 import Button from '@/components/ui/Button'
 import Modal from '@/components/ui/Modal'
 import ActionConfirmationModal from '@/components/ui/ActionConfirmationModal'
+import StartConversationButton from '@/components/messages/StartConversationButton'
 import { CountryFlag } from '@/components/media/CountryFlag'
 import { MARKET_REALTIME_EVENT, type MarketRealtimePayload } from '@/context/MarketRealtimeProvider'
 import { useNotifications } from '@/context/NotificationsProvider'
@@ -171,7 +172,7 @@ function TransferHome() {
     setSelectedOffer(null)
     setPendingOfferDecision(null)
     if (action === 'accept' && response.data.contractNegociationId) {
-      setActionMessage("Accord entre clubs trouvé. La négociation contractuelle est prête.")
+      setActionMessage("Accord entre clubs trouvé. Le transfert n’est pas encore finalisé : il reste l’accord contractuel avec l’agent du joueur.")
     }
     await refreshOffers()
     await refreshSummary()
@@ -316,7 +317,18 @@ function TransferHome() {
   return (
     <div className="auth-bg min-h-screen w-full pt-36 md:pt-40 pb-12 px-4">
       <div className="mx-auto w-full max-w-6xl">
-        <h1 className="text-4xl font-bold text-white mb-8">ACCUEIL TRANSFERTS</h1>
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-4xl font-bold text-white">ACCUEIL TRANSFERTS</h1>
+          <Button
+            type="button"
+            variant="secondary"
+            className="w-full sm:w-auto"
+            onClick={() => router.push('/market/search')}
+            icon={<Search className="h-4 w-4" />}
+          >
+            Rechercher un joueur
+          </Button>
+        </div>
 
         <div className="flex gap-4 mb-8 flex-wrap">
           <button
@@ -459,6 +471,13 @@ function TransferHome() {
                     >
                       Voir les détails
                     </Button>
+                    <StartConversationButton
+                      recipient={offer.messageRecipient}
+                      className="ml-2 min-w-max"
+                      onError={(message) => setOffersError(message || null)}
+                    >
+                      Message
+                    </StartConversationButton>
                   </div>
                 </div>
                 <ContractResolutionPanel
@@ -523,14 +542,23 @@ function TransferHome() {
                   <div className="text-right space-y-3">
                     <div>{getStatusBadge(offer.status)}</div>
                     {offer.status !== 'pending' && (
-                      <Button
-                        type="button"
-                        onClick={() => handleOfferSelect(offer, 'received')}
-                        variant="secondary"
-                        className="min-w-max"
-                      >
-                        Voir les détails
-                      </Button>
+                      <>
+                        <Button
+                          type="button"
+                          onClick={() => handleOfferSelect(offer, 'received')}
+                          variant="secondary"
+                          className="min-w-max"
+                        >
+                          Voir les détails
+                        </Button>
+                        <StartConversationButton
+                          recipient={offer.messageRecipient}
+                          className="ml-2 min-w-max"
+                          onError={(message) => setOffersError(message || null)}
+                        >
+                          Message
+                        </StartConversationButton>
+                      </>
                     )}
                   </div>
                 </div>
@@ -569,6 +597,13 @@ function TransferHome() {
                     >
                       Voir les détails
                     </Button>
+                    <StartConversationButton
+                      recipient={offer.messageRecipient}
+                      className="w-full"
+                      onError={(message) => setOffersError(message || null)}
+                    >
+                      Envoyer un message
+                    </StartConversationButton>
                   </div>
                 )}
                 <ContractResolutionPanel
@@ -771,6 +806,7 @@ function ContractResolutionPanel({
   isInviting: boolean
   isConfirmingExternal: boolean
 }) {
+  const router = useRouter()
   const resolution = offer.contractResolution
 
   if (offer.sellerClubResolution?.requiresAction || offer.negociationStatus !== 'pending_agent' || !resolution) {
@@ -782,64 +818,97 @@ function ContractResolutionPanel({
       <div className="flex gap-3">
         <Clock3 className="mt-0.5 h-5 w-5 shrink-0 text-amber-200" />
         <div className="min-w-0 flex-1">
-          <p className="font-semibold text-white">Accord entre clubs trouvé</p>
+          <p className="font-semibold text-white">Accord entre clubs trouvé, transfert en attente</p>
           <p className="mt-1 text-sm text-white/65">
-            L’agent du joueur n’est pas encore présent sur KickDeal. La finalisation attend la résolution du contrat joueur.
+            {resolution.viewerRole === 'buyer'
+              ? resolution.playerHasAgent
+                ? `Le joueur ne rejoindra ${resolution.buyerTeamName ?? 'votre club'} qu’après un accord contractuel avec son agent.`
+                : 'Le joueur ne rejoindra votre club qu’après résolution du contrat joueur.'
+              : resolution.playerHasAgent
+                ? `Le joueur restera dans votre effectif jusqu’à ce que ${resolution.buyerTeamName ?? 'le club acheteur'} conclue un accord contractuel avec son agent.`
+                : `Le joueur restera dans votre effectif jusqu’à la résolution du contrat joueur avec ${resolution.buyerTeamName ?? 'le club acheteur'}.`}
           </p>
+          <div className="mt-3 rounded-lg border border-amber-200/20 bg-[#071722]/70 px-3 py-2 text-xs font-medium text-amber-100">
+            Accord financier validé entre clubs, mais transfert non définitif tant que la négociation contractuelle n’est pas conclue.
+          </div>
 
-          <div className="mt-4 grid gap-3 lg:grid-cols-2">
-            {resolution.canInviteAgent && (
-              <div className="rounded-lg border border-white/10 bg-white/5 p-3">
-                <label className="text-xs font-semibold uppercase tracking-wide text-white/55">Email de l’agent</label>
-                <div className="mt-2 flex flex-col gap-2 sm:flex-row">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(event) => onEmailChange(event.target.value)}
-                    placeholder="agent@email.com"
-                    className="min-w-0 flex-1 rounded-lg border border-white/15 bg-[#071722] px-3 py-2 text-sm text-white outline-none focus:border-brand-cyan"
-                  />
-                  <Button type="button" onClick={onInvite} isLoading={isInviting} icon={<Mail className="h-4 w-4" />}>
-                    Inviter
-                  </Button>
-                </div>
-              </div>
-            )}
-
-            <div className="rounded-lg border border-white/10 bg-white/5 p-3">
-              <p className="text-sm text-white/70">
-                Accord contractuel trouvé hors plateforme
+          {resolution.playerHasAgent ? (
+            <div className="mt-4 rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-4">
+              <p className="text-sm font-semibold text-white">Négociation contractuelle KickDeal en cours</p>
+              <p className="mt-1 text-sm text-white/65">
+                {resolution.viewerRole === 'buyer'
+                  ? 'L’agent du joueur est déjà présent. Suivez et finalisez l’accord contractuel depuis vos négociations.'
+                  : `L’agent du joueur est déjà présent. ${resolution.buyerTeamName ?? 'Le club acheteur'} doit maintenant conclure le contrat joueur avec lui.`}
               </p>
-              <div className="mt-2 flex flex-wrap gap-2 text-xs text-white/55">
-                <span className={resolution.buyerConfirmedExternalAgreement ? 'text-emerald-300' : ''}>
-                  <CheckCircle2 className="mr-1 inline h-3.5 w-3.5" />
-                  {resolution.buyerTeamName}: {resolution.buyerConfirmedExternalAgreement ? 'validé' : 'en attente'}
-                </span>
-                <span className={resolution.sellerConfirmedExternalAgreement ? 'text-emerald-300' : ''}>
-                  <CheckCircle2 className="mr-1 inline h-3.5 w-3.5" />
-                  {resolution.sellerTeamName}: {resolution.sellerConfirmedExternalAgreement ? 'validé' : 'en attente'}
-                </span>
-              </div>
-              {(resolution.externalContractWeeklySalary || resolution.externalContractDurationMonths) && (
-                <div className="mt-3 rounded-lg border border-white/10 bg-[#071722]/70 px-3 py-2 text-xs text-white/60">
-                  Conditions joueur :{' '}
-                  {resolution.externalContractWeeklySalary ? `${resolution.externalContractWeeklySalary} / semaine` : 'salaire à confirmer'}
-                  {' · '}
-                  {resolution.externalContractDurationMonths ? `${resolution.externalContractDurationMonths} mois` : 'durée à confirmer'}
+              {resolution.viewerRole === 'buyer' && (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="mt-3"
+                  onClick={() => router.push('/negociations')}
+                >
+                  Voir les négociations
+                </Button>
+              )}
+            </div>
+          ) : (
+            <div className="mt-4 grid gap-3 lg:grid-cols-2">
+              {resolution.canInviteAgent && (
+                <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-white/55">Email de l’agent</label>
+                  <div className="mt-2 flex flex-col gap-2 sm:flex-row">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(event) => onEmailChange(event.target.value)}
+                      placeholder="agent@email.com"
+                      className="min-w-0 flex-1 rounded-lg border border-white/15 bg-[#071722] px-3 py-2 text-sm text-white outline-none focus:border-brand-cyan"
+                    />
+                    <Button type="button" onClick={onInvite} isLoading={isInviting} icon={<Mail className="h-4 w-4" />}>
+                      Inviter
+                    </Button>
+                  </div>
                 </div>
               )}
-              <Button
-                type="button"
-                variant="secondary"
-                className="mt-3 w-full"
-                onClick={onExternalAgreement}
-                isLoading={isConfirmingExternal}
-                disabled={resolution.viewerConfirmedExternalAgreement}
-              >
-                {resolution.viewerConfirmedExternalAgreement ? 'Votre validation est enregistrée' : 'Valider l’accord externe'}
-              </Button>
+
+              <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+                <p className="text-sm font-semibold text-white">
+                  Accord contractuel hors plateforme
+                </p>
+                <p className="mt-1 text-xs text-white/55">
+                  À utiliser seulement si les conditions joueur ont été conclues sans agent KickDeal.
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2 text-xs text-white/55">
+                  <span className={resolution.buyerConfirmedExternalAgreement ? 'text-emerald-300' : ''}>
+                    <CheckCircle2 className="mr-1 inline h-3.5 w-3.5" />
+                    {resolution.buyerTeamName}: {resolution.buyerConfirmedExternalAgreement ? 'validé' : 'en attente'}
+                  </span>
+                  <span className={resolution.sellerConfirmedExternalAgreement ? 'text-emerald-300' : ''}>
+                    <CheckCircle2 className="mr-1 inline h-3.5 w-3.5" />
+                    {resolution.sellerTeamName}: {resolution.sellerConfirmedExternalAgreement ? 'validé' : 'en attente'}
+                  </span>
+                </div>
+                {(resolution.externalContractWeeklySalary || resolution.externalContractDurationMonths) && (
+                  <div className="mt-3 rounded-lg border border-white/10 bg-[#071722]/70 px-3 py-2 text-xs text-white/60">
+                    Conditions joueur :{' '}
+                    {resolution.externalContractWeeklySalary ? `${resolution.externalContractWeeklySalary} / semaine` : 'salaire à confirmer'}
+                    {' · '}
+                    {resolution.externalContractDurationMonths ? `${resolution.externalContractDurationMonths} mois` : 'durée à confirmer'}
+                  </div>
+                )}
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="mt-3 w-full"
+                  onClick={onExternalAgreement}
+                  isLoading={isConfirmingExternal}
+                  disabled={resolution.viewerConfirmedExternalAgreement}
+                >
+                  {resolution.viewerConfirmedExternalAgreement ? 'Votre validation est enregistrée' : 'Valider l’accord externe'}
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

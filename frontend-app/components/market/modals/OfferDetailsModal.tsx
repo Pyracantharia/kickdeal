@@ -4,7 +4,7 @@ import React from 'react'
 import Modal from '@/components/ui/Modal'
 import Button from '@/components/ui/Button'
 import type { SentOffer, ReceivedOffer } from '@/features/market/types/transfer'
-import { ArrowDownLeft, ArrowUpRight, Check } from 'lucide-react'
+import { ArrowDownLeft, ArrowUpRight, Check, Clock3 } from 'lucide-react'
 import CircleImage from '@/components/media/CircleImage'
 import { getPositionDisplayName } from '@/features/players/position'
 
@@ -35,6 +35,8 @@ function OfferDetailsModal({
   const directionLabel = isSelling ? 'Vente' : 'Achat'
   const directionDetail = isSelling ? `à ${counterpartyClub}` : `auprès de ${counterpartyClub}`
   const DirectionIcon = isSelling ? ArrowUpRight : ArrowDownLeft
+  const contractResolution = offer.contractResolution
+  const isPendingContractAgreement = offer.negociationStatus === 'pending_agent' && Boolean(contractResolution)
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Détails de l'offre">
@@ -106,6 +108,26 @@ function OfferDetailsModal({
                 : '✗ Rejetée'}
           </span>
         </div>
+
+        {isPendingContractAgreement && contractResolution && (
+          <div className="rounded-xl border border-amber-300/35 bg-amber-300/10 p-4">
+            <div className="flex gap-3">
+              <Clock3 className="mt-0.5 h-5 w-5 shrink-0 text-amber-200" />
+              <div>
+                <p className="font-semibold text-white">Transfert pas encore finalisé</p>
+                <p className="mt-1 text-sm text-white/65">
+                  {contractResolution.viewerRole === 'buyer'
+                    ? contractResolution.playerHasAgent
+                      ? `Le joueur ne rejoindra ${contractResolution.buyerTeamName ?? 'votre club'} qu’après un accord contractuel avec son agent.`
+                      : 'Le joueur ne rejoindra votre club qu’après résolution du contrat joueur.'
+                    : contractResolution.playerHasAgent
+                      ? `Le joueur restera dans votre effectif jusqu’à ce que ${contractResolution.buyerTeamName ?? 'le club acheteur'} conclue un accord contractuel avec son agent.`
+                      : `Le joueur restera dans votre effectif jusqu’à la résolution du contrat joueur avec ${contractResolution.buyerTeamName ?? 'le club acheteur'}.`}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="space-y-3">
           <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg border border-white/10">

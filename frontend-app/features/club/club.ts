@@ -25,6 +25,15 @@ type SearchLeaguesResponse = {
   leagues: LeagueOption[]
 }
 
+export type PlayerPositionOption = {
+  id: string
+  label: string
+}
+
+type PlayerPositionsResponse = {
+  positions: PlayerPositionOption[]
+}
+
 export type ClubRequestSummary = {
   id: string
   status: 'pending' | 'approved' | 'rejected'
@@ -99,6 +108,10 @@ class ClubManager {
 
   async getLeagues() {
     return httpClient.get<SearchLeaguesResponse>('/clubs/leagues')
+  }
+
+  async getPlayerPositions() {
+    return httpClient.get<PlayerPositionsResponse>('/clubs/player-positions')
   }
 
   async getClubsByLeague(league: string) {
