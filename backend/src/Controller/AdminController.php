@@ -718,6 +718,7 @@ final class AdminController extends AbstractController
         PlayerAgentRequest $playerAgentRequest,
         EntityManagerInterface $entityManager,
         NotificationService $notificationService,
+        TransactionalMailer $transactionalMailer,
     ): JsonResponse {
         if (!$this->isAdmin($user)) {
             return $this->json([
