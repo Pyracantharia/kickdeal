@@ -46,6 +46,79 @@ final class AdminController extends AbstractController
         User::ROLE_CLUB,
     ];
 
+    #[Route('/dashboard', name: 'admin_dashboard', methods: ['GET'])]
+    public function dashboard(
+        #[CurrentUser] ?User $user,
+        UserRepository $userRepository,
+        ClubRequestRepository $clubRequestRepository,
+        PlayerAgentRequestRepository $playerAgentRequestRepository,
+        MessageReportRepository $messageReportRepository,
+    ): JsonResponse {
+        if (!$this->isAdmin($user)) {
+            return $this->json([
+                'error' => 'Unauthorized',
+            ], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $now = new DateTimeImmutable();
+        $clubStatus = ClubRequestStatusEnum::PENDING;
+        $agentStatus = PlayerAgentRequestStatusEnum::PENDING;
+        $reportStatus = MessageReport::STATUS_PENDING;
+
+        $pendingClubRequests = $clubRequestRepository->count(['status' => $clubStatus]);
+        $pendingAgentRequests = $playerAgentRequestRepository->count(['status' => $agentStatus]);
+        $pendingReports = $messageReportRepository->count(['status' => $reportStatus]);
+
+        $oldestClubRequest = $clubRequestRepository->findOneBy(
+            ['status' => $clubStatus],
+            ['createdAt' => 'ASC'],
+        );
+        $oldestAgentRequest = $playerAgentRequestRepository->findOneBy(
+            ['status' => $agentStatus],
+            ['createdAt' => 'ASC'],
+        );
+        $oldestReport = $messageReportRepository->findOneBy(
+            ['status' => $reportStatus],
+            ['createdAt' => 'ASC'],
+        );
+
+        return $this->json([
+            'stats' => [
+                'totalUsers' => $userRepository->count([]),
+                'newUsersLast30Days' => $userRepository->countCreatedSince($now->modify('-30 days')),
+                'pendingValidations' => $pendingClubRequests + $pendingAgentRequests,
+                'currentlyBannedUsers' => $userRepository->countCurrentlyBanned($now),
+            ],
+            'alerts' => array_values(array_filter([
+                $this->dashboardAlert(
+                    'club_requests',
+                    'Demandes de club à vérifier',
+                    $pendingClubRequests,
+                    $oldestClubRequest?->getCreatedAt(),
+                    '/admin/club-requests',
+                    $now,
+                ),
+                $this->dashboardAlert(
+                    'player_agent_requests',
+                    'Demandes agent-joueur à vérifier',
+                    $pendingAgentRequests,
+                    $oldestAgentRequest?->getCreatedAt(),
+                    '/admin/player-agent-requests',
+                    $now,
+                ),
+                $this->dashboardAlert(
+                    'message_reports',
+                    'Signalements à modérer',
+                    $pendingReports,
+                    $oldestReport?->getCreatedAt(),
+                    '/admin/message-reports',
+                    $now,
+                ),
+            ])),
+            'generatedAt' => $now->format(\DateTimeInterface::ATOM),
+        ]);
+    }
+
     #[Route('/users', name: 'admin_users_index', methods: ['GET'])]
     public function listUsers(
         Request $request,
@@ -843,6 +916,36 @@ final class AdminController extends AbstractController
         $value = trim($value);
 
         return '' === $value ? null : $value;
+    }
+
+    /**
+     * @return array<string, int|string|null>|null
+     */
+    private function dashboardAlert(
+        string $id,
+        string $title,
+        int $count,
+        ?\DateTimeInterface $oldestCreatedAt,
+        string $href,
+        DateTimeImmutable $now,
+    ): ?array {
+        if (0 === $count) {
+            return null;
+        }
+
+        $ageInDays = null === $oldestCreatedAt
+            ? 0
+            : max(0, (int) $oldestCreatedAt->diff($now)->format('%a'));
+
+        return [
+            'id' => $id,
+            'title' => $title,
+            'count' => $count,
+            'oldestCreatedAt' => $oldestCreatedAt?->format(\DateTimeInterface::ATOM),
+            'ageInDays' => $ageInDays,
+            'severity' => $ageInDays >= 7 ? 'critical' : ($ageInDays >= 3 ? 'warning' : 'info'),
+            'href' => $href,
+        ];
     }
 
     /**

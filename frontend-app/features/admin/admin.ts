@@ -199,7 +199,53 @@ export interface MessageReportDecisionResponse {
   report: MessageReport;
 }
 
+export type AdminDashboardAlert = {
+  id: 'club_requests' | 'player_agent_requests' | 'message_reports';
+  title: string;
+  count: number;
+  oldestCreatedAt?: string | null;
+  ageInDays: number;
+  severity: 'info' | 'warning' | 'critical';
+  href: string;
+}
+
+export type AdminDashboardData = {
+  stats: {
+    totalUsers: number;
+    newUsersLast30Days: number;
+    pendingValidations: number;
+    currentlyBannedUsers: number;
+  };
+  alerts: AdminDashboardAlert[];
+  generatedAt: string;
+}
+
+export type AdminClub = {
+  id: string; name: string; country?: string | null; league?: string | null; logoUrl?: string | null;
+  transferBudget: number; verificationStatus: 'pending' | 'unverified' | 'verified';
+  members: Array<{ id: string; firstName: string; lastName: string; email: string; role: 'club_manager' | 'recruiter' | 'sporting_director' | 'staff'; primary: boolean }>;
+}
+
+export type AdminAgent = {
+  id: string; agencyName?: string | null; country?: string | null;
+  user: { firstName: string; lastName: string; email: string };
+  license: { number: string; issuedBy?: string | null; validUntil?: string | null; documentUrl?: string | null; status: 'pending' | 'approved' | 'rejected' } | null;
+  players: Array<{ id: string; firstName: string; lastName: string; position?: string | null; team?: string | null }>;
+}
+
 class AdminManager {
+  async getDashboard() {
+    return httpClient.get<AdminDashboardData>('/admin/dashboard');
+  }
+
+  async getClubs() { return httpClient.get<{ clubs: AdminClub[] }>('/admin/clubs'); }
+  async updateClub(id: string, payload: Omit<AdminClub, 'id' | 'members'>) { return httpClient.put<{ message: string; club: AdminClub }, Omit<AdminClub, 'id' | 'members'>>(`/admin/clubs/${id}`, payload); }
+  async updateClubMember(teamId: string, memberId: string, role: AdminClub['members'][number]['role']) { return httpClient.patch<{ message: string }>(`/admin/clubs/${teamId}/members/${memberId}`, { role }); }
+  async removeClubMember(teamId: string, memberId: string) { return httpClient.remove<{ message: string }>(`/admin/clubs/${teamId}/members/${memberId}`); }
+  async getAgents() { return httpClient.get<{ agents: AdminAgent[] }>('/admin/agents'); }
+  async updateAgentLicense(agentId: string, status: NonNullable<AdminAgent['license']>['status']) { return httpClient.patch<{ message: string }>(`/admin/agents/${agentId}/license`, { status }); }
+  async removeAgentPlayer(agentId: string, playerId: string) { return httpClient.remove<{ message: string }>(`/admin/agents/${agentId}/players/${playerId}`); }
+
   async getUsers(search?: string) {
     const query = search ? `?search=${encodeURIComponent(search)}` : '';
     const response = await httpClient.get<AdminUsersResponse>(`/admin/users${query}`);
