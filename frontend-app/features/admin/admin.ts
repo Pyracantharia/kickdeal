@@ -223,7 +223,15 @@ export type AdminDashboardData = {
 export type AdminClub = {
   id: string; name: string; country?: string | null; league?: string | null; logoUrl?: string | null;
   transferBudget: number; verificationStatus: 'pending' | 'unverified' | 'verified';
-  members: Array<{ id: string; firstName: string; lastName: string; email: string; role: 'club_manager' | 'recruiter' | 'sporting_director' | 'staff'; primary: boolean }>;
+  playersCount: number;
+  members: Array<{ id: string; firstName: string; lastName: string; email: string; phone?: string | null; role: 'club_manager' | 'recruiter' | 'sporting_director' | 'staff'; primary: boolean }>;
+}
+
+export type AdminPlayer = {
+  id:string; firstName:string; lastName:string; photoUrl?:string|null; birthDate?:string|null; nationality?:string|null; position:string;
+  heightCm?:number|null; weightKg?:number|null; preferredFoot?:string|null; marketValue?:number|null; weeklySalary?:number|null; releaseClause?:number|null;
+  contractStatus:'free_agent'|'under_contract'; contractEndDate?:string|null; joinedAt?:string|null; marketStatus:'loan_listed'|'not_listed'|'on_market';
+  availabilityStatus:'injured'|'normal'|'suspended'; team:{id:string;name:string}|null; agent:{id:string;name:string}|null;
 }
 
 export type AdminAgent = {
@@ -239,9 +247,12 @@ class AdminManager {
   }
 
   async getClubs() { return httpClient.get<{ clubs: AdminClub[] }>('/admin/clubs'); }
-  async updateClub(id: string, payload: Omit<AdminClub, 'id' | 'members'>) { return httpClient.put<{ message: string; club: AdminClub }, Omit<AdminClub, 'id' | 'members'>>(`/admin/clubs/${id}`, payload); }
-  async updateClubMember(teamId: string, memberId: string, role: AdminClub['members'][number]['role']) { return httpClient.patch<{ message: string }>(`/admin/clubs/${teamId}/members/${memberId}`, { role }); }
+  async updateClub(id: string, payload: Omit<AdminClub, 'id' | 'members' | 'playersCount'>) { return httpClient.put<{ message: string; club: AdminClub }, Omit<AdminClub, 'id' | 'members' | 'playersCount'>>(`/admin/clubs/${id}`, payload); }
+  async updateClubMember(teamId: string, memberId: string, payload: Partial<AdminClub['members'][number]>) { return httpClient.patch<{ message: string }>(`/admin/clubs/${teamId}/members/${memberId}`, payload); }
   async removeClubMember(teamId: string, memberId: string) { return httpClient.remove<{ message: string }>(`/admin/clubs/${teamId}/members/${memberId}`); }
+  async getClubMembers(teamId:string) { return httpClient.get<{club:{id:string;name:string;logoUrl?:string|null};members:AdminClub['members']}>(`/admin/clubs/${teamId}/members`); }
+  async getClubPlayers(teamId:string) { return httpClient.get<{club:{id:string;name:string;logoUrl?:string|null};players:AdminPlayer[]}>(`/admin/clubs/${teamId}/players`); }
+  async updatePlayer(playerId:string, payload:Omit<AdminPlayer,'id'|'team'|'agent'> & {teamId?:string|null;agentId?:string|null}) { return httpClient.put<{message:string;player:AdminPlayer}, typeof payload>(`/admin/players/${playerId}`,payload); }
   async getAgents() { return httpClient.get<{ agents: AdminAgent[] }>('/admin/agents'); }
   async updateAgentLicense(agentId: string, status: NonNullable<AdminAgent['license']>['status']) { return httpClient.patch<{ message: string }>(`/admin/agents/${agentId}/license`, { status }); }
   async removeAgentPlayer(agentId: string, playerId: string) { return httpClient.remove<{ message: string }>(`/admin/agents/${agentId}/players/${playerId}`); }

@@ -9,6 +9,9 @@ use App\Entity\TeamMembership;
 use App\Entity\User;
 use App\Enum\AgentLicenseStatusEnum;
 use App\Enum\MembershipRoleEnum;
+use App\Enum\PlayerAvailabilityStatusEnum;
+use App\Enum\PlayerContractStatusEnum;
+use App\Enum\PlayerMarketStatusEnum;
 use App\Enum\TeamVerificationStatusEnum;
 use App\Repository\AgentRepository;
 use App\Repository\PlayerRepository;
@@ -64,10 +67,54 @@ final class AdminManagementController extends AbstractController
         if ($membership->getTeam()?->getId()?->toRfc4122() !== $teamId) return $this->json(['message' => 'Membre introuvable dans ce club.'], 404);
         $data = json_decode($request->getContent(), true);
         $role = MembershipRoleEnum::tryFrom((string) ($data['role'] ?? ''));
-        if (null === $role) return $this->json(['message' => 'Rôle invalide.'], 422);
+        $user = $membership->getUser();
+        if (null === $role || !$user) return $this->json(['message' => 'Informations du membre invalides.'], 422);
+        $firstName = trim((string) ($data['firstName'] ?? $user->getFirstName()));
+        $lastName = trim((string) ($data['lastName'] ?? $user->getLastName()));
+        $email = strtolower(trim((string) ($data['email'] ?? $user->getEmail())));
+        if ('' === $firstName || '' === $lastName || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $this->json(['message' => 'Nom ou adresse e-mail invalide.'], 422);
+        }
+        $user->setFirstName($firstName)->setLastName($lastName)->setEmail($email)->setPhone(array_key_exists('phone', $data) ? $this->nullableString($data['phone']) : $user->getPhone());
         $membership->setRole($role);
         $em->flush();
-        return $this->json(['message' => 'Rôle mis à jour.']);
+        return $this->json(['message' => 'Membre mis à jour.']);
+    }
+
+    #[Route('/clubs/{id}/members', methods: ['GET'])]
+    public function clubMembers(#[CurrentUser] ?User $admin, Team $team): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        return $this->json(['club' => ['id' => $team->getId()?->toRfc4122(), 'name' => $team->getName(), 'logoUrl' => $team->getLogoUrl()], 'members' => array_map($this->serializeMember(...), $team->getTeamMemberships()->toArray())]);
+    }
+
+    #[Route('/clubs/{id}/players', methods: ['GET'])]
+    public function clubPlayers(#[CurrentUser] ?User $admin, Team $team, PlayerRepository $players): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        return $this->json(['club' => ['id' => $team->getId()?->toRfc4122(), 'name' => $team->getName(), 'logoUrl' => $team->getLogoUrl()], 'players' => array_map($this->serializePlayer(...), $players->findRosterForTeam($team))]);
+    }
+
+    #[Route('/players/{id}', methods: ['PUT'])]
+    public function updatePlayer(Request $request, #[CurrentUser] ?User $admin, Player $player, TeamRepository $teams, AgentRepository $agents, EntityManagerInterface $em): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        $data = json_decode($request->getContent(), true);
+        if (!is_array($data)) return $this->json(['message' => 'Payload invalide.'], 400);
+        $firstName = trim((string) ($data['firstName'] ?? '')); $lastName = trim((string) ($data['lastName'] ?? '')); $position = trim((string) ($data['position'] ?? ''));
+        $contractStatus = PlayerContractStatusEnum::tryFrom((string) ($data['contractStatus'] ?? ''));
+        $marketStatus = PlayerMarketStatusEnum::tryFrom((string) ($data['marketStatus'] ?? ''));
+        $availabilityStatus = PlayerAvailabilityStatusEnum::tryFrom((string) ($data['availabilityStatus'] ?? ''));
+        if ('' === $firstName || '' === $lastName || '' === $position || !$contractStatus || !$marketStatus || !$availabilityStatus) return $this->json(['message' => 'Informations du joueur invalides.'], 422);
+        $team = $this->nullableString($data['teamId'] ?? null); $agent = $this->nullableString($data['agentId'] ?? null);
+        $player->setFirstName($firstName)->setLastName($lastName)->setPhotoUrl($this->nullableString($data['photoUrl'] ?? null))->setNationality($this->nullableString($data['nationality'] ?? null))->setPosition($position)
+            ->setHeightCm($this->nullableInt($data['heightCm'] ?? null))->setWeightKg($this->nullableInt($data['weightKg'] ?? null))->setPreferredFoot($this->nullableString($data['preferredFoot'] ?? null))
+            ->setMarketValue($this->nullableMoney($data['marketValue'] ?? null))->setWeeklySalary($this->nullableMoney($data['weeklySalary'] ?? null))->setReleaseClause($this->nullableMoney($data['releaseClause'] ?? null))
+            ->setContractStatus($contractStatus)->setContractEndDate($this->nullableDate($data['contractEndDate'] ?? null))->setJoinedAt($this->nullableDate($data['joinedAt'] ?? null))
+            ->setMarketStatus($marketStatus)->setAvailabilityStatus($availabilityStatus)->setTeam($team ? $teams->find($team) : null)->setAgent($agent ? $agents->find($agent) : null);
+        if ($this->nullableString($data['birthDate'] ?? null)) $player->setBirthDate(new \DateTimeImmutable((string) $data['birthDate']));
+        $em->flush();
+        return $this->json(['message' => 'Joueur mis à jour.', 'player' => $this->serializePlayer($player)]);
     }
 
     #[Route('/clubs/{teamId}/members/{id}', methods: ['DELETE'])]
@@ -123,12 +170,25 @@ final class AdminManagementController extends AbstractController
             'id' => $team->getId()?->toRfc4122(), 'name' => $team->getName(), 'country' => $team->getCountry(),
             'league' => $team->getLeague(), 'logoUrl' => $team->getLogoUrl(), 'transferBudget' => $team->getTransferBudget() ?? 0,
             'verificationStatus' => $team->getVerificationStatus()?->value,
-            'members' => array_map(static fn (TeamMembership $m): array => [
-                'id' => $m->getId()?->toRfc4122(), 'firstName' => $m->getUser()?->getFirstName(), 'lastName' => $m->getUser()?->getLastName(),
-                'email' => $m->getUser()?->getEmail(), 'role' => $m->getRole()?->value, 'primary' => $m->isPrimary(),
-            ], $team->getTeamMemberships()->toArray()),
+            'members' => array_map($this->serializeMember(...), $team->getTeamMemberships()->toArray()),
+            'playersCount' => $team->getPlayers()->count(),
         ];
     }
+
+    private function serializeMember(TeamMembership $membership): array
+    {
+        return ['id' => $membership->getId()?->toRfc4122(), 'firstName' => $membership->getUser()?->getFirstName(), 'lastName' => $membership->getUser()?->getLastName(), 'email' => $membership->getUser()?->getEmail(), 'phone' => $membership->getUser()?->getPhone(), 'role' => $membership->getRole()?->value, 'primary' => $membership->isPrimary()];
+    }
+
+    private function serializePlayer(Player $player): array
+    {
+        return ['id' => $player->getId()?->toRfc4122(), 'firstName' => $player->getFirstName(), 'lastName' => $player->getLastName(), 'photoUrl' => $player->getPhotoUrl(), 'birthDate' => $player->getBirthDate()?->format('Y-m-d'), 'nationality' => $player->getNationality(), 'position' => $player->getPosition(), 'heightCm' => $player->getHeightCm(), 'weightKg' => $player->getWeightKg(), 'preferredFoot' => $player->getPreferredFoot(), 'marketValue' => $player->getMarketValue(), 'weeklySalary' => $player->getWeeklySalary(), 'releaseClause' => $player->getReleaseClause(), 'contractStatus' => $player->getContractStatus()?->value, 'contractEndDate' => $player->getContractEndDate()?->format('Y-m-d'), 'joinedAt' => $player->getJoinedAt()?->format('Y-m-d'), 'marketStatus' => $player->getMarketStatus()?->value, 'availabilityStatus' => $player->getAvailabilityStatus()?->value, 'team' => $player->getTeam() ? ['id' => $player->getTeam()?->getId()?->toRfc4122(), 'name' => $player->getTeam()?->getName()] : null, 'agent' => $player->getAgent() ? ['id' => $player->getAgent()?->getId()?->toRfc4122(), 'name' => $player->getAgent()?->getAgencyName() ?: $player->getAgent()?->getUser()?->getEmail()] : null];
+    }
+
+    private function nullableString(mixed $value): ?string { $value = trim((string) $value); return '' === $value ? null : $value; }
+    private function nullableInt(mixed $value): ?int { return null === $value || '' === $value ? null : (int) $value; }
+    private function nullableMoney(mixed $value): ?int { return null === $value || '' === $value ? null : max(0, (int) $value); }
+    private function nullableDate(mixed $value): ?\DateTimeImmutable { $value = $this->nullableString($value); return $value ? new \DateTimeImmutable($value) : null; }
 
     private function serializeAgent(Agent $agent, PlayerRepository $players): array
     {

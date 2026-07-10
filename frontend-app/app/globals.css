@@ -61,3 +61,17 @@ body {
     rgba(8, 12, 25, 0.0) 100%
   );
 }
+
+@layer components {
+  .input {
+    @apply mt-2 w-full rounded-lg border border-white/15 bg-[#0A1B2B] p-3 text-white outline-none focus:border-brand-cyan/40;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-lg bg-brand-purple px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold transition hover:bg-white/10;
+  }
+}
