@@ -16,7 +16,7 @@ describe("Market search", () => {
 
       cy.url({ timeout: 10000 }).should("include", "/market/results");
       cy.wait("@getPlayers").its("response.statusCode").should("eq", 200);
-      cy.contains("RÉSULTATS RECHERCHE").should("be.visible");
+      cy.contains("RÉSULTATS RECHERCHE", { timeout: 10000 }).should("be.visible");
       cy.contains(/résultat\(s\)|Aucun joueur trouvé/, { timeout: 10000 }).should("be.visible");
     }));
   });

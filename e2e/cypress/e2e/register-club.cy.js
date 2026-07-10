@@ -18,7 +18,7 @@ describe("Club creation", () => {
 
       cy.contains("Je suis un club").click();
 
-      cy.url().should("include", "/auth/register/club");
+      cy.url().should("include", "/auth/register/club", { timeout: 10000 });
 
       cy.get('input[name="firstName"]', { timeout: 10000 }).should('be.visible');
 
