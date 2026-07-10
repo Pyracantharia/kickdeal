@@ -1,5 +1,6 @@
 import AgentDashboardHome from '@/components/dashboard/AgentDashboardHome'
 import ClubDashboardHome from '@/components/dashboard/ClubDashboardHome'
+import DashboardHome from '@/components/dashboard/DashboardHome'
 import type { User } from '@/context/AuthProvider'
 import type { ClubDashboardHomeData, AgentDashboardHomeData } from '@/features/dashboard/dashboard'
 import type { DirectConversation } from '@/features/messages/messages'
@@ -97,9 +98,13 @@ async function loadDashboardPayload(): Promise<DashboardPayload> {
 export default async function DashboardPage() {
   const payload = await loadDashboardPayload()
 
+  if (!payload.user) {
+    return <DashboardHome initialUser={null} />
+  }
+
   return (
     <>
-      {payload.user?.roles.includes('ROLE_AGENT') || payload.user?.roles.includes('ROLE_MANAGER') ? (
+      {payload.user.roles.includes('ROLE_AGENT') || payload.user.roles.includes('ROLE_MANAGER') ? (
         <AgentDashboardHome
           initialDashboard={payload.agentDashboard}
           initialRecentConversations={payload.recentConversations}

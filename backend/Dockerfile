@@ -25,7 +25,7 @@ RUN addgroup -g ${GID} -S ${USERNAME} \
 WORKDIR /var/www/html
 COPY . .
 
-RUN composer install --optimize-autoloader --no-interaction
+RUN composer install --no-interaction
 
 # Permissions
 RUN chown -R ${USERNAME}:${USERNAME} /var/www/html

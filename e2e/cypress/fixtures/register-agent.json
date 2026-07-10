@@ -1,0 +1,8 @@
+{
+  "firstName": "Jean",
+  "lastName": "Dupont",
+  "email": "jean.dupont.agent.test@example.com",
+  "password": "Password123!",
+  "agencyName": "Agence Test Cypress",
+  "country": "France"
+}

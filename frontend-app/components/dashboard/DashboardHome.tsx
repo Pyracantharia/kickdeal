@@ -25,7 +25,7 @@ function DashboardHome({
   const { user } = useAuth()
   const currentUser = initialUser ?? user
 
-  if (currentUser?.roles.includes('ROLE_AGENT')) {
+  if (currentUser?.roles.includes('ROLE_AGENT') || currentUser?.roles.includes('ROLE_MANAGER')) {
     return (
       <AgentDashboardHome
         initialDashboard={initialAgentDashboard}

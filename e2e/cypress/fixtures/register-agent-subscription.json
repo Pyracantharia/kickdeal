@@ -1,0 +1,8 @@
+{
+  "firstName": "Sofia",
+  "lastName": "Subscription",
+  "email": "sofia.subscription.agent.test@example.com",
+  "password": "Password123!",
+  "agencyName": "Agence Subscription Cypress",
+  "country": "France"
+}

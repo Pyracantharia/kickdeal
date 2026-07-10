@@ -75,7 +75,7 @@ function CountrySelect({
   }
 
   return (
-    <div ref={containerRef} className="relative flex flex-col gap-1.5">
+    <div ref={containerRef} className="country-select relative flex flex-col gap-1.5">
       <label className="text-sm font-medium text-gray-200">
         {label}
       </label>
@@ -134,7 +134,7 @@ function CountrySelect({
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
               placeholder="Rechercher un pays"
-              className="w-full bg-transparent text-sm text-white placeholder-gray-500 outline-none"
+              className="country-select-input w-full bg-transparent text-sm text-white placeholder-gray-500 outline-none"
               autoFocus
             />
           </div>
@@ -146,7 +146,7 @@ function CountrySelect({
                   key={country.code}
                   type="button"
                   onClick={() => handleSelect(country)}
-                  className={`flex w-full items-center gap-3 px-4 py-3 text-left text-sm transition hover:bg-white/10 ${
+                  className={`country-select-choice flex w-full items-center gap-3 px-4 py-3 text-left text-sm transition hover:bg-white/10 ${
                     value === country.label ? 'bg-brand-cyan/10 text-white' : 'text-white/80'
                   }`}
                 >

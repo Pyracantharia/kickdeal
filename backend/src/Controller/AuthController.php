@@ -242,8 +242,7 @@ final class AuthController extends AbstractController
         CsrfTokenManagerInterface $csrfTokenManager,
         TwoFactorAuthenticator $twoFactorAuthenticator,
         TokenStorageInterface $tokenStorage,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
             return $csrfError;
         }

@@ -77,7 +77,7 @@ function PlanSelection({ audience, selectedPlan, onChange }: PlanSelectionProps)
               key={plan.plan}
               type="button"
               onClick={() => onChange(plan.plan)}
-              className={`rounded-xl border p-4 text-left transition-all ${
+              className={`plan-selection-choice rounded-xl border p-4 text-left transition-all ${
                 isSelected
                   ? 'border-brand-cyan bg-brand-cyan/10 shadow-lg shadow-brand-cyan/10'
                   : 'border-white/10 bg-white/5 hover:bg-white/10'
