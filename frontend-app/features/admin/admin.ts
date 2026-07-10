@@ -247,6 +247,19 @@ export type AdminMarketData = {
   transfers:Array<{id:string;status:string;createdAt?:string|null;updatedAt?:string|null;publicFeedEnabled:boolean;offersCount:number;player:string;sellerTeam?:string|null;buyerTeam?:string|null}>;
 }
 
+export type AdminNegotiationsData = {
+  transfers:AdminMarketData['transfers'];
+  contracts:Array<{id:string;type:'transfer'|'renewal'|'termination';status:string;createdAt?:string|null;updatedAt?:string|null;publicFeedEnabled:boolean;player:{id:string;name:string;team?:string|null};club:{id:string;name:string};agent:{id:string;name:string};offersCount:number;packagesCount:number;latestOffer:{status:string;annualSalary?:number|null;terminationCompensation?:number|null;durationMonths?:number|null;validUntil?:string|null}|null}>;
+  generatedAt:string;
+}
+
+export type AdminFeedPost={id:string;eventType:string;bucket:'live'|'official';sourceType:string;isFeatured:boolean;isVisible:boolean;publishedAt:string;headline:string;body:string;playerName?:string|null;amount?:number|null;currency:string;league?:string|null;country?:string|null;sellerTeam?:{name:string;logoUrl?:string|null}|null;buyerTeam?:{name:string;logoUrl?:string|null}|null;createdAt?:string|null;updatedAt?:string|null}
+export type AdminFeedPayload=Omit<AdminFeedPost,'id'|'sourceType'|'sellerTeam'|'buyerTeam'|'createdAt'|'updatedAt'>
+export type AdminSubscriptionUser={id:string;firstName:string;lastName:string;email:string;accountType:'agent'|'club';plan:string;planLabel:string;stripeCustomerId?:string|null;stripeSubscriptionId?:string|null;createdAt?:string|null}
+export type AdminChilizPayment={id:string;userId:string;userEmail:string;provider:'chiliz'|'stripe';txHash:string;planType:string;amountChz:string;status:'pending'|'confirmed'|'rejected';chainId:number;confirmedAt?:string|null;createdAt?:string|null}
+export type AdminStripeInvoice={id:string;status:string;amountDue:number;amountPaid:number;currency:string;createdAt:string;hostedInvoiceUrl?:string|null}
+export type AdminSubscriptionsData={users:AdminSubscriptionUser[];chilizPayments:AdminChilizPayment[];plans:Array<{value:string;label:string;accountType:'agent'|'club'}>}
+
 class AdminManager {
   async getDashboard() {
     return httpClient.get<AdminDashboardData>('/admin/dashboard');
@@ -266,6 +279,16 @@ class AdminManager {
   async updateMarketListing(id:string,status:'active'|'paused'|'closed') { return httpClient.patch<{message:string}>(`/admin/market/listings/${id}`,{status}); }
   async moderateMarketOffer(id:string,status:'rejected'|'expired') { return httpClient.patch<{message:string}>(`/admin/market/offers/${id}`,{status}); }
   async moderateMarketTransfer(id:string,status:'rejected'|'expired') { return httpClient.patch<{message:string}>(`/admin/market/transfers/${id}`,{status}); }
+  async getNegotiations() { return httpClient.get<AdminNegotiationsData>('/admin/negotiations'); }
+  async updateTransferNegotiation(id:string,status:'open'|'rejected'|'expired') { return httpClient.patch<{message:string}>(`/admin/negotiations/transfers/${id}`,{status}); }
+  async updateContractNegotiation(id:string,status:'open'|'rejected'|'expired') { return httpClient.patch<{message:string}>(`/admin/negotiations/contracts/${id}`,{status}); }
+  async getAdminFeed(){return httpClient.get<{posts:AdminFeedPost[];eventTypes:string[]}>('/admin/public-feed')}
+  async createAdminFeedPost(payload:AdminFeedPayload){return httpClient.post<{message:string;post:AdminFeedPost},AdminFeedPayload>('/admin/public-feed',payload)}
+  async updateAdminFeedPost(id:string,payload:AdminFeedPayload){return httpClient.put<{message:string;post:AdminFeedPost},AdminFeedPayload>(`/admin/public-feed/${id}`,payload)}
+  async updateAdminFeedVisibility(id:string,isVisible:boolean){return httpClient.patch<{message:string}>(`/admin/public-feed/${id}/visibility`,{isVisible})}
+  async getSubscriptions(){return httpClient.get<AdminSubscriptionsData>('/admin/subscriptions')}
+  async changeUserPlan(id:string,plan:string){return httpClient.patch<{message:string;user:AdminSubscriptionUser}>(`/admin/subscriptions/users/${id}/plan`,{plan})}
+  async getStripeInvoices(id:string){return httpClient.get<{invoices:AdminStripeInvoice[]}>(`/admin/subscriptions/users/${id}/stripe-invoices`)}
 
   async getUsers(search?: string) {
     const query = search ? `?search=${encodeURIComponent(search)}` : '';

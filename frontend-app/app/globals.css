@@ -78,4 +78,24 @@ body {
   .market-row {
     @apply flex flex-col gap-4 rounded-xl border border-white/10 bg-[#071722]/85 p-5 md:flex-row md:items-center md:justify-between;
   }
+
+  .negotiation-row {
+    @apply flex flex-col gap-4 rounded-xl border border-white/10 bg-[#071722]/85 p-5 lg:flex-row lg:items-center lg:justify-between;
+  }
+
+  .tab-button {
+    @apply flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-[#071722]/85 p-4 font-semibold text-gray-300 transition hover:border-brand-cyan/25;
+  }
+
+  .tab-active {
+    @apply border-brand-cyan/35 bg-brand-cyan/10 text-brand-cyan;
+  }
+
+  .feed-row {
+    @apply flex flex-col gap-4 rounded-xl border border-white/10 bg-[#071722]/85 p-5 lg:flex-row lg:items-center lg:justify-between;
+  }
+
+  .subscription-row {
+    @apply flex flex-col gap-4 rounded-xl border border-white/10 bg-[#071722]/85 p-5 lg:flex-row lg:items-center lg:justify-between;
+  }
 }

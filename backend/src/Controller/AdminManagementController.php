@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Agent;
+use App\Entity\Contract\ContractNegociation;
 use App\Entity\Player;
 use App\Entity\Listing;
+use App\Entity\Payment;
+use App\Entity\PublicFeedPost;
 use App\Entity\Team;
 use App\Entity\TeamMembership;
 use App\Entity\Transfer\TransferNegociation;
@@ -14,28 +17,144 @@ use App\Enum\AgentLicenseStatusEnum;
 use App\Enum\MembershipRoleEnum;
 use App\Enum\ListingStatusEnum;
 use App\Enum\OfferStatusEnum;
+use App\Enum\PaymentProviderEnum;
 use App\Enum\PlayerAvailabilityStatusEnum;
 use App\Enum\PlayerContractStatusEnum;
+use App\Enum\PlayerContractNegociationStatusEnum;
 use App\Enum\PlayerMarketStatusEnum;
 use App\Enum\TeamVerificationStatusEnum;
+use App\Enum\SubscriptionPlanEnum;
 use App\Enum\TransferNegociationStatusEnum;
 use App\Repository\AgentRepository;
+use App\Repository\Contract\ContractNegociationRepository;
 use App\Repository\ListingRepository;
 use App\Repository\PlayerRepository;
+use App\Repository\PaymentRepository;
+use App\Repository\PublicFeedPostRepository;
 use App\Repository\TeamMembershipRepository;
 use App\Repository\TeamRepository;
 use App\Repository\Transfer\TransferNegociationRepository;
 use App\Repository\Transfer\TransferOfferRepository;
+use App\Repository\UserRepository;
+use App\Service\Payment\StripeSubscriptionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Uid\Uuid;
 
 #[Route('/api/admin')]
 final class AdminManagementController extends AbstractController
 {
+    #[Route('/subscriptions', methods: ['GET'])]
+    public function subscriptions(#[CurrentUser] ?User $admin, UserRepository $users, PaymentRepository $payments): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        return $this->json([
+            'users' => array_map($this->serializeSubscriptionUser(...), $users->findBy([], ['createdAt' => 'DESC'], 500)),
+            'chilizPayments' => array_map($this->serializePayment(...), $payments->findBy(['provider' => PaymentProviderEnum::CHILIZ], ['createdAt' => 'DESC'], 300)),
+            'plans' => array_map(static fn (SubscriptionPlanEnum $plan): array => ['value' => $plan->value, 'label' => $plan->label(), 'accountType' => $plan->isAgentPlan() ? 'agent' : 'club'], SubscriptionPlanEnum::cases()),
+        ]);
+    }
+
+    #[Route('/subscriptions/users/{id}/plan', methods: ['PATCH'])]
+    public function changeSubscriptionPlan(Request $request, #[CurrentUser] ?User $admin, User $managedUser, StripeSubscriptionService $stripe, EntityManagerInterface $em): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        $data = json_decode($request->getContent(), true); $plan = SubscriptionPlanEnum::tryFrom((string) ($data['plan'] ?? ''));
+        if (!$plan) return $this->json(['message' => 'Plan invalide.'], 422);
+        $isAgent = in_array(User::ROLE_AGENT, $managedUser->getRoles(), true);
+        if ($isAgent !== $plan->isAgentPlan()) return $this->json(['message' => 'Ce plan ne correspond pas au type de compte.'], 422);
+        try { $stripe->changePlanByAdmin($managedUser, $plan); $em->flush(); } catch (\Throwable $exception) { return $this->json(['message' => 'Impossible de synchroniser le changement avec Stripe.', 'detail' => $exception->getMessage()], 502); }
+        return $this->json(['message' => 'Plan de l’utilisateur mis à jour.', 'user' => $this->serializeSubscriptionUser($managedUser)]);
+    }
+
+    #[Route('/subscriptions/users/{id}/stripe-invoices', methods: ['GET'])]
+    public function stripeInvoices(#[CurrentUser] ?User $admin, User $managedUser, StripeSubscriptionService $stripe): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        if (!$managedUser->getStripeCustomerId()) return $this->json(['invoices' => []]);
+        try { return $this->json(['invoices' => $stripe->listRecentInvoices($managedUser->getStripeCustomerId())]); } catch (\Throwable $exception) { return $this->json(['message' => 'Impossible de récupérer les factures Stripe.', 'detail' => $exception->getMessage()], 502); }
+    }
+    private const array FEED_EVENT_TYPES = ['agreement', 'contract_signed', 'contract_renewal', 'loan', 'market_listing', 'market_removal', 'negotiation', 'offer_accepted', 'offer_refused', 'offer_sent', 'transfer_official'];
+    private const array FEED_BUCKETS = ['live', 'official'];
+
+    #[Route('/public-feed', methods: ['GET'])]
+    public function publicFeed(#[CurrentUser] ?User $admin, PublicFeedPostRepository $posts): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        return $this->json(['posts' => array_map($this->serializeAdminFeedPost(...), $posts->findBy([], ['publishedAt' => 'DESC'], 300)), 'eventTypes' => self::FEED_EVENT_TYPES]);
+    }
+
+    #[Route('/public-feed', methods: ['POST'])]
+    public function createPublicFeedPost(Request $request, #[CurrentUser] ?User $admin, EntityManagerInterface $em): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        $post = (new PublicFeedPost())->setSourceType('admin_manual')->setSourceId(Uuid::v4()->toRfc4122());
+        $error = $this->applyFeedPayload($post, json_decode($request->getContent(), true));
+        if ($error) return $error;
+        $em->persist($post); $em->flush();
+        return $this->json(['message' => 'Publication créée.', 'post' => $this->serializeAdminFeedPost($post)], 201);
+    }
+
+    #[Route('/public-feed/{id}', methods: ['PUT'])]
+    public function updatePublicFeedPost(Request $request, #[CurrentUser] ?User $admin, PublicFeedPost $post, EntityManagerInterface $em): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        $error = $this->applyFeedPayload($post, json_decode($request->getContent(), true));
+        if ($error) return $error;
+        $em->flush();
+        return $this->json(['message' => 'Publication mise à jour.', 'post' => $this->serializeAdminFeedPost($post)]);
+    }
+
+    #[Route('/public-feed/{id}/visibility', methods: ['PATCH'])]
+    public function updatePublicFeedVisibility(Request $request, #[CurrentUser] ?User $admin, PublicFeedPost $post, EntityManagerInterface $em): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        $data = json_decode($request->getContent(), true);
+        if (!is_array($data) || !is_bool($data['isVisible'] ?? null)) return $this->json(['message' => 'Visibilité invalide.'], 422);
+        $post->setIsVisible($data['isVisible']); $em->flush();
+        return $this->json(['message' => $post->isVisible() ? 'Publication visible sur le feed.' : 'Publication masquée du feed.']);
+    }
+    #[Route('/negotiations', methods: ['GET'])]
+    public function negotiations(
+        #[CurrentUser] ?User $admin,
+        TransferNegociationRepository $transferNegociations,
+        ContractNegociationRepository $contractNegociations,
+    ): JsonResponse {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        return $this->json([
+            'transfers' => array_map($this->serializeMarketTransfer(...), $transferNegociations->findBy([], ['updatedAt' => 'DESC'], 300)),
+            'contracts' => array_map($this->serializeContractNegotiation(...), $contractNegociations->findBy([], ['updatedAt' => 'DESC'], 300)),
+            'generatedAt' => (new \DateTimeImmutable())->format(DATE_ATOM),
+        ]);
+    }
+
+    #[Route('/negotiations/transfers/{id}', methods: ['PATCH'])]
+    public function unlockTransferNegotiation(Request $request, #[CurrentUser] ?User $admin, TransferNegociation $negociation, EntityManagerInterface $em): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        $data = json_decode($request->getContent(), true); $status = TransferNegociationStatusEnum::tryFrom((string) ($data['status'] ?? ''));
+        if (!$status || !in_array($status, [TransferNegociationStatusEnum::OPEN, TransferNegociationStatusEnum::REJECTED, TransferNegociationStatusEnum::EXPIRED], true)) return $this->json(['message' => 'Action de déblocage invalide.'], 422);
+        if (TransferNegociationStatusEnum::COMPLETED === $negociation->getStatus()) return $this->json(['message' => 'Un transfert terminé ne peut pas être modifié.'], 409);
+        if (TransferNegociationStatusEnum::OPEN === $status && !in_array($negociation->getStatus(), [TransferNegociationStatusEnum::REJECTED, TransferNegociationStatusEnum::EXPIRED], true)) return $this->json(['message' => 'Seule une négociation clôturée peut être rouverte.'], 409);
+        $negociation->setStatus($status); $em->flush();
+        return $this->json(['message' => TransferNegociationStatusEnum::OPEN === $status ? 'Négociation de transfert rouverte.' : 'Négociation de transfert clôturée.']);
+    }
+
+    #[Route('/negotiations/contracts/{id}', methods: ['PATCH'])]
+    public function unlockContractNegotiation(Request $request, #[CurrentUser] ?User $admin, ContractNegociation $negociation, EntityManagerInterface $em): JsonResponse
+    {
+        if (!$this->isAdmin($admin)) return $this->json(['error' => 'Unauthorized'], 401);
+        $data = json_decode($request->getContent(), true); $status = PlayerContractNegociationStatusEnum::tryFrom((string) ($data['status'] ?? ''));
+        if (!$status || !in_array($status, [PlayerContractNegociationStatusEnum::OPEN, PlayerContractNegociationStatusEnum::REJECTED, PlayerContractNegociationStatusEnum::EXPIRED], true)) return $this->json(['message' => 'Action de déblocage invalide.'], 422);
+        if (PlayerContractNegociationStatusEnum::COMPLETED === $negociation->getStatus()) return $this->json(['message' => 'Un contrat terminé ne peut pas être modifié.'], 409);
+        if (PlayerContractNegociationStatusEnum::OPEN === $status && !in_array($negociation->getStatus(), [PlayerContractNegociationStatusEnum::REJECTED, PlayerContractNegociationStatusEnum::EXPIRED], true)) return $this->json(['message' => 'Seule une négociation clôturée peut être rouverte.'], 409);
+        $negociation->setStatus($status); $em->flush();
+        return $this->json(['message' => PlayerContractNegociationStatusEnum::OPEN === $status ? 'Négociation contractuelle rouverte.' : 'Négociation contractuelle clôturée.']);
+    }
     #[Route('/market', methods: ['GET'])]
     public function market(
         #[CurrentUser] ?User $admin,
@@ -259,6 +378,44 @@ final class AdminManagementController extends AbstractController
     {
         $listing = $negociation->getListing(); $player = $listing?->getPlayer();
         return ['id' => $negociation->getId()?->toRfc4122(), 'status' => $negociation->getStatus()?->value, 'createdAt' => $negociation->getCreatedAt()?->format(DATE_ATOM), 'updatedAt' => $negociation->getUpdatedAt()?->format(DATE_ATOM), 'publicFeedEnabled' => $negociation->isPublicFeedEnabled(), 'offersCount' => $negociation->getTransferOffers()->count(), 'player' => trim(($player?->getFirstName() ?? '').' '.($player?->getLastName() ?? '')), 'sellerTeam' => $listing?->getSellerTeam()?->getName(), 'buyerTeam' => $negociation->getBuyerTeam()?->getName()];
+    }
+
+    private function serializeContractNegotiation(ContractNegociation $negociation): array
+    {
+        $player = $negociation->getPlayer();
+        $offers = $negociation->getContractOffers()->toArray();
+        usort($offers, static fn ($left, $right): int => ($right->getUpdatedAt()?->getTimestamp() ?? 0) <=> ($left->getUpdatedAt()?->getTimestamp() ?? 0));
+        $latestOffer = $offers[0] ?? null;
+        return ['id' => $negociation->getId()?->toRfc4122(), 'type' => $negociation->getType()->value, 'status' => $negociation->getStatus()?->value, 'createdAt' => $negociation->getCreatedAt()?->format(DATE_ATOM), 'updatedAt' => $negociation->getUpdatedAt()?->format(DATE_ATOM), 'publicFeedEnabled' => $negociation->isPublicFeedEnabled(), 'player' => ['id' => $player?->getId()?->toRfc4122(), 'name' => trim(($player?->getFirstName() ?? '').' '.($player?->getLastName() ?? '')), 'team' => $player?->getTeam()?->getName()], 'club' => ['id' => $negociation->getBuyerTeam()?->getId()?->toRfc4122(), 'name' => $negociation->getBuyerTeam()?->getName()], 'agent' => ['id' => $negociation->getAgent()?->getId()?->toRfc4122(), 'name' => $negociation->getAgent()?->getAgencyName() ?: $negociation->getAgent()?->getUser()?->getEmail()], 'offersCount' => count($offers), 'packagesCount' => $negociation->getContractPackages()->count(), 'latestOffer' => $latestOffer ? ['status' => $latestOffer->getStatus()?->value, 'annualSalary' => $latestOffer->getAnnualSalary(), 'terminationCompensation' => $latestOffer->getTerminationCompensation(), 'durationMonths' => $latestOffer->getDurationMonths(), 'validUntil' => $latestOffer->getValidUntil()?->format('Y-m-d')] : null];
+    }
+
+    private function applyFeedPayload(PublicFeedPost $post, mixed $data): ?JsonResponse
+    {
+        if (!is_array($data)) return $this->json(['message' => 'Payload invalide.'], 400);
+        $headline = trim((string) ($data['headline'] ?? '')); $body = trim((string) ($data['body'] ?? ''));
+        $eventType = (string) ($data['eventType'] ?? ''); $bucket = (string) ($data['bucket'] ?? '');
+        if ('' === $headline || mb_strlen($headline) > 180 || '' === $body || !in_array($eventType, self::FEED_EVENT_TYPES, true) || !in_array($bucket, self::FEED_BUCKETS, true)) return $this->json(['message' => 'Titre, contenu, type ou canal invalide.'], 422);
+        try { $publishedAt = new \DateTimeImmutable((string) ($data['publishedAt'] ?? 'now')); } catch (\Throwable) { return $this->json(['message' => 'Date de publication invalide.'], 422); }
+        $currency = strtoupper(trim((string) ($data['currency'] ?? 'EUR')));
+        if (3 !== strlen($currency)) return $this->json(['message' => 'Devise invalide.'], 422);
+        $post->setHeadline($headline)->setBody($body)->setEventType($eventType)->setBucket($bucket)->setIsFeatured((bool) ($data['isFeatured'] ?? false))->setIsVisible((bool) ($data['isVisible'] ?? true))->setPublishedAt($publishedAt)->setPlayerName($this->nullableString($data['playerName'] ?? null))->setAmount($this->nullableMoney($data['amount'] ?? null))->setCurrency($currency)->setLeague($this->nullableString($data['league'] ?? null))->setCountry($this->nullableString($data['country'] ?? null));
+        return null;
+    }
+
+    private function serializeAdminFeedPost(PublicFeedPost $post): array
+    {
+        return ['id' => $post->getId()?->toRfc4122(), 'eventType' => $post->getEventType(), 'bucket' => $post->getBucket(), 'sourceType' => $post->getSourceType(), 'isFeatured' => $post->isFeatured(), 'isVisible' => $post->isVisible(), 'publishedAt' => $post->getPublishedAt()->format(DATE_ATOM), 'headline' => $post->getHeadline(), 'body' => $post->getBody(), 'playerName' => $post->getPlayerName(), 'amount' => $post->getAmount(), 'currency' => $post->getCurrency(), 'league' => $post->getLeague(), 'country' => $post->getCountry(), 'sellerTeam' => $post->getSellerTeam() ? ['name' => $post->getSellerTeam()?->getName(), 'logoUrl' => $post->getSellerTeam()?->getLogoUrl()] : null, 'buyerTeam' => $post->getBuyerTeam() ? ['name' => $post->getBuyerTeam()?->getName(), 'logoUrl' => $post->getBuyerTeam()?->getLogoUrl()] : null, 'createdAt' => $post->getCreatedAt()?->format(DATE_ATOM), 'updatedAt' => $post->getUpdatedAt()?->format(DATE_ATOM)];
+    }
+
+    private function serializeSubscriptionUser(User $user): array
+    {
+        $plan = $user->getSubscriptionPlan();
+        return ['id' => $user->getId()?->toRfc4122(), 'firstName' => $user->getFirstName(), 'lastName' => $user->getLastName(), 'email' => $user->getEmail(), 'accountType' => $plan->isAgentPlan() ? 'agent' : 'club', 'plan' => $plan->value, 'planLabel' => $plan->label(), 'stripeCustomerId' => $user->getStripeCustomerId(), 'stripeSubscriptionId' => $user->getStripeSubscriptionId(), 'createdAt' => $user->getCreatedAt()?->format(DATE_ATOM)];
+    }
+
+    private function serializePayment(Payment $payment): array
+    {
+        return ['id' => $payment->getId()?->toRfc4122(), 'userId' => $payment->getUser()?->getId()?->toRfc4122(), 'userEmail' => $payment->getUser()?->getEmail(), 'provider' => $payment->getProvider()->value, 'txHash' => $payment->getTxHash(), 'planType' => $payment->getPlanType(), 'amountChz' => $payment->getAmountChz(), 'status' => $payment->getStatus()->value, 'chainId' => $payment->getChainId(), 'confirmedAt' => $payment->getConfirmedAt()?->format(DATE_ATOM), 'createdAt' => $payment->getCreatedAt()?->format(DATE_ATOM)];
     }
 
     private function nullableString(mixed $value): ?string { $value = trim((string) $value); return '' === $value ? null : $value; }
