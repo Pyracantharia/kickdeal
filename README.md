@@ -1,4 +1,7 @@
-# kickdeal
+![Logo](https://kickdeal.space/_next/image?url=%2Fimages%2Flogo.png&w=96&q=75)
+
+
+# KickDeal
 
 KickDeal est composé de plusieurs applications :
 
@@ -11,38 +14,42 @@ KickDeal est composé de plusieurs applications :
 
 ### Étape 1: Configuration
 
-- Renommer le .env.example en .env et remplir les variables
+- Renommer les .env.example en .env et remplir les variables
+- les variables serotn donnée au correcteur dans le livrable
 
-### Étape 2: Backend
+```
+mv .env.example .env
 
-- Créer un fichier `.env.local` et suivre le modèle du `.env`
-- générer un nouveau APP_SECRET avec `openssl rand -hex 32`
-- Renseigner l'url du frontend dans `CORS_ALLOW_ORIGIN`. Faire attention à bien mentionner l'url sous forme de `http://localhost:{port}` et pas directement avec le nom du service
+mv frontend-app/.env.example frontend-app/.env
 
-### Étape 3: Frontend
+mv frontend-landing/.env.example frontend-landing/.env
+```
 
-- Créer un fichier `.env.local` et suivre le modèle du `.env`
-- mettre l'url du frontend `http://localhost:{port}` dans `NEXT_CLIENT_BACKEND_URL`
-- mettre l'url du frontend `http://nginx:{port interne de nginx}` dans `NEXT_SERVER_BACKEND_URL`
 
-### Étape 4: Build et lancement du projet
+### Étape 2: Build et lancement du projet
 
 - lancer la commande `docker compose up --build -d`
 
-### Étape 5: Création de user
-
-- Créer un ou plusieurs users sur `/auth/register` ou avec postman et renseigner les propriété:
-
-route: POST `http://localhost:{port}/api/users`
-
-```json
-  {
-    "firstname": "string",
-    "lastname": "string",
-    "email": "string",
-    "password": "string"
-  }
+#### Les fixtures avec Alice
 ```
+php -d memory_limit=-1 bin/console doctrine:fixtures:load
+```
+#### Stripe CLI
+```
+stripe listen --forward-to http://localhost:8000/api/webhooks/stripe
+```
+Recuperer le token whsec_a114b et le mettre dans le .env et remplir la valeur de STRIPE_WEBHOOK_SECRET
+
+#### Ajouter le compte admin
+```
+php bin/console app:create-admin
+```
+#### CHILIZ
+
+pensez aussi à ajouter metamask qui permet de configurer un portefeuille de test pour payer en chiliz
+la doc :
+https://docs.chiliz.com/fr/developper/notions-de-base/faucet-du-testnet/obtenir-des-testchzs-avec-spicy-faucet
+
 
 ## Build APK KickDeal
 
@@ -110,4 +117,6 @@ Afin de les lancer :
   Il arrive que npm n'approuve pas cypress : alors pour l'approuver => npm install-scripts approve cypress
 3. Exécutez `npx cypress open` pour ouvrir l'interface graphique de Cypress.
 
+<p style="color : red">
 > Pour les lancer en mode headless, utilisez `npx cypress run`.
+</p>
