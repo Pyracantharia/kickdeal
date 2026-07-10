@@ -1,27 +1,6 @@
 describe("Agent login with an outdated password, reset password and logout", () => {
   beforeEach(() => {
-    cy.clearCookies();
-    cy.clearLocalStorage();
-
-    cy.intercept("GET", "**/api/auth/csrf-token").as("csrfToken");
-    cy.intercept("POST", "**/api/auth/login").as("login");
-
-    cy.visit("http://localhost:3000/auth/login");
-
-    cy.get('input[name="email"]').type("jane@example.com");
-    cy.get('input[name="password"]').type("Password123!");
-    cy.contains("button", "Se connecter").click();
-
-    cy.wait("@csrfToken").its("response.statusCode").should("eq", 200);
-    cy.wait("@login").then((interception) => {
-      if (interception.response?.statusCode === 403) {
-        expect(interception.response.body).to.have.property("errorMessage", "Token CSRF invalide.");
-        cy.wait("@login").its("response.statusCode").should("eq", 200);
-        return;
-      }
-
-      expect(interception.response?.statusCode).to.eq(200);
-    });
+    cy.loginViaUi("jane@example.com", "Password123!");
   });
 
   it("should login and prompt to update password", () => {

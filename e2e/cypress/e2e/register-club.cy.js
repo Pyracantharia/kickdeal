@@ -1,22 +1,7 @@
-function waitForSuccessfulRequest(alias, expectedStatusCode) {
-  cy.wait(alias).then((interception) => {
-    if (interception.response?.statusCode === 403) {
-      expect(interception.response.body).to.have.property("errorMessage", "Token CSRF invalide.");
-      cy.wait(alias).its("response.statusCode").should("eq", expectedStatusCode);
-      return;
-    }
-
-    expect(interception.response?.statusCode).to.eq(expectedStatusCode);
-  });
-}
-
 describe("Club creation", () => {
   it("should create an club account with the free plan", () => {
-    cy.fixture("register-club").then((club) => {
-      const uniqueEmail = club.email.replace("@", `+${Date.now()}@`);
-
-      cy.clearCookies();
-      cy.clearLocalStorage();
+    cy.fixture("register-club").then((club) => cy.uniqueEmail(club.email).then((uniqueEmail) => {
+      cy.resetBrowserState();
 
       cy.intercept("GET", "**/api/auth/csrf-token").as("csrfToken");
       cy.intercept("POST", "**/api/auth/register").as("registerClub");
@@ -52,8 +37,8 @@ describe("Club creation", () => {
       cy.contains("button", "Créer mon compte gratuit").click();
 
       cy.wait("@csrfToken").its("response.statusCode").should("eq", 200);
-      waitForSuccessfulRequest("@registerClub", 201);
-      waitForSuccessfulRequest("@login", 200);
+      cy.waitForApi("@registerClub", 201);
+      cy.waitForApi("@login", 200);
 
       cy.url({ timeout: 10000 }).should("include", "/club");
 
@@ -78,9 +63,9 @@ describe("Club creation", () => {
       cy.contains(uniqueEmail).should("be.visible");
 
       cy.contains("button", "Soumettre la demande").click();
-      waitForSuccessfulRequest("@createClubRequest", 201);
+      cy.waitForApi("@createClubRequest", 201);
 
       cy.url({ timeout: 10000 }).should("include", "/club/pending");
-    });
+    }));
   });
 });
