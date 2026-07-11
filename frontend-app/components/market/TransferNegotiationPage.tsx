@@ -151,6 +151,12 @@ function TransferNegotiationPage() {
   const totalValue = amountValue + bonusValue
   const isSeller = context?.viewerRole === 'seller'
   const counterparty = isSeller ? context?.buyerTeam : context?.sellerTeam
+  const viewerBudgetValue = context?.viewerTeam.transferBudgetValue ?? null
+  const remainingBudgetValue = null !== viewerBudgetValue ? viewerBudgetValue - totalValue : null
+  const budgetUsagePercent = null !== viewerBudgetValue && viewerBudgetValue > 0
+    ? Math.min(100, Math.max(0, (totalValue / viewerBudgetValue) * 100))
+    : 0
+  const isOverBudget = null !== remainingBudgetValue && remainingBudgetValue < 0
   const operationLabel = type === 'loan' ? 'Prêt' : type === 'exchange' ? 'Échange' : isSeller ? 'Vente' : 'Transfert définitif'
   const canShowAdvancedTransferTerms = type !== 'loan'
   const canPublishExistingOffer = publicFeedEnabled && !context?.publicFeedEnabled
@@ -309,6 +315,13 @@ function TransferNegotiationPage() {
                 <FieldLabel>{type === 'loan' ? 'Indemnité de prêt' : 'Montant du transfert'}</FieldLabel>
                 <MoneyInput value={amount} onChange={setAmount} placeholder="70 000 000" required />
                 <p className="mt-2 text-sm text-white/55">{formatCurrency(amountValue)}</p>
+                <BudgetPreview
+                  budget={viewerBudgetValue}
+                  committed={totalValue}
+                  remaining={remainingBudgetValue}
+                  usagePercent={budgetUsagePercent}
+                  isOverBudget={isOverBudget}
+                />
               </div>
 
               {type === 'loan' && (
@@ -417,6 +430,17 @@ function TransferNegotiationPage() {
           <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
             <section className="rounded-2xl border-2 border-brand-purple/70 bg-[#111827]/90 p-6 shadow-2xl shadow-brand-purple/15">
               <h2 className="text-xl font-bold text-white">Récapitulatif de l&apos;offre</h2>
+              <div className={`mt-4 rounded-xl border p-4 ${isOverBudget ? 'border-red-400/45 bg-red-500/10' : 'border-brand-cyan/30 bg-brand-cyan/10'}`}>
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/45">Budget transfert restant</p>
+                <p className={`mt-1 text-2xl font-bold ${isOverBudget ? 'text-red-200' : 'text-brand-cyan'}`}>
+                  {null !== remainingBudgetValue ? formatCurrency(Math.max(remainingBudgetValue, 0)) : 'Non renseigné'}
+                </p>
+                <p className="mt-1 text-sm text-white/60">
+                  {null !== viewerBudgetValue
+                    ? `${formatCurrency(totalValue)} engagé sur ${formatCurrency(viewerBudgetValue)}`
+                    : 'Aucun budget transfert défini pour votre club.'}
+                </p>
+              </div>
               <SummaryLine label="Type d'opération" value={operationLabel} />
               <SummaryLine label="Montant garanti" value={formatCurrency(amountValue)} highlight />
               {hasBonus && canShowAdvancedTransferTerms && <SummaryLine label="Bonus potentiels" value={`+ ${formatCurrency(bonusValue)}`} />}
@@ -581,6 +605,58 @@ function formatHistoryDate(value?: string | null): string {
     hour: '2-digit',
     minute: '2-digit',
   }).format(new Date(value))
+}
+
+function BudgetPreview({
+  budget,
+  committed,
+  remaining,
+  usagePercent,
+  isOverBudget,
+}: {
+  budget: number | null
+  committed: number
+  remaining: number | null
+  usagePercent: number
+  isOverBudget: boolean
+}) {
+  if (null === budget) {
+    return (
+      <div className="mt-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/55">
+        Budget transfert non renseigné pour votre club.
+      </div>
+    )
+  }
+
+  return (
+    <div className={`mt-3 rounded-xl border p-4 ${isOverBudget ? 'border-red-400/45 bg-red-500/10' : 'border-brand-cyan/30 bg-brand-cyan/10'}`}>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-white/45">Budget disponible</p>
+          <p className="mt-1 text-sm text-white/65">
+            {formatCurrency(committed)} engagé sur {formatCurrency(budget)}
+          </p>
+        </div>
+        <div className="text-right">
+          <p className={`text-lg font-bold ${isOverBudget ? 'text-red-200' : 'text-brand-cyan'}`}>
+            {formatCurrency(Math.max(remaining ?? 0, 0))}
+          </p>
+          <p className="text-xs text-white/45">restant après offre</p>
+        </div>
+      </div>
+      <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
+        <div
+          className={`h-full rounded-full ${isOverBudget ? 'bg-red-400' : 'bg-brand-cyan'}`}
+          style={{ width: `${usagePercent}%` }}
+        />
+      </div>
+      {isOverBudget && (
+        <p className="mt-3 text-sm font-semibold text-red-200">
+          Cette offre dépasse votre budget de {formatCurrency(Math.abs(remaining ?? 0))}.
+        </p>
+      )}
+    </div>
+  )
 }
 
 function isPayloadSameAsOffer(
