@@ -112,6 +112,8 @@ PHPUnit : `make phpunit`
 
 ### Tests E2E
 
+> Voir les [prérequis](https://docs.cypress.io/app/get-started/install-cypress#Linux-Prerequisites) demandés par Cypress.
+
 La plateforme doit être démarrée et la base doit être dans un état connu. Si nécessaire lancer la commande `make reset-db`.
 
 Afin de lancer les tests il faut se déplacer dans le dossier e2e `cd e2e`
@@ -119,7 +121,7 @@ Pour installer les dépendances : `npm install`.
 
 Pour lancer les tests E2E dans le navigateur intégré : `npx cypress open`
 
-Pour une exécution sans interface graphique : `npx cypress run`
+Pour une exécution de tous les tests sans interface graphique : `npx cypress run`
 
 ## Commandes utiles
 
