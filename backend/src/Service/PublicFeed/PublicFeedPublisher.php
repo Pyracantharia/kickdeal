@@ -91,7 +91,7 @@ final class PublicFeedPublisher
         $now = new \DateTimeImmutable();
         $playerName = $this->playerName($player);
         $team = $player->getTeam();
-        $sourceId = sprintf('%s-%s-%s', (string) $player->getId(), $status?->value ?? 'unknown', $now->format('YmdHis'));
+        $sourceId = sprintf('%s-%s-%s', (string) $player->getId(), $status->value ?? 'unknown', $now->format('YmdHis'));
 
         if (PlayerMarketStatusEnum::ON_MARKET === $status) {
             return $this->upsertPost(

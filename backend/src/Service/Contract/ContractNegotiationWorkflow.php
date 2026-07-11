@@ -5,6 +5,7 @@ namespace App\Service\Contract;
 use App\Entity\Contract\ContractNegociation;
 use App\Entity\Contract\ContractOffer;
 use App\Entity\Contract\ContractPackage;
+use App\Entity\Player;
 use App\Entity\Transfer\TransferAgreement;
 use App\Entity\Transfer\TransferNegociation;
 use App\Entity\Transfer\TransferOffer;
@@ -120,7 +121,7 @@ final class ContractNegotiationWorkflow
     /**
      * @return ContractNegociation[]
      */
-    public function ensurePendingAgentNegotiationsForPlayer(\App\Entity\Player $player, User $createdBy): array
+    public function ensurePendingAgentNegotiationsForPlayer(Player $player, User $createdBy): array
     {
         $created = [];
         foreach ($this->transferNegociationRepository->findPendingAgentForPlayer($player) as $transferNegociation) {

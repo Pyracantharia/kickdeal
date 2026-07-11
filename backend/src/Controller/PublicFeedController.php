@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\PublicFeedPost;
+use App\Entity\Team;
 use App\Repository\PublicFeedPostRepository;
 use App\Repository\TeamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -182,7 +183,7 @@ final class PublicFeedController extends AbstractController
     /**
      * @return array{id: string|null, name: string|null, logoUrl: string|null, league: string|null, country: string|null}
      */
-    private function serializeTeam(?\App\Entity\Team $team): array
+    private function serializeTeam(?Team $team): array
     {
         return [
             'id' => $team?->getId()?->toRfc4122(),
