@@ -101,10 +101,6 @@ Reporter le secret `whsec_...` fourni par Stripe CLI dans `STRIPE_WEBHOOK_SECRET
 
 Les paiements en CHZ utilisent le réseau de test Chiliz Spicy. Ils nécessitent un portefeuille compatible, par exemple MetaMask, une adresse de réception et des CHZ de test. Les paramètres du backend et les variables publiques `NEXT_PUBLIC_CHILIZ_*` doivent désigner le même réseau.
 
-## Application mobile
-
-TODO
-
 ## Tests et qualité
 
 ### Backend
@@ -139,4 +135,40 @@ make reset-db      # Recréer entièrement la base locale
 make phpunit       # Lancer les tests PHPUnit
 make phpstan       # Lancer PHPStan
 make tests         # Lancer PHPStan et PHPUnit
+```
+
+## Build APK KickDeal
+
+```bash
+docker build \
+  -f Dockerfile.apk \
+  --build-arg CAPACITOR_SERVER_URL=https://kickdeal.space \
+  --target apk \
+  --output type=local,dest=dist/apk \
+  .
+```
+
+L'APK debug est écrit dans `dist/apk/kickdeal-debug.apk`
+
+Si les domaines changent, autorisez aussi les domaines navigables dans la WebView :
+
+```bash
+docker build \
+  -f Dockerfile.apk \
+  --build-arg CAPACITOR_SERVER_URL=https://kickdeal.space \
+  --build-arg 'CAPACITOR_ALLOW_NAVIGATION=["kickdeal.space","api.kickdeal.space","analytics.kickdeal.space"]' \
+  --target apk \
+  --output type=local,dest=dist/apk \
+  .
+```
+
+Les frontends doivent utiliser les URLs publiques du routage prod :
+
+```env
+# frontend-landing
+NEXT_PUBLIC_APP_URL=https://kickdeal.space
+
+# frontend-app
+NEXT_PUBLIC_API_URL=https://api.kickdeal.space/api
+NEXT_PUBLIC_LANDING_URL=https://kickdeal.space
 ```
