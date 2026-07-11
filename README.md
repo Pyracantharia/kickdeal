@@ -44,6 +44,48 @@ route: POST `http://localhost:{port}/api/users`
   }
 ```
 
+## Build APK KickDeal
+
+L'APK est généré avec Capacitor depuis la racine du dépôt. Il charge le domaine public KickDeal dans une WebView. En production, l'Ingress route `kickdeal.space` vers la landing par défaut, puis vers `frontend-app` pour les chemins applicatifs comme `/auth`, `/dashboard`, `/market`, `/messages`, etc.
+
+```bash
+docker build \
+  -f Dockerfile.apk \
+  --build-arg CAPACITOR_SERVER_URL=https://kickdeal.space \
+  --target apk \
+  --output type=local,dest=dist/apk \
+  .
+```
+
+L'APK debug est écrit dans :
+
+```text
+dist/apk/kickdeal-debug.apk
+```
+
+Si les domaines changent, autorisez aussi les domaines navigables dans la WebView :
+
+```bash
+docker build \
+  -f Dockerfile.apk \
+  --build-arg CAPACITOR_SERVER_URL=https://kickdeal.space \
+  --build-arg 'CAPACITOR_ALLOW_NAVIGATION=["kickdeal.space","api.kickdeal.space","analytics.kickdeal.space"]' \
+  --target apk \
+  --output type=local,dest=dist/apk \
+  .
+```
+
+Les frontends doivent utiliser les URLs publiques du routage prod :
+
+```env
+# frontend-landing
+NEXT_PUBLIC_APP_URL=https://kickdeal.space
+
+# frontend-app
+NEXT_PUBLIC_API_URL=https://api.kickdeal.space/api
+NEXT_PUBLIC_LANDING_URL=https://kickdeal.space
+```
+
 ## Tests
 
 ### Tests fonctionnels et unitaires
