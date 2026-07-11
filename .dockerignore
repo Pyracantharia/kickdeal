@@ -1,10 +1,20 @@
-# Dépendances Node.js
-frontend/node_modules
-frontend/.output
+# Dependances et artefacts locaux
+**/node_modules
+**/.next
+**/.output
+**/dist
+**/android
+**/ios
+backend/vendor
+vendor
 
-# Dépendances PHP
-backend/vendor  # ✅ On l'ajoute ici
+# Environnement local
+.env
+**/.env
+**/.env.local
 
-# Fichiers système et logs...
+# Fichiers systeme et logs
 .DS_Store
 *.log
+tsconfig.tsbuildinfo
+**/tsconfig.tsbuildinfo
