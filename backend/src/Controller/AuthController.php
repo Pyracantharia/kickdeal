@@ -28,6 +28,7 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -36,6 +37,22 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 final class AuthController extends AbstractController
 {
     private const string CSRF_TOKEN_ID = 'api_auth';
+
+    #[Route('/support-session', name: 'app_support_session', methods: ['GET'])]
+    public function supportSession(Security $security, #[CurrentUser] ?User $user): JsonResponse
+    {
+        $token = $security->getToken();
+        if (!$token instanceof SwitchUserToken || !$user instanceof User) {
+            return $this->json(['active' => false, 'message' => 'Aucune session support active.']);
+        }
+
+        $original = $token->getOriginalToken()->getUser();
+        return $this->json([
+            'active' => true,
+            'user' => ['id' => $user->getId()?->toRfc4122(), 'name' => trim((string) $user->getFirstName().' '.(string) $user->getLastName()), 'email' => $user->getEmail()],
+            'admin' => $original instanceof User ? ['id' => $original->getId()?->toRfc4122(), 'name' => trim((string) $original->getFirstName().' '.(string) $original->getLastName()), 'email' => $original->getEmail()] : null,
+        ]);
+    }
 
     #[Route('/csrf-token', name: 'app_csrf_token', methods: ['GET'])]
     public function csrfToken(CsrfTokenManagerInterface $csrfTokenManager): JsonResponse

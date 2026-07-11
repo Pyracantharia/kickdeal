@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Check, Pencil, Plus, Search, Shield, Trash2, Unlock, UserRound, X } from 'lucide-react';
+import { Check, Headphones, Pencil, Plus, Search, Shield, Trash2, Unlock, UserRound, X } from 'lucide-react';
 
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
@@ -12,6 +12,7 @@ import {
   type AdminUserPayload,
   type AdminUserRole,
 } from '@/features/admin/admin';
+import { authManager } from '@/features/auth/auth';
 
 const roleOptions: Array<{ value: AdminUserRole; label: string; className: string }> = [
   { value: 'ROLE_ADMIN', label: 'Admin', className: 'border-brand-purple/40 bg-brand-purple/10 text-brand-purple' },
@@ -42,6 +43,7 @@ function AdminUsersManager() {
   const [isSaving, setIsSaving] = React.useState(false);
   const [editingUser, setEditingUser] = React.useState<AdminUser | null>(null);
   const [deletingUser, setDeletingUser] = React.useState<AdminUser | null>(null);
+  const [supportUser, setSupportUser] = React.useState<AdminUser | null>(null);
   const [isFormOpen, setIsFormOpen] = React.useState(false);
   const [form, setForm] = React.useState<FormState>(emptyForm);
   const [message, setMessage] = React.useState<string | null>(null);
@@ -168,6 +170,8 @@ function AdminUsersManager() {
       setIsSaving(false);
     }
   }
+
+  async function startSupport(){if(!supportUser)return;setIsSaving(true);setErrorMessage(null);try{const response=await authManager.startSupportSession(supportUser.email);if(!response.ok||!response.data.active){setErrorMessage(readError(response.data,'Impossible d’ouvrir le mode support.'));return}window.location.assign('/dashboard')}catch{setErrorMessage('Impossible d’ouvrir le mode support.')}finally{setIsSaving(false)}}
 
   async function handleUnban(userId: string) {
     setIsSaving(true);
@@ -302,6 +306,7 @@ function AdminUsersManager() {
                   </td>
                   <td className="rounded-r-lg border-y border-r border-white/10 px-3 py-4">
                     <div className="flex justify-end gap-2">
+                      {user.roles.some(role=>role==='ROLE_AGENT'||role==='ROLE_CLUB')&&<button type="button" onClick={()=>setSupportUser(user)} className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan transition-colors hover:bg-brand-cyan/20" aria-label={`Assister ${user.firstName} ${user.lastName}`} title="Ouvrir le mode support"><Headphones className="h-4 w-4"/></button>}
                       {user.banned && (
                         <button
                           type="button"
@@ -431,6 +436,9 @@ function AdminUsersManager() {
             </Button>
           </div>
         </div>
+      </Modal>
+      <Modal isOpen={!!supportUser} onClose={()=>setSupportUser(null)} title="Ouvrir le mode support">
+        <div className="space-y-5"><p className="text-sm leading-6 text-gray-300">Vous allez agir au nom de <span className="font-semibold text-white">{supportUser?.firstName} {supportUser?.lastName}</span>. Toutes les actions, y compris les actions engageantes, utiliseront ses droits et ses données.</p><div className="rounded-lg border border-amber-400/30 bg-amber-400/10 p-3 text-sm text-amber-100">Chaque modification sera enregistrée dans l’audit avec votre identité d’administrateur et celle de l’utilisateur assisté.</div><div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"><Button type="button" variant="secondary" onClick={()=>setSupportUser(null)} icon={<X className="h-4 w-4"/>}>Annuler</Button><Button type="button" isLoading={isSaving} onClick={startSupport} icon={<Headphones className="h-4 w-4"/>}>Commencer l’assistance</Button></div></div>
       </Modal>
     </section>
   );
