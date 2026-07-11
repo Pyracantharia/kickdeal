@@ -1,122 +1,142 @@
-![Logo](https://kickdeal.space/_next/image?url=%2Fimages%2Flogo.png&w=96&q=75)
-
-
 # KickDeal
 
-KickDeal est composé de plusieurs applications :
+KickDeal est une plateforme de mercato destinée aux clubs de football et aux agents.
+Elle permet de gérer les joueurs, les mises sur le marché, les négociations, les échanges, les notifications et les paiements.
 
-- `backend/` : API Symfony 7 exposée via Docker/Nginx sur `http://localhost:8000/api`.
-- `frontend-app/` : application web Next.js TypeScript pour les clubs et agents.
-- `frontend-landing/` : landing page Next.js TypeScript.
-- `mobile-feed/` : application mobile Expo React Native TypeScript publique, en lecture seule, pour le futur feed KickDeal.
+## Architecture
 
-## Prise en main du projet
+| Répertoire | Rôle | Technologies |
+| --- | --- | --- |
+| `backend/` | API | Symfony 6.4, PHP 8.4, Doctrine |
+| `frontend-app/` | Frontend de la partie applicative | Next.js 16, React 19, TypeScript |
+| `frontend-landing/` | Landing page | Next.js 16, React 19, TypeScript |
+| `e2e/` | Tests de parcours utilisateur | Cypress 15 |
 
-### Étape 1: Configuration
+## Fonctionnalités principales
 
-- Renommer les .env.example en .env et remplir les variables
-- les variables serotn donnée au correcteur dans le livrable
+- Inscription/connextion pour les clubs et les agents
+- Gestion des clubs, effectifs, joueurs et mandats d'agents
+- Recherche sur le marché et publication d'annonces
+- Négociations de transferts et de contrats
+- Messagerie, notifications et mises à jour en temps réel avec Mercure
+- Abonnements Stripe et paiements de test avec Chiliz
+- Administration des utilisateurs, demandes de clubs, signalements et rattachements joueur-agent
 
+## Prérequis
+
+### Application
+
+- Docker + Docker Compose
+- Make
+
+### Tests end-to-end
+
+- Node.js et npm
+- les dépendances système requises par Cypress sur Linux.
+
+Pour plus de détails, voir [la documentation associée](#tests-e2e).
+
+## Installation
+
+### 1. Configurer l'environnement
+
+Créer les fichiers locaux à partir des exemples :
+
+```bash
+cp .env.example .env
+cp frontend-app/.env.example frontend-app/.env.local
 ```
-mv .env.example .env
 
-mv frontend-app/.env.example frontend-app/.env
+Variables nécessaires dans le `.env` :
 
-mv frontend-landing/.env.example frontend-landing/.env
+- les identifiants PostgreSQL et `DATABASE_URL`
+- `MERCURE_JWT_SECRET`, qui peut être généré avec `openssl rand -hex 32`
+- `ADMIN_EMAIL` et `ADMIN_PASSWORD`
+- `FRONTEND_URL`, `CORS_ALLOW_ORIGIN` et `MAILER_FROM`
+- les clés et identifiants Stripe
+- les paramètres Chiliz.
+
+### 2. Démarrer les services
+
+Build et démarrer les conteneurs Docker : `docker compose up --build -d`
+
+Créer la base et appliquer les migrations : `make db`
+
+Pour charger les données de démonstration : `make fixtures`
+
+> *Astuce : pour démarrer le projet rapidement, utiliser la commande `make start`*
+
+### 3. Créer le compte administrateur
+
+La commande utilise `ADMIN_EMAIL` et `ADMIN_PASSWORD` définis dans le `.env` :
+
+```bash
+docker compose exec backend bin/console app:create-admin
 ```
 
+## Adresses
 
-### Étape 2: Build et lancement du projet
+- Application web : [localhost:3000](http://localhost:3000)
+- Landing page : [localhost:3001](http://localhost:3001)
+- API : [localhost:8000/api](http://localhost:8000/api)
+- Mercure : [localhost:3002/.well-known/mercure](http://localhost:3002/.well-known/mercure)
+- Mailpit : [localhost:8081](http://localhost:8081)
+- PostgreSQL : [localhost:5432](http://localhost:5432)
 
-- lancer la commande `docker compose up --build -d`
+Pour stopper les services, utiliser `make stop`.
 
-#### Les fixtures avec Alice
-```
-php -d memory_limit=-1 bin/console doctrine:fixtures:load
-```
-#### Stripe CLI
-```
+## Services externes
+
+### Stripe
+
+Créer les tarifs récurrents nécessaires, puis reporter les identifiants `price_...` et les clés de test dans `.env`. Pour recevoir les webhooks en local :
+
+```bash
 stripe listen --forward-to http://localhost:8000/api/webhooks/stripe
 ```
-Recuperer le token whsec_a114b et le mettre dans le .env et remplir la valeur de STRIPE_WEBHOOK_SECRET
 
-#### Ajouter le compte admin
-```
-php bin/console app:create-admin
-```
-#### CHILIZ
+Reporter le secret `whsec_...` fourni par Stripe CLI dans `STRIPE_WEBHOOK_SECRET`, puis redémarrer le service backend.
 
-pensez aussi à ajouter metamask qui permet de configurer un portefeuille de test pour payer en chiliz
-la doc :
-https://docs.chiliz.com/fr/developper/notions-de-base/faucet-du-testnet/obtenir-des-testchzs-avec-spicy-faucet
+### Chiliz
 
+Les paiements en CHZ utilisent le réseau de test Chiliz Spicy. Ils nécessitent un portefeuille compatible, par exemple MetaMask, une adresse de réception et des CHZ de test. Les paramètres du backend et les variables publiques `NEXT_PUBLIC_CHILIZ_*` doivent désigner le même réseau.
 
-## Build APK KickDeal
+## Application mobile
 
-L'APK est généré avec Capacitor depuis la racine du dépôt. Il charge le domaine public KickDeal dans une WebView. En production, l'Ingress route `kickdeal.space` vers la landing par défaut, puis vers `frontend-app` pour les chemins applicatifs comme `/auth`, `/dashboard`, `/market`, `/messages`, etc.
+TODO
 
-```bash
-docker build \
-  -f Dockerfile.apk \
-  --build-arg CAPACITOR_SERVER_URL=https://kickdeal.space \
-  --target apk \
-  --output type=local,dest=dist/apk \
-  .
-```
+## Tests et qualité
 
-L'APK debug est écrit dans :
+### Backend
 
-```text
-dist/apk/kickdeal-debug.apk
-```
+PHPStan : `make phpstan`
+PHPUnit : `make phpunit`
 
-Si les domaines changent, autorisez aussi les domaines navigables dans la WebView :
-
-```bash
-docker build \
-  -f Dockerfile.apk \
-  --build-arg CAPACITOR_SERVER_URL=https://kickdeal.space \
-  --build-arg 'CAPACITOR_ALLOW_NAVIGATION=["kickdeal.space","api.kickdeal.space","analytics.kickdeal.space"]' \
-  --target apk \
-  --output type=local,dest=dist/apk \
-  .
-```
-
-Les frontends doivent utiliser les URLs publiques du routage prod :
-
-```env
-# frontend-landing
-NEXT_PUBLIC_APP_URL=https://kickdeal.space
-
-# frontend-app
-NEXT_PUBLIC_API_URL=https://api.kickdeal.space/api
-NEXT_PUBLIC_LANDING_URL=https://kickdeal.space
-```
-
-## Tests
-
-### Tests fonctionnels et unitaires
-
-Le backend utilise PHPUnit pour les tests fonctionnels et unitaires.
-Les tests peuvent être exécutés avec la commande `make phpunit`
+> `make phpunit` recrée entièrement la base configurée pour l'environnement de test avant d'exécuter PHPUnit.
 
 ### Tests E2E
 
-Les tests E2E (end-to-end) utilisent Cypress pour simuler des interactions utilisateur et vérifier le bon fonctionnement de l'application dans son ensemble.
+La plateforme doit être démarrée et la base doit être dans un état connu. Si nécessaire lancer la commande `make reset-db`.
 
-Prérequis:
-Voir les [prérequis](https://docs.cypress.io/app/get-started/install-cypress#Linux-Prerequisites) pour pouvoir utiliser Cypress
+Afin de lancer les tests il faut se déplacer dans le dossier e2e `cd e2e`
+Pour installer les dépendances : `npm install`.
 
-Pour lancer les tests e2e, soyez sur d'avoir une base de données neuve. Les tests d'ajout peuvent entrer en conflit si répétés plusieurs fois sur des formulaires avec des contraintes d'unicité.
-Si besoin, lancer `make reset-db`
+Pour lancer les tests E2E dans le navigateur intégré : `npx cypress open`
 
-Afin de les lancer :
+Pour une exécution sans interface graphique : `npx cypress run`
 
-1. Ouvrez un terminal et allez dans le dossier des tests e2e `cd e2e`.
-2. Installez les dépendances avec `npm install` (tester avec nodev22 et npm v10).
-  Il arrive que npm n'approuve pas cypress : alors pour l'approuver => npm install-scripts approve cypress
-3. Exécutez `npx cypress open` pour ouvrir l'interface graphique de Cypress.
+## Commandes utiles
 
-<p style="color : red">
-> Pour les lancer en mode headless, utilisez `npx cypress run`.
-</p>
+```bash
+make help          # Afficher les commandes disponibles
+make start         # Démarrer le projet de zéro
+make up            # Construire et démarrer les conteneurs
+make stop          # Arrêter les conteneurs
+make drop-db       # Supprimer la base de données
+make db            # Créer la base et appliquer les migrations
+make fixtures      # Recharger les données de démonstration
+make reset-db      # Recréer entièrement la base locale
+make phpunit       # Lancer les tests PHPUnit
+make phpstan       # Lancer PHPStan
+make tests         # Lancer PHPStan et PHPUnit
+```
