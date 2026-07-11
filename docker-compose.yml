@@ -23,6 +23,7 @@ services:
       STRIPE_PRICE_CLUB_PRO: "${STRIPE_PRICE_CLUB_PRO}"
       STRIPE_PRICE_CLUB_ENTERPRISE: "${STRIPE_PRICE_CLUB_ENTERPRISE}"
       MAILER_DSN: "${MAILER_DSN:-smtp://mailer:1025}"
+      MAILER_FROM: "${MAILER_FROM:-no-reply@kickdeal.space}"
       ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
       ADMIN_EMAIL: "${ADMIN_EMAIL}"
     depends_on:

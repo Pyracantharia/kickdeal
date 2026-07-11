@@ -19,20 +19,25 @@ import {
   CreditCard,
   History,
   Database,
+  Bell,
+  LifeBuoy,
 } from 'lucide-react'
 import { adminManager, type AdminDashboardData } from '@/features/admin/admin'
+import { useAdminNotificationsSummary } from '@/features/admin/adminNotifications'
 
 const quickActions = [
   { title: 'Gestion utilisateurs', meta: 'Comptes', href: '/admin/users', icon: UsersRound, accent: 'border-brand-cyan/25 text-brand-cyan', iconBox: 'border-brand-cyan/30 bg-brand-cyan/10', links: [] },
-  { title: 'Gestion des clubs', meta: 'Clubs', href: '/admin/clubs', icon: Building2, accent: 'border-emerald-400/25 text-emerald-300', iconBox: 'border-emerald-400/30 bg-emerald-400/10', links: [{ label: 'Demandes de création', href: '/admin/club-requests' }] },
-  { title: 'Gestion des agents', meta: 'Agents & joueurs', href: '/admin/agents', icon: ClipboardList, accent: 'border-brand-purple/25 text-brand-purple', iconBox: 'border-brand-purple/30 bg-brand-purple/10', links: [{ label: 'Demandes et passations', href: '/admin/player-agent-requests' }] },
+  { title: 'Gestion des clubs', meta: 'Clubs', href: '/admin/clubs', icon: Building2, alertId: 'club_requests', accent: 'border-emerald-400/25 text-emerald-300', iconBox: 'border-emerald-400/30 bg-emerald-400/10', links: [{ label: 'Demandes de création', href: '/admin/club-requests' }] },
+  { title: 'Gestion des agents', meta: 'Agents & joueurs', href: '/admin/agents', icon: ClipboardList, alertId: 'player_agent_requests', accent: 'border-brand-purple/25 text-brand-purple', iconBox: 'border-brand-purple/30 bg-brand-purple/10', links: [{ label: 'Demandes et passations', href: '/admin/player-agent-requests' }] },
   { title: 'Gestion du marché', meta: 'Marché & transferts', href: '/admin/market', icon: Store, accent: 'border-amber-400/25 text-amber-300', iconBox: 'border-amber-400/30 bg-amber-400/10', links: [] },
   { title: 'Gestion des négociations', meta: 'Contrats & accords', href: '/admin/negotiations', icon: Workflow, accent: 'border-blue-400/25 text-blue-300', iconBox: 'border-blue-400/30 bg-blue-400/10', links: [] },
   { title: 'Gestion du feed public', meta: 'Application mobile', href: '/admin/public-feed', icon: Rss, accent: 'border-pink-400/25 text-pink-300', iconBox: 'border-pink-400/30 bg-pink-400/10', links: [] },
   { title: 'Gestion des abonnements', meta: 'Plans & paiements', href: '/admin/subscriptions', icon: CreditCard, accent: 'border-teal-400/25 text-teal-300', iconBox: 'border-teal-400/30 bg-teal-400/10', links: [] },
   { title: 'Audit & historique', meta: 'Traçabilité admin', href: '/admin/audit', icon: History, accent: 'border-slate-400/25 text-slate-300', iconBox: 'border-slate-400/30 bg-slate-400/10', links: [] },
   { title: 'Données de référence', meta: 'Paramètres métier', href: '/admin/reference-data', icon: Database, accent: 'border-indigo-400/25 text-indigo-300', iconBox: 'border-indigo-400/30 bg-indigo-400/10', links: [{ label: 'Gestion des clubs', href: '/admin/clubs' }] },
-  { title: 'Signalements', meta: 'Modération', href: '/admin/message-reports', icon: ShieldAlert, accent: 'border-red-500/25 text-red-300', iconBox: 'border-red-500/30 bg-red-500/10', links: [] },
+  { title: 'Notifications admin', meta: 'À traiter', href: '/admin/notifications', icon: Bell, alertId: 'all', accent: 'border-brand-cyan/25 text-brand-cyan', iconBox: 'border-brand-cyan/30 bg-brand-cyan/10', links: [] },
+  { title: 'Assistance utilisateur', meta: 'Centre d’aide', href: '/admin/support', icon: LifeBuoy, accent: 'border-cyan-300/25 text-cyan-200', iconBox: 'border-cyan-300/30 bg-cyan-300/10', links: [] },
+  { title: 'Signalements', meta: 'Modération', href: '/admin/message-reports', icon: ShieldAlert, alertId: 'message_reports', accent: 'border-red-500/25 text-red-300', iconBox: 'border-red-500/30 bg-red-500/10', links: [] },
 ]
 
 const EMPTY_DATA: AdminDashboardData = {
@@ -45,6 +50,7 @@ export default function AdminDashboardHome() {
   const [dashboard, setDashboard] = useState<AdminDashboardData>(EMPTY_DATA)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const adminNotifications = useAdminNotificationsSummary()
 
   useEffect(() => {
     let active = true
@@ -73,6 +79,7 @@ export default function AdminDashboardHome() {
     { label: 'Validations', value: dashboard.stats.pendingValidations, detail: 'demandes en attente', icon: Clock3, tone: 'text-amber-300 bg-amber-400/10 border-amber-400/25' },
     { label: 'Comptes bannis', value: dashboard.stats.currentlyBannedUsers, detail: 'suspensions en cours', icon: UserRoundX, tone: 'text-red-300 bg-red-400/10 border-red-400/25' },
   ]
+  const alertCounts = adminNotifications.unreadCounts
 
   return (
     <div className="auth-bg min-h-screen w-full px-4 pb-10 pt-28">
@@ -130,8 +137,9 @@ export default function AdminDashboardHome() {
         <section aria-labelledby="actions-title" className="rounded-2xl border border-white/10 bg-[#071722]/85 p-5 shadow-2xl shadow-black/20 md:p-7">
           <h2 id="actions-title" className="mb-5 text-xl font-bold text-white">Actions rapides</h2>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {quickActions.map((action) => { const Icon = action.icon; return (
-              <article key={action.href} className={`group rounded-xl border bg-[#0A1B2B]/70 p-5 shadow-xl transition-all hover:-translate-y-0.5 hover:bg-[#0D2134] ${action.accent}`}>
+            {quickActions.map((action) => { const Icon = action.icon; const count = action.alertId ? alertCounts[action.alertId] ?? 0 : 0; return (
+              <article key={action.href} className={`group relative rounded-xl border bg-[#0A1B2B]/70 p-5 shadow-xl transition-all hover:-translate-y-0.5 hover:bg-[#0D2134] ${action.accent}`}>
+                {count > 0 && <NotificationBadge count={count} />}
                 <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-lg border ${action.iconBox}`}><Icon className="h-6 w-6" /></div>
                 <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-gray-500">{action.meta}</p><h3 className="text-lg font-bold text-white">{action.title}</h3>
                 <Link href={action.href} className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-white group-hover:text-brand-cyan">Ouvrir <ArrowRight className="h-4 w-4" /></Link>
@@ -142,6 +150,14 @@ export default function AdminDashboardHome() {
         </section>
       </main>
     </div>
+  )
+}
+
+function NotificationBadge({ count }: { count: number }) {
+  return (
+    <span className="absolute right-4 top-4 flex min-h-6 min-w-6 items-center justify-center rounded-full bg-sky-400 px-2 text-xs font-black tabular-nums text-[#07111d] ring-2 ring-[#071722]">
+      {count > 99 ? '99+' : count}
+    </span>
   )
 }
 
@@ -159,5 +175,5 @@ function formatAge(days: number, date?: string | null) {
 }
 
 function formatTime(date: string) {
-  return new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit' }).format(new Date(date))
+  return new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' }).format(new Date(date))
 }

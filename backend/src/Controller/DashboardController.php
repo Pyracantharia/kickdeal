@@ -24,6 +24,7 @@ use App\Repository\TeamMembershipRepository;
 use App\Repository\Transfer\TransferMessageRepository;
 use App\Repository\Transfer\TransferNegociationRepository;
 use App\Repository\Transfer\TransferOfferRepository;
+use App\Service\TransferWindowSettings;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -42,6 +43,7 @@ final class DashboardController extends AbstractController
         ContractMessageRepository $contractMessageRepository,
         ContractNegociationRepository $contractNegociationRepository,
         AppNotificationRepository $notificationRepository,
+        TransferWindowSettings $transferWindowSettings,
     ): JsonResponse {
         if (!$user) {
             return $this->json([
@@ -50,6 +52,7 @@ final class DashboardController extends AbstractController
         }
 
         $membership = $teamMembershipRepository->findPrimaryForUser($user);
+        $transferWindowStatus = $transferWindowSettings->status();
 
         if (null === $membership || null === $membership->getTeam()) {
             return $this->json([
@@ -57,6 +60,7 @@ final class DashboardController extends AbstractController
                 'pendingOffersCount' => 0,
                 'unreadMessagesCount' => 0,
                 'pendingRenewalsCount' => 0,
+                'transferWindowStatus' => $transferWindowStatus,
             ]);
         }
 
@@ -71,6 +75,7 @@ final class DashboardController extends AbstractController
                 + $transferMessageRepository->countIncomingForTeam($team, $teamUserIds)
                 + $contractMessageRepository->countIncomingForTeam($team, $teamUserIds),
             'pendingRenewalsCount' => $contractNegociationRepository->countPendingForTeam($team),
+            'transferWindowStatus' => $transferWindowStatus,
         ]);
     }
 

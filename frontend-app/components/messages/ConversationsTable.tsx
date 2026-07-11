@@ -1,5 +1,5 @@
 'use client';
-import { MessageCircle, Plus, Search } from 'lucide-react'
+import { LifeBuoy, MessageCircle, Plus, Search } from 'lucide-react'
 import Link from 'next/link';
 import React from 'react'
 import CircleImage from '@/components/media/CircleImage';
@@ -46,6 +46,14 @@ function ParticipantClubLogo({ participant, participantName }: { participant: Me
       className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-purple text-sm font-bold text-white"
       fallback={participantName.charAt(0).toUpperCase()}
     />
+  )
+}
+
+function SupportLogo() {
+  return (
+    <div className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-brand-cyan/35 bg-brand-cyan/12 text-brand-cyan shadow-lg shadow-brand-cyan/10">
+      <LifeBuoy className="h-5 w-5" />
+    </div>
   )
 }
 
@@ -193,9 +201,15 @@ function ConversationsTable({
 
             {!isLoading && !errorMessage && user && filteredConversations.map((conversation) => {
               const otherParticipant = getOtherParticipant(conversation, user.id)
-              const participantName = otherParticipant
+              const isSupportConversation = conversation.type === 'support'
+              const participantName = isSupportConversation
+                ? 'Support KickDeal'
+                : otherParticipant
                 ? `${otherParticipant.firstName} ${otherParticipant.lastName}`
                 : 'Discussion'
+              const participantMeta = isSupportConversation
+                ? 'Assistance utilisateur'
+                : otherParticipant?.agencyName || otherParticipant?.clubName || null
 
               const isSelected = selectedConversationId === conversation.id
               const hasUnreadMessages = unreadConversationIds.has(conversation.id)
@@ -205,10 +219,14 @@ function ConversationsTable({
                       {hasUnreadMessages && (
                         <span className="absolute -left-1 -top-1 h-3 w-3 rounded-full bg-sky-400 ring-2 ring-[#07111d]" />
                       )}
-                      <ParticipantClubLogo
-                        participant={otherParticipant}
-                        participantName={participantName}
-                      />
+                      {isSupportConversation ? (
+                        <SupportLogo />
+                      ) : (
+                        <ParticipantClubLogo
+                          participant={otherParticipant}
+                          participantName={participantName}
+                        />
+                      )}
                     </div>
                     <div className="flex items-center justify-between flex-1 min-w-0">
                       <div className="min-w-0">
@@ -216,9 +234,13 @@ function ConversationsTable({
                           <p className={`truncate text-base font-semibold sm:text-lg ${hasUnreadMessages ? 'text-sky-100' : 'text-white'}`}>
                             {participantName}
                           </p>
-                          {otherParticipant?.agencyName && (
-                            <span className="shrink-0 rounded-full bg-white/10 px-2 py-0.5 text-xs font-semibold text-white/70 ring-1 ring-white/15">
-                              {otherParticipant.agencyName}
+                          {participantMeta && (
+                            <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ring-1 ${
+                              isSupportConversation
+                                ? 'bg-brand-cyan/10 text-brand-cyan ring-brand-cyan/25'
+                                : 'bg-white/10 text-white/70 ring-white/15'
+                            }`}>
+                              {participantMeta}
                             </span>
                           )}
                         </div>

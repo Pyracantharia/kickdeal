@@ -38,6 +38,9 @@ class DirectConversation
     #[ORM\Column(type: UuidType::NAME)]
     private ?Uuid $participantHighId = null;
 
+    #[ORM\Column(length: 30, options: ['default' => 'direct'])]
+    private string $type = 'direct';
+
     /**
      * @var Collection<int, DirectMessage>
      */
@@ -101,6 +104,23 @@ class DirectConversation
         $this->participantHighId = $participantHighId;
 
         return $this;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function isSupport(): bool
+    {
+        return 'support' === $this->type;
     }
 
     /**

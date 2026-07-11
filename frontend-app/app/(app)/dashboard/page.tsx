@@ -1,6 +1,7 @@
 import AgentDashboardHome from '@/components/dashboard/AgentDashboardHome'
 import ClubDashboardHome from '@/components/dashboard/ClubDashboardHome'
 import DashboardHome from '@/components/dashboard/DashboardHome'
+import AdminDashboardHome from '@/components/admin/AdminDashboardHome'
 import type { User } from '@/context/AuthProvider'
 import type { ClubDashboardHomeData, AgentDashboardHomeData } from '@/features/dashboard/dashboard'
 import type { DirectConversation } from '@/features/messages/messages'
@@ -100,6 +101,10 @@ export default async function DashboardPage() {
 
   if (!payload.user) {
     return <DashboardHome initialUser={null} />
+  }
+
+  if (payload.user.roles.includes('ROLE_ADMIN')) {
+    return <AdminDashboardHome />
   }
 
   return (

@@ -11,6 +11,7 @@ import { useMessagesUnread } from '@/context/MessagesUnreadProvider'
 import { useNotifications } from '@/context/NotificationsProvider'
 import { authManager } from '@/features/auth/auth'
 import type { SubscriptionPlan } from '@/features/subscription/subscription'
+import { useAdminNotificationsSummary } from '@/features/admin/adminNotifications'
 
 export type NavbarVariant = 'club' | 'agent' | 'sans-club' | 'creation' | 'admin'
 
@@ -44,6 +45,8 @@ const NO_CLUB_LINKS = [{ href: '/club', label: 'Mon club' }]
 
 const ADMIN_LINKS = [
   { href: '/dashboard', label: 'Administration' },
+  { href: '/admin/notifications', label: 'Notifications' },
+  { href: '/admin/support', label: 'Assistance' },
 ]
 
 function getLinksByVariant(variant: NavbarVariant) {
@@ -334,8 +337,12 @@ function Navbar({
 }: NavbarProps) {
   const router = useRouter()
   const { updateUser } = useAuth()
-  const { hasUnreadMessages } = useMessagesUnread()
+  const { hasUnreadMessages, unreadConversationIds } = useMessagesUnread()
   const { getActionCount, getUnreadCount, unreadCount } = useNotifications()
+  const adminNotifications = useAdminNotificationsSummary(variant === 'admin')
+  const adminSupportUnreadCount = variant === 'admin'
+    ? adminNotifications.items.filter((item) => item.kind === 'support_messages' && unreadConversationIds.has(item.sourceId ?? '')).length
+    : 0
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const links = getLinksByVariant(variant)
@@ -385,7 +392,7 @@ function Navbar({
                         href={href}
                         label={label}
                         hasUnreadMessages={href === '/messages' && hasUnreadMessages}
-                        attentionCount={getNavAttentionCount(href, getActionCount, getUnreadCount, unreadCount)}
+                        attentionCount={getNavAttentionCount(href, getActionCount, getUnreadCount, unreadCount, adminNotifications.unreadCount + adminSupportUnreadCount, adminSupportUnreadCount)}
                       />
                     ))}
                   </nav>
@@ -503,7 +510,11 @@ function getNavAttentionCount(
   getActionCount: (route: string) => number,
   getUnreadCount: (route: string) => number,
   unreadNotificationsCount: number,
+  adminNotificationsCount = 0,
+  adminSupportUnreadCount = 0,
 ): number {
+  if (href === '/admin/notifications') return adminNotificationsCount
+  if (href === '/admin/support') return adminSupportUnreadCount
   if (href === '/notifications') return unreadNotificationsCount
   if (href === '/messages') return getUnreadCount('/messages')
 

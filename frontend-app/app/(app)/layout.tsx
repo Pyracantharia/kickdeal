@@ -4,6 +4,7 @@ import AuthProvider from '@/context/AuthProvider'
 import { MarketRealtimeProvider } from '@/context/MarketRealtimeProvider'
 import { MessagesUnreadProvider } from '@/context/MessagesUnreadProvider'
 import { NotificationsProvider } from '@/context/NotificationsProvider'
+import SupportHelpButton from '@/components/support/SupportHelpButton'
 import { loadCurrentUser, loadNotificationsSummary } from '@/features/server/appInitialData'
 import type { ReactNode } from 'react'
 
@@ -45,6 +46,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
                   <main className="flex-1 w-full">
                     {children}
                   </main>
+                  <SupportHelpButton />
                 </div>
               </MarketRealtimeProvider>
             </NotificationsProvider>

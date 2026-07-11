@@ -8,6 +8,7 @@ export interface MessageUser {
   clubName: string | null
   clubLogoUrl: string | null
   agencyName: string | null
+  roles?: string[]
 }
 
 export interface DirectMessage {
@@ -20,6 +21,7 @@ export interface DirectMessage {
 
 export interface DirectConversation {
   id: string
+  type?: 'direct' | 'support'
   participants: MessageUser[]
   otherParticipant: MessageUser | null
   lastMessage: DirectMessage | null
@@ -58,6 +60,14 @@ class MessagesManager {
     return httpClient.post<StartConversationResponse>('/messages/conversations', { recipientId })
   }
 
+  async startSupportConversation() {
+    return httpClient.post<StartConversationResponse>('/messages/support/conversation', {})
+  }
+
+  async getSupportConversations() {
+    return httpClient.get<ConversationsResponse>('/messages/support/conversations')
+  }
+
   async getConversation(conversationId: string) {
     return httpClient.get<ConversationResponse>(`/messages/conversations/${conversationId}`)
   }
@@ -89,6 +99,7 @@ export function formatMessageDate(value: string | null): string {
   if (!value) return ''
 
   return new Intl.DateTimeFormat('fr-FR', {
+    timeZone: 'Europe/Paris',
     day: '2-digit',
     month: '2-digit',
     hour: '2-digit',
