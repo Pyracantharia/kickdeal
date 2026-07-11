@@ -1,13 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Check, ArrowRight } from 'lucide-react'
-import { APP_ROUTES } from '@/lib/config'
+import { API_URL, APP_ROUTES } from '@/lib/config'
 import LinkButton, { type LinkButtonVariant } from '@/components/ui/LinkButton'
 
 type PricingAudience = 'club' | 'agent'
 
 interface PlanProps {
+  plan: string
   name: string
   price: string
   period?: string
@@ -22,6 +23,7 @@ interface PlanProps {
 const PRICING_PLANS: Record<PricingAudience, PlanProps[]> = {
   club: [
     {
+      plan: 'club_free',
       name: 'Club Free',
       price: 'Gratuit',
       description: 'Découvrir le marché',
@@ -37,6 +39,7 @@ const PRICING_PLANS: Record<PricingAudience, PlanProps[]> = {
       variant: 'outline',
     },
     {
+      plan: 'club_pro',
       name: 'Club Pro',
       price: '200 €',
       period: '/mois',
@@ -57,6 +60,7 @@ const PRICING_PLANS: Record<PricingAudience, PlanProps[]> = {
       variant: 'cyan',
     },
     {
+      plan: 'club_enterprise',
       name: 'Club Enterprise',
       price: '400 €',
       period: '/mois',
@@ -76,6 +80,7 @@ const PRICING_PLANS: Record<PricingAudience, PlanProps[]> = {
   ],
   agent: [
     {
+      plan: 'agent_free',
       name: 'Agent Free',
       price: 'Gratuit',
       features: [
@@ -90,6 +95,7 @@ const PRICING_PLANS: Record<PricingAudience, PlanProps[]> = {
       variant: 'outline',
     },
     {
+      plan: 'agent_pro',
       name: 'Agent Pro',
       price: '49 €',
       period: '/mois',
@@ -112,7 +118,18 @@ const PRICING_PLANS: Record<PricingAudience, PlanProps[]> = {
 
 function PricingSection() {
   const [audience, setAudience] = useState<PricingAudience>('club')
-  const plans = PRICING_PLANS[audience]
+  const [catalog, setCatalog] = useState<Array<{plan:string;title:string;priceCents:number;currency:string;billingPeriod:string;description:string;features:string[]}>>([])
+  useEffect(() => {
+    let active = true
+    fetch(`${API_URL}/subscription/plans?audience=${audience}`).then((response) => response.json()).then((data) => { if (active && Array.isArray(data.plans)) setCatalog(data.plans) }).catch(() => {})
+    return () => { active = false }
+  }, [audience])
+  const plans = PRICING_PLANS[audience].map((fallback) => {
+    const configured = catalog.find((item) => item.plan === fallback.plan)
+    if (!configured) return fallback
+    const formattedPrice = configured.priceCents === 0 ? 'Gratuit' : new Intl.NumberFormat('fr-FR', { style: 'currency', currency: configured.currency, maximumFractionDigits: 0 }).format(configured.priceCents / 100)
+    return { ...fallback, name: configured.title, price: formattedPrice, period: configured.priceCents === 0 ? undefined : configured.billingPeriod === 'year' ? '/an' : '/mois', description: configured.description, features: configured.features.length > 0 ? configured.features : fallback.features }
+  })
 
   return (
     <section id="tarifs" className="py-20 sm:py-28 px-4">
@@ -146,7 +163,7 @@ function PricingSection() {
           audience === 'club' ? 'md:grid-cols-3 max-w-6xl' : 'md:grid-cols-2 max-w-4xl'
         }`}>
           {plans.map((plan) => (
-            <PricingCard key={plan.name} {...plan} />
+            <PricingCard key={plan.plan} {...plan} />
           ))}
         </div>
       </div>
@@ -155,6 +172,7 @@ function PricingSection() {
 }
 
 function PricingCard({
+  plan: _,
   name,
   price,
   period,
@@ -165,6 +183,7 @@ function PricingCard({
   highlighted,
   variant,
 }: PlanProps) {
+  void _
   const borderColor =
     variant === 'cyan'
       ? 'border-brand-cyan/40'

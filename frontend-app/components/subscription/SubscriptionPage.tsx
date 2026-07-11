@@ -10,6 +10,7 @@ import { getChilizPaymentConfig, payWithChiliz, type ChilizPlanType } from '@/fe
 import {
   subscriptionManager,
   type SubscriptionPlan,
+  type SubscriptionPlanCatalogItem,
   type SubscriptionSummary,
 } from '@/features/subscription/subscription'
 
@@ -103,6 +104,7 @@ interface PlanConfig {
   features: string[]
   seatsLabel?: string
   highlighted?: boolean
+  description?: string
 }
 
 function SubscriptionPage() {
@@ -116,6 +118,7 @@ function SubscriptionPage() {
   const [upgradeAnimation, setUpgradeAnimation] = useState<{ from: string; to: string } | null>(null)
   const [stripeCheckout, setStripeCheckout] = useState<{ clientSecret: string; subscriptionId: string; plan: SubscriptionPlan } | null>(null)
   const [requestedPlan, setRequestedPlan] = useState<string | null>(null)
+  const [planCatalog, setPlanCatalog] = useState<SubscriptionPlanCatalogItem[]>([])
 
   useEffect(() => {
     let isMounted = true
@@ -126,6 +129,7 @@ function SubscriptionPage() {
 
         if (isMounted && response.ok) {
           setSubscription(response.data.subscription)
+          setPlanCatalog(response.data.plans ?? [])
         }
       } finally {
         if (isMounted) {
@@ -148,8 +152,19 @@ function SubscriptionPage() {
   const audience = subscription?.audience ?? (user?.roles.includes('ROLE_AGENT') ? 'agent' : 'club')
   const isPaid = subscription?.isPro ?? false
   const isEnterprise = subscription?.plan === 'club_enterprise'
-  const plans = audience === 'agent' ? AGENT_PLANS : CLUB_PLANS
-  const recommendedPlan = audience === 'agent' ? AGENT_PLANS[1] : isPaid ? CLUB_PLANS[2] : CLUB_PLANS[1]
+  const fallbackPlans = audience === 'agent' ? AGENT_PLANS : CLUB_PLANS
+  const plans = fallbackPlans.map((fallback) => {
+    const configured = planCatalog.find((item) => item.plan === fallback.plan)
+    return configured ? {
+      ...fallback,
+      title: configured.title,
+      price: formatPlanPrice(configured),
+      description: configured.description,
+      features: configured.features.length > 0 ? configured.features : fallback.features,
+      seatsLabel: configured.seats === null ? 'Utilisateurs illimités' : configured.seats ? `${configured.seats} utilisateur(s) inclus` : fallback.seatsLabel,
+    } : fallback
+  })
+  const recommendedPlan = audience === 'agent' ? plans[1] : isPaid ? plans[2] : plans[1]
   const freeLabel = audience === 'agent' ? 'Agent Free' : 'Club Free'
 
   const planLabel = useMemo(() => {
@@ -357,6 +372,7 @@ function SubscriptionPage() {
               title={plan.title}
               price={plan.price}
               features={plan.features}
+              description={plan.description}
               seatsLabel={plan.seatsLabel}
               active={subscription?.plan === plan.plan || (!subscription && plan.plan.endsWith('_free'))}
               highlighted={plan.highlighted}
@@ -415,6 +431,7 @@ function PlanColumn({
   title,
   price,
   features,
+  description,
   seatsLabel,
   active,
   highlighted = false,
@@ -427,6 +444,7 @@ function PlanColumn({
   title: string
   price: string
   features: string[]
+  description?: string
   seatsLabel?: string
   active: boolean
   highlighted?: boolean
@@ -446,6 +464,7 @@ function PlanColumn({
         <div>
           <h3 className="text-xl font-bold text-white">{title}</h3>
           <p className="mt-1 text-white/60">{price}</p>
+          {description && <p className="mt-2 text-sm leading-5 text-white/55">{description}</p>}
           {seatsLabel && <p className="mt-2 text-sm font-semibold text-brand-cyan">{seatsLabel}</p>}
         </div>
         {active && (
@@ -474,6 +493,12 @@ function PlanColumn({
       )}
     </div>
   )
+}
+
+function formatPlanPrice(plan: SubscriptionPlanCatalogItem): string {
+  if (plan.priceCents === 0) return 'Gratuit'
+  const amount = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: plan.currency, maximumFractionDigits: 0 }).format(plan.priceCents / 100)
+  return plan.billingPeriod === 'year' ? `${amount}/an` : `${amount}/mois`
 }
 
 function formatSeats(subscription: SubscriptionSummary | null): string | null {

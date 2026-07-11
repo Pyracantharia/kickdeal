@@ -53,6 +53,8 @@ class PublicFeedPostRepository extends ServiceEntityRepository
             ->addOrderBy('post.id', 'DESC')
             ->setMaxResults($filters['limit'] ?? 30);
 
+        $qb->andWhere('post.isVisible = true');
+
         $tab = $filters['tab'] ?? 'featured';
         if ('official' === $tab) {
             $qb->andWhere('post.eventType = :officialEventType')

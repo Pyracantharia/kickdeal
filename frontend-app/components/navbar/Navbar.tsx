@@ -43,8 +43,7 @@ const AGENT_LINKS = [
 const NO_CLUB_LINKS = [{ href: '/club', label: 'Mon club' }]
 
 const ADMIN_LINKS = [
-  { href: '/dashboard', label: 'Accueil' },
-  { href: '/admin', label: 'Admin' }
+  { href: '/dashboard', label: 'Administration' },
 ]
 
 function getLinksByVariant(variant: NavbarVariant) {

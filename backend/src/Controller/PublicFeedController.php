@@ -66,6 +66,18 @@ final class PublicFeedController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: 'api_public_feed_show', methods: ['GET'])]
+    public function show(PublicFeedPost $post): JsonResponse
+    {
+        if (!$post->isVisible()) {
+            return $this->json(['message' => 'Publication introuvable.'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        return $this->json([
+            'post' => $this->serializePost($post, true),
+        ]);
+    }
+
     #[Route('/filters/options', name: 'api_public_feed_filter_options', methods: ['GET'])]
     public function filterOptions(TeamRepository $teamRepository): JsonResponse
     {
@@ -114,14 +126,6 @@ final class PublicFeedController extends AbstractController
                 static fn (string $type): array => ['value' => $type],
                 self::ALLOWED_TYPES,
             ),
-        ]);
-    }
-
-    #[Route('/{id}', name: 'api_public_feed_show', methods: ['GET'])]
-    public function show(PublicFeedPost $post): JsonResponse
-    {
-        return $this->json([
-            'post' => $this->serializePost($post, true),
         ]);
     }
 

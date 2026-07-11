@@ -107,4 +107,52 @@ final class StripeSubscriptionService
     {
         return $this->stripe->subscriptions->retrieve($subscriptionId, []);
     }
+
+    public function changePlanByAdmin(User $user, SubscriptionPlanEnum $plan): void
+    {
+        $subscriptionId = $user->getStripeSubscriptionId();
+        if (!$subscriptionId) {
+            $user->setSubscriptionPlan($plan);
+            return;
+        }
+
+        if (!$plan->isPro()) {
+            $this->stripe->subscriptions->cancel($subscriptionId, []);
+            $user->setStripeSubscriptionId(null)->setSubscriptionPlan($plan);
+            return;
+        }
+
+        $priceId = $this->priceIds[$plan->value] ?? '';
+        if (!str_starts_with($priceId, 'price_')) {
+            throw new BadRequestHttpException('Le tarif Stripe du plan sélectionné n’est pas configuré.');
+        }
+
+        $subscription = $this->stripe->subscriptions->retrieve($subscriptionId, []);
+        if (!isset($subscription->items->data[0])) {
+            throw new \RuntimeException('L’abonnement Stripe ne contient aucun tarif modifiable.');
+        }
+
+        $this->stripe->subscriptions->update($subscriptionId, [
+            'items' => [['id' => $subscription->items->data[0]->id, 'price' => $priceId]],
+            'metadata' => ['kickdeal_plan' => $plan->value, 'kickdeal_user_id' => $user->getId()?->toRfc4122() ?? ''],
+            'proration_behavior' => 'none',
+        ]);
+        $user->setSubscriptionPlan($plan);
+    }
+
+    /** @return array<int, array<string, mixed>> */
+    public function listRecentInvoices(string $customerId, int $limit = 20): array
+    {
+        $invoices = $this->stripe->invoices->all(['customer' => $customerId, 'limit' => max(1, min(100, $limit))]);
+
+        return array_map(static fn ($invoice): array => [
+            'id' => $invoice->id,
+            'status' => $invoice->status,
+            'amountDue' => $invoice->amount_due,
+            'amountPaid' => $invoice->amount_paid,
+            'currency' => strtoupper((string) $invoice->currency),
+            'createdAt' => (new \DateTimeImmutable())->setTimestamp((int) $invoice->created)->format(DATE_ATOM),
+            'hostedInvoiceUrl' => $invoice->hosted_invoice_url,
+        ], $invoices->data);
+    }
 }

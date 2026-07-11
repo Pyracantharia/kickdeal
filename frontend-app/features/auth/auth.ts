@@ -18,6 +18,8 @@ type MessageResponse = {
   message: string;
 }
 
+export type SupportSession = {active:boolean;user?:{id:string;name:string;email:string};admin?:{id:string;name:string;email:string}|null;message?:string}
+
 
 
 class AuthManager {
@@ -37,6 +39,10 @@ class AuthManager {
     const response = await httpClient.get<User>("/auth/me");
     return response;
   }
+
+  async startSupportSession(email:string){return httpClient.get<SupportSession>(`/auth/support-session?_switch_user=${encodeURIComponent(email)}`)}
+  async supportSession(){return httpClient.get<SupportSession>('/auth/support-session')}
+  async stopSupportSession(){return httpClient.get<SupportSession>('/auth/support-session?_switch_user=_exit')}
 
   async logout(){
     const response = await httpClient.remove("/auth/logout");

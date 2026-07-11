@@ -40,6 +40,9 @@ class PublicFeedPost
     #[ORM\Column(options: ['default' => false])]
     private bool $isFeatured = false;
 
+    #[ORM\Column(options: ['default' => true])]
+    private bool $isVisible = true;
+
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeImmutable $publishedAt;
 
@@ -145,6 +148,18 @@ class PublicFeedPost
     public function setIsFeatured(bool $isFeatured): static
     {
         $this->isFeatured = $isFeatured;
+
+        return $this;
+    }
+
+    public function isVisible(): bool
+    {
+        return $this->isVisible;
+    }
+
+    public function setIsVisible(bool $isVisible): static
+    {
+        $this->isVisible = $isVisible;
 
         return $this;
     }

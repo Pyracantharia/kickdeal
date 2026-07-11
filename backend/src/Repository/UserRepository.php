@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Uid\Uuid;
@@ -57,6 +58,26 @@ class UserRepository extends ServiceEntityRepository
             ->setMaxResults(100)
             ->getQuery()
             ->getResult();
+    }
+
+    public function countCreatedSince(DateTimeInterface $since): int
+    {
+        return (int) $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->andWhere('u.createdAt >= :since')
+            ->setParameter('since', $since)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countCurrentlyBanned(DateTimeInterface $now): int
+    {
+        return (int) $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->andWhere('u.bannedUntil > :now')
+            ->setParameter('now', $now)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     /**
