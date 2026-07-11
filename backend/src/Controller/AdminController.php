@@ -23,6 +23,7 @@ use App\Repository\UserRepository;
 use App\Service\Mail\TransactionalMailer;
 use App\Service\Notification\NotificationService;
 use App\Service\Security\PasswordPolicy;
+use App\Service\AdminAuditLogger;
 use DateTimeImmutable;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -147,6 +148,7 @@ final class AdminController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         ValidatorInterface $validator,
         PasswordPolicy $passwordPolicy,
+        AdminAuditLogger $audit,
     ): JsonResponse {
         if (!$this->isAdmin($admin)) {
             return $this->json([
@@ -193,6 +195,8 @@ final class AdminController extends AbstractController
                 ],
             ], JsonResponse::HTTP_CONFLICT);
         }
+
+        $audit->record($admin, 'user.created', 'users', 'user', $newUser->getId()?->toRfc4122(), (string) $newUser->getEmail(), [], ['firstName' => $newUser->getFirstName(), 'lastName' => $newUser->getLastName(), 'email' => $newUser->getEmail(), 'roles' => $newUser->getRoles()]);
 
         return $this->json([
             'message' => 'Utilisateur créé.',
@@ -278,6 +282,7 @@ final class AdminController extends AbstractController
         User $managedUser,
         EntityManagerInterface $entityManager,
         UserRepository $userRepository,
+        AdminAuditLogger $audit,
     ): JsonResponse {
         if (!$this->isAdmin($admin)) {
             return $this->json([
@@ -297,6 +302,7 @@ final class AdminController extends AbstractController
             ], JsonResponse::HTTP_CONFLICT);
         }
 
+        $deletedId=$managedUser->getId()?->toRfc4122();$deletedLabel=(string)$managedUser->getEmail();$deletedData=['firstName'=>$managedUser->getFirstName(),'lastName'=>$managedUser->getLastName(),'email'=>$managedUser->getEmail(),'roles'=>$managedUser->getRoles()];
         try {
             $entityManager->remove($managedUser);
             $entityManager->flush();
@@ -305,6 +311,8 @@ final class AdminController extends AbstractController
                 'message' => 'Cet utilisateur possède encore des données liées et ne peut pas être supprimé.',
             ], JsonResponse::HTTP_CONFLICT);
         }
+
+        $audit->record($admin, 'user.deleted', 'users', 'user', $deletedId, $deletedLabel, $deletedData, []);
 
         return $this->json([
             'message' => 'Utilisateur supprimé.',
@@ -317,6 +325,7 @@ final class AdminController extends AbstractController
         User $managedUser,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer,
+        AdminAuditLogger $audit,
     ): JsonResponse {
         if (!$this->isAdmin($admin)) {
             return $this->json([
@@ -329,6 +338,7 @@ final class AdminController extends AbstractController
             ->setBanReason(null)
             ->setBannedAt(null);
         $entityManager->flush();
+        $audit->record($admin, 'user.reinstated', 'users', 'user', $managedUser->getId()?->toRfc4122(), (string)$managedUser->getEmail(), ['banned'=>true], ['banned'=>false]);
 
         $this->sendModerationEmail(
             $mailer,
@@ -373,6 +383,7 @@ final class AdminController extends AbstractController
         MessageReport $messageReport,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer,
+        AdminAuditLogger $audit,
     ): JsonResponse {
         if (!$this->isAdmin($admin)) {
             return $this->json([
@@ -402,6 +413,7 @@ final class AdminController extends AbstractController
             ->setDecidedBy($admin)
             ->setDecidedAt(new DateTimeImmutable());
         $entityManager->flush();
+        $audit->record($admin, 'report.warning_issued', 'moderation', 'user', $reportedUser->getId()?->toRfc4122(), (string)$reportedUser->getEmail(), [], ['warning'=>true], ['reportId'=>$messageReport->getId()?->toRfc4122(),'comment'=>$comment]);
 
         $this->sendModerationEmail(
             $mailer,
@@ -427,6 +439,7 @@ final class AdminController extends AbstractController
         MessageReport $messageReport,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer,
+        AdminAuditLogger $audit,
     ): JsonResponse {
         if (!$this->isAdmin($admin)) {
             return $this->json([
@@ -473,6 +486,7 @@ final class AdminController extends AbstractController
             ->setDecidedAt(new DateTimeImmutable())
             ->setBanUntil($banUntil);
         $entityManager->flush();
+        $audit->record($admin, 'report.user_banned', 'moderation', 'user', $reportedUser->getId()?->toRfc4122(), (string)$reportedUser->getEmail(), ['bannedUntil'=>null], ['bannedUntil'=>$banUntil->format(DATE_ATOM)], ['reportId'=>$messageReport->getId()?->toRfc4122(),'comment'=>$comment]);
 
         $this->sendModerationEmail(
             $mailer,
@@ -539,6 +553,7 @@ final class AdminController extends AbstractController
         NotificationService $notificationService,
         TransferNegociationRepository $transferNegociationRepository,
         TransactionalMailer $transactionalMailer,
+        AdminAuditLogger $audit,
     ): JsonResponse
     {
 
@@ -591,6 +606,7 @@ final class AdminController extends AbstractController
         }
 
         $entityManager->flush();
+        $audit->record($user, 'club_request.approved', 'requests', 'club_request', $clubRequest->getId()?->toRfc4122(), (string)$clubRequest->getTeam()?->getName(), ['status'=>'pending'], ['status'=>'approved']);
 
         $notificationService->resolveSource('club_request', $clubRequest->getId()?->toRfc4122() ?? '');
         $notificationService->notify(
@@ -688,6 +704,7 @@ final class AdminController extends AbstractController
         EntityManagerInterface $entityManager,
         NotificationService $notificationService,
         TransactionalMailer $transactionalMailer,
+        AdminAuditLogger $audit,
     ): JsonResponse {
         if (!$this->isAdmin($user)) {
             return $this->json([
@@ -778,6 +795,8 @@ final class AdminController extends AbstractController
         }
 
         $entityManager->flush();
+        $auditAction=PlayerAgentRequestTypeEnum::AGENT_HANDOVER===$playerAgentRequest->getType()?'agent_handover.admin_approved':'representation_request.approved';
+        $audit->record($user, $auditAction, 'requests', 'player_agent_request', $playerAgentRequest->getId()?->toRfc4122(), $this->playerName($playerAgentRequest->getPlayer()), ['status'=>'pending'], ['status'=>$playerAgentRequest->getStatus()->value], ['requestingAgent'=>$this->agentName($requestingAgent),'currentAgent'=>$playerAgentRequest->getCurrentAgent() ? $this->agentName($playerAgentRequest->getCurrentAgent()) : null]);
 
         return $this->json([
             'message' => $message,
@@ -792,6 +811,7 @@ final class AdminController extends AbstractController
         EntityManagerInterface $entityManager,
         NotificationService $notificationService,
         TransactionalMailer $transactionalMailer,
+        AdminAuditLogger $audit,
     ): JsonResponse {
         if (!$this->isAdmin($user)) {
             return $this->json([
@@ -830,6 +850,8 @@ final class AdminController extends AbstractController
         $transactionalMailer->sendPlayerAgentRequestDecision($playerAgentRequest, false);
 
         $entityManager->flush();
+        $auditAction=PlayerAgentRequestTypeEnum::AGENT_HANDOVER===$playerAgentRequest->getType()?'agent_handover.rejected':'representation_request.rejected';
+        $audit->record($user, $auditAction, 'requests', 'player_agent_request', $playerAgentRequest->getId()?->toRfc4122(), $this->playerName($playerAgentRequest->getPlayer()), ['status'=>'pending'], ['status'=>'rejected'], ['requestingAgent'=>$this->agentName($requestingAgent),'currentAgent'=>$playerAgentRequest->getCurrentAgent() ? $this->agentName($playerAgentRequest->getCurrentAgent()) : null]);
 
         return $this->json([
             'message' => 'Demande refusée par l’administration.',
@@ -844,6 +866,7 @@ final class AdminController extends AbstractController
         EntityManagerInterface $entityManager,
         NotificationService $notificationService,
         TransactionalMailer $transactionalMailer,
+        AdminAuditLogger $audit,
     ): JsonResponse {
         if (!$this->isAdmin($user)) {
             return $this->json([
@@ -860,6 +883,7 @@ final class AdminController extends AbstractController
         $clubRequest->setStatus(ClubRequestStatusEnum::REJECTED);
         $clubRequest->setUpdatedAt(new DateTimeImmutable());
         $entityManager->flush();
+        $audit->record($user, 'club_request.rejected', 'requests', 'club_request', $clubRequest->getId()?->toRfc4122(), (string)$clubRequest->getTeam()?->getName(), ['status'=>'pending'], ['status'=>'rejected']);
 
         $notificationService->resolveSource('club_request', $clubRequest->getId()?->toRfc4122() ?? '');
         $notificationService->notify(

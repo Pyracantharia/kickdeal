@@ -1,9 +1,9 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Check } from 'lucide-react'
 
-import type { SubscriptionPlan } from '@/features/subscription/subscription'
+import { subscriptionManager, type SubscriptionPlan, type SubscriptionPlanCatalogItem } from '@/features/subscription/subscription'
 
 interface PlanOption {
   plan: SubscriptionPlan
@@ -59,7 +59,27 @@ const AGENT_PLANS: PlanOption[] = [
 ]
 
 function PlanSelection({ audience, selectedPlan, onChange }: PlanSelectionProps) {
-  const plans = audience === 'club' ? CLUB_PLANS : AGENT_PLANS
+  const fallbackPlans = audience === 'club' ? CLUB_PLANS : AGENT_PLANS
+  const [catalog, setCatalog] = useState<SubscriptionPlanCatalogItem[]>([])
+
+  useEffect(() => {
+    let active = true
+    void subscriptionManager.getPlans(audience).then((response) => {
+      if (active && response.ok) setCatalog(response.data.plans)
+    })
+    return () => { active = false }
+  }, [audience])
+
+  const plans = fallbackPlans.map((fallback) => {
+    const configured = catalog.find((plan) => plan.plan === fallback.plan)
+    return configured ? {
+      ...fallback,
+      name: configured.title,
+      price: configured.priceCents === 0 ? 'Gratuit' : `${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: configured.currency, maximumFractionDigits: 0 }).format(configured.priceCents / 100)}/${configured.billingPeriod === 'year' ? 'an' : 'mois'}`,
+      seats: configured.seats === null ? 'Utilisateurs illimités' : configured.seats ? `${configured.seats} utilisateur(s) inclus` : fallback.seats,
+      features: configured.features.length > 0 ? configured.features : fallback.features,
+    } : fallback
+  })
 
   return (
     <section>

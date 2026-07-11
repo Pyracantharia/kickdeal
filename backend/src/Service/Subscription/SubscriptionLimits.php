@@ -19,6 +19,7 @@ class SubscriptionLimits
         private readonly TeamMembershipRepository $teamMembershipRepository,
         private readonly TransferOfferRepository $transferOfferRepository,
         private readonly TransferNegociationRepository $transferNegociationRepository,
+        private readonly \App\Service\ReferenceDataSettings $settings,
     ) {
     }
 
@@ -48,7 +49,7 @@ class SubscriptionLimits
             return false;
         }
 
-        return $this->transferOfferRepository->countSentByTeam($team) < self::CLUB_FREE_OFFER_LIMIT;
+        return $this->transferOfferRepository->countSentByTeam($team) < $this->settings->int('club_free_offer_limit', self::CLUB_FREE_OFFER_LIMIT);
     }
 
     private function getClubSummary(SubscriptionPlanEnum $plan, ?Team $team): array
@@ -62,7 +63,7 @@ class SubscriptionLimits
         return [
             'audience' => 'club',
             'plan' => $plan->value,
-            'planLabel' => $plan->label(),
+            'planLabel' => $this->settings->planLabel($plan),
             'tier' => $plan->tier(),
             'isPro' => $isPro,
             'seats' => [
@@ -72,8 +73,8 @@ class SubscriptionLimits
             ],
             'limits' => [
                 $this->seatLimit($seatsUsed, $seatsIncluded),
-                $this->limit('club_free_offer', 'Offre / approche gratuite', $offersUsed, $isPro ? null : self::CLUB_FREE_OFFER_LIMIT),
-                $this->limit('active_negotiations', 'Négociations actives', $activeNegotiations, $isPro ? null : self::CLUB_FREE_ACTIVE_NEGOTIATION_LIMIT),
+                $this->limit('club_free_offer', 'Offre / approche gratuite', $offersUsed, $isPro ? null : $this->settings->int('club_free_offer_limit', self::CLUB_FREE_OFFER_LIMIT)),
+                $this->limit('active_negotiations', 'Négociations actives', $activeNegotiations, $isPro ? null : $this->settings->int('club_free_active_negotiation_limit', self::CLUB_FREE_ACTIVE_NEGOTIATION_LIMIT)),
                 $this->limit('pdf_access', 'PDF d’accord', null, $isPro ? null : 0),
                 $this->limit('roster_management', 'Gestion d’effectif', null, $isPro ? null : 5, 'joueurs'),
             ],
@@ -86,7 +87,7 @@ class SubscriptionLimits
                 'Permissions avancées avec Club Enterprise',
                 'Analytics avancés avec Club Enterprise',
             ],
-            'canCreateOffer' => $isPro || $offersUsed < self::CLUB_FREE_OFFER_LIMIT,
+            'canCreateOffer' => $isPro || $offersUsed < $this->settings->int('club_free_offer_limit', self::CLUB_FREE_OFFER_LIMIT),
             'upgradeCta' => 'Passer à Club Pro — 200 €/mois',
             'enterpriseCta' => 'Passer à Club Enterprise — 400 €/mois',
             'manageCta' => 'Gérer l’abonnement',
@@ -100,12 +101,12 @@ class SubscriptionLimits
         return [
             'audience' => 'agent',
             'plan' => $plan->value,
-            'planLabel' => $plan->label(),
+            'planLabel' => $this->settings->planLabel($plan),
             'tier' => $plan->tier(),
             'isPro' => $isPro,
             'seats' => null,
             'limits' => [
-                $this->limit('represented_players', 'Joueurs représentés', 0, $isPro ? null : self::AGENT_FREE_PLAYER_LIMIT, 'joueurs'),
+                $this->limit('represented_players', 'Joueurs représentés', 0, $isPro ? null : $this->settings->int('agent_free_player_limit', self::AGENT_FREE_PLAYER_LIMIT), 'joueurs'),
                 $this->limit('direct_club_contacts', 'Contacts directs clubs', 0, $isPro ? null : 0),
             ],
             'proBenefits' => [

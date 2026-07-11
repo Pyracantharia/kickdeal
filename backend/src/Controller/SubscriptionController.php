@@ -26,10 +26,18 @@ use Psr\Log\LoggerInterface;
 #[Route('/api/subscription')]
 final class SubscriptionController extends AbstractController
 {
+    #[Route('/plans', name: 'app_subscription_plans', methods: ['GET'])]
+    public function plans(Request $request, \App\Service\ReferenceDataSettings $referenceSettings): JsonResponse
+    {
+        $audience = 'agent' === $request->query->getString('audience') ? 'agent' : 'club';
+        return $this->json(['plans' => $referenceSettings->planCatalog($audience)]);
+    }
+
     #[Route('/me', name: 'app_subscription_me', methods: ['GET'])]
     public function me(
         #[CurrentUser] ?User $user,
         SubscriptionLimits $subscriptionLimits,
+        \App\Service\ReferenceDataSettings $referenceSettings,
     ): JsonResponse {
         if (!$user) {
             return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
@@ -37,6 +45,7 @@ final class SubscriptionController extends AbstractController
 
         return $this->json([
             'subscription' => $subscriptionLimits->getSummary($user),
+            'plans' => $referenceSettings->planCatalog($user->getSubscriptionPlan()->isAgentPlan() ? 'agent' : 'club'),
         ]);
     }
 

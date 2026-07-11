@@ -37,8 +37,21 @@ export interface SubscriptionSummary {
   manageCta: string
 }
 
+export interface SubscriptionPlanCatalogItem {
+  plan: SubscriptionPlan
+  title: string
+  priceCents: number
+  currency: string
+  billingPeriod: string
+  description: string
+  features: string[]
+  seats?: number | null
+  tier: SubscriptionTier
+}
+
 interface SubscriptionResponse {
   subscription: SubscriptionSummary
+  plans?: SubscriptionPlanCatalogItem[]
 }
 
 interface ChilizPaymentVerificationResponse {
@@ -60,6 +73,10 @@ interface StripeCheckoutResponse {
 }
 
 class SubscriptionManager {
+  async getPlans(audience: SubscriptionAudience) {
+    return httpClient.get<{ plans: SubscriptionPlanCatalogItem[] }>(`/subscription/plans?audience=${audience}`)
+  }
+
   async getCurrent() {
     return httpClient.get<SubscriptionResponse>('/subscription/me')
   }

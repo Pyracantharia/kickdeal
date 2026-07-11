@@ -5,6 +5,7 @@
  */
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://kickdeal.space').replace(/\/$/, '')
+export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000/api'
 
 export const APP_ROUTES = {
   register: `${APP_URL}/auth/register`,

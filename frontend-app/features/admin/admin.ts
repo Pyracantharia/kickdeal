@@ -251,6 +251,7 @@ export type AdminNegotiationsData = {
   transfers:AdminMarketData['transfers'];
   contracts:Array<{id:string;type:'transfer'|'renewal'|'termination';status:string;createdAt?:string|null;updatedAt?:string|null;publicFeedEnabled:boolean;player:{id:string;name:string;team?:string|null};club:{id:string;name:string};agent:{id:string;name:string};offersCount:number;packagesCount:number;latestOffer:{status:string;annualSalary?:number|null;terminationCompensation?:number|null;durationMonths?:number|null;validUntil?:string|null}|null}>;
   generatedAt:string;
+  staleAfterDays:number;
 }
 
 export type AdminFeedPost={id:string;eventType:string;bucket:'live'|'official';sourceType:string;isFeatured:boolean;isVisible:boolean;publishedAt:string;headline:string;body:string;playerName?:string|null;amount?:number|null;currency:string;league?:string|null;country?:string|null;sellerTeam?:{name:string;logoUrl?:string|null}|null;buyerTeam?:{name:string;logoUrl?:string|null}|null;createdAt?:string|null;updatedAt?:string|null}
@@ -259,6 +260,9 @@ export type AdminSubscriptionUser={id:string;firstName:string;lastName:string;em
 export type AdminChilizPayment={id:string;userId:string;userEmail:string;provider:'chiliz'|'stripe';txHash:string;planType:string;amountChz:string;status:'pending'|'confirmed'|'rejected';chainId:number;confirmedAt?:string|null;createdAt?:string|null}
 export type AdminStripeInvoice={id:string;status:string;amountDue:number;amountPaid:number;currency:string;createdAt:string;hostedInvoiceUrl?:string|null}
 export type AdminSubscriptionsData={users:AdminSubscriptionUser[];chilizPayments:AdminChilizPayment[];plans:Array<{value:string;label:string;accountType:'agent'|'club'}>}
+export type AdminAuditLog={id:string;admin:{name:string;email:string};action:string;category:string;target:{type:string;id?:string|null;label:string};changes:Record<string,{before:unknown;after:unknown}>;context:Record<string,unknown>;createdAt:string}
+export type AdminReferenceItem={id:string;type:'league'|'country'|'position'|'plan'|'business_parameter';code:string;label:string;value:Record<string,unknown>;active:boolean;usageCount:number}
+export type AdminReferenceData={references:Record<AdminReferenceItem['type'],AdminReferenceItem[]>;clubsUrl:string}
 
 class AdminManager {
   async getDashboard() {
@@ -289,6 +293,11 @@ class AdminManager {
   async getSubscriptions(){return httpClient.get<AdminSubscriptionsData>('/admin/subscriptions')}
   async changeUserPlan(id:string,plan:string){return httpClient.patch<{message:string;user:AdminSubscriptionUser}>(`/admin/subscriptions/users/${id}/plan`,{plan})}
   async getStripeInvoices(id:string){return httpClient.get<{invoices:AdminStripeInvoice[]}>(`/admin/subscriptions/users/${id}/stripe-invoices`)}
+  async getAuditLogs(filters?:{category?:string;search?:string}){const q=new URLSearchParams();if(filters?.category)q.set('category',filters.category);if(filters?.search)q.set('search',filters.search);return httpClient.get<{logs:AdminAuditLog[]}>(`/admin/audit?${q}`)}
+  async getReferenceData(){return httpClient.get<AdminReferenceData>('/admin/reference-data')}
+  async createReferenceItem(payload:{type:string;code:string;label:string;value?:Record<string,unknown>}){return httpClient.post<{message:string}>('/admin/reference-data',payload)}
+  async updateReferenceItem(id:string,payload:Pick<AdminReferenceItem,'code'|'label'|'value'|'active'>){return httpClient.put<{message:string}>(`/admin/reference-data/${id}`,payload)}
+  async deleteReferenceItem(id:string){return httpClient.remove<{message:string}>(`/admin/reference-data/${id}`)}
 
   async getUsers(search?: string) {
     const query = search ? `?search=${encodeURIComponent(search)}` : '';
