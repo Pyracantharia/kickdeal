@@ -20,9 +20,11 @@ interface ActionConfirmationModalProps {
   items?: ConfirmationItem[]
   warning?: string
   isLoading?: boolean
+  confirmDisabled?: boolean
   tone?: 'default' | 'danger'
   onClose: () => void
   onConfirm: () => void
+  children?: React.ReactNode
 }
 
 function ActionConfirmationModal({
@@ -34,9 +36,11 @@ function ActionConfirmationModal({
   items = [],
   warning = 'Cette action peut avoir un impact important et ne doit pas être validée par erreur.',
   isLoading = false,
+  confirmDisabled = false,
   tone = 'default',
   onClose,
   onConfirm,
+  children,
 }: ActionConfirmationModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={isLoading ? () => undefined : onClose} title={title} className="max-w-lg">
@@ -62,6 +66,8 @@ function ActionConfirmationModal({
           </div>
         )}
 
+        {children}
+
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button type="button" variant="secondary" className="flex-1" onClick={onClose} disabled={isLoading}>
             {cancelLabel}
@@ -71,6 +77,7 @@ function ActionConfirmationModal({
             className={`flex-1 ${tone === 'danger' ? 'border border-red-500/50 bg-red-500/20 text-red-100 hover:bg-red-500/30' : ''}`}
             onClick={onConfirm}
             isLoading={isLoading}
+            disabled={confirmDisabled}
           >
             {confirmLabel}
           </Button>

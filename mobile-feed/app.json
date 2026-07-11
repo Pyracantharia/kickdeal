@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.kickdeal-feed"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +28,10 @@
       "favicon": "./assets/images/logo.png"
     },
     "extra": {
-      "apiUrl": "http://localhost:8000/api"
-    }
+      "apiUrl": "https://api.kickdeal.space/api"
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

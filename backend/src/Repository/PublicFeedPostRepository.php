@@ -54,10 +54,12 @@ class PublicFeedPostRepository extends ServiceEntityRepository
             ->setMaxResults($filters['limit'] ?? 30);
 
         $tab = $filters['tab'] ?? 'featured';
-        if ('featured' === $tab) {
-            $qb->andWhere('post.isFeatured = true');
-        } elseif (in_array($tab, ['official', 'live'], true)) {
-            $qb->andWhere('post.bucket = :bucket')->setParameter('bucket', $tab);
+        if ('official' === $tab) {
+            $qb->andWhere('post.eventType = :officialEventType')
+                ->setParameter('officialEventType', 'transfer_official');
+        } elseif ('live' === $tab) {
+            $qb->andWhere('post.eventType != :officialEventType')
+                ->setParameter('officialEventType', 'transfer_official');
         }
 
         if (!empty($filters['type'])) {
@@ -65,17 +67,17 @@ class PublicFeedPostRepository extends ServiceEntityRepository
         }
 
         if (!empty($filters['league'])) {
-            $qb->andWhere('LOWER(post.league) LIKE :league')
+            $qb->andWhere('(LOWER(post.league) LIKE :league OR LOWER(sellerTeam.league) LIKE :league OR LOWER(buyerTeam.league) LIKE :league)')
                 ->setParameter('league', '%'.mb_strtolower($filters['league']).'%');
         }
 
         if (!empty($filters['country'])) {
-            $qb->andWhere('LOWER(post.country) LIKE :country')
+            $qb->andWhere('(LOWER(post.country) LIKE :country OR LOWER(sellerTeam.country) LIKE :country OR LOWER(buyerTeam.country) LIKE :country)')
                 ->setParameter('country', '%'.mb_strtolower($filters['country']).'%');
         }
 
         if (!empty($filters['club'])) {
-            $qb->andWhere('LOWER(sellerTeam.name) LIKE :club OR LOWER(buyerTeam.name) LIKE :club')
+            $qb->andWhere('(LOWER(sellerTeam.name) LIKE :club OR LOWER(buyerTeam.name) LIKE :club)')
                 ->setParameter('club', '%'.mb_strtolower($filters['club']).'%');
         }
 

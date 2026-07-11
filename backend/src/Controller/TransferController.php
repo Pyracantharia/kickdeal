@@ -311,6 +311,12 @@ final class TransferController extends AbstractController
             $negociation->setStatus(TransferNegociationStatusEnum::PENDING_SELLER_CLUB);
         }
 
+        $wasPublicFeedEnabled = $negociation->isPublicFeedEnabled();
+        $wantsPublicFeed = true === ($payload['publicFeedEnabled'] ?? false);
+        if ($wantsPublicFeed) {
+            $negociation->setPublicFeedEnabled(true);
+        }
+
         $offer = $this->buildOfferFromPayload($payload, $negociation, $user, $buyerTeam, $playerRepository);
 
         if ($offer instanceof JsonResponse) {
@@ -319,6 +325,20 @@ final class TransferController extends AbstractController
 
         $latestOffer = $this->getLatestOffer($negociation);
         if ($latestOffer instanceof TransferOffer && $this->isSameTransferOffer($offer, $latestOffer)) {
+            if ($wantsPublicFeed && !$wasPublicFeedEnabled) {
+                foreach ($negociation->getTransferOffers() as $existingOffer) {
+                    $publicFeedPublisher->publishTransferOffer($existingOffer);
+                    if (OfferStatusEnum::ACCEPTED === $existingOffer->getStatus()) {
+                        $publicFeedPublisher->publishTransferAgreement($existingOffer);
+                    }
+                }
+                $entityManager->flush();
+
+                return $this->json([
+                    'offer' => $this->serializeOffer($latestOffer, $buyerTeam, $teamMembershipRepository),
+                ]);
+            }
+
             return $this->json([
                 'errorMessage' => 'Cette proposition est identique à la dernière offre. Acceptez-la directement ou modifiez au moins un élément.',
             ], 422);
@@ -922,6 +942,12 @@ final class TransferController extends AbstractController
             return $this->json(['errorMessage' => 'Payload invalide.'], 400);
         }
 
+        $wasPublicFeedEnabled = $negociation?->isPublicFeedEnabled() ?? false;
+        $wantsPublicFeed = true === ($payload['publicFeedEnabled'] ?? false);
+        if ($wantsPublicFeed) {
+            $negociation?->setPublicFeedEnabled(true);
+        }
+
         $counterOffer = $this->buildOfferFromPayload(
             $payload,
             $negociation,
@@ -935,6 +961,20 @@ final class TransferController extends AbstractController
         }
 
         if ($this->isSameTransferOffer($counterOffer, $sourceOffer)) {
+            if ($wantsPublicFeed && !$wasPublicFeedEnabled && $negociation instanceof TransferNegociation) {
+                foreach ($negociation->getTransferOffers() as $existingOffer) {
+                    $publicFeedPublisher->publishTransferOffer($existingOffer);
+                    if (OfferStatusEnum::ACCEPTED === $existingOffer->getStatus()) {
+                        $publicFeedPublisher->publishTransferAgreement($existingOffer);
+                    }
+                }
+                $entityManager->flush();
+
+                return $this->json([
+                    'offer' => $this->serializeOffer($sourceOffer, $team, $teamMembershipRepository),
+                ]);
+            }
+
             return $this->json([
                 'errorMessage' => 'Cette proposition est identique à la dernière offre. Acceptez-la directement ou modifiez au moins un élément.',
             ], 422);
@@ -1135,8 +1175,11 @@ final class TransferController extends AbstractController
             'buyerTeamId' => $buyerTeam?->getId()?->toRfc4122(),
             'sellerTeamId' => $sellerTeam?->getId()?->toRfc4122(),
             'viewerRole' => $viewerRole,
+            'publicFeedEnabled' => $negociation?->isPublicFeedEnabled() ?? false,
             'contractResolution' => $negociation ? $this->serializeContractResolution($negociation, $viewerTeam) : null,
-            'sellerClubResolution' => $negociation ? $this->serializeSellerClubResolution($negociation, $viewerTeam) : null,
+            'sellerClubResolution' => $negociation
+                ? $this->serializeSellerClubResolution($negociation, $viewerTeam)
+                : $this->serializePendingSellerClubResolution($listing, $buyerTeam, $viewerTeam, $teamMembershipRepository),
             'messageRecipient' => $this->serializeMessageRecipient(
                 $recipientUser instanceof User ? $recipientUser : null,
                 $recipientTeam?->getName() ?? 'Club',
@@ -1204,8 +1247,11 @@ final class TransferController extends AbstractController
             'negociationStatus' => $negociation?->getStatus()?->value,
             'viewerRole' => $viewerRole,
             'exchangeTeamId' => 'seller' === $viewerRole ? $buyerTeam->getId()?->toRfc4122() : $viewerTeam->getId()?->toRfc4122(),
+            'publicFeedEnabled' => $negociation?->isPublicFeedEnabled() ?? false,
             'contractResolution' => $negociation ? $this->serializeContractResolution($negociation, $viewerTeam) : null,
-            'sellerClubResolution' => $negociation ? $this->serializeSellerClubResolution($negociation, $viewerTeam) : null,
+            'sellerClubResolution' => $negociation
+                ? $this->serializeSellerClubResolution($negociation, $viewerTeam)
+                : $this->serializePendingSellerClubResolution($listing, $buyerTeam, $viewerTeam, $teamMembershipRepository),
             'player' => $player ? $this->serializePlayer($player) : null,
             'sellerTeam' => $sellerTeam ? $this->serializeTeam($sellerTeam) : null,
             'buyerTeam' => $this->serializeTeam($buyerTeam),
@@ -1350,6 +1396,35 @@ final class TransferController extends AbstractController
             'externalContacted' => null !== $negociation->getSellerClubExternalContactedAt()
                 || TransferNegociationStatusEnum::SELLER_CLUB_EXTERNAL_CONTACTED === $status,
             'externalContactedAt' => $negociation->getSellerClubExternalContactedAt()?->format(\DateTimeInterface::ATOM),
+        ];
+    }
+
+    private function serializePendingSellerClubResolution(
+        Listing $listing,
+        Team $buyerTeam,
+        Team $viewerTeam,
+        TeamMembershipRepository $teamMembershipRepository,
+    ): ?array {
+        $sellerTeam = $listing->getSellerTeam();
+        $viewerRole = $buyerTeam->getId()?->toRfc4122() === $viewerTeam->getId()?->toRfc4122() ? 'buyer' : 'seller';
+
+        if (!$sellerTeam instanceof Team || $teamMembershipRepository->countByTeam($sellerTeam) > 0) {
+            return null;
+        }
+
+        return [
+            'requiresAction' => true,
+            'viewerRole' => $viewerRole,
+            'sellerClubRepresented' => false,
+            'canInviteSellerClub' => 'buyer' === $viewerRole,
+            'canMarkExternalContact' => false,
+            'sellerTeamName' => $sellerTeam->getName(),
+            'buyerTeamName' => $buyerTeam->getName(),
+            'invitationSent' => false,
+            'invitedEmail' => null,
+            'invitedAt' => null,
+            'externalContacted' => false,
+            'externalContactedAt' => null,
         ];
     }
 

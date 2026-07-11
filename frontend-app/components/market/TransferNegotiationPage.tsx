@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ArrowRightLeft, ChevronUp, Send } from 'lucide-react'
+import { ArrowRightLeft, ChevronUp, Clock3, Mail, Send } from 'lucide-react'
 
 import Button from '@/components/ui/Button'
 import ActionConfirmationModal from '@/components/ui/ActionConfirmationModal'
@@ -56,6 +56,8 @@ function TransferNegotiationPage() {
   const [exchangePlayerId, setExchangePlayerId] = useState('')
   const [buyBackPriority, setBuyBackPriority] = useState(false)
   const [futureTransferPriority, setFutureTransferPriority] = useState(false)
+  const [publicFeedEnabled, setPublicFeedEnabled] = useState(false)
+  const [sellerClubInviteEmail, setSellerClubInviteEmail] = useState('')
   const [message, setMessage] = useState('')
 
   useEffect(() => {
@@ -100,6 +102,7 @@ function TransferNegotiationPage() {
         setResalePercentage(latestOffer?.resalePercentageValue ? String(latestOffer.resalePercentageValue) : '')
         setBuyBackPriority(Boolean(latestOffer?.buyBackPriority))
         setFutureTransferPriority(Boolean(latestOffer?.futureTransferPriority))
+        setPublicFeedEnabled(Boolean(nextContext.publicFeedEnabled ?? latestOffer?.publicFeedEnabled))
         setDurationMonths(latestOffer?.duration ? String(latestOffer.duration) : '12')
       } catch {
         if (isMounted) {
@@ -150,6 +153,14 @@ function TransferNegotiationPage() {
   const counterparty = isSeller ? context?.buyerTeam : context?.sellerTeam
   const operationLabel = type === 'loan' ? 'Prêt' : type === 'exchange' ? 'Échange' : isSeller ? 'Vente' : 'Transfert définitif'
   const canShowAdvancedTransferTerms = type !== 'loan'
+  const canPublishExistingOffer = publicFeedEnabled && !context?.publicFeedEnabled
+  const sellerClubResolution = context?.sellerClubResolution
+  const shouldPrepareSellerClubInvite = Boolean(
+    sellerClubResolution?.requiresAction
+    && sellerClubResolution.viewerRole === 'buyer'
+    && !sellerClubResolution.invitationSent
+    && !sellerClubResolution.externalContacted,
+  )
   const isSameAsLatestOffer = context?.latestOffer
     ? isPayloadSameAsOffer(
       {
@@ -183,11 +194,6 @@ function TransferNegotiationPage() {
       return
     }
 
-    if (isSameAsLatestOffer) {
-      setErrorMessage("Cette proposition est identique à la dernière offre reçue. Vous pouvez l'accepter directement ou modifier au moins un élément avant de renvoyer une offre.")
-      return
-    }
-
     setErrorMessage(null)
 
     const payload: TransferOfferPayload = {
@@ -202,6 +208,7 @@ function TransferNegotiationPage() {
       exchangePlayerId: type === 'exchange' ? exchangePlayerId || undefined : undefined,
       buyBackPriority: canShowAdvancedTransferTerms ? buyBackPriority : false,
       futureTransferPriority: canShowAdvancedTransferTerms ? futureTransferPriority : false,
+      publicFeedEnabled,
       message: message || undefined,
     }
 
@@ -213,16 +220,33 @@ function TransferNegotiationPage() {
 
     setIsSubmitting(true)
     setErrorMessage(null)
+    const finalPayload = {
+      ...pendingOfferPayload,
+      publicFeedEnabled,
+    }
 
     try {
       const response = offerId
-        ? await transfersManager.counterOffer(offerId, pendingOfferPayload)
-        : await transfersManager.createOffer(pendingOfferPayload)
+        ? await transfersManager.counterOffer(offerId, finalPayload)
+        : await transfersManager.createOffer(finalPayload)
 
       if (!response.ok) {
         const errorData = response.data as { errorMessage?: unknown }
         setErrorMessage(typeof errorData.errorMessage === 'string' ? errorData.errorMessage : "Impossible d'envoyer l'offre.")
         return
+      }
+
+      const negociationId = response.data.offer.negociationId
+      const inviteEmail = sellerClubInviteEmail.trim()
+      if (!offerId && shouldPrepareSellerClubInvite && negociationId && inviteEmail) {
+        const invitationResponse = await transfersManager.inviteSellerClub(negociationId, inviteEmail)
+        if (!invitationResponse.ok) {
+          setErrorMessage("L'offre a été envoyée, mais l'invitation au club vendeur n'a pas pu partir. Vous pourrez la relancer depuis la liste des offres.")
+          setPendingOfferPayload(null)
+          await refreshSummary()
+          router.push('/market/transfers')
+          return
+        }
       }
 
       await refreshSummary()
@@ -417,10 +441,37 @@ function TransferNegotiationPage() {
                 </div>
               )}
 
-              {isSameAsLatestOffer && (
-                <p className="mt-4 rounded-lg border border-amber-400/40 bg-amber-400/10 px-3 py-2 text-sm text-amber-100">
-                  Offre identique à la dernière proposition : acceptez-la directement ou modifiez un élément pour contre-proposer.
-                </p>
+              {!offerId && shouldPrepareSellerClubInvite && (
+                <div className="mt-5 rounded-xl border border-brand-cyan/40 bg-brand-cyan/10 p-4">
+                  <div className="flex gap-3">
+                    <Clock3 className="mt-0.5 h-5 w-5 shrink-0 text-brand-cyan" />
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-white">Club vendeur non représenté</p>
+                      <p className="mt-1 text-sm text-white/65">
+                        {sellerClubResolution?.sellerTeamName ?? context.sellerTeam.name} n’a pas encore de gérant sur KickDeal.
+                        Votre offre sera conservée, puis le club devra rejoindre la plateforme pour répondre.
+                      </p>
+                      <label className="mt-4 block">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-white/55">
+                          Email d’un dirigeant du club
+                        </span>
+                        <div className="mt-2 flex items-center gap-2 rounded-lg border border-white/15 bg-[#071722] px-3 py-2 focus-within:border-brand-cyan">
+                          <Mail className="h-4 w-4 shrink-0 text-brand-cyan" />
+                          <input
+                            type="email"
+                            value={sellerClubInviteEmail}
+                            onChange={(event) => setSellerClubInviteEmail(event.target.value)}
+                            placeholder="dirigeant@club.com"
+                            className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/35"
+                          />
+                        </div>
+                      </label>
+                      <p className="mt-2 text-xs text-white/45">
+                        Optionnel : si vous le renseignez, l’invitation partira automatiquement après l’envoi de l’offre.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               )}
 
               <StartConversationButton
@@ -429,7 +480,7 @@ function TransferNegotiationPage() {
                 onError={(message) => setErrorMessage(message || null)}
               />
 
-              <Button type="submit" className="mt-5 w-full" isLoading={isSubmitting} disabled={Boolean(subscription && !subscription.canCreateOffer) || isSameAsLatestOffer} icon={<Send className="h-4 w-4" />}>
+              <Button type="submit" className="mt-5 w-full" isLoading={isSubmitting} disabled={Boolean(subscription && !subscription.canCreateOffer)} icon={<Send className="h-4 w-4" />}>
                 Envoyer l&apos;offre
               </Button>
               <Button type="button" variant="secondary" className="mt-3 w-full" onClick={() => router.push('/market/transfers')}>
@@ -475,11 +526,46 @@ function TransferNegotiationPage() {
           { label: 'Montant total', value: formatCurrency(totalValue) },
           { label: 'Paiement', value: type !== 'loan' && paymentMode === 'installments' ? `${paymentInstallments} versements` : 'Paiement comptant' },
           { label: 'Club concerné', value: counterparty?.name ?? '-' },
+          { label: 'KickDeal Feed', value: publicFeedEnabled ? 'Publication autorisée' : 'Publication refusée' },
         ]}
         warning="Une offre envoyée entre dans l’historique de négociation et peut déclencher une décision du club adverse."
+        confirmDisabled={isSameAsLatestOffer && !canPublishExistingOffer}
         onClose={() => setPendingOfferPayload(null)}
         onConfirm={() => void confirmSubmitOffer()}
-      />
+      >
+        {!offerId && shouldPrepareSellerClubInvite && (
+          <div className="rounded-xl border border-amber-400/40 bg-amber-400/10 p-4">
+            <div className="flex gap-3">
+              <Clock3 className="mt-0.5 h-5 w-5 shrink-0 text-amber-200" />
+              <div className="min-w-0">
+                <p className="font-semibold text-white">Réponse du club vendeur en attente</p>
+                <p className="mt-1 text-sm text-white/65">
+                  {sellerClubResolution?.sellerTeamName ?? context.sellerTeam.name} n’est pas encore représenté sur KickDeal.
+                  {sellerClubInviteEmail.trim()
+                    ? ` Une invitation sera envoyée à ${sellerClubInviteEmail.trim()} après l’offre.`
+                    : ' Vous pourrez inviter un dirigeant après l’envoi de l’offre.'}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="rounded-xl border border-brand-cyan/40 bg-brand-cyan/10 p-4">
+          <p className="text-sm font-bold uppercase tracking-[0.18em] text-brand-cyan">KickDeal Feed</p>
+          <ToggleRow
+            label="Publier cette offre sur l’application mobile"
+            description="Si activé, l’offre sera visible publiquement dans À la une et Live. Si les clubs tombent d’accord, un post d’accord sera aussi publié."
+            checked={publicFeedEnabled}
+            onChange={setPublicFeedEnabled}
+            tone="cyan"
+          />
+          {isSameAsLatestOffer && !canPublishExistingOffer && (
+            <p className="mt-4 rounded-lg border border-amber-400/40 bg-amber-400/10 px-3 py-2 text-sm text-amber-100">
+              Cette proposition est identique à la dernière offre. Modifiez un élément ou activez la publication KickDeal Feed pour continuer.
+            </p>
+          )}
+        </div>
+      </ActionConfirmationModal>
     </div>
   )
 }

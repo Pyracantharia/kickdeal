@@ -78,6 +78,7 @@ final class ContractNegotiationWorkflow
             ->setTransferNegociation($transferNegociation)
             ->setType(ContractNegotiationTypeEnum::TRANSFER)
             ->setStatus(PlayerContractNegociationStatusEnum::OPEN)
+            ->setPublicFeedEnabled($transferNegociation->isPublicFeedEnabled())
             ->setCreatedBy($createdBy)
             ->setCreatedAt(new \DateTimeImmutable())
             ->setUpdatedAt(new \DateTimeImmutable());
