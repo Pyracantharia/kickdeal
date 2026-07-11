@@ -139,14 +139,14 @@ export function ToggleRow({
 }) {
   return (
     <div className="mt-5 flex items-center justify-between gap-4">
-      <div>
+      <div className="min-w-0">
         <p className="font-medium text-white/70">{label}</p>
         {description && <p className="mt-1 text-xs text-white/45">{description}</p>}
       </div>
       <button
         type="button"
         onClick={() => onChange(!checked)}
-        className={`flex h-7 w-14 items-center rounded-full p-1 transition ${checked ? (tone === 'cyan' ? 'bg-brand-cyan' : 'bg-brand-purple') : 'bg-white/20'}`}
+        className={`flex h-7 w-14 shrink-0 items-center overflow-hidden rounded-full p-1 transition ${checked ? (tone === 'cyan' ? 'bg-brand-cyan' : 'bg-brand-purple') : 'bg-white/20'}`}
         aria-pressed={checked}
       >
         <span className={`h-5 w-5 rounded-full bg-white transition ${checked ? 'translate-x-7' : ''}`} />

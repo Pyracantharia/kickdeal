@@ -64,6 +64,7 @@ export interface TransferOffer {
   contractResolution?: ContractResolution | null
   sellerClubResolution?: SellerClubResolution | null
   messageRecipient?: MessageRecipient | null
+  publicFeedEnabled?: boolean
   player: Player
   type: OfferType
   kind?: string
@@ -91,6 +92,7 @@ export interface TransferOfferPayload {
   listingId?: string
   amount: number
   type: OfferType
+  publicFeedEnabled?: boolean
   durationMonths?: number
   paymentInstallments?: number
   performanceBonus?: number
@@ -134,6 +136,7 @@ export interface TransferNegotiationContext {
   buyerTeam: NegotiationTeam
   viewerTeam: NegotiationTeam
   messageRecipient?: MessageRecipient | null
+  publicFeedEnabled?: boolean
   latestOffer?: TransferOffer | null
   history: NegotiationHistoryItem[]
 }

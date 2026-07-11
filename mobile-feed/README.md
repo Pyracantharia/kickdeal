@@ -35,6 +35,12 @@ Pour un simulateur lancé sur la même machine que le backend Docker :
 EXPO_PUBLIC_API_URL=http://localhost:8000/api
 ```
 
+Pour la production KickDeal :
+
+```env
+EXPO_PUBLIC_API_URL=https://api.kickdeal.space/api
+```
+
 Pour Expo Go sur un téléphone physique, `localhost` pointe vers le téléphone, pas vers votre Mac. Utilisez l'adresse IP locale de la machine qui lance Docker :
 
 ```env

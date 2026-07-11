@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   FlatList,
@@ -84,6 +84,13 @@ export function FeedScreen({ navigation }: FeedScreenProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [isEndpointAvailable, setIsEndpointAvailable] = useState(true)
   const [filterOptions, setFilterOptions] = useState<FeedFilterOptions | null>(null)
+  const [pendingNewCount, setPendingNewCount] = useState(0)
+  const [newSectionAfterId, setNewSectionAfterId] = useState<string | null>(null)
+  const postsRef = useRef<PublicFeedPost[]>([])
+
+  useEffect(() => {
+    postsRef.current = posts
+  }, [posts])
 
   const activeFilterCount = useMemo(
     () => Object.values(filters).filter((value) => Boolean(String(value ?? '').trim())).length,
@@ -91,21 +98,34 @@ export function FeedScreen({ navigation }: FeedScreenProps) {
   )
 
   const loadFeed = useCallback(async (refresh = false) => {
+    const previousPosts = postsRef.current
+
     if (refresh) {
       setIsRefreshing(true)
     } else {
       setIsLoading(true)
+      setPendingNewCount(0)
+      setNewSectionAfterId(null)
     }
     setErrorMessage(null)
 
     try {
       const result = await getFeedPreview({ tab: activeTab, filters })
+      const previousFirstPostId = previousPosts[0]?.id
+      const previousFirstIndex = refresh && previousFirstPostId
+        ? result.posts.findIndex((post) => post.id === previousFirstPostId)
+        : -1
+
       setPosts(result.posts)
       setIsEndpointAvailable(result.isEndpointAvailable)
+      setPendingNewCount(0)
+      setNewSectionAfterId(previousFirstIndex > 0 ? result.posts[previousFirstIndex - 1]?.id ?? null : null)
     } catch {
       setErrorMessage('Impossible de joindre le backend KickDeal pour le moment.')
       setPosts([])
       setIsEndpointAvailable(true)
+      setPendingNewCount(0)
+      setNewSectionAfterId(null)
     } finally {
       setIsLoading(false)
       setIsRefreshing(false)
@@ -115,6 +135,37 @@ export function FeedScreen({ navigation }: FeedScreenProps) {
   useEffect(() => {
     loadFeed()
   }, [loadFeed])
+
+  useEffect(() => {
+    if (!isEndpointAvailable || isLoading || isRefreshing || posts.length === 0) {
+      return undefined
+    }
+
+    let isMounted = true
+
+    async function checkForNewPosts() {
+      const currentFirstPostId = postsRef.current[0]?.id
+      if (!currentFirstPostId) return
+
+      try {
+        const result = await getFeedPreview({ tab: activeTab, filters })
+        if (!isMounted || !result.isEndpointAvailable) return
+
+        const currentFirstIndex = result.posts.findIndex((post) => post.id === currentFirstPostId)
+        setPendingNewCount(currentFirstIndex > 0 ? currentFirstIndex : 0)
+      } catch {
+      }
+    }
+
+    const interval = setInterval(() => {
+      void checkForNewPosts()
+    }, 45_000)
+
+    return () => {
+      isMounted = false
+      clearInterval(interval)
+    }
+  }, [activeTab, filters, isEndpointAvailable, isLoading, isRefreshing, posts.length])
 
   useEffect(() => {
     let isMounted = true
@@ -205,6 +256,18 @@ export function FeedScreen({ navigation }: FeedScreenProps) {
           })}
         </View>
 
+        {pendingNewCount > 0 ? (
+          <Pressable style={styles.newPostsBanner} onPress={() => loadFeed(true)}>
+            <View style={styles.newPostsIcon}>
+              <Ionicons name="arrow-up" size={15} color={colors.background} />
+            </View>
+            <Text style={styles.newPostsText}>
+              {pendingNewCount} nouvelle{pendingNewCount > 1 ? 's' : ''} actualité{pendingNewCount > 1 ? 's' : ''}
+            </Text>
+            <Text style={styles.newPostsAction}>Afficher</Text>
+          </Pressable>
+        ) : null}
+
         {isEmpty ? (
           <View style={styles.emptyBox}>
             <Ionicons name="file-tray-outline" size={26} color={colors.cyan} />
@@ -236,14 +299,26 @@ export function FeedScreen({ navigation }: FeedScreenProps) {
             ) : null
           }
           renderItem={({ item }) => (
-            <FeedPostCard
-              post={item}
-              onPress={() => {
-                if (!item.id.startsWith('mock-')) {
-                  navigation.navigate('PostDetail', { postId: item.id })
-                }
-              }}
-            />
+            <Fragment>
+              <FeedPostCard
+                post={item}
+                onPress={() => {
+                  if (!item.id.startsWith('mock-')) {
+                    navigation.navigate('PostDetail', { postId: item.id })
+                  }
+                }}
+              />
+              {newSectionAfterId === item.id ? (
+                <View style={styles.newSectionBoundary}>
+                  <View style={styles.boundaryLine} />
+                  <View style={styles.boundaryLabel}>
+                    <Text style={styles.boundaryTitle}>Nouveaux posts au-dessus</Text>
+                    <Text style={styles.boundarySubtitle}>Posts déjà chargés en dessous</Text>
+                  </View>
+                  <View style={styles.boundaryLine} />
+                </View>
+              ) : null}
+            </Fragment>
           )}
           ItemSeparatorComponent={null}
         />
@@ -372,6 +447,71 @@ const styles = StyleSheet.create({
     height: 4,
     borderRadius: 999,
     backgroundColor: colors.cyan,
+  },
+  newPostsBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: spacing.lg,
+    marginTop: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.borderStrong,
+    borderRadius: 999,
+    backgroundColor: 'rgba(0, 245, 212, 0.12)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    gap: spacing.sm,
+  },
+  newPostsIcon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: colors.cyan,
+  },
+  newPostsText: {
+    flex: 1,
+    color: colors.text,
+    fontSize: 14,
+    fontWeight: '900',
+  },
+  newPostsAction: {
+    color: colors.cyan,
+    fontSize: 13,
+    fontWeight: '900',
+    textTransform: 'uppercase',
+  },
+  newSectionBoundary: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: spacing.lg,
+    marginVertical: spacing.md,
+    gap: spacing.sm,
+  },
+  boundaryLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'rgba(0, 245, 212, 0.35)',
+  },
+  boundaryLabel: {
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.borderStrong,
+    borderRadius: 999,
+    backgroundColor: 'rgba(0, 0, 0, 0.55)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: 7,
+  },
+  boundaryTitle: {
+    color: colors.cyan,
+    fontSize: 11,
+    fontWeight: '900',
+    textTransform: 'uppercase',
+  },
+  boundarySubtitle: {
+    color: colors.muted,
+    fontSize: 10,
+    fontWeight: '700',
   },
   errorBox: {
     borderWidth: 1,

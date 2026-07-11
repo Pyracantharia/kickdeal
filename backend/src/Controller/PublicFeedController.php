@@ -157,7 +157,7 @@ final class PublicFeedController extends AbstractController
             'currency' => $post->getCurrency(),
             'league' => $post->getLeague(),
             'country' => $post->getCountry(),
-            'isOfficial' => 'official' === $post->getBucket(),
+            'isOfficial' => 'transfer_official' === $post->getEventType(),
             'player' => [
                 'id' => $player?->getId()?->toRfc4122(),
                 'name' => $post->getPlayerName(),

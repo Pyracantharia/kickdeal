@@ -267,12 +267,21 @@ final class PublicFeedPublisher
         $sellerTeam = $negociation->getTransferNegociation()?->getListing()?->getSellerTeam() ?? $player->getTeam();
         $acceptedTransferOffer = $this->findAcceptedTransferOffer($negociation->getTransferNegociation());
         $playerName = $this->playerName($player);
+        $contractTermsSentence = $this->contractTermsSentence(
+            $acceptedOffer?->getAnnualSalary(),
+            $acceptedOffer?->getDurationMonths(),
+        );
 
         [$eventType, $headline, $body, $amount] = match ($negociation->getType()) {
             ContractNegotiationTypeEnum::TRANSFER => [
                 PublicFeedEventTypeEnum::TRANSFER_OFFICIAL,
                 'OFFICIEL ! HERE WE GO',
-                sprintf('%s rejoint %s. Le transfert est finalisé sur KickDeal.', $playerName, $buyerTeam->getName() ?? 'son nouveau club'),
+                trim(sprintf(
+                    '%s rejoint %s. Le transfert est finalisé sur KickDeal.%s',
+                    $playerName,
+                    $buyerTeam->getName() ?? 'son nouveau club',
+                    null !== $contractTermsSentence ? ' '.$contractTermsSentence : '',
+                )),
                 $acceptedTransferOffer?->getAmount(),
             ],
             ContractNegotiationTypeEnum::RENEWAL => [
@@ -305,6 +314,7 @@ final class PublicFeedPublisher
             details: [
                 'contractType' => $negociation->getType()->value,
                 'durationMonths' => $acceptedOffer?->getDurationMonths(),
+                'contractDurationLabel' => $this->formatDuration($acceptedOffer?->getDurationMonths()),
                 'contractUntil' => $player->getContractEndDate()?->format('Y-m-d'),
                 'amountLabel' => $this->formatMoney($amount),
                 'annualSalaryLabel' => $this->formatMoney($acceptedOffer?->getAnnualSalary()),
@@ -333,6 +343,13 @@ final class PublicFeedPublisher
         $acceptedTransferOffer = $this->findAcceptedTransferOffer($negociation);
         $playerName = $this->playerName($player);
         $publishedAt = $negociation->getAgreedAt() ?? $negociation->getUpdatedAt() ?? $negociation->getCreatedAt();
+        $annualSalary = null !== $negociation->getExternalContractWeeklySalary()
+            ? $negociation->getExternalContractWeeklySalary() * 52
+            : null;
+        $contractTermsSentence = $this->contractTermsSentence(
+            $annualSalary,
+            $negociation->getExternalContractDurationMonths(),
+        );
 
         return $this->upsertPost(
             sourceType: 'transfer_negociation',
@@ -342,7 +359,12 @@ final class PublicFeedPublisher
             isFeatured: true,
             publishedAt: $this->immutableDate($publishedAt),
             headline: 'OFFICIEL ! HERE WE GO',
-            body: sprintf('%s rejoint %s. Le transfert est finalisé sur KickDeal.', $playerName, $buyerTeam->getName() ?? 'son nouveau club'),
+            body: trim(sprintf(
+                '%s rejoint %s. Le transfert est finalisé sur KickDeal.%s',
+                $playerName,
+                $buyerTeam->getName() ?? 'son nouveau club',
+                null !== $contractTermsSentence ? ' '.$contractTermsSentence : '',
+            )),
             player: $player,
             sellerTeam: $sellerTeam,
             buyerTeam: $buyerTeam,
@@ -350,7 +372,9 @@ final class PublicFeedPublisher
             details: [
                 'contractType' => 'external_transfer',
                 'weeklySalaryLabel' => $this->formatMoney($negociation->getExternalContractWeeklySalary()),
+                'annualSalaryLabel' => $this->formatMoney($annualSalary),
                 'durationMonths' => $negociation->getExternalContractDurationMonths(),
+                'contractDurationLabel' => $this->formatDuration($negociation->getExternalContractDurationMonths()),
                 'transferAmountLabel' => $this->formatMoney($acceptedTransferOffer?->getAmount()),
                 'amountLabel' => $this->formatMoney($acceptedTransferOffer?->getAmount()),
                 'finalizedWithoutAgent' => true,
@@ -472,6 +496,35 @@ final class PublicFeedPublisher
         }
 
         return number_format($value, 0, ',', ' ').' EUR';
+    }
+
+    private function formatDuration(?int $durationMonths): ?string
+    {
+        if (null === $durationMonths || $durationMonths <= 0) {
+            return null;
+        }
+
+        if (0 === $durationMonths % 12) {
+            $years = intdiv($durationMonths, 12);
+
+            return $years.' an'.($years > 1 ? 's' : '');
+        }
+
+        return $durationMonths.' mois';
+    }
+
+    private function contractTermsSentence(?int $annualSalary, ?int $durationMonths): ?string
+    {
+        $terms = array_values(array_filter([
+            null !== $annualSalary ? 'salaire annuel '.$this->formatMoney($annualSalary) : null,
+            null !== $durationMonths ? 'contrat '.$this->formatDuration($durationMonths) : null,
+        ]));
+
+        if ([] === $terms) {
+            return null;
+        }
+
+        return 'Conditions joueur : '.implode(', ', $terms).'.';
     }
 
     private function findAcceptedContractOffer(ContractNegociation $negociation): ?ContractOffer

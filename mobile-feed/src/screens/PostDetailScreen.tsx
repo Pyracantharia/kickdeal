@@ -59,15 +59,18 @@ export function PostDetailScreen({ navigation, route }: PostDetailScreenProps) {
   const detailRows = useMemo(() => {
     if (!post) return []
 
+    const exactAmountLabel = formatExactCurrency(post.amount, post.currency)
+
     return [
       ['Joueur', post.playerName],
       ['Club vendeur', post.sellerTeam?.name ?? post.fromClubName],
       ['Club acheteur', post.buyerTeam?.name ?? post.toClubName],
-      ['Montant', post.amountLabel],
+      ['Montant', exactAmountLabel ?? post.amountLabel],
+      ['Salaire annuel', readDetail(post.details, 'annualSalaryLabel')],
       ['Championnat', getLeagueDisplayName(post.league)],
       ['Pays', post.country],
       ['Contrat jusqu’au', readDetail(post.details, 'contractUntil')],
-      ['Durée', formatMonths(readDetail(post.details, 'durationMonths'))],
+      ['Durée', readDetail(post.details, 'contractDurationLabel') ?? formatMonths(readDetail(post.details, 'durationMonths'))],
       ['Prime', readDetail(post.details, 'signingBonusLabel')],
       ['Clause libératoire', readDetail(post.details, 'releaseClauseLabel')],
       ['Statut', readDetail(post.details, 'status') ?? post.bucket],
@@ -81,6 +84,7 @@ export function PostDetailScreen({ navigation, route }: PostDetailScreenProps) {
     )
     : []
   const copy = post ? getReadableCopy(post) : null
+  const exactAmountLabel = post ? formatExactCurrency(post.amount, post.currency) : null
 
   return (
     <ImageBackground source={backgroundImage} resizeMode="cover" style={styles.background}>
@@ -150,9 +154,9 @@ export function PostDetailScreen({ navigation, route }: PostDetailScreenProps) {
                     >
                       {post.playerName ?? 'Actualité mercato'}
                     </Text>
-                    {post.amountLabel ? (
+                    {exactAmountLabel ?? post.amountLabel ? (
                       <Text style={[styles.amount, teams.length === 1 && styles.amountSingle]}>
-                        {post.amountLabel}
+                        {exactAmountLabel ?? post.amountLabel}
                       </Text>
                     ) : null}
                   </View>
@@ -243,6 +247,17 @@ function formatMonths(value: string | number | null) {
   const months = Number(value)
   if (!Number.isFinite(months)) return null
   return `${months} mois`
+}
+
+function formatExactCurrency(value?: number | null, currency = 'EUR') {
+  if (value === null || value === undefined) return null
+  if (!Number.isFinite(value)) return null
+
+  return new Intl.NumberFormat('fr-FR', {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: Number.isInteger(value) ? 0 : 2,
+  }).format(value)
 }
 
 function formatDate(value: string) {
