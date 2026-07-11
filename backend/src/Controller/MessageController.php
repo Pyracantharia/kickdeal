@@ -72,6 +72,84 @@ final class MessageController extends AbstractController
         ]);
     }
 
+    #[Route('/support/conversation', name: 'api_messages_support_conversation', methods: ['POST'])]
+    public function startSupportConversation(
+        Request $request,
+        #[CurrentUser] ?User $user,
+        UserRepository $userRepository,
+        DirectConversationRepository $conversationRepository,
+        EntityManagerInterface $entityManager,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        if (!$user instanceof User) {
+            return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
+        }
+
+        if (in_array(User::ROLE_ADMIN, $user->getRoles(), true)) {
+            return $this->json(['errorMessage' => 'Le support utilisateur est réservé aux comptes club et agent.'], 422);
+        }
+
+        if ($user->isBanned()) {
+            return $this->json([
+                'errorMessage' => sprintf('Votre compte est suspendu jusqu’au %s.', $user->getBannedUntil()?->format('d/m/Y H:i')),
+            ], 403);
+        }
+
+        if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
+            return $csrfError;
+        }
+
+        $conversation = $conversationRepository->findSupportForUser($user);
+
+        if (!$conversation instanceof DirectConversation) {
+            $admin = $userRepository->findAdminUsers()[0] ?? null;
+
+            if (!$admin instanceof User) {
+                return $this->json(['errorMessage' => 'Aucun administrateur support disponible.'], 503);
+            }
+
+            $conversation = $conversationRepository->findBetweenUsers($user, $admin);
+
+            if (!$conversation instanceof DirectConversation) {
+                [$lowId, $highId] = DirectConversationRepository::orderedParticipantIds($user, $admin);
+                $conversation = (new DirectConversation())
+                    ->setParticipantOne($user)
+                    ->setParticipantTwo($admin)
+                    ->setParticipantLowId(Uuid::fromString($lowId))
+                    ->setParticipantHighId(Uuid::fromString($highId))
+                    ->setCreatedAt(new \DateTimeImmutable());
+
+                $entityManager->persist($conversation);
+            }
+
+            $conversation
+                ->setType('support')
+                ->setUpdatedAt(new \DateTimeImmutable());
+            $entityManager->flush();
+        }
+
+        return $this->json([
+            'conversation' => $this->serializeConversation($conversation, $user),
+        ], 201);
+    }
+
+    #[Route('/support/conversations', name: 'api_messages_admin_support_conversations', methods: ['GET'])]
+    public function supportConversations(
+        #[CurrentUser] ?User $user,
+        DirectConversationRepository $conversationRepository,
+    ): JsonResponse {
+        if (!$user instanceof User || !in_array(User::ROLE_ADMIN, $user->getRoles(), true)) {
+            return $this->json(['errorMessage' => 'Accès refusé.'], 403);
+        }
+
+        return $this->json([
+            'conversations' => array_map(
+                fn (DirectConversation $conversation) => $this->serializeConversation($conversation, $user),
+                $conversationRepository->findSupportConversations(),
+            ),
+        ]);
+    }
+
     #[Route('/conversations', name: 'api_messages_start_conversation', methods: ['POST'])]
     public function startConversation(
         Request $request,
@@ -146,7 +224,7 @@ final class MessageController extends AbstractController
 
         $conversation = $conversationRepository->find($id);
 
-        if (!$conversation instanceof DirectConversation || !$conversation->hasParticipant($user)) {
+        if (!$conversation instanceof DirectConversation || !$this->canAccessConversation($conversation, $user)) {
             return $this->json(['errorMessage' => 'Discussion introuvable.'], 404);
         }
 
@@ -178,7 +256,7 @@ final class MessageController extends AbstractController
 
         $conversation = $conversationRepository->find($id);
 
-        if (!$conversation instanceof DirectConversation || !$conversation->hasParticipant($user)) {
+        if (!$conversation instanceof DirectConversation || !$this->canAccessConversation($conversation, $user)) {
             return $this->json(['errorMessage' => 'Discussion introuvable.'], 404);
         }
 
@@ -199,6 +277,7 @@ final class MessageController extends AbstractController
         MercurePublisher $mercurePublisher,
         NotificationService $notificationService,
         CsrfTokenManagerInterface $csrfTokenManager,
+        UserRepository $userRepository,
     ): JsonResponse {
         if (!$user instanceof User) {
             return $this->json(['errorMessage' => 'Utilisateur non authentifié.'], 401);
@@ -210,7 +289,7 @@ final class MessageController extends AbstractController
 
         $conversation = $conversationRepository->find($id);
 
-        if (!$conversation instanceof DirectConversation || !$conversation->hasParticipant($user)) {
+        if (!$conversation instanceof DirectConversation || !$this->canAccessConversation($conversation, $user)) {
             return $this->json(['errorMessage' => 'Discussion introuvable.'], 404);
         }
 
@@ -239,10 +318,13 @@ final class MessageController extends AbstractController
             'message' => $this->serializeMessage($message),
         ];
 
-        $mercurePublisher->publish(
-            array_map(fn (User $participant) => $this->userTopic($participant), $participants),
-            $payload,
-        );
+        $publishRecipients = $participants;
+        if ($conversation->isSupport()) {
+            $publishRecipients = array_merge($publishRecipients, $userRepository->findAdminUsers());
+        }
+        $publishTopics = array_values(array_unique(array_map(fn (User $participant) => $this->userTopic($participant), $publishRecipients)));
+
+        $mercurePublisher->publish($publishTopics, $payload);
 
         foreach ($participants as $participant) {
             if ($participant->getId()?->toRfc4122() === $user->getId()?->toRfc4122()) {
@@ -375,11 +457,12 @@ final class MessageController extends AbstractController
 
         return [
             'id' => (string) $conversation->getId(),
+            'type' => $conversation->getType(),
             'participants' => array_map(
                 fn (User $participant) => $this->serializeUser($participant),
                 array_values(array_filter([$conversation->getParticipantOne(), $conversation->getParticipantTwo()])),
             ),
-            'otherParticipant' => ($otherParticipant = $conversation->getOtherParticipant($viewer)) instanceof User
+            'otherParticipant' => ($otherParticipant = $this->getConversationCounterpart($conversation, $viewer)) instanceof User
                 ? $this->serializeUser($otherParticipant)
                 : null,
             'lastMessage' => $lastMessage instanceof DirectMessage ? $this->serializeMessage($lastMessage) : null,
@@ -414,6 +497,7 @@ final class MessageController extends AbstractController
             'clubName' => $user->getClubName(),
             'clubLogoUrl' => $user->getClubLogoUrl(),
             'agencyName' => $user->getAgencyName(),
+            'roles' => $user->getRoles(),
         ];
     }
 
@@ -424,5 +508,30 @@ final class MessageController extends AbstractController
             ?: trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
 
         return '' !== $name ? $name : 'Un utilisateur';
+    }
+
+    private function canAccessConversation(DirectConversation $conversation, User $user): bool
+    {
+        return $conversation->hasParticipant($user)
+            || ($conversation->isSupport() && in_array(User::ROLE_ADMIN, $user->getRoles(), true));
+    }
+
+    private function getConversationCounterpart(DirectConversation $conversation, User $viewer): ?User
+    {
+        $otherParticipant = $conversation->getOtherParticipant($viewer);
+
+        if ($otherParticipant instanceof User) {
+            return $otherParticipant;
+        }
+
+        if ($conversation->isSupport() && in_array(User::ROLE_ADMIN, $viewer->getRoles(), true)) {
+            foreach ([$conversation->getParticipantOne(), $conversation->getParticipantTwo()] as $participant) {
+                if ($participant instanceof User && !in_array(User::ROLE_ADMIN, $participant->getRoles(), true)) {
+                    return $participant;
+                }
+            }
+        }
+
+        return null;
     }
 }

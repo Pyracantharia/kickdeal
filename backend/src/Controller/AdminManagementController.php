@@ -42,6 +42,7 @@ use App\Repository\UserRepository;
 use App\Service\Payment\StripeSubscriptionService;
 use App\Service\AdminAuditLogger;
 use App\Service\ReferenceDataSettings;
+use App\Service\TransferWindowSettings;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -75,10 +76,10 @@ final class AdminManagementController extends AbstractController
     }
 
     #[Route('/reference-data/{id}', methods: ['PUT'])]
-    public function updateReferenceData(Request $request,#[CurrentUser]?User $admin,ReferenceDataItem $item,Connection $db,EntityManagerInterface $em,AdminAuditLogger $audit):JsonResponse
+    public function updateReferenceData(Request $request,#[CurrentUser]?User $admin,ReferenceDataItem $item,Connection $db,EntityManagerInterface $em,AdminAuditLogger $audit,TransferWindowSettings $transferWindowSettings):JsonResponse
     {
         if(!$this->isAdmin($admin))return $this->json(['error'=>'Unauthorized'],401);$data=json_decode($request->getContent(),true);$label=trim((string)($data['label']??''));$code=trim((string)($data['code']??$item->getCode()));$value=is_array($data['value']??null)?$data['value']:$item->getValue();if(''===$label||''===$code)return $this->json(['message'=>'Référence invalide.'],422);
-        if(in_array($item->getType(),['plan','business_parameter'],true))$code=$item->getCode();if('plan'===$item->getType()){if(!is_numeric($value['priceCents']??null)||(int)$value['priceCents']<0||!is_string($value['description']??null)||!is_array($value['features']??null)||array_filter($value['features'],static fn($feature):bool=>!is_string($feature))!==[])return $this->json(['message'=>'Prix, description ou avantages du plan invalides.'],422);}$before=['code'=>$item->getCode(),'label'=>$item->getLabel(),'value'=>$item->getValue(),'active'=>$item->isActive()];
+        if(in_array($item->getType(),['plan','business_parameter'],true))$code=$item->getCode();if('plan'===$item->getType()){if(!is_numeric($value['priceCents']??null)||(int)$value['priceCents']<0||!is_string($value['description']??null)||!is_array($value['features']??null)||array_filter($value['features'],static fn($feature):bool=>!is_string($feature))!==[])return $this->json(['message'=>'Prix, description ou avantages du plan invalides.'],422);}if('business_parameter'===$item->getType()&&'transfer_windows'===$item->getCode()){if($error=$transferWindowSettings->validateValue($value))return $this->json(['message'=>$error],422);}$before=['code'=>$item->getCode(),'label'=>$item->getLabel(),'value'=>$item->getValue(),'active'=>$item->isActive()];
         if($code!==$item->getCode()&&(int)$db->fetchOne('SELECT COUNT(*) FROM reference_data_item WHERE type = ? AND code = ?',[$item->getType(),$code])>0)return $this->json(['message'=>'Une référence avec ce code existe déjà.'],409);if($code!==$item->getCode())$this->renameReferenceUsage($db,$item->getType(),$item->getCode(),$code);$item->setCode($code)->setLabel($label)->setValue($value)->setActive((bool)($data['active']??true))->touch();
         try{$em->flush();}catch(\Throwable){return $this->json(['message'=>'Une référence avec ce code existe déjà.'],409);}$after=['code'=>$item->getCode(),'label'=>$item->getLabel(),'value'=>$item->getValue(),'active'=>$item->isActive()];$audit->record($admin,'reference.updated','reference_data','reference_data_item',$item->getId()?->toRfc4122(),$label,$before,$after);return $this->json(['message'=>'Référence mise à jour.']);
     }

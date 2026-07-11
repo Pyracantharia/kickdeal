@@ -18,6 +18,15 @@ interface ClubDashboardHomeProps {
     pendingOffersCount: number
     unreadMessagesCount: number
     pendingRenewalsCount: number
+    transferWindowStatus?: {
+      isOpen: boolean
+      name: string
+      label: string
+      daysRemaining?: number
+      daysUntilOpen?: number
+      startDate: string
+      endDate: string
+    }
   } | null
   initialMarketNews?: PublicFeedPost[] | null
   initialNow?: string
@@ -129,7 +138,10 @@ function ClubDashboardHome({ initialDashboard, initialMarketNews, initialNow }: 
     return Number.isNaN(parsedDate.getTime()) ? new Date() : parsedDate
   }, [initialNow])
   const dateLabel = useMemo(() => formatCurrentDate(today), [today])
-  const transferWindowStatus = useMemo(() => getTransferWindowStatus(today), [today])
+  const fallbackTransferWindowStatus = useMemo(() => getTransferWindowStatus(today), [today])
+  const [transferWindowStatus, setTransferWindowStatus] = useState(
+    initialDashboard?.transferWindowStatus ?? fallbackTransferWindowStatus,
+  )
   const activeNews = marketNews[activeNewsIndex] ?? null
   const activeNewsAmountLabel = activeNews ? getNewsAmountLabel(activeNews) : null
   const activeDealDateLabel = useMemo(
@@ -172,6 +184,7 @@ function ClubDashboardHome({ initialDashboard, initialMarketNews, initialNow }: 
         setPendingOffersCount(response.data.pendingOffersCount ?? 0)
         setUnreadMessagesCount(response.data.unreadMessagesCount ?? 0)
         setPendingRenewalsCount(response.data.pendingRenewalsCount ?? 0)
+        setTransferWindowStatus(response.data.transferWindowStatus ?? fallbackTransferWindowStatus)
         setErrorMessage(null)
       } catch (error) {
         if (!isMounted) {
@@ -192,7 +205,7 @@ function ClubDashboardHome({ initialDashboard, initialMarketNews, initialNow }: 
     return () => {
       isMounted = false
     }
-  }, [hasInitialDashboard])
+  }, [fallbackTransferWindowStatus, hasInitialDashboard])
 
   useEffect(() => {
     if (hasInitialMarketNews) {

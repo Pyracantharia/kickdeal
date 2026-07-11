@@ -7,16 +7,14 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
     name: 'app:create-admin',
-    description: 'Create an admin user if none exists',
+    description: 'Create or update the admin user from environment variables',
 )]
 class CreateAdminCommand extends Command
 {
@@ -31,34 +29,37 @@ class CreateAdminCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $existingAdmin = $this->userRepository->findAdminUser();
-        if($existingAdmin) {
-            $io->info('An admin user already exists.');
-            return Command::SUCCESS;
+        $adminEmail = trim((string) ($_ENV['ADMIN_EMAIL'] ?? ''));
+        $adminPassword = (string) ($_ENV['ADMIN_PASSWORD'] ?? '');
+
+        if ('' === $adminEmail || '' === $adminPassword) {
+            $io->error('ADMIN_EMAIL and ADMIN_PASSWORD must be configured.');
+
+            return Command::FAILURE;
         }
 
-        $admin = new User();
-        $admin->setFirstName('Admin');
-        $admin->setLastName('Admin');
-        $admin->setEmail($_ENV['ADMIN_EMAIL']);
+        $admin = $this->userRepository->findAdminUser() ?? new User();
+        $isNewAdmin = null === $admin->getId();
+
+        if ($isNewAdmin) {
+            $admin->setFirstName('Admin');
+            $admin->setLastName('Admin');
+            $this->entityManager->persist($admin);
+        }
+
+        $admin->setEmail($adminEmail);
         $admin->setRoles(['ROLE_ADMIN']);
-        $admin->setPassword($this->passwordHasher->hashPassword($admin, $_ENV['ADMIN_PASSWORD']));
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, $adminPassword));
         $admin->markPasswordChanged();
 
-        $this->entityManager->persist($admin);
         $this->entityManager->flush();
-        
 
-        $io->success('Admin user created successfully.');
+        $io->success($isNewAdmin ? 'Admin user created successfully.' : 'Admin user updated successfully.');
 
         return Command::SUCCESS;
     }

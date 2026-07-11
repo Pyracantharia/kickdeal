@@ -1,5 +1,5 @@
 'use client';
-import { ArrowLeft, Flag, PanelLeftOpen, SendHorizonal } from 'lucide-react'
+import { ArrowLeft, Flag, LifeBuoy, PanelLeftOpen, SendHorizonal } from 'lucide-react'
 import CircleImage from '@/components/media/CircleImage';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
@@ -163,7 +163,15 @@ function ChatSection({ conversationId, onBack, onOpenSidebar, hasUnreadMessages 
   }
 
   const otherParticipant = conversation && user ? getOtherParticipant(conversation, user.id) : null
-  const participantName = otherParticipant ? `${otherParticipant.firstName} ${otherParticipant.lastName}` : 'Discussion'
+  const isSupportConversation = conversation?.type === 'support'
+  const participantName = isSupportConversation
+    ? 'Support KickDeal'
+    : otherParticipant
+      ? `${otherParticipant.firstName} ${otherParticipant.lastName}`
+      : 'Discussion'
+  const participantSubtitle = isSupportConversation
+    ? 'Assistance utilisateur'
+    : otherParticipant?.clubName ?? 'Messagerie'
 
   return (
     <div className="flex h-full min-h-0 w-full flex-1 flex-col items-stretch">
@@ -199,14 +207,20 @@ function ChatSection({ conversationId, onBack, onOpenSidebar, hasUnreadMessages 
             <ArrowLeft className="h-5 w-5" />
           </Link>
         )}
-        <CircleImage
-          src={otherParticipant?.clubLogoUrl}
-          alt={otherParticipant?.clubName ? `Logo ${otherParticipant.clubName}` : participantName}
-          sizes="44px"
-          imageClassName="object-cover"
-          className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-purple text-base font-bold text-white"
-          fallback={participantName.charAt(0).toUpperCase()}
-        />
+        {isSupportConversation ? (
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-brand-cyan/35 bg-brand-cyan/12 text-brand-cyan shadow-lg shadow-brand-cyan/10">
+            <LifeBuoy className="h-5 w-5" />
+          </div>
+        ) : (
+          <CircleImage
+            src={otherParticipant?.clubLogoUrl}
+            alt={otherParticipant?.clubName ? `Logo ${otherParticipant.clubName}` : participantName}
+            sizes="44px"
+            imageClassName="object-cover"
+            className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-purple text-base font-bold text-white"
+            fallback={participantName.charAt(0).toUpperCase()}
+          />
+        )}
         <div className="min-w-0">
           <div className="flex min-w-0 items-center gap-2">
             <h1 className="truncate text-xl font-bold text-white sm:text-2xl md:text-3xl">{participantName}</h1>
@@ -216,7 +230,7 @@ function ChatSection({ conversationId, onBack, onOpenSidebar, hasUnreadMessages 
               </span>
             )}
           </div>
-          <span className="truncate text-sm text-white/60">{otherParticipant?.clubName ?? 'Messagerie'}</span>
+          <span className="truncate text-sm text-white/60">{participantSubtitle}</span>
         </div>
       </div>
 

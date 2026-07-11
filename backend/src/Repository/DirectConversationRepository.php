@@ -43,6 +43,35 @@ class DirectConversationRepository extends ServiceEntityRepository
         ]);
     }
 
+    public function findSupportForUser(User $user): ?DirectConversation
+    {
+        return $this->createQueryBuilder('conversation')
+            ->andWhere('conversation.type = :type')
+            ->andWhere('conversation.participantOne = :user OR conversation.participantTwo = :user')
+            ->setParameter('type', 'support')
+            ->setParameter('user', $user)
+            ->orderBy('conversation.updatedAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @return DirectConversation[]
+     */
+    public function findSupportConversations(): array
+    {
+        return $this->createQueryBuilder('conversation')
+            ->leftJoin('conversation.messages', 'message')
+            ->addSelect('message')
+            ->andWhere('conversation.type = :type')
+            ->setParameter('type', 'support')
+            ->orderBy('conversation.updatedAt', 'DESC')
+            ->addOrderBy('message.createdAt', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     /**
      * @return array{0: string, 1: string}
      */

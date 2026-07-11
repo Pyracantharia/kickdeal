@@ -21,6 +21,15 @@ export interface ClubDashboardHomeData {
   pendingOffersCount: number
   unreadMessagesCount: number
   pendingRenewalsCount: number
+  transferWindowStatus?: {
+    isOpen: boolean
+    name: string
+    label: string
+    daysRemaining?: number
+    daysUntilOpen?: number
+    startDate: string
+    endDate: string
+  }
 }
 
 export interface AgentDashboardPlayer {
