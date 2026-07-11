@@ -1,52 +1,145 @@
-# kickdeal
+# KickDeal
 
-KickDeal est composé de plusieurs applications :
+KickDeal est une plateforme de mercato destinée aux clubs de football et aux agents.
+Elle permet de gérer les joueurs, les mises sur le marché, les négociations, les échanges, les notifications et les paiements.
 
-- `backend/` : API Symfony 7 exposée via Docker/Nginx sur `http://localhost:8000/api`.
-- `frontend-app/` : application web Next.js TypeScript pour les clubs et agents.
-- `frontend-landing/` : landing page Next.js TypeScript.
-- `mobile-feed/` : application mobile Expo React Native TypeScript publique, en lecture seule, pour le futur feed KickDeal.
+## Architecture
 
-## Prise en main du projet
+| Répertoire | Rôle | Technologies |
+| --- | --- | --- |
+| `backend/` | API | Symfony 6.4, PHP 8.4, Doctrine |
+| `frontend-app/` | Frontend de la partie applicative | Next.js 16, React 19, TypeScript |
+| `frontend-landing/` | Landing page | Next.js 16, React 19, TypeScript |
+| `e2e/` | Tests de parcours utilisateur | Cypress 15 |
 
-### Étape 1: Configuration
+## Fonctionnalités principales
 
-- Renommer le .env.example en .env et remplir les variables
+- Inscription/connextion pour les clubs et les agents
+- Gestion des clubs, effectifs, joueurs et mandats d'agents
+- Recherche sur le marché et publication d'annonces
+- Négociations de transferts et de contrats
+- Messagerie, notifications et mises à jour en temps réel avec Mercure
+- Abonnements Stripe et paiements de test avec Chiliz
+- Administration des utilisateurs, demandes de clubs, signalements et rattachements joueur-agent
 
-### Étape 2: Backend
+## Prérequis
 
-- Créer un fichier `.env.local` et suivre le modèle du `.env`
-- générer un nouveau APP_SECRET avec `openssl rand -hex 32`
-- Renseigner l'url du frontend dans `CORS_ALLOW_ORIGIN`. Faire attention à bien mentionner l'url sous forme de `http://localhost:{port}` et pas directement avec le nom du service
+### Application
 
-### Étape 3: Frontend
+- Docker + Docker Compose
+- Make
 
-- Créer un fichier `.env.local` et suivre le modèle du `.env`
-- mettre l'url du frontend `http://localhost:{port}` dans `NEXT_CLIENT_BACKEND_URL`
-- mettre l'url du frontend `http://nginx:{port interne de nginx}` dans `NEXT_SERVER_BACKEND_URL`
+### Tests end-to-end
 
-### Étape 4: Build et lancement du projet
+- Node.js et npm
+- les dépendances système requises par Cypress sur Linux.
 
-- lancer la commande `docker compose up --build -d`
+Pour plus de détails, voir [la documentation associée](#tests-e2e).
 
-### Étape 5: Création de user
+## Installation
 
-- Créer un ou plusieurs users sur `/auth/register` ou avec postman et renseigner les propriété:
+### 1. Configurer l'environnement
 
-route: POST `http://localhost:{port}/api/users`
+Créer les fichiers locaux à partir des exemples :
 
-```json
-  {
-    "firstname": "string",
-    "lastname": "string",
-    "email": "string",
-    "password": "string"
-  }
+```bash
+cp .env.example .env
+cp frontend-app/.env.example frontend-app/.env.local
+```
+
+Variables nécessaires dans le `.env` :
+
+- les identifiants PostgreSQL et `DATABASE_URL`
+- `MERCURE_JWT_SECRET`, qui peut être généré avec `openssl rand -hex 32`
+- `ADMIN_EMAIL` et `ADMIN_PASSWORD`
+- `FRONTEND_URL`, `CORS_ALLOW_ORIGIN` et `MAILER_FROM`
+- les clés et identifiants Stripe
+- les paramètres Chiliz.
+
+### 2. Démarrer les services
+
+Build et démarrer les conteneurs Docker : `docker compose up --build -d`
+
+Créer la base et appliquer les migrations : `make db`
+
+Pour charger les données de démonstration : `make fixtures`
+
+> *Astuce : pour démarrer le projet rapidement, utiliser la commande `make start`*
+
+### 3. Créer le compte administrateur
+
+La commande utilise `ADMIN_EMAIL` et `ADMIN_PASSWORD` définis dans le `.env` :
+
+```bash
+docker compose exec backend bin/console app:create-admin
+```
+
+## Adresses
+
+- Application web : [localhost:3000](http://localhost:3000)
+- Landing page : [localhost:3001](http://localhost:3001)
+- API : [localhost:8000/api](http://localhost:8000/api)
+- Mercure : [localhost:3002/.well-known/mercure](http://localhost:3002/.well-known/mercure)
+- Mailpit : [localhost:8081](http://localhost:8081)
+- PostgreSQL : [localhost:5432](http://localhost:5432)
+
+Pour stopper les services, utiliser `make stop`.
+
+## Services externes
+
+### Stripe
+
+Créer les tarifs récurrents nécessaires, puis reporter les identifiants `price_...` et les clés de test dans `.env`. Pour recevoir les webhooks en local :
+
+```bash
+stripe listen --forward-to http://localhost:8000/api/webhooks/stripe
+```
+
+Reporter le secret `whsec_...` fourni par Stripe CLI dans `STRIPE_WEBHOOK_SECRET`, puis redémarrer le service backend.
+
+### Chiliz
+
+Les paiements en CHZ utilisent le réseau de test Chiliz Spicy. Ils nécessitent un portefeuille compatible, par exemple MetaMask, une adresse de réception et des CHZ de test. Les paramètres du backend et les variables publiques `NEXT_PUBLIC_CHILIZ_*` doivent désigner le même réseau.
+
+## Tests et qualité
+
+### Backend
+
+PHPStan : `make phpstan`
+PHPUnit : `make phpunit`
+
+> `make phpunit` recrée entièrement la base configurée pour l'environnement de test avant d'exécuter PHPUnit.
+
+### Tests E2E
+
+> Voir les [prérequis](https://docs.cypress.io/app/get-started/install-cypress#Linux-Prerequisites) demandés par Cypress.
+
+La plateforme doit être démarrée et la base doit être dans un état connu. Si nécessaire lancer la commande `make reset-db`.
+
+Afin de lancer les tests il faut se déplacer dans le dossier e2e `cd e2e`
+Pour installer les dépendances : `npm install`.
+
+Pour lancer les tests E2E dans le navigateur intégré : `npx cypress open`
+
+Pour une exécution de tous les tests sans interface graphique : `npx cypress run`
+
+## Commandes utiles
+
+```bash
+make help          # Afficher les commandes disponibles
+make start         # Démarrer le projet de zéro
+make up            # Construire et démarrer les conteneurs
+make stop          # Arrêter les conteneurs
+make drop-db       # Supprimer la base de données
+make db            # Créer la base et appliquer les migrations
+make fixtures      # Recharger les données de démonstration
+make reset-db      # Recréer entièrement la base locale
+make phpunit       # Lancer les tests PHPUnit
+make phpstan       # Lancer PHPStan
+make tests         # Lancer PHPStan et PHPUnit
 ```
 
 ## Build APK KickDeal
-
-L'APK est généré avec Capacitor depuis la racine du dépôt. Il charge le domaine public KickDeal dans une WebView. En production, l'Ingress route `kickdeal.space` vers la landing par défaut, puis vers `frontend-app` pour les chemins applicatifs comme `/auth`, `/dashboard`, `/market`, `/messages`, etc.
 
 ```bash
 docker build \
@@ -57,11 +150,7 @@ docker build \
   .
 ```
 
-L'APK debug est écrit dans :
-
-```text
-dist/apk/kickdeal-debug.apk
-```
+L'APK debug est écrit dans `dist/apk/kickdeal-debug.apk`
 
 Si les domaines changent, autorisez aussi les domaines navigables dans la WebView :
 
@@ -85,29 +174,3 @@ NEXT_PUBLIC_APP_URL=https://kickdeal.space
 NEXT_PUBLIC_API_URL=https://api.kickdeal.space/api
 NEXT_PUBLIC_LANDING_URL=https://kickdeal.space
 ```
-
-## Tests
-
-### Tests fonctionnels et unitaires
-
-Le backend utilise PHPUnit pour les tests fonctionnels et unitaires.
-Les tests peuvent être exécutés avec la commande `make phpunit`
-
-### Tests E2E
-
-Les tests E2E (end-to-end) utilisent Cypress pour simuler des interactions utilisateur et vérifier le bon fonctionnement de l'application dans son ensemble.
-
-Prérequis:
-Voir les [prérequis](https://docs.cypress.io/app/get-started/install-cypress#Linux-Prerequisites) pour pouvoir utiliser Cypress
-
-Pour lancer les tests e2e, soyez sur d'avoir une base de données neuve. Les tests d'ajout peuvent entrer en conflit si répétés plusieurs fois sur des formulaires avec des contraintes d'unicité.
-Si besoin, lancer `make reset-db`
-
-Afin de les lancer :
-
-1. Ouvrez un terminal et allez dans le dossier des tests e2e `cd e2e`.
-2. Installez les dépendances avec `npm install` (tester avec nodev22 et npm v10).
-  Il arrive que npm n'approuve pas cypress : alors pour l'approuver => npm install-scripts approve cypress
-3. Exécutez `npx cypress open` pour ouvrir l'interface graphique de Cypress.
-
-> Pour les lancer en mode headless, utilisez `npx cypress run`.
