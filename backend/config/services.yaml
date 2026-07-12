@@ -9,6 +9,8 @@ parameters:
     mercure_public_url: "%env(default::MERCURE_PUBLIC_URL)%"
     mercure_jwt_secret: "%env(default::MERCURE_JWT_SECRET)%"
     mailer_from: '%env(MAILER_FROM)%'
+    google_oauth_client_id: '%env(GOOGLE_OAUTH_CLIENT_ID)%'
+    google_oauth_client_secret: '%env(GOOGLE_OAUTH_CLIENT_SECRET)%'
 
 services:
     # default configuration for services in *this* file
@@ -50,6 +52,12 @@ services:
     App\Service\MercureSubscriberTokenFactory:
         arguments:
             $mercureJwtSecret: "%mercure_jwt_secret%"
+
+    App\Controller\GoogleAuthController:
+        arguments:
+            $clientId: '%google_oauth_client_id%'
+            $clientSecret: '%google_oauth_client_secret%'
+            $frontendUrl: '%frontend_url%'
 
 when@test:
     services:

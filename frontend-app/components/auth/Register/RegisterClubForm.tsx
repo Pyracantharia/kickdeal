@@ -14,6 +14,7 @@ import PlanSelection from './PlanSelection'
 import type { SubscriptionPlan } from '@/features/subscription/subscription'
 import PasswordStrengthMeter from '@/components/account/PasswordStrengthMeter'
 import TermsAcceptance from './TermsAcceptance'
+import GoogleSignInButton from '@/components/auth/GoogleSignInButton'
 
 function RegisterClubForm() {
   const router = useRouter()
@@ -44,6 +45,7 @@ function RegisterClubForm() {
     },
   })
   const password = useWatch({ control, name: 'password' }) ?? ''
+  const termsAccepted = useWatch({ control, name: 'termsAccepted' }) ?? false
 
   async function onSubmit(data: RegisterClubFormData) {
     try {
@@ -111,6 +113,7 @@ function RegisterClubForm() {
   return (
     <div className="mx-auto w-full max-w-xl flex flex-col items-stretch justify-center text-white">
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <GoogleSignInButton mode="register" accountType="club" disabled={!termsAccepted}/><p className="-mt-4 text-center text-xs text-gray-500">Acceptez les conditions en bas du formulaire pour activer Google.</p><div className="flex items-center gap-3 text-xs uppercase text-gray-500"><span className="h-px flex-1 bg-white/10"/>ou remplir le formulaire<span className="h-px flex-1 bg-white/10"/></div>
         
         {errors.root && (
           <div

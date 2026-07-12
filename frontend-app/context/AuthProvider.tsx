@@ -17,6 +17,7 @@ export interface User {
   clubLogoUrl: string | null;
   twoFactorEnabled?: boolean;
   passwordExpired?: boolean;
+  googleConnected?: boolean;
   banned?: boolean;
   banExpiresAt?: string | null;
 }

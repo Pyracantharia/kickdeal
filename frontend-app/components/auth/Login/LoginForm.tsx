@@ -7,6 +7,7 @@ import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import { authManager } from '@/features/auth/auth'
 import Link from 'next/link'
+import GoogleSignInButton from '@/components/auth/GoogleSignInButton'
 
 type LoginFormData = {
   email: string
@@ -154,6 +155,7 @@ function LoginForm() {
 
   return (
     <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
+      {!requiresTwoFactor&&<><GoogleSignInButton mode="login"/><div className="flex items-center gap-3 text-xs uppercase text-gray-500"><span className="h-px flex-1 bg-white/10"/>ou<span className="h-px flex-1 bg-white/10"/></div></>}
       {errors.root && (
         <div
           className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-center text-sm text-red-400"
