@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 #[Route('/api/auth/google')]
 final class GoogleAuthController extends AbstractController
 {
-    public function __construct(private readonly string $clientId, private readonly string $clientSecret, private readonly string $frontendUrl) {}
+    public function __construct(private readonly string $clientId, private readonly string $clientSecret, private readonly string $frontendUrl, private readonly ?string $redirectUri = null) {}
 
     #[Route('/start', methods: ['GET'])]
     public function start(Request $request): RedirectResponse
@@ -26,7 +26,7 @@ final class GoogleAuthController extends AbstractController
         if ('' === $this->clientId || '' === $this->clientSecret) return new RedirectResponse($this->frontendUrl.'/auth/login?google_error=not_configured');
         $mode = 'register' === $request->query->get('mode') ? 'register' : 'login'; $accountType = 'agent' === $request->query->get('accountType') ? 'agent' : 'club';
         $state = bin2hex(random_bytes(24)); $request->getSession()->set('google_oauth', ['state'=>$state,'mode'=>$mode,'accountType'=>$accountType]);
-        $callback = $request->getSchemeAndHttpHost().'/api/auth/google/callback';
+        $callback = $this->callbackUri($request);
         $query = http_build_query(['client_id'=>$this->clientId,'redirect_uri'=>$callback,'response_type'=>'code','scope'=>'openid email profile','state'=>$state,'prompt'=>'select_account']);
         return new RedirectResponse('https://accounts.google.com/o/oauth2/v2/auth?'.$query);
     }
@@ -37,7 +37,7 @@ final class GoogleAuthController extends AbstractController
         $flow=$request->getSession()->remove('google_oauth');
         if (!is_array($flow)||!hash_equals((string)($flow['state']??''),(string)$request->query->get('state'))||!is_string($request->query->get('code'))) return $this->failure('invalid_state');
         try {
-            $http=HttpClient::create();$callback=$request->getSchemeAndHttpHost().'/api/auth/google/callback';
+            $http=HttpClient::create();$callback=$this->callbackUri($request);
             $token=$http->request('POST','https://oauth2.googleapis.com/token',['body'=>['code'=>$request->query->get('code'),'client_id'=>$this->clientId,'client_secret'=>$this->clientSecret,'redirect_uri'=>$callback,'grant_type'=>'authorization_code']])->toArray();
             $profile=$http->request('GET','https://openidconnect.googleapis.com/v1/userinfo',['auth_bearer'=>$token['access_token']??''])->toArray();
         } catch (\Throwable) { return $this->failure('provider_error'); }
@@ -79,4 +79,22 @@ final class GoogleAuthController extends AbstractController
     }
 
     private function failure(string $reason): RedirectResponse { return new RedirectResponse($this->frontendUrl.'/auth/login?google_error='.rawurlencode($reason)); }
+
+    private function callbackUri(Request $request): string
+    {
+        $configuredRedirectUri = trim((string) $this->redirectUri);
+
+        if ('' !== $configuredRedirectUri) {
+            return $configuredRedirectUri;
+        }
+
+        $scheme = $request->getScheme();
+        $host = $request->getHttpHost();
+
+        if ('http' === $scheme && !str_starts_with($host, 'localhost') && !str_starts_with($host, '127.0.0.1')) {
+            $scheme = 'https';
+        }
+
+        return $scheme.'://'.$host.'/api/auth/google/callback';
+    }
 }
