@@ -10,7 +10,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: ReferenceDataItemRepository::class)]
 #[ORM\Table(name:'reference_data_item')]
 #[ORM\UniqueConstraint(name:'uniq_reference_type_code',columns:['type','code'])]
-final class ReferenceDataItem
+class ReferenceDataItem
 {
  #[ORM\Id,ORM\Column(type:UuidType::NAME,unique:true),ORM\GeneratedValue(strategy:'CUSTOM'),ORM\CustomIdGenerator(class:UuidGenerator::class)] private ?Uuid $id=null;
  #[ORM\Column(length:40)] private string $type='';
