@@ -2,8 +2,9 @@ export type RegisterDTO = {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
+  password?: string;
   confirmation?: string;
+  googleSignup?: boolean;
   roles?: string[];
   agencyName?: string;
   country?: string;
