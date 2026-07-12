@@ -13,7 +13,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Table(name: 'admin_audit_log')]
 #[ORM\Index(name: 'idx_admin_audit_created', columns: ['created_at'])]
 #[ORM\Index(name: 'idx_admin_audit_action', columns: ['action'])]
-final class AdminAuditLog
+class AdminAuditLog
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
