@@ -26,6 +26,9 @@ services:
       MAILER_FROM: "${MAILER_FROM:-no-reply@kickdeal.space}"
       ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
       ADMIN_EMAIL: "${ADMIN_EMAIL}"
+      GOOGLE_OAUTH_CLIENT_ID: "${GOOGLE_OAUTH_CLIENT_ID}"
+      GOOGLE_OAUTH_CLIENT_SECRET: "${GOOGLE_OAUTH_CLIENT_SECRET}"
+
     depends_on:
       - db
       - mercure
