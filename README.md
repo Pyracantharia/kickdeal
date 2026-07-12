@@ -62,17 +62,18 @@ Variables nécessaires dans le `.env` :
 
 ### 2. Démarrer les services
 
+> *Astuce : pour démarrer le projet rapidement, utiliser la commande `make start`*
+
+
+OU : 
+
 Build et démarrer les conteneurs Docker : `docker compose up --build -d`
 
 Créer la base et appliquer les migrations : `make db`
 
-```bash
-docker compose exec backend bin/console doctrine:database:create --if-not-exists
-```
-
 Pour charger les données de démonstration : `make fixtures`
 
-> *Astuce : pour démarrer le projet rapidement, utiliser la commande `make start`*
+
 
 ### 3. Créer le compte administrateur
 
