@@ -45,27 +45,26 @@ final class PublicFeedBackfillCommand extends Command
         $count = 0;
 
         foreach ($this->listingRepository->findBy(['status' => ListingStatusEnum::ACTIVE]) as $listing) {
-            if ($listing instanceof Listing && null !== $this->publicFeedPublisher->publishListing($listing)) {
+            if (null !== $this->publicFeedPublisher->publishListing($listing)) {
                 ++$count;
             }
         }
 
         foreach ($this->transferOfferRepository->findBy(['status' => OfferStatusEnum::ACCEPTED]) as $offer) {
-            if ($offer instanceof TransferOffer && null !== $this->publicFeedPublisher->publishTransferAgreement($offer)) {
+            if (null !== $this->publicFeedPublisher->publishTransferAgreement($offer)) {
                 ++$count;
             }
         }
 
         foreach ($this->contractNegociationRepository->findBy(['status' => PlayerContractNegociationStatusEnum::COMPLETED]) as $negociation) {
-            if ($negociation instanceof ContractNegociation && null !== $this->publicFeedPublisher->publishContractFinalized($negociation)) {
+            if (null !== $this->publicFeedPublisher->publishContractFinalized($negociation)) {
                 ++$count;
             }
         }
 
         foreach ($this->transferNegociationRepository->findBy(['status' => TransferNegociationStatusEnum::COMPLETED]) as $negociation) {
             if (
-                $negociation instanceof TransferNegociation
-                && null !== $negociation->getExternalContractWeeklySalary()
+                null !== $negociation->getExternalContractWeeklySalary()
                 && null !== $this->publicFeedPublisher->publishExternalTransferFinalized($negociation)
             ) {
                 ++$count;

@@ -42,8 +42,12 @@ Pour plus de détails, voir [la documentation associée](#tests-e2e).
 
 Créer les fichiers locaux à partir des exemples :
 
+Le correcteur aura le .env à mettre à la racine du projet avec les vraies valeurs. Le .env sera donné dans le livrable. 
+
+Docker va récupérer les valeurs du .env et va les dispatcher dans les différents container.
+
 ```bash
-cp .env.example .env
+# le correcteur doit à remplacer le .env racine par le .env du livrable
 cp frontend-app/.env.example frontend-app/.env.local
 ```
 
@@ -58,13 +62,18 @@ Variables nécessaires dans le `.env` :
 
 ### 2. Démarrer les services
 
+> *Astuce : pour démarrer le projet rapidement, utiliser la commande `make start`*
+
+
+OU : 
+
 Build et démarrer les conteneurs Docker : `docker compose up --build -d`
 
 Créer la base et appliquer les migrations : `make db`
 
 Pour charger les données de démonstration : `make fixtures`
 
-> *Astuce : pour démarrer le projet rapidement, utiliser la commande `make start`*
+
 
 ### 3. Créer le compte administrateur
 
@@ -99,7 +108,7 @@ Reporter le secret `whsec_...` fourni par Stripe CLI dans `STRIPE_WEBHOOK_SECRET
 
 ### Chiliz
 
-Les paiements en CHZ utilisent le réseau de test Chiliz Spicy. Ils nécessitent un portefeuille compatible, par exemple MetaMask, une adresse de réception et des CHZ de test. Les paramètres du backend et les variables publiques `NEXT_PUBLIC_CHILIZ_*` doivent désigner le même réseau.
+Les paiements en CHZ utilisent le réseau de test Chiliz Spicy. Ils nécessitent un portefeuille compatible, par exemple  , une adresse de réception et des CHZ de test. Les paramètres du backend et les variables publiques `NEXT_PUBLIC_CHILIZ_*` doivent désigner le même réseau.
 
 ## Tests et qualité
 
@@ -174,3 +183,4 @@ NEXT_PUBLIC_APP_URL=https://kickdeal.space
 NEXT_PUBLIC_API_URL=https://api.kickdeal.space/api
 NEXT_PUBLIC_LANDING_URL=https://kickdeal.space
 ```
+

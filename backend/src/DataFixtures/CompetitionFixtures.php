@@ -24,6 +24,7 @@ class CompetitionFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         // Désactiver le logger SQL pour économiser de la RAM
+        // @phpstan-ignore-next-line
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
 
         $faker = Factory::create('fr_FR');

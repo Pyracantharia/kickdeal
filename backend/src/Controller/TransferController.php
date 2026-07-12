@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\ClubRequest;
+use App\Entity\Contract\ContractNegociation;
 use App\Entity\Listing;
 use App\Entity\Player;
 use App\Entity\Team;
@@ -16,6 +18,7 @@ use App\Enum\ListingStatusEnum;
 use App\Enum\OfferStatusEnum;
 use App\Enum\TransferNegociationStatusEnum;
 use App\Enum\TransferOfferKindEnum;
+use App\Repository\ClubRequestRepository;
 use App\Repository\ListingRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\TeamMembershipRepository;
@@ -439,7 +442,7 @@ final class TransferController extends AbstractController
 
         $notificationService->resolveSource('transfer_offer', $offer->getId()?->toRfc4122() ?? '');
         $marketRealtimePublisher->publishTransferOfferUpdate($offer, 'transfer_offer.accepted');
-        if ($contractNegociation instanceof \App\Entity\Contract\ContractNegociation) {
+        if ($contractNegociation instanceof ContractNegociation) {
             $marketRealtimePublisher->publishContractNegotiationUpdate($contractNegociation, 'contract_negociation.opened');
         }
         if ($offer->getAuthor() instanceof User) {
@@ -623,7 +626,7 @@ final class TransferController extends AbstractController
         #[CurrentUser] ?User $user,
         TransferClubInvitationRepository $invitationRepository,
         TeamMembershipRepository $teamMembershipRepository,
-        \App\Repository\ClubRequestRepository $clubRequestRepository,
+        ClubRequestRepository $clubRequestRepository,
         EntityManagerInterface $entityManager,
     ): JsonResponse {
         if (!$user instanceof User || !in_array(User::ROLE_CLUB, $user->getRoles(), true)) {
@@ -641,7 +644,7 @@ final class TransferController extends AbstractController
         }
 
         if (!$clubRequestRepository->hasPendingRequest($user, $team)) {
-            $clubRequest = (new \App\Entity\ClubRequest())
+            $clubRequest = (new ClubRequest())
                 ->setRequester($user)
                 ->setTeam($team)
                 ->setVerificationEmail($user->getEmail())
@@ -736,7 +739,7 @@ final class TransferController extends AbstractController
             return $this->json(['errorMessage' => 'Joueur introuvable.'], 404);
         }
 
-        if (null !== $player->getAgent() && $player->getAgent()?->getId()?->toRfc4122() !== $agent->getId()?->toRfc4122()) {
+        if (null !== $player->getAgent() && $player->getAgent()->getId()?->toRfc4122() !== $agent->getId()?->toRfc4122()) {
             return $this->json(['errorMessage' => 'Ce joueur est déjà rattaché à un autre agent.'], 409);
         }
 
@@ -760,7 +763,7 @@ final class TransferController extends AbstractController
         });
 
         foreach ($contractNegociations as $contractNegociation) {
-            if ($contractNegociation instanceof \App\Entity\Contract\ContractNegociation) {
+            if ($contractNegociation instanceof ContractNegociation) {
                 $marketRealtimePublisher->publishContractNegotiationUpdate($contractNegociation, 'contract_negociation.opened');
             }
         }
