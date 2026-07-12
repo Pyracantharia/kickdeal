@@ -1,0 +1,119 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+PD:298:32511:abel-ruiz,Abel Ruiz,Girona FC,Primera Division,Centre-Forward,8000000,35700,7,2024,86,Transfermarkt; estimation salaire
+PD:298:32123:alex-moreno,Alex Moreno,Girona FC,Primera Division,Left-Back,5000000,27400,7,2025,86,Transfermarkt; estimation salaire
+PD:298:32111:fran-beltran,Fran Beltrán,Girona FC,Primera Division,Central Midfield,10000000,40500,7,2025,86,Transfermarkt; estimation salaire
+PD:298:16173:viktor-tsyhankov,Viktor Tsyhankov,Girona FC,Primera Division,Right Winger,18000000,57000,1,2023,86,Transfermarkt; estimation salaire
+PD:298:7899:daley-blind,Daley Blind,Girona FC,Primera Division,Centre-Back,2000000,16800,7,2023,86,Transfermarkt; estimation salaire
+PD:298:7556:donny-van-de-beek,Donny van de Beek,Girona FC,Primera Division,Central Midfield,7000000,33100,7,2024,86,Transfermarkt; estimation salaire
+PD:298:3369:thomas-lemar,Thomas Lemar,Girona FC,Primera Division,Attacking Midfield,6000000,30300,7,2025,86,Transfermarkt; estimation salaire
+PD:298:3171:cristhian-stuani,Cristhian Stuani,Girona FC,Primera Division,Centre-Forward,700000,7200,7,2017,86,Transfermarkt; estimation salaire
+PD:298:249196:vitor-reis,Vitor Reis,Girona FC,Primera Division,Centre-Back,25000000,69200,7,2025,86,Transfermarkt; estimation salaire
+PD:298:244589:juan-arango,Juan Arango,Girona FC,Primera Division,Left Winger,1000000,8400,7,2025,86,Transfermarkt; estimation salaire
+PD:298:229042:hugo-rincon,Hugo Rincón,Girona FC,Primera Division,Right-Back,3000000,20800,7,2025,86,Transfermarkt; estimation salaire
+PD:298:206908:claudio-echeverri,Claudio Echeverri,Girona FC,Primera Division,Attacking Midfield,18000000,57000,7,2025,86,Transfermarkt; estimation salaire
+PD:298:151744:arnau-martinez,Arnau Martinez,Girona FC,Primera Division,Right-Back,20000000,60700,7,2020,86,Transfermarkt; estimation salaire
+PD:298:135524:alejandro-frances,Alejandro Francés,Girona FC,Primera Division,Centre-Back,6000000,30300,7,2024,86,Transfermarkt; estimation salaire
+PD:558:2788:ionut-radu,Ionuț Radu,RC Celta de Vigo,Primera Division,Goalkeeper,8000000,27800,7,2025,86,Transfermarkt; estimation salaire
+PD:558:32918:ivan-villar,Iván Villar,RC Celta de Vigo,Primera Division,Goalkeeper,2500000,14700,7,2017,86,Transfermarkt; estimation salaire
+PD:558:185095:marc-vidal,Marc Vidal,RC Celta de Vigo,Primera Division,Goalkeeper,1000000,6500,7,2025,86,Transfermarkt; estimation salaire
+PD:558:288770:marcos-maestu,Marcos Maestu,RC Celta de Vigo,Primera Division,Goalkeeper,300000,2500,7,2025,62,Transfermarkt; estimation
+PD:558:31019:carl-starfelt,Carl Starfelt,RC Celta de Vigo,Primera Division,Defence,6000000,24900,8,2023,86,Transfermarkt; estimation salaire
+PD:558:211835:alvaro-nunez,Álvaro Núñez,RC Celta de Vigo,Primera Division,Defence,3000000,17000,7,2025,86,Transfermarkt; estimation salaire
+PD:558:279927:manuel-fernandez,Manuel Fernández,RC Celta de Vigo,Primera Division,Defence,1200000,7500,7,2025,86,Transfermarkt; estimation salaire
+PD:558:288771:pablo-gonzalez,Pablo González,RC Celta de Vigo,Primera Division,Defence,500000,3300,7,2025,62,Transfermarkt; estimation
+PD:558:83406:ferran-jutgla,Ferran Jutglà,RC Celta de Vigo,Primera Division,Midfield,10000000,33200,7,2025,86,Transfermarkt; estimation salaire
+PD:558:180502:jones-el-abdellaoui,Jones El-Abdellaoui,RC Celta de Vigo,Primera Division,Midfield,5000000,22500,1,2025,86,Transfermarkt; estimation salaire
+PD:558:272431:fer-lopez,Fer López,RC Celta de Vigo,Primera Division,Midfield,18000000,46800,7,2024,86,Transfermarkt; estimation salaire
+PD:558:272435:miguel-roman,Miguel Román,RC Celta de Vigo,Primera Division,Midfield,3000000,4808,7,2024,95,Transfermarkt; Capology
+PD:558:288772:andres-antanon,Andrés Antañón,RC Celta de Vigo,Primera Division,Midfield,500000,3300,7,2025,62,Transfermarkt; estimation
+PD:558:288773:oscar-marcos,Óscar Marcos,RC Celta de Vigo,Primera Division,Midfield,500000,3300,7,2025,62,Transfermarkt; estimation
+PD:558:288775:hugo-burcio,Hugo Burcio,RC Celta de Vigo,Primera Division,Midfield,400000,3000,7,2025,62,Transfermarkt; estimation
+PD:558:32056:borja-iglesias,Borja Iglesias,RC Celta de Vigo,Primera Division,Offence,5000000,22500,7,2024,86,Transfermarkt; estimation salaire
+PD:558:289484:angel-arcos,Ángel Arcos,RC Celta de Vigo,Primera Division,Offence,500000,3300,7,2025,62,Transfermarkt; estimation
+PD:558:175892:hugo-gonzalez,Hugo Gonzalez,RC Celta de Vigo,Primera Division,Right Winger,1200000,7500,7,2025,86,Transfermarkt; estimation salaire
+PD:558:175869:hugo-alvarez,Hugo Alvarez,RC Celta de Vigo,Primera Division,Left Winger,15000000,42000,7,2023,86,Transfermarkt; estimation salaire
+PD:558:170438:williot-swedberg,Williot Swedberg,RC Celta de Vigo,Primera Division,Left Winger,12000000,36900,7,2022,86,Transfermarkt; estimation salaire
+PD:558:168650:hugo-sotelo,Hugo Sotelo,RC Celta de Vigo,Primera Division,Central Midfield,10000000,14038,7,2023,95,Transfermarkt; Capology
+PD:558:159446:carlos-dominguez,Carlos Dominguez,RC Celta de Vigo,Primera Division,Centre-Back,5000000,22500,7,2021,86,Transfermarkt; estimation salaire
+PD:558:157368:ilaix-moriba,Ilaix Moriba,RC Celta de Vigo,Primera Division,Central Midfield,8000000,29200,8,2024,86,Transfermarkt; estimation salaire
+PD:558:146986:oscar-mingueza,Óscar Mingueza,RC Celta de Vigo,Primera Division,Right-Back,20000000,49700,7,2022,86,Transfermarkt; estimation salaire
+PD:558:133570:sergio-carreira,Sergio Carreira,RC Celta de Vigo,Primera Division,Right-Back,4000000,19900,7,2020,86,Transfermarkt; estimation salaire
+PD:558:57610:mihajlo-ristic,Mihajlo Ristić,RC Celta de Vigo,Primera Division,Left-Back,2500000,15500,9,2023,86,Transfermarkt; estimation salaire
+PD:558:16747:franco-cervi,Franco Cervi,RC Celta de Vigo,Primera Division,Left Winger,2000000,13800,7,2021,86,Transfermarkt; estimation salaire
+PD:558:8968:joseph-aidoo,Joseph Aidoo,RC Celta de Vigo,Primera Division,Centre-Back,3000000,17000,7,2019,86,Transfermarkt; estimation salaire
+PD:558:3201:iago-aspas,Iago Aspas,RC Celta de Vigo,Primera Division,Centre-Forward,2500000,56154,7,2015,95,Transfermarkt; Capology
+PD:558:3195:marcos-alonso,Marcos Alonso,RC Celta de Vigo,Primera Division,Left-Back,2500000,15500,8,2024,86,Transfermarkt; estimation salaire
+PD:558:2009:matias-vecino,Matías Vecino,RC Celta de Vigo,Primera Division,Central Midfield,2500000,15500,7,2025,86,Transfermarkt; estimation salaire
+PD:558:253001:javi-rueda,Javi Rueda,RC Celta de Vigo,Primera Division,Right-Back,3000000,17000,7,2025,86,Transfermarkt; estimation salaire
+PD:558:252993:yoel-lago,Yoel Lago,RC Celta de Vigo,Primera Division,Centre-Back,2500000,15500,7,2024,86,Transfermarkt; estimation salaire
+PD:558:229003:javi-rodriguez,Javi Rodríguez,RC Celta de Vigo,Primera Division,Centre-Back,10000000,33200,7,2024,86,Transfermarkt; estimation salaire
+PD:558:188859:pablo-duran,Pablo Duran,RC Celta de Vigo,Primera Division,Centre-Forward,10000000,33200,7,2024,86,Transfermarkt; estimation salaire
+PD:559:6843:rjan-nyland,Ørjan Nyland,Sevilla FC,Primera Division,Goalkeeper,1500000,11400,8,2023,86,Transfermarkt; estimation salaire
+PD:559:42871:odisseas-vlachodimos,Odisseas Vlachodimos,Sevilla FC,Primera Division,Goalkeeper,5000000,30700,7,2025,86,Transfermarkt; estimation salaire
+PD:559:161304:rafa-romero,Rafa Romero,Sevilla FC,Primera Division,Goalkeeper,50000,2200,7,2025,62,Transfermarkt; estimation
+PD:559:177573:alberto-flores,Alberto Flores,Sevilla FC,Primera Division,Goalkeeper,300000,3700,7,2024,62,Transfermarkt; estimation
+PD:559:289968:loren-luchino,Loren Luchino,Sevilla FC,Primera Division,Goalkeeper,50000,2200,7,2025,62,Transfermarkt; estimation
+PD:559:180165:castrin,Castrin,Sevilla FC,Primera Division,Defence,300000,3900,7,2025,62,Transfermarkt; estimation
+PD:559:289967:iker-ortin,Iker Ortín,Sevilla FC,Primera Division,Defence,300000,3900,7,2025,62,Transfermarkt; estimation
+PD:559:16275:djibril-sow,Djibril Sow,Sevilla FC,Primera Division,Midfield,12000000,53100,8,2023,86,Transfermarkt; estimation salaire
+PD:559:31913:ruben-vargas,Ruben Vargas,Sevilla FC,Primera Division,Midfield,17000000,65100,1,2025,86,Transfermarkt; estimation salaire
+PD:559:213257:joan-jordan,Joan Jordán,Sevilla FC,Primera Division,Midfield,4000000,28600,7,2019,86,Transfermarkt; estimation salaire
+PD:559:213279:manuel-bueno,Manuel Bueno,Sevilla FC,Primera Division,Midfield,3000000,24500,7,2024,86,Transfermarkt; estimation salaire
+PD:559:226950:miguel-angel-sierra,Miguel Ángel Sierra,Sevilla FC,Primera Division,Midfield,500000,4700,7,2025,62,Transfermarkt; estimation
+PD:559:264218:pablo-rivera,Pablo Rivera,Sevilla FC,Primera Division,Midfield,400000,4300,7,2025,62,Transfermarkt; estimation
+PD:559:283816:eduardo-altozano,Eduardo Altozano,Sevilla FC,Primera Division,Midfield,400000,4300,7,2025,62,Transfermarkt; estimation
+PD:559:295172:nicolas-guillen,Nicolás Guillén,Sevilla FC,Primera Division,Midfield,400000,4300,7,2025,62,Transfermarkt; estimation
+PD:559:185105:peque,Peque,Sevilla FC,Primera Division,Offence,8000000,42100,7,2024,86,Transfermarkt; estimation salaire
+PD:559:249864:costa,Costa,Sevilla FC,Primera Division,Offence,800000,9000,7,2025,86,Transfermarkt; estimation salaire
+PD:559:140251:batista-mendy,Batista Mendy,Sevilla FC,Primera Division,Defensive Midfield,10000000,47800,7,2025,86,Transfermarkt; estimation salaire
+PD:559:127127:nianzou-kouassi,Nianzou Kouassi,Sevilla FC,Primera Division,Centre-Back,8000000,42100,8,2022,86,Transfermarkt; estimation salaire
+PD:559:98223:lucien-agoume,Lucien Agoume,Sevilla FC,Primera Division,Defensive Midfield,15000000,60500,1,2024,86,Transfermarkt; estimation salaire
+PD:559:82132:akor-adams,Akor Adams,Sevilla FC,Primera Division,Centre-Forward,12000000,53100,1,2025,86,Transfermarkt; estimation salaire
+PD:559:80890:federico-gattoni,Federico Gattoni,Sevilla FC,Primera Division,Centre-Back,3000000,24500,7,2023,86,Transfermarkt; estimation salaire
+PD:559:45449:marcao,Marcão,Sevilla FC,Primera Division,Centre-Back,4000000,28600,7,2022,86,Transfermarkt; estimation salaire
+PD:559:38625:chidera-ejuke,Chidera Ejuke,Sevilla FC,Primera Division,Left Winger,6000000,35800,7,2024,86,Transfermarkt; estimation salaire
+PD:559:34909:fabio-cardoso,Fábio Cardoso,Sevilla FC,Primera Division,Centre-Back,2500000,22300,7,2025,86,Transfermarkt; estimation salaire
+PD:559:21410:nemanja-gudelj,Nemanja Gudelj,Sevilla FC,Primera Division,Defensive Midfield,3000000,24500,7,2017,86,Transfermarkt; estimation salaire
+PD:559:21385:gabriel-suazo,Gabriel Suazo,Sevilla FC,Primera Division,Left-Back,8000000,42100,7,2025,86,Transfermarkt; estimation salaire
+PD:559:10210:adnan-januzaj,Adnan Januzaj,Sevilla FC,Primera Division,Right Winger,2500000,22300,8,2022,86,Transfermarkt; estimation salaire
+PD:559:7911:alexis-sanchez,Alexis Sánchez,Sevilla FC,Primera Division,Centre-Forward,2000000,19900,7,2025,86,Transfermarkt; estimation salaire
+PD:559:4443:neal-maupay,Neal Maupay,Sevilla FC,Primera Division,Centre-Forward,7000000,39000,7,2025,86,Transfermarkt; estimation salaire
+PD:559:3191:azpilicueta,Azpilicueta,Sevilla FC,Primera Division,Centre-Back,2000000,80192,7,2025,95,Transfermarkt; Capology
+PD:559:244751:oso,Oso,Sevilla FC,Primera Division,Left Winger,15000000,60500,7,2025,86,Transfermarkt; estimation salaire
+PD:559:213043:isaac,Isaac,Sevilla FC,Primera Division,Centre-Forward,18000000,67300,7,2023,86,Transfermarkt; estimation salaire
+PD:559:180038:juanlu,Juanlu,Sevilla FC,Primera Division,Right-Back,15000000,60500,7,2023,86,Transfermarkt; estimation salaire
+PD:559:178107:kike-salas,Kike Salas,Sevilla FC,Primera Division,Centre-Back,10000000,47800,7,2022,86,Transfermarkt; estimation salaire
+PD:559:171984:jose-angel-carmona,Jose Angel Carmona,Sevilla FC,Primera Division,Right-Back,12000000,53100,7,2022,86,Transfermarkt; estimation salaire
+PD:1048:32016:aaron,Aarón,Real Oviedo,Primera Division,Goalkeeper,3000000,12200,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:122005:horatiu-moldovan,Horaţiu Moldovan,Real Oviedo,Primera Division,Goalkeeper,2500000,11100,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:271946:miguel-narvaez,Miguel Narváez,Real Oviedo,Primera Division,Goalkeeper,700000,4200,7,2024,86,Transfermarkt; estimation salaire
+PD:1048:15864:david-costas,David Costas,Real Oviedo,Primera Division,Defence,1500000,6300,7,2021,86,Transfermarkt; estimation salaire
+PD:1048:32397:dani-calvo,Dani Calvo,Real Oviedo,Primera Division,Defence,1200000,5700,7,2021,86,Transfermarkt; estimation salaire
+PD:1048:32935:lucas-ahijado,Lucas Ahijado,Real Oviedo,Primera Division,Defence,1500000,6300,7,2019,86,Transfermarkt; estimation salaire
+PD:1048:80869:david-carmo,David Carmo,Real Oviedo,Primera Division,Defence,5000000,17000,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:180060:javi-lopez,Javi López,Real Oviedo,Primera Division,Defence,5000000,17000,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:220693:marco-esteban,Marco Esteban,Real Oviedo,Primera Division,Defence,500000,2500,7,2025,62,Transfermarkt; estimation
+PD:1048:226037:rahim-alhassane,Rahim Alhassane,Real Oviedo,Primera Division,Defence,1200000,5700,7,2024,86,Transfermarkt; estimation salaire
+PD:1048:244676:diego-espinosa,Diego Espinosa,Real Oviedo,Primera Division,Defence,500000,2500,7,2025,62,Transfermarkt; estimation
+PD:1048:277618:omar-falah,Omar Falah,Real Oviedo,Primera Division,Defence,400000,2300,7,2025,62,Transfermarkt; estimation
+PD:1048:293700:adri-fernandez,Adri Fernández,Real Oviedo,Primera Division,Defence,400000,2300,7,2025,62,Transfermarkt; estimation
+PD:1048:2598:santiago-colombatto,Santiago Colombatto,Real Oviedo,Primera Division,Midfield,4000000,15000,7,2023,86,Transfermarkt; estimation salaire
+PD:1048:4068:ovie-ejaria,Ovie Ejaria,Real Oviedo,Primera Division,Midfield,800000,4700,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:7790:santi-cazorla,Santi Cazorla,Real Oviedo,Primera Division,Midfield,200000,1800,8,2023,62,Transfermarkt; estimation
+PD:1048:67707:luka-ilic,Luka Ilić,Real Oviedo,Primera Division,Midfield,1400000,6100,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:79960:kwasi-sibo,Kwasi Sibo,Real Oviedo,Primera Division,Midfield,1800000,9900,7,2024,86,Transfermarkt; estimation salaire
+PD:1048:191053:alberto-reina,Alberto Reina,Real Oviedo,Primera Division,Midfield,1800000,9900,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:193621:thiago-fernandez,Thiago Fernandez,Real Oviedo,Primera Division,Midfield,4000000,15000,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:230706:diego-menendez,Diego Menéndez,Real Oviedo,Primera Division,Midfield,400000,2300,7,2025,62,Transfermarkt; estimation
+PD:1048:278741:lamine-gueye,Lamine Gueye,Real Oviedo,Primera Division,Midfield,2500000,11700,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:283317:cheli,Cheli,Real Oviedo,Primera Division,Midfield,500000,2500,7,2025,62,Transfermarkt; estimation
+PD:1048:288568:pablo-menendez,Pablo Menéndez,Real Oviedo,Primera Division,Midfield,400000,2300,7,2025,62,Transfermarkt; estimation
+PD:1048:98222:haissem-hassan,Haissem Hassan,Real Oviedo,Primera Division,Offence,5000000,15962,7,2024,95,Transfermarkt; Capology
+PD:1048:112678:federico-vinas,Federico Viñas,Real Oviedo,Primera Division,Offence,4000000,15000,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:141633:thiago-borbas,Thiago Borbas,Real Oviedo,Primera Division,Offence,4000000,15000,1,2026,86,Transfermarkt; estimation salaire
+PD:1048:77477:nicolas-fonseca,Nicolas Fonseca,Real Oviedo,Primera Division,Defensive Midfield,3000000,12900,1,2026,86,Transfermarkt; estimation salaire
+PD:1048:33142:nacho-vidal,Nacho Vidal,Real Oviedo,Primera Division,Right-Back,1500000,6300,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:7901:eric-bailly,Eric Bailly,Real Oviedo,Primera Division,Centre-Back,2500000,11700,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:3659:leander-dendoncker,Leander Dendoncker,Real Oviedo,Primera Division,Defensive Midfield,6000000,60192,7,2025,95,Transfermarkt; Capology
+PD:1048:185104:alex-fores,Alex Forés,Real Oviedo,Primera Division,Centre-Forward,3000000,12900,7,2025,86,Transfermarkt; estimation salaire
+PD:1048:146126:ilyas-chaira,Ilyas Chaira,Real Oviedo,Primera Division,Right Winger,3000000,12900,7,2025,86,Transfermarkt; estimation salaire

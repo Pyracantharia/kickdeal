@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+PL:64:248990:amara-nallo,Amara Nallo,Liverpool FC,Premier League,Centre-Back,1000000,6800,7,2025,62,Transfermarkt; estimation
+PL:64:247657:jayden-danns,Jayden Danns,Liverpool FC,Premier League,Centre-Forward,5000000,40100,7,2024,86,Transfermarkt; estimation salaire
+PL:64:230517:trey-nyoni,Trey Nyoni,Liverpool FC,Premier League,Attacking Midfield,12000000,63700,7,2024,86,Transfermarkt; estimation salaire
+PL:64:214502:james-mcconnell,James McConnell,Liverpool FC,Premier League,Central Midfield,5000000,40100,7,2024,86,Transfermarkt; estimation salaire
+PL:64:192563:giovanni-leoni,Giovanni Leoni,Liverpool FC,Premier League,Centre-Back,35000000,116800,8,2025,86,Transfermarkt; estimation salaire
+PL:64:175865:conor-bradley,Conor Bradley,Liverpool FC,Premier League,Right-Back,50000000,143900,7,2021,86,Transfermarkt; estimation salaire
+PL:64:171141:milos-kerkez,Milos Kerkez,Liverpool FC,Premier League,Left-Back,60000000,160200,7,2025,86,Transfermarkt; estimation salaire
+PL:64:157176:kaide-gordon,Kaide Gordon,Liverpool FC,Premier League,Right Winger,2500000,15800,7,2025,62,Transfermarkt; estimation
+PL:65:1731:gianluigi-donnarumma,Gianluigi Donnarumma,Manchester City FC,Premier League,Goalkeeper,40000000,154200,7,2025,86,Transfermarkt; estimation salaire
+PL:65:3953:marcus-bettinelli,Marcus Bettinelli,Manchester City FC,Premier League,Goalkeeper,1000000,8300,7,2025,62,Transfermarkt; estimation
+PL:65:153874:james-trafford,James Trafford,Manchester City FC,Premier League,Goalkeeper,25000000,117500,7,2025,86,Transfermarkt; estimation salaire
+PL:65:3313:john-stones,John Stones,Manchester City FC,Premier League,Defence,18000000,102600,7,2024,86,Transfermarkt; estimation salaire
+PL:65:8240:nathan-ake,Nathan Aké,Manchester City FC,Premier League,Defence,25000000,123700,7,2024,86,Transfermarkt; estimation salaire
+PL:65:8642:rayan-ait-nouri,Rayan Aït Nouri,Manchester City FC,Premier League,Defence,45000000,173900,7,2025,86,Transfermarkt; estimation salaire
+PL:65:10183:ruben-dias,Rúben Dias,Manchester City FC,Premier League,Defence,70000000,292500,7,2024,95,Transfermarkt; Capology
+PL:65:91512:matheus-nunes,Matheus Nunes,Manchester City FC,Premier League,Defence,40000000,162300,7,2024,86,Transfermarkt; estimation salaire
+PL:65:118489:marc-guehi,Marc Guéhi,Manchester City FC,Premier League,Defence,55000000,195700,7,2026,86,Transfermarkt; estimation salaire
+PL:65:122266:josko-gvardiol,Joško Gvardiol,Manchester City FC,Premier League,Defence,80000000,244400,7,2024,86,Transfermarkt; estimation salaire
+PL:65:206743:nico-o-reilly,Nico O'Reilly,Manchester City FC,Premier League,Defence,50000000,185000,7,2024,86,Transfermarkt; estimation salaire
+PL:65:212868:abdukodir-khusanov,Abdukodir Khusanov,Manchester City FC,Premier League,Defence,45000000,173900,1,2025,86,Transfermarkt; estimation salaire
+PL:65:270613:kaden-braithwaite,Kaden Braithwaite,Manchester City FC,Premier League,Defence,1000000,8700,7,2025,62,Transfermarkt; estimation
+PL:65:290970:kian-noble,Kian Noble,Manchester City FC,Premier League,Defence,800000,8000,7,2025,62,Transfermarkt; estimation
+PL:65:292499:floyd-samba,Floyd Samba,Manchester City FC,Premier League,Defence,700000,7700,7,2025,62,Transfermarkt; estimation
+PL:65:65:mateo-kovacic,Mateo Kovačić,Manchester City FC,Premier League,Midfield,10000000,175500,7,2024,95,Transfermarkt; Capology
+PL:65:3199:rodri,Rodri,Manchester City FC,Premier League,Midfield,110000000,257400,7,2019,95,Transfermarkt; Capology
+PL:65:3254:bernardo-silva,Bernardo Silva,Manchester City FC,Premier League,Midfield,30000000,137300,7,2017,86,Transfermarkt; estimation salaire
+PL:65:7696:tijjani-reijnders,Tijjani Reijnders,Manchester City FC,Premier League,Midfield,70000000,225700,7,2025,86,Transfermarkt; estimation salaire
+PL:65:99775:jeremy-doku,Jeremy Doku,Manchester City FC,Premier League,Midfield,70000000,225700,7,2024,86,Transfermarkt; estimation salaire
+PL:65:133242:rayan-cherki,Rayan Cherki,Manchester City FC,Premier League,Midfield,70000000,225700,7,2025,86,Transfermarkt; estimation salaire
+PL:65:180453:sverre-nypan,Sverre Nypan,Manchester City FC,Premier League,Midfield,25000000,123700,7,2025,86,Transfermarkt; estimation salaire
+PL:65:286950:ryan-mcaidoo,Ryan McAidoo,Manchester City FC,Premier League,Midfield,3000000,22100,7,2025,62,Transfermarkt; estimation
+PL:65:290022:charlie-gray,Charlie Gray,Manchester City FC,Premier League,Midfield,1000000,8700,7,2025,62,Transfermarkt; estimation
+PL:65:290971:tyrone-samba,Tyrone Samba,Manchester City FC,Premier League,Midfield,700000,7700,7,2025,62,Transfermarkt; estimation
+PL:65:4417:antoine-semenyo,Antoine Semenyo,Manchester City FC,Premier League,Offence,70000000,225700,1,2026,86,Transfermarkt; estimation salaire
+PL:65:38101:erling-haaland,Erling Haaland,Manchester City FC,Premier League,Offence,200000000,614250,7,2022,95,Transfermarkt; Capology
+PL:65:66896:omar-marmoush,Omar Marmoush,Manchester City FC,Premier League,Offence,75000000,235200,1,2025,86,Transfermarkt; estimation salaire
+PL:65:286775:reigan-heskey,Reigan Heskey,Manchester City FC,Premier League,Offence,1000000,8700,7,2025,62,Transfermarkt; estimation
+PL:65:7888:phil-foden,Phil Foden,Manchester City FC,Premier League,Right Winger,100000000,279200,7,2017,86,Transfermarkt; estimation salaire
+PL:65:244856:max-alleyne,Max Alleyne,Manchester City FC,Premier League,Centre-Back,8000000,65800,7,2024,86,Transfermarkt; estimation salaire
+PL:65:187202:rico-lewis,Rico Lewis,Manchester City FC,Premier League,Right-Back,45000000,173900,7,2024,86,Transfermarkt; estimation salaire
+PL:65:171986:nico-gonzalez,Nico Gonzalez,Manchester City FC,Premier League,Central Midfield,40000000,162300,2,2025,86,Transfermarkt; estimation salaire
+PL:65:146352:savio,Sávio,Manchester City FC,Premier League,Right Winger,60000000,206000,7,2024,86,Transfermarkt; estimation salaire
+PL:66:8035:tom-heaton,Tom Heaton,Manchester United FC,Premier League,Goalkeeper,200000,52650,7,2025,95,Transfermarkt; Capology
+PL:66:29518:altay-bay-nd-r,Altay Bayındır,Manchester United FC,Premier League,Goalkeeper,10000000,60000,7,2024,86,Transfermarkt; estimation salaire
+PL:66:129946:senne-lammens,Senne Lammens,Manchester United FC,Premier League,Goalkeeper,25000000,100100,7,2025,86,Transfermarkt; estimation salaire
+PL:66:7553:noussair-mazraoui,Noussair Mazraoui,Manchester United FC,Premier League,Defence,25000000,105400,7,2024,86,Transfermarkt; estimation salaire
+PL:66:15905:diogo-dalot,Diogo Dalot,Manchester United FC,Premier League,Defence,35000000,127900,7,2024,86,Transfermarkt; estimation salaire
+PL:66:46451:lisandro-martinez,Lisandro Martínez,Manchester United FC,Premier League,Defence,45000000,148100,7,2024,86,Transfermarkt; estimation salaire
+PL:66:188291:tyler-fredricson,Tyler Fredricson,Manchester United FC,Premier League,Defence,5000000,43900,7,2024,86,Transfermarkt; estimation salaire
+PL:66:262921:diego-leon,Diego León,Manchester United FC,Premier League,Defence,8000000,56100,7,2025,86,Transfermarkt; estimation salaire
+PL:66:273281:godwill-kukonki,Godwill Kukonki,Manchester United FC,Premier League,Defence,2000000,15600,7,2025,62,Transfermarkt; estimation
+PL:66:278168:bendito-mantato,Bendito Mantato,Manchester United FC,Premier League,Defence,1500000,13800,7,2025,62,Transfermarkt; estimation
+PL:66:3231:casemiro,Casemiro,Manchester United FC,Premier League,Midfield,7000000,409500,7,2024,95,Transfermarkt; Capology
+PL:66:3257:bruno-fernandes,Bruno Fernandes,Manchester United FC,Premier League,Midfield,50000000,351000,7,2024,95,Transfermarkt; Capology
+PL:66:28549:manuel-ugarte,Manuel Ugarte,Manchester United FC,Premier League,Midfield,45000000,148100,8,2024,86,Transfermarkt; estimation salaire
+PL:66:133584:amad-diallo,Amad Diallo,Manchester United FC,Premier League,Midfield,55000000,140400,7,2024,95,Transfermarkt; Capology
+PL:66:190797:kobbie-mainoo,Kobbie Mainoo,Manchester United FC,Premier League,Midfield,70000000,175500,7,2024,95,Transfermarkt; Capology
+PL:66:271941:jack-fletcher,Jack Fletcher,Manchester United FC,Premier League,Midfield,3000000,18800,7,2025,62,Transfermarkt; estimation
+PL:66:275523:jack-moorhouse,Jack Moorhouse,Manchester United FC,Premier League,Midfield,1000000,7400,7,2025,62,Transfermarkt; estimation
+PL:66:290139:tyler-fletcher,Tyler Fletcher,Manchester United FC,Premier League,Midfield,1000000,7400,7,2025,62,Transfermarkt; estimation
+PL:66:294666:jim-thwaites,Jim Thwaites,Manchester United FC,Premier League,Midfield,800000,6800,7,2025,62,Transfermarkt; estimation
+PL:66:30842:matheus-cunha,Matheus Cunha,Manchester United FC,Premier League,Offence,70000000,192300,7,2025,86,Transfermarkt; estimation salaire
+PL:66:275522:chido-obi-martin,Chido Obi-Martin,Manchester United FC,Premier League,Offence,20000000,92800,7,2024,86,Transfermarkt; estimation salaire
+PL:66:289557:shea-lacey,Shea Lacey,Manchester United FC,Premier League,Offence,8000000,56100,7,2024,86,Transfermarkt; estimation salaire
+PL:66:99731:joshua-zirkzee,Joshua Zirkzee,Manchester United FC,Premier League,Centre-Forward,40000000,138300,7,2024,86,Transfermarkt; estimation salaire
+PL:66:8626:bryan-mbeumo,Bryan Mbeumo,Manchester United FC,Premier League,Right Winger,70000000,192300,7,2025,86,Transfermarkt; estimation salaire
+PL:66:7898:luke-shaw,Luke Shaw,Manchester United FC,Premier League,Left-Back,18000000,87400,7,2024,86,Transfermarkt; estimation salaire
+PL:66:7599:mason-mount,Mason Mount,Manchester United FC,Premier League,Attacking Midfield,30000000,117000,7,2024,86,Transfermarkt; estimation salaire
+PL:66:7549:matthijs-de-ligt,Matthijs de Ligt,Manchester United FC,Premier League,Centre-Back,50000000,157600,8,2024,86,Transfermarkt; estimation salaire
+PL:66:7467:tyrell-malacia,Tyrell Malacia,Manchester United FC,Premier League,Left-Back,8000000,56100,7,2024,86,Transfermarkt; estimation salaire
+PL:66:3326:harry-maguire,Harry Maguire,Manchester United FC,Premier League,Centre-Back,12000000,198900,7,2024,95,Transfermarkt; Capology
+PL:66:247644:ayden-heaven,Ayden Heaven,Manchester United FC,Premier League,Centre-Back,12000000,69800,2,2025,86,Transfermarkt; estimation salaire
+PL:66:211559:patrick-dorgu,Patrick Dorgu,Manchester United FC,Premier League,Left-Back,35000000,127900,2,2025,86,Transfermarkt; estimation salaire
+PL:66:181933:leny-yoro,Leny Yoro,Manchester United FC,Premier League,Centre-Back,60000000,175500,7,2024,86,Transfermarkt; estimation salaire
+PL:66:124244:benjamin-sesko,Benjamin Šeško,Manchester United FC,Premier League,Centre-Forward,80000000,208200,7,2025,86,Transfermarkt; estimation salaire
+PL:67:3310:nick-pope,Nick Pope,Newcastle United FC,Premier League,Goalkeeper,8000000,44000,7,2024,86,Transfermarkt; estimation salaire
+PL:67:4078:john-ruddy,John Ruddy,Newcastle United FC,Premier League,Goalkeeper,200000,3600,7,2025,62,Transfermarkt; estimation
+PL:67:5048:mark-gillespie,Mark Gillespie,Newcastle United FC,Premier League,Goalkeeper,200000,3600,7,2025,62,Transfermarkt; estimation
+PL:67:5530:aaron-ramsdale,Aaron Ramsdale,Newcastle United FC,Premier League,Goalkeeper,22000000,76900,7,2025,86,Transfermarkt; estimation salaire
+PL:67:220503:aidan-harris,Aidan Harris,Newcastle United FC,Premier League,Goalkeeper,500000,4600,7,2025,62,Transfermarkt; estimation
+PL:67:244853:adam-harrison,Adam Harrison,Newcastle United FC,Premier League,Goalkeeper,500000,4600,7,2025,62,Transfermarkt; estimation
+PL:67:4870:dan-burn,Dan Burn,Newcastle United FC,Premier League,Defence,5000000,36300,7,2024,86,Transfermarkt; estimation salaire
+PL:67:142732:malick-thiaw,Malick Thiaw,Newcastle United FC,Premier League,Defence,35000000,105700,7,2025,86,Transfermarkt; estimation salaire
+PL:67:168712:valentino-livramento,Valentino Livramento,Newcastle United FC,Premier League,Defence,45000000,122400,7,2024,86,Transfermarkt; estimation salaire
+PL:67:277574:leo-shahar,Leo Shahar,Newcastle United FC,Premier League,Defence,1200000,10400,7,2025,62,Transfermarkt; estimation
+PL:67:1684:bruno-guimaraes,Bruno Guimarães,Newcastle United FC,Premier League,Midfield,80000000,187200,1,2022,95,Transfermarkt; Capology
+PL:67:7848:anthony-gordon,Anthony Gordon,Newcastle United FC,Premier League,Midfield,65000000,152000,7,2024,86,Transfermarkt; estimation salaire
+PL:67:176852:lewis-hall,Lewis Hall,Newcastle United FC,Premier League,Midfield,50000000,130200,7,2024,86,Transfermarkt; estimation salaire
+PL:67:289574:sam-alabi,Sam Alabi,Newcastle United FC,Premier League,Midfield,800000,5700,7,2025,62,Transfermarkt; estimation
+PL:67:612:yoane-wissa,Yoane Wissa,Newcastle United FC,Premier League,Offence,32000000,100300,7,2025,86,Transfermarkt; estimation salaire
+PL:67:133547:nick-woltemade,Nick Woltemade,Newcastle United FC,Premier League,Offence,45000000,122400,7,2025,86,Transfermarkt; estimation salaire
+PL:67:166376:anthony-elanga,Anthony Elanga,Newcastle United FC,Premier League,Offence,50000000,130200,7,2025,86,Transfermarkt; estimation salaire
+PL:67:275209:sean-neave,Sean Neave,Newcastle United FC,Premier League,Offence,1000000,6200,7,2025,62,Transfermarkt; estimation
+PL:67:283375:seung-soo-park,Seung-soo Park,Newcastle United FC,Premier League,Offence,3000000,15500,7,2025,62,Transfermarkt; estimation
+PL:67:10653:joelinton,Joelinton,Newcastle United FC,Premier League,Central Midfield,40000000,114200,7,2024,86,Transfermarkt; estimation salaire
+PL:67:8076:harvey-barnes,Harvey Barnes,Newcastle United FC,Premier League,Left Winger,35000000,105700,7,2024,86,Transfermarkt; estimation salaire
+PL:67:7934:jacob-murphy,Jacob Murphy,Newcastle United FC,Premier League,Right Winger,12000000,57600,7,2024,86,Transfermarkt; estimation salaire
+PL:67:7798:joe-willock,Joe Willock,Newcastle United FC,Premier League,Central Midfield,22000000,80900,7,2024,86,Transfermarkt; estimation salaire
+PL:67:3312:kieran-trippier,Kieran Trippier,Newcastle United FC,Premier League,Right-Back,8000000,46300,7,2024,86,Transfermarkt; estimation salaire
+PL:67:2563:sandro-tonali,Sandro Tonali,Newcastle United FC,Premier League,Central Midfield,70000000,175500,7,2023,95,Transfermarkt; Capology
+PL:67:1868:emil-krafth,Emil Krafth,Newcastle United FC,Premier League,Right-Back,3000000,15500,7,2025,62,Transfermarkt; estimation
+PL:67:88:fabian-schar,Fabian Schär,Newcastle United FC,Premier League,Centre-Back,8000000,46300,7,2024,86,Transfermarkt; estimation salaire
+PL:67:230364:alex-murphy,Alex Murphy,Newcastle United FC,Premier League,Left-Back,2500000,14300,7,2025,62,Transfermarkt; estimation
+PL:67:191939:lewis-miley,Lewis Miley,Newcastle United FC,Premier League,Central Midfield,35000000,105700,7,2024,86,Transfermarkt; estimation salaire
+PL:67:169324:william-osula,William Osula,Newcastle United FC,Premier League,Centre-Forward,12000000,57600,7,2024,86,Transfermarkt; estimation salaire
+PL:67:124683:joe-white,Joe White,Newcastle United FC,Premier League,Attacking Midfield,3500000,30400,7,2024,62,Transfermarkt; estimation
+PL:67:111437:jacob-ramsey,Jacob Ramsey,Newcastle United FC,Premier League,Left Midfield,50000000,130200,7,2025,86,Transfermarkt; estimation salaire
+PL:67:81082:sven-botman,Sven Botman,Newcastle United FC,Premier League,Centre-Back,45000000,122400,7,2024,86,Transfermarkt; estimation salaire
+PL:71:4292:simon-moore,Simon Moore,Sunderland AFC,Premier League,Goalkeeper,300000,2600,7,2025,62,Transfermarkt; estimation
+PL:71:137691:robin-roefs,Robin Roefs,Sunderland AFC,Premier League,Goalkeeper,12000000,35700,7,2024,86,Transfermarkt; estimation salaire
+PL:71:150893:melker-ellborg,Melker Ellborg,Sunderland AFC,Premier League,Goalkeeper,3000000,9600,7,2025,62,Transfermarkt; estimation
+PL:71:46491:omar-alderete,Omar Alderete,Sunderland AFC,Premier League,Defence,12000000,37600,7,2024,86,Transfermarkt; estimation salaire
+PL:71:285390:jenson-jones,Jenson Jones,Sunderland AFC,Premier League,Defence,700000,3500,7,2025,62,Transfermarkt; estimation
+PL:71:3477:granit-xhaka,Granit Xhaka,Sunderland AFC,Premier League,Midfield,12000000,128700,7,2025,95,Transfermarkt; Capology
+PL:71:171876:habib-diarra,Habib Diarra,Sunderland AFC,Premier League,Midfield,35000000,69000,7,2025,86,Transfermarkt; estimation salaire
+PL:71:182273:noah-sadiki,Noah Sadiki,Sunderland AFC,Premier League,Midfield,25000000,56800,7,2025,86,Transfermarkt; estimation salaire
+PL:71:192313:chemsdine-talbi,Chemsdine Talbi,Sunderland AFC,Premier League,Midfield,18000000,47100,7,2025,86,Transfermarkt; estimation salaire
+PL:71:249412:harrison-jones,Harrison Jones,Sunderland AFC,Premier League,Midfield,700000,3500,7,2025,62,Transfermarkt; estimation
+PL:71:285389:jaydon-jones,Jaydon Jones,Sunderland AFC,Premier League,Midfield,500000,3100,7,2025,62,Transfermarkt; estimation
+PL:71:285392:jack-whittaker,Jack Whittaker,Sunderland AFC,Premier League,Midfield,500000,3100,7,2025,62,Transfermarkt; estimation
+PL:71:83599:wilson-isidor,Wilson Isidor,Sunderland AFC,Premier League,Offence,18000000,47100,7,2024,86,Transfermarkt; estimation salaire
+PL:71:97535:brian-brobbey,Brian Brobbey,Sunderland AFC,Premier League,Offence,22000000,52800,7,2025,86,Transfermarkt; estimation salaire
+PL:71:187375:nilson-angulo,Nilson Angulo,Sunderland AFC,Premier League,Offence,15000000,42600,7,2025,86,Transfermarkt; estimation salaire
+PL:71:290809:jocelin-bi,Jocelin Bi,Sunderland AFC,Premier League,Offence,3000000,10100,7,2025,62,Transfermarkt; estimation
+PL:71:293571:finn-geragusyan,Finn Geragusyan,Sunderland AFC,Premier League,Offence,800000,3700,7,2025,62,Transfermarkt; estimation
+PL:71:172123:dennis-cirkin,Dennis Cirkin,Sunderland AFC,Premier League,Left-Back,10000000,34100,7,2024,86,Transfermarkt; estimation salaire
+PL:71:165311:abdoullah-ba,Abdoullah Ba,Sunderland AFC,Premier League,Right Midfield,8000000,30200,7,2024,86,Transfermarkt; estimation salaire
+PL:71:121109:daniel-ballard,Daniel Ballard,Sunderland AFC,Premier League,Centre-Back,15000000,42600,7,2024,86,Transfermarkt; estimation salaire
+PL:71:117687:trai-hume,Trai Hume,Sunderland AFC,Premier League,Right-Back,18000000,52650,7,2024,95,Transfermarkt; Capology
+PL:71:99664:enzo-le-fee,Enzo Le Fée,Sunderland AFC,Premier League,Central Midfield,18000000,47100,1,2025,86,Transfermarkt; estimation salaire
+PL:71:37094:reinildo,Reinildo,Sunderland AFC,Premier League,Left-Back,7000000,28200,7,2025,86,Transfermarkt; estimation salaire
+PL:71:8467:bertrand-traore,Bertrand Traoré,Sunderland AFC,Premier League,Right Winger,8000000,30200,7,2025,86,Transfermarkt; estimation salaire
+PL:71:8371:nordi-mukiele,Nordi Mukiele,Sunderland AFC,Premier League,Right-Back,18000000,47100,7,2025,86,Transfermarkt; estimation salaire
+PL:71:7468:lutsharel-geertruida,Lutsharel Geertruida,Sunderland AFC,Premier League,Right-Back,30000000,63100,7,2025,86,Transfermarkt; estimation salaire
+PL:71:6259:luke-o-nien,Luke O'Nien,Sunderland AFC,Premier League,Centre-Back,5000000,23700,7,2024,86,Transfermarkt; estimation salaire
+PL:71:268830:milan-aleksic,Milan Aleksić,Sunderland AFC,Premier League,Central Midfield,8000000,30200,7,2024,86,Transfermarkt; estimation salaire
+PL:71:191889:ahmed-abdullahi,Ahmed Abdullahi,Sunderland AFC,Premier League,Centre-Forward,4000000,21200,7,2024,62,Transfermarkt; estimation
+PL:71:190817:chris-rigg,Chris Rigg,Sunderland AFC,Premier League,Central Midfield,30000000,63100,7,2024,86,Transfermarkt; estimation salaire
+PL:71:178644:eliezer-mayenda,Eliezer Mayenda,Sunderland AFC,Premier League,Centre-Forward,15000000,35100,7,2024,95,Transfermarkt; Capology
+PL:71:172275:romaine-mundle,Romaine Mundle,Sunderland AFC,Premier League,Left Winger,12000000,37600,7,2024,86,Transfermarkt; estimation salaire
+PL:73:3086:guglielmo-vicario,Guglielmo Vicario,Tottenham Hotspur FC,Premier League,Goalkeeper,35000000,100400,7,2024,86,Transfermarkt; estimation salaire
+PL:73:133229:brandon-austin,Brandon Austin,Tottenham Hotspur FC,Premier League,Goalkeeper,2000000,12200,7,2025,62,Transfermarkt; estimation
+PL:73:255239:antonin-kinsky,Antonín Kinský,Tottenham Hotspur FC,Premier League,Goalkeeper,20000000,72800,1,2025,86,Transfermarkt; estimation salaire
+PL:73:274554:luca-gunter,Luca Gunter,Tottenham Hotspur FC,Premier League,Goalkeeper,800000,5400,7,2025,62,Transfermarkt; estimation
+PL:73:6655:kevin-danso,Kevin Danso,Tottenham Hotspur FC,Premier League,Defence,35000000,76050,2,2025,95,Transfermarkt; Capology
+PL:73:45735:christian-romero,Christian Romero,Tottenham Hotspur FC,Premier League,Defence,70000000,228150,7,2024,95,Transfermarkt; Capology
+PL:73:80775:djed-spence,Djed Spence,Tottenham Hotspur FC,Premier League,Defence,35000000,46800,7,2024,95,Transfermarkt; Capology
+PL:73:81037:pedro-porro,Pedro Porro,Tottenham Hotspur FC,Premier League,Defence,50000000,130200,7,2024,86,Transfermarkt; estimation salaire
+PL:73:131177:mickey-van-de-ven,Mickey van de Ven,Tottenham Hotspur FC,Premier League,Defence,65000000,105300,7,2024,95,Transfermarkt; Capology
+PL:73:249465:souza,Souza,Tottenham Hotspur FC,Premier League,Defence,1000000,6200,7,2025,62,Transfermarkt; estimation
+PL:73:272980:malachi-hardy,Malachi Hardy,Tottenham Hotspur FC,Premier League,Defence,1000000,6200,7,2025,62,Transfermarkt; estimation
+PL:73:283174:jun-ai-byfield,Jun'ai Byfield,Tottenham Hotspur FC,Premier League,Defence,800000,5700,7,2025,62,Transfermarkt; estimation
+PL:73:288618:james-rowswell,James Rowswell,Tottenham Hotspur FC,Premier League,Defence,700000,5400,7,2025,62,Transfermarkt; estimation
+PL:73:2041:rodrigo-bentancur,Rodrigo Bentancur,Tottenham Hotspur FC,Premier League,Midfield,30000000,96600,7,2024,86,Transfermarkt; estimation salaire
+PL:73:170391:pape-sarr,Pape Sarr,Tottenham Hotspur FC,Premier League,Midfield,50000000,130200,7,2024,86,Transfermarkt; estimation salaire
+PL:73:193622:lucas-bergvall,Lucas Bergvall,Tottenham Hotspur FC,Premier League,Midfield,55000000,137700,7,2024,86,Transfermarkt; estimation salaire
+PL:73:272688:callum-olusesi,Callum Olusesi,Tottenham Hotspur FC,Premier League,Midfield,3000000,15500,7,2025,62,Transfermarkt; estimation
+PL:73:274808:rio-kyerematen,Rio Kyerematen,Tottenham Hotspur FC,Premier League,Midfield,1500000,11400,7,2025,62,Transfermarkt; estimation
+PL:73:291749:tye-hall,Tye Hall,Tottenham Hotspur FC,Premier League,Midfield,800000,5700,7,2025,62,Transfermarkt; estimation
+PL:73:216418:james-wilson,James Wilson,Tottenham Hotspur FC,Premier League,Offence,800000,5700,7,2025,62,Transfermarkt; estimation
+PL:73:272687:luca-williams-barnett,Luca Williams-Barnett,Tottenham Hotspur FC,Premier League,Offence,2500000,14300,7,2025,62,Transfermarkt; estimation
+PL:73:286774:tynan-thompson,Tynan Thompson,Tottenham Hotspur FC,Premier League,Offence,700000,5400,7,2025,62,Transfermarkt; estimation
+PL:73:140432:radu-dragusin,Radu Drăgușin,Tottenham Hotspur FC,Premier League,Centre-Back,30000000,96600,7,2024,86,Transfermarkt; estimation salaire
+PL:73:119265:conor-gallagher,Conor Gallagher,Tottenham Hotspur FC,Premier League,Central Midfield,50000000,130200,7,2026,86,Transfermarkt; estimation salaire
+PL:73:77399:mohammed-kudus,Mohammed Kudus,Tottenham Hotspur FC,Premier League,Right Winger,65000000,152000,7,2025,86,Transfermarkt; estimation salaire
+PL:73:15884:joao-palhinha,João Palhinha,Tottenham Hotspur FC,Premier League,Defensive Midfield,25000000,87000,8,2025,86,Transfermarkt; estimation salaire
+PL:73:8708:randal-kolo-muani,Randal Kolo Muani,Tottenham Hotspur FC,Premier League,Centre-Forward,30000000,96600,9,2025,86,Transfermarkt; estimation salaire
+PL:73:8410:yves-bissouma,Yves Bissouma,Tottenham Hotspur FC,Premier League,Defensive Midfield,25000000,87000,7,2024,86,Transfermarkt; estimation salaire
+PL:73:8133:richarlison,Richarlison,Tottenham Hotspur FC,Premier League,Centre-Forward,25000000,105300,7,2024,95,Transfermarkt; Capology
+PL:73:7994:ben-davies,Ben Davies,Tottenham Hotspur FC,Premier League,Centre-Back,8000000,46300,7,2024,86,Transfermarkt; estimation salaire
+PL:73:7878:dominic-solanke,Dominic Solanke,Tottenham Hotspur FC,Premier League,Centre-Forward,45000000,122400,8,2024,86,Transfermarkt; estimation salaire
+PL:73:3992:james-maddison,James Maddison,Tottenham Hotspur FC,Premier League,Attacking Midfield,40000000,114200,7,2024,86,Transfermarkt; estimation salaire
+PL:73:1859:dejan-kulusevski,Dejan Kulusevski,Tottenham Hotspur FC,Premier League,Attacking Midfield,55000000,137700,7,2024,86,Transfermarkt; estimation salaire
+PL:73:184999:wilson-odobert,Wilson Odobert,Tottenham Hotspur FC,Premier League,Right Winger,30000000,96600,7,2024,86,Transfermarkt; estimation salaire
+PL:73:177040:archie-gray,Archie Gray,Tottenham Hotspur FC,Premier League,Right-Back,50000000,130200,7,2024,86,Transfermarkt; estimation salaire
+PL:73:171977:mathys-tel,Mathys Tel,Tottenham Hotspur FC,Premier League,Centre-Forward,45000000,122400,2,2025,86,Transfermarkt; estimation salaire
+PL:73:170378:destiny-udogie,Destiny Udogie,Tottenham Hotspur FC,Premier League,Left-Back,50000000,130200,7,2024,86,Transfermarkt; estimation salaire
+PL:73:148289:xavi-simons,Xavi Simons,Tottenham Hotspur FC,Premier League,Attacking Midfield,70000000,158800,7,2025,86,Transfermarkt; estimation salaire
+PL:76:3884:sam-johnstone,Sam Johnstone,Wolverhampton Wanderers FC,Premier League,Goalkeeper,5000000,23600,7,2024,86,Transfermarkt; estimation salaire
+PL:76:4418:daniel-bentley,Daniel Bentley,Wolverhampton Wanderers FC,Premier League,Goalkeeper,1000000,4000,7,2025,62,Transfermarkt; estimation
+PL:76:15899:jose-sa,José Sá,Wolverhampton Wanderers FC,Premier League,Goalkeeper,8000000,30100,7,2024,86,Transfermarkt; estimation salaire
+PL:76:227022:josh-gracey,Josh Gracey,Wolverhampton Wanderers FC,Premier League,Goalkeeper,500000,3100,7,2025,62,Transfermarkt; estimation
+PL:76:260577:alfie-brooks,Alfie Brooks,Wolverhampton Wanderers FC,Premier League,Goalkeeper,500000,3100,7,2025,62,Transfermarkt; estimation
+PL:76:32767:santiago-bueno,Santiago Bueno,Wolverhampton Wanderers FC,Premier League,Defence,15000000,44600,7,2024,86,Transfermarkt; estimation salaire
+PL:76:62493:ladislav-krejci,Ladislav Krejčí,Wolverhampton Wanderers FC,Premier League,Defence,22000000,55400,7,2026,86,Transfermarkt; estimation salaire
+PL:76:205467:david-wolfe,David Wolfe,Wolverhampton Wanderers FC,Premier League,Defence,1000000,4200,7,2025,62,Transfermarkt; estimation
+PL:76:290067:saheed-olagunju,Saheed Olagunju,Wolverhampton Wanderers FC,Premier League,Defence,1000000,4200,7,2025,62,Transfermarkt; estimation
+PL:76:788:jean-ricner-bellegarde,Jean-Ricner Bellegarde,Wolverhampton Wanderers FC,Premier League,Midfield,15000000,44600,7,2024,86,Transfermarkt; estimation salaire
+PL:76:213637:ethan-sutherland,Ethan Sutherland,Wolverhampton Wanderers FC,Premier League,Midfield,800000,3900,7,2025,62,Transfermarkt; estimation
+PL:76:265562:luke-rawlings,Luke Rawlings,Wolverhampton Wanderers FC,Premier League,Midfield,700000,3700,7,2025,62,Transfermarkt; estimation
+PL:76:272968:tom-edozie,Tom Edozie,Wolverhampton Wanderers FC,Premier League,Midfield,700000,3700,7,2025,62,Transfermarkt; estimation
+PL:76:291972:jerome-abbey,Jerome Abbey,Wolverhampton Wanderers FC,Premier League,Midfield,500000,3300,7,2025,62,Transfermarkt; estimation
+PL:76:3354:hwang-heechan,Hwang Heechan,Wolverhampton Wanderers FC,Premier League,Offence,12000000,39400,7,2024,86,Transfermarkt; estimation salaire
+PL:76:120981:toluwalas-arokodare,Toluwalas Arokodare,Wolverhampton Wanderers FC,Premier League,Offence,18000000,49400,7,2025,86,Transfermarkt; estimation salaire
+PL:76:171027:jackson-tchatchoua,Jackson Tchatchoua,Wolverhampton Wanderers FC,Premier League,Offence,12000000,39400,7,2025,86,Transfermarkt; estimation salaire
+PL:76:276066:mateus-mane,Mateus Mané,Wolverhampton Wanderers FC,Premier League,Offence,2000000,8800,7,2025,62,Transfermarkt; estimation
+PL:76:249435:pedro-lima,Pedro Lima,Wolverhampton Wanderers FC,Premier League,Right-Back,15000000,44600,7,2024,86,Transfermarkt; estimation salaire
+PL:76:193014:enso-gonzalez,Enso Gonzalez,Wolverhampton Wanderers FC,Premier League,Left Winger,4000000,22200,7,2024,62,Transfermarkt; estimation
+PL:76:189575:nathan-fraser,Nathan Fraser,Wolverhampton Wanderers FC,Premier League,Centre-Forward,5000000,24800,7,2024,86,Transfermarkt; estimation salaire
+PL:76:157709:hugo-bueno,Hugo Bueno,Wolverhampton Wanderers FC,Premier League,Left-Back,18000000,49400,7,2019,86,Transfermarkt; estimation salaire

@@ -1,0 +1,31 @@
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/auth' : '',
+  /* config options here */
+  output: 'standalone',
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'commons.wikimedia.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'crests.football-data.org',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8000',
+      },
+    ],
+  },
+};
+
+export default nextConfig;

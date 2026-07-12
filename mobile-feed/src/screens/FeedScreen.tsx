@@ -1,0 +1,595 @@
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  ImageBackground,
+  Pressable,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { Ionicons } from '@expo/vector-icons'
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'
+
+import { FeedFiltersModal } from '../components/FeedFiltersModal'
+import { FeedPostCard } from '../components/FeedPostCard'
+import { colors, spacing } from '../constants/theme'
+import { getFeedFilterOptions, getFeedPreview } from '../services/api'
+import type { FeedFilter, FeedFilterOptions, FeedTab, PublicFeedPost } from '../types/feed'
+import type { RootStackParamList } from '../types/navigation'
+
+const backgroundImage = require('../../assets/images/app-bg.png')
+const logoImage = require('../../assets/images/logo.png')
+
+const FEED_TABS: Array<{ value: FeedTab; label: string }> = [
+  { value: 'featured', label: 'À la une' },
+  { value: 'official', label: 'Officiel' },
+  { value: 'live', label: 'Live' },
+]
+
+const MOCK_POSTS: PublicFeedPost[] = [
+  {
+    id: 'mock-1',
+    eventType: 'transfer_official',
+    bucket: 'official',
+    headline: 'OFFICIEL ! HERE WE GO',
+    body: 'Kylian Mbappé rejoint Liverpool FC. Montant : 180 M EUR. Contrat jusqu’en 2030.',
+    playerName: 'Kylian Mbappé',
+    fromClubName: 'Real Madrid CF',
+    toClubName: 'Liverpool FC',
+    amountLabel: '180 M EUR',
+    league: 'Premier League',
+    country: 'Angleterre',
+    publishedAt: new Date().toISOString(),
+    isOfficial: true,
+  },
+  {
+    id: 'mock-2',
+    eventType: 'negotiation',
+    bucket: 'live',
+    headline: 'NEGOCIATION',
+    body: 'Manchester City a transmis une offre de 120 M EUR pour Jude Bellingham.',
+    playerName: 'Jude Bellingham',
+    fromClubName: 'Real Madrid CF',
+    toClubName: 'Manchester City',
+    amountLabel: '120 M EUR',
+    league: 'Premier League',
+    publishedAt: new Date(Date.now() - 1000 * 60 * 18).toISOString(),
+  },
+  {
+    id: 'mock-3',
+    eventType: 'contract_renewal',
+    bucket: 'official',
+    headline: 'RENOUVELLEMENT',
+    body: 'Vinicius Junior prolonge avec le Real Madrid jusqu’en 2031.',
+    playerName: 'Vinicius Junior',
+    toClubName: 'Real Madrid CF',
+    publishedAt: new Date(Date.now() - 1000 * 60 * 52).toISOString(),
+    isOfficial: true,
+  },
+]
+
+type FeedScreenProps = NativeStackScreenProps<RootStackParamList, 'Feed'>
+
+export function FeedScreen({ navigation }: FeedScreenProps) {
+  const [activeTab, setActiveTab] = useState<FeedTab>('featured')
+  const [filters, setFilters] = useState<FeedFilter>({})
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [posts, setPosts] = useState<PublicFeedPost[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [isEndpointAvailable, setIsEndpointAvailable] = useState(true)
+  const [filterOptions, setFilterOptions] = useState<FeedFilterOptions | null>(null)
+  const [pendingNewCount, setPendingNewCount] = useState(0)
+  const [newSectionAfterId, setNewSectionAfterId] = useState<string | null>(null)
+  const postsRef = useRef<PublicFeedPost[]>([])
+
+  useEffect(() => {
+    postsRef.current = posts
+  }, [posts])
+
+  const activeFilterCount = useMemo(
+    () => Object.values(filters).filter((value) => Boolean(String(value ?? '').trim())).length,
+    [filters],
+  )
+
+  const loadFeed = useCallback(async (refresh = false) => {
+    const previousPosts = postsRef.current
+
+    if (refresh) {
+      setIsRefreshing(true)
+    } else {
+      setIsLoading(true)
+      setPendingNewCount(0)
+      setNewSectionAfterId(null)
+    }
+    setErrorMessage(null)
+
+    try {
+      const result = await getFeedPreview({ tab: activeTab, filters })
+      const previousFirstPostId = previousPosts[0]?.id
+      const previousFirstIndex = refresh && previousFirstPostId
+        ? result.posts.findIndex((post) => post.id === previousFirstPostId)
+        : -1
+
+      setPosts(result.posts)
+      setIsEndpointAvailable(result.isEndpointAvailable)
+      setPendingNewCount(0)
+      setNewSectionAfterId(previousFirstIndex > 0 ? result.posts[previousFirstIndex - 1]?.id ?? null : null)
+    } catch {
+      setErrorMessage('Impossible de joindre le backend KickDeal pour le moment.')
+      setPosts([])
+      setIsEndpointAvailable(true)
+      setPendingNewCount(0)
+      setNewSectionAfterId(null)
+    } finally {
+      setIsLoading(false)
+      setIsRefreshing(false)
+    }
+  }, [activeTab, filters])
+
+  useEffect(() => {
+    loadFeed()
+  }, [loadFeed])
+
+  useEffect(() => {
+    if (!isEndpointAvailable || isLoading || isRefreshing || posts.length === 0) {
+      return undefined
+    }
+
+    let isMounted = true
+
+    async function checkForNewPosts() {
+      const currentFirstPostId = postsRef.current[0]?.id
+      if (!currentFirstPostId) return
+
+      try {
+        const result = await getFeedPreview({ tab: activeTab, filters })
+        if (!isMounted || !result.isEndpointAvailable) return
+
+        const currentFirstIndex = result.posts.findIndex((post) => post.id === currentFirstPostId)
+        setPendingNewCount(currentFirstIndex > 0 ? currentFirstIndex : 0)
+      } catch {
+      }
+    }
+
+    const interval = setInterval(() => {
+      void checkForNewPosts()
+    }, 45_000)
+
+    return () => {
+      isMounted = false
+      clearInterval(interval)
+    }
+  }, [activeTab, filters, isEndpointAvailable, isLoading, isRefreshing, posts.length])
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadFilterOptions() {
+      try {
+        const options = await getFeedFilterOptions()
+        if (isMounted) {
+          setFilterOptions(options)
+        }
+      } catch {
+        if (isMounted) {
+          setFilterOptions(null)
+        }
+      }
+    }
+
+    loadFilterOptions()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const usesMockPosts = !isLoading && !errorMessage && !isEndpointAvailable
+  const isEmpty = !isLoading && !errorMessage && isEndpointAvailable && posts.length === 0
+  const visiblePosts = usesMockPosts ? MOCK_POSTS : posts
+
+  return (
+    <ImageBackground source={backgroundImage} resizeMode="cover" style={styles.background}>
+      <View style={styles.overlay} />
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.hero}>
+          <View style={styles.brandRow}>
+            <Image source={logoImage} style={styles.logo} />
+            <View style={styles.brandText}>
+              <Text style={styles.brand}>KickDeal Feed</Text>
+              <Text style={styles.brandCaption}>Actualités publiques du marché</Text>
+            </View>
+            <Pressable style={styles.filterButton} onPress={() => setIsFilterOpen(true)}>
+              <Ionicons name="options" size={18} color={colors.text} />
+              {activeFilterCount > 0 ? (
+                <View style={styles.filterBadge}>
+                  <Text style={styles.filterBadgeText}>{activeFilterCount}</Text>
+                </View>
+              ) : null}
+            </Pressable>
+          </View>
+
+          <Text style={styles.title}>Le mercato en direct.</Text>
+          <Text style={styles.subtitle}>
+            Officiels, négociations et joueurs disponibles, racontés comme un vrai média foot.
+          </Text>
+
+          {errorMessage ? (
+            <View style={styles.errorBox}>
+              <Text style={styles.errorText}>{errorMessage}</Text>
+              <Pressable style={styles.retryButton} onPress={() => loadFeed()}>
+                <Ionicons name="refresh" size={16} color={colors.text} />
+                <Text style={styles.retryText}>Réessayer</Text>
+              </Pressable>
+            </View>
+          ) : null}
+
+          {usesMockPosts ? (
+            <View style={styles.noticeBox}>
+              <Text style={styles.noticeTitle}>Aperçu média de démonstration</Text>
+              <Text style={styles.noticeText}>
+                L’endpoint public n’est pas encore disponible sur cet environnement.
+              </Text>
+            </View>
+          ) : null}
+        </View>
+
+        <View style={styles.tabsBar}>
+          {FEED_TABS.map((tab) => {
+            const isActive = tab.value === activeTab
+            return (
+              <Pressable
+                key={tab.value}
+                style={styles.tab}
+                onPress={() => setActiveTab(tab.value)}
+              >
+                <Text style={[styles.tabText, isActive && styles.tabTextActive]}>{tab.label}</Text>
+                {isActive ? <View style={styles.tabIndicator} /> : null}
+              </Pressable>
+            )
+          })}
+        </View>
+
+        {pendingNewCount > 0 ? (
+          <Pressable style={styles.newPostsBanner} onPress={() => loadFeed(true)}>
+            <View style={styles.newPostsIcon}>
+              <Ionicons name="arrow-up" size={15} color={colors.background} />
+            </View>
+            <Text style={styles.newPostsText}>
+              {pendingNewCount} nouvelle{pendingNewCount > 1 ? 's' : ''} actualité{pendingNewCount > 1 ? 's' : ''}
+            </Text>
+            <Text style={styles.newPostsAction}>Afficher</Text>
+          </Pressable>
+        ) : null}
+
+        {isEmpty ? (
+          <View style={styles.emptyBox}>
+            <Ionicons name="file-tray-outline" size={26} color={colors.cyan} />
+            <Text style={styles.emptyTitle}>Aucune actualité publique</Text>
+            <Text style={styles.emptyText}>
+              Les prochains transferts, prêts et renouvellements publiés apparaîtront ici.
+            </Text>
+          </View>
+        ) : null}
+
+        <FlatList
+          data={isLoading ? [] : visiblePosts}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.content}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={() => loadFeed(true)}
+              tintColor={colors.cyan}
+            />
+          }
+          ListFooterComponent={<View style={styles.footerSpace} />}
+          ListEmptyComponent={
+            isLoading ? (
+              <View style={styles.centerState}>
+                <ActivityIndicator color={colors.cyan} size="large" />
+                <Text style={styles.centerText}>Connexion au feed public...</Text>
+              </View>
+            ) : null
+          }
+          renderItem={({ item }) => (
+            <Fragment>
+              <FeedPostCard
+                post={item}
+                onPress={() => {
+                  if (!item.id.startsWith('mock-')) {
+                    navigation.navigate('PostDetail', { postId: item.id })
+                  }
+                }}
+              />
+              {newSectionAfterId === item.id ? (
+                <View style={styles.newSectionBoundary}>
+                  <View style={styles.boundaryLine} />
+                  <View style={styles.boundaryLabel}>
+                    <Text style={styles.boundaryTitle}>Nouveaux posts au-dessus</Text>
+                    <Text style={styles.boundarySubtitle}>Posts déjà chargés en dessous</Text>
+                  </View>
+                  <View style={styles.boundaryLine} />
+                </View>
+              ) : null}
+            </Fragment>
+          )}
+          ItemSeparatorComponent={null}
+        />
+
+        <FeedFiltersModal
+          visible={isFilterOpen}
+          filters={filters}
+          options={filterOptions}
+          onChange={setFilters}
+          onClose={() => setIsFilterOpen(false)}
+          onReset={() => setFilters({})}
+        />
+      </SafeAreaView>
+    </ImageBackground>
+  )
+}
+
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.78)',
+  },
+  safeArea: {
+    flex: 1,
+  },
+  content: {
+    paddingBottom: spacing.xl,
+  },
+  hero: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.sm,
+    gap: spacing.sm,
+  },
+  brandRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  logo: {
+    width: 38,
+    height: 38,
+  },
+  brandText: {
+    flex: 1,
+  },
+  brand: {
+    color: colors.text,
+    fontSize: 20,
+    fontWeight: '900',
+  },
+  brandCaption: {
+    color: colors.cyan,
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 1.4,
+    textTransform: 'uppercase',
+  },
+  filterButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+  },
+  filterBadge: {
+    position: 'absolute',
+    right: -2,
+    top: -2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minWidth: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: colors.cyan,
+  },
+  filterBadgeText: {
+    color: colors.background,
+    fontSize: 11,
+    fontWeight: '900',
+  },
+  title: {
+    color: colors.text,
+    fontSize: 28,
+    lineHeight: 32,
+    fontWeight: '900',
+  },
+  subtitle: {
+    color: colors.muted,
+    fontSize: 15,
+    lineHeight: 21,
+    fontWeight: '600',
+  },
+  tabsBar: {
+    flexDirection: 'row',
+    paddingHorizontal: spacing.md,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(255,255,255,0.11)',
+    backgroundColor: 'rgba(0,0,0,0.88)',
+  },
+  tab: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 52,
+    gap: 8,
+  },
+  tabText: {
+    color: colors.muted,
+    fontSize: 15,
+    fontWeight: '900',
+  },
+  tabTextActive: {
+    color: colors.text,
+  },
+  tabIndicator: {
+    position: 'absolute',
+    bottom: 0,
+    width: 54,
+    height: 4,
+    borderRadius: 999,
+    backgroundColor: colors.cyan,
+  },
+  newPostsBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: spacing.lg,
+    marginTop: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.borderStrong,
+    borderRadius: 999,
+    backgroundColor: 'rgba(0, 245, 212, 0.12)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    gap: spacing.sm,
+  },
+  newPostsIcon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: colors.cyan,
+  },
+  newPostsText: {
+    flex: 1,
+    color: colors.text,
+    fontSize: 14,
+    fontWeight: '900',
+  },
+  newPostsAction: {
+    color: colors.cyan,
+    fontSize: 13,
+    fontWeight: '900',
+    textTransform: 'uppercase',
+  },
+  newSectionBoundary: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: spacing.lg,
+    marginVertical: spacing.md,
+    gap: spacing.sm,
+  },
+  boundaryLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'rgba(0, 245, 212, 0.35)',
+  },
+  boundaryLabel: {
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.borderStrong,
+    borderRadius: 999,
+    backgroundColor: 'rgba(0, 0, 0, 0.55)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: 7,
+  },
+  boundaryTitle: {
+    color: colors.cyan,
+    fontSize: 11,
+    fontWeight: '900',
+    textTransform: 'uppercase',
+  },
+  boundarySubtitle: {
+    color: colors.muted,
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  errorBox: {
+    borderWidth: 1,
+    borderColor: 'rgba(255, 107, 122, 0.34)',
+    borderRadius: 16,
+    backgroundColor: 'rgba(255, 107, 122, 0.1)',
+    padding: spacing.md,
+    gap: spacing.sm,
+  },
+  errorText: {
+    color: colors.text,
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  retryButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.xs,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    paddingVertical: spacing.sm,
+  },
+  retryText: {
+    color: colors.text,
+    fontWeight: '900',
+  },
+  noticeBox: {
+    borderWidth: 1,
+    borderColor: colors.borderStrong,
+    borderRadius: 16,
+    backgroundColor: 'rgba(0, 245, 212, 0.08)',
+    padding: spacing.md,
+    gap: 4,
+  },
+  noticeTitle: {
+    color: colors.cyan,
+    fontSize: 14,
+    fontWeight: '900',
+  },
+  noticeText: {
+    color: colors.muted,
+    fontSize: 13,
+    lineHeight: 19,
+  },
+  emptyBox: {
+    margin: spacing.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 18,
+    backgroundColor: colors.cardStrong,
+    padding: spacing.lg,
+    gap: spacing.xs,
+  },
+  emptyTitle: {
+    color: colors.text,
+    fontSize: 16,
+    fontWeight: '900',
+  },
+  emptyText: {
+    color: colors.muted,
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  centerState: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 240,
+    gap: spacing.md,
+  },
+  centerText: {
+    color: colors.muted,
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  footerSpace: {
+    height: spacing.xl,
+  },
+})

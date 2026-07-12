@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-purple: #9B5DE5;
+  --color-brand-cyan: #00F5D4;
+  --color-dark-900: #080C19;
+  --color-dark-800: #0D1225;
+  --color-dark-700: #141B33;
+  --color-dark-600: #1A2340;
+}
+
+body {
+  background-color: #080C19;
+  color: #ededed;
+  font-family: var(--font-rajdhani), Arial, Helvetica, sans-serif;
+}
+
+.fixed-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(180deg, rgba(8, 12, 25, 0.45) 0%, rgba(8, 12, 25, 0.85) 60%, #080C19 100%),
+    url('/images/landing-bg.webp');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+.hero-bg {
+  background: transparent;
+}
+
+.navbar-bg {
+  background: linear-gradient(
+    180deg,
+    rgba(8, 12, 25, 0.95) 0%,
+    rgba(8, 12, 25, 0.0) 100%
+  );
+}
+
+.gradient-card {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 212, 0.08) 0%,
+    rgba(111, 136, 224, 0.08) 50%,
+    rgba(155, 93, 229, 0.08) 100%
+  );
+}
+
+.gradient-button {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 212, 0.25) 0%,
+    rgba(111, 136, 224, 0.25) 50%,
+    rgba(155, 93, 229, 0.25) 100%
+  );
+}
+
+.section-dark {
+  background: linear-gradient(
+    180deg,
+    rgba(8, 12, 25, 0.75) 0%,
+    rgba(13, 18, 37, 0.85) 100%
+  );
+  backdrop-filter: blur(0px);
+}
+
+.section-blue {
+  background: linear-gradient(
+    180deg,
+    rgba(13, 18, 37, 0.7) 0%,
+    rgba(20, 27, 51, 0.85) 50%,
+    rgba(13, 18, 37, 0.7) 100%
+  );
+}
+
+.glow-cyan {
+  box-shadow: 0 0 30px rgba(0, 245, 212, 0.15),
+              0 0 60px rgba(0, 245, 212, 0.05);
+}
+
+.glow-purple {
+  box-shadow: 0 0 30px rgba(155, 93, 229, 0.15),
+              0 0 60px rgba(155, 93, 229, 0.05);
+}
+
+.stat-card {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 212, 0.1) 0%,
+    rgba(155, 93, 229, 0.1) 100%
+  );
+  border: 1px solid rgba(0, 245, 212, 0.25);
+}

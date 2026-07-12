@@ -1,0 +1,17 @@
+nelmio_cors:
+    defaults:
+        # On met ici TOUTES les valeurs communes
+        allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
+        allow_headers: ['Content-Type', 'Authorization', 'Accept', 'X-CSRF-TOKEN']
+        expose_headers: ['Link', 'Set-Cookie']
+        max_age: 3600
+        # Par défaut, on n'autorise aucune origine
+        allow_origin: ['']
+
+    paths:
+        '^/api/':
+            # On ne surcharge QUE ce qui change pour ce chemin, c'est-à-dire l'origine
+            allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
+            allow_credentials: true
+            allow_methods: ['POST', 'GET', 'OPTIONS', 'PUT', 'PATCH', 'DELETE']
+            origin_regex: true # Active car CORS_ALLOW_ORIGIN est une regex

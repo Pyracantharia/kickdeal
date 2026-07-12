@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+BL1:10:189873:bilal-el-khannouss,Bilal El Khannouss,VfB Stuttgart,Bundesliga,Midfield,30000000,95200,7,2025,87,Transfermarkt; estimation salaire
+BL1:10:212314:noah-darvich,Noah Darvich,VfB Stuttgart,Bundesliga,Midfield,4000000,31000,7,2025,87,Transfermarkt; estimation salaire
+BL1:10:216841:lazar-jovanovic,Lazar Jovanovic,VfB Stuttgart,Bundesliga,Midfield,900000,10000,7,2025,58,estimation
+BL1:10:246680:yanik-spalt,Yanik Spalt,VfB Stuttgart,Bundesliga,Midfield,900000,10000,7,2025,58,estimation
+BL1:10:261054:christopher-olivier,Christopher Olivier,VfB Stuttgart,Bundesliga,Midfield,900000,10000,7,2025,58,estimation
+BL1:10:270273:chema-andres,Chema Andrés,VfB Stuttgart,Bundesliga,Midfield,12000000,56200,7,2025,87,Transfermarkt; estimation salaire
+BL1:10:273413:mirza-catovic,Mirza Ćatović,VfB Stuttgart,Bundesliga,Midfield,900000,10000,7,2025,58,estimation
+BL1:10:280394:lauri-penna,Lauri Penna,VfB Stuttgart,Bundesliga,Midfield,900000,10000,7,2025,58,estimation
+BL1:10:6928:deniz-undav,Deniz Undav,VfB Stuttgart,Bundesliga,Offence,35000000,104200,7,2024,87,Transfermarkt; estimation salaire
+BL1:10:33242:ermedin-demirovic,Ermedin Demirovic,VfB Stuttgart,Bundesliga,Offence,25000000,85600,7,2024,87,Transfermarkt; estimation salaire
+BL1:10:123333:jamie-leweling,Jamie Leweling,VfB Stuttgart,Bundesliga,Offence,30000000,95200,7,2024,87,Transfermarkt; estimation salaire
+BL1:10:191186:justin-diehl,Justin Diehl,VfB Stuttgart,Bundesliga,Offence,5000000,34800,7,2024,87,Transfermarkt; estimation salaire
+BL1:10:215510:jeremy,Jeremy,VfB Stuttgart,Bundesliga,Offence,18000000,70700,7,2025,87,Transfermarkt; estimation salaire
+BL1:10:145057:tiago-tomas,Tiago Tomás,VfB Stuttgart,Bundesliga,Centre-Forward,12000000,56200,7,2025,87,Transfermarkt; estimation salaire
+BL1:10:135485:lorenz-assignon,Lorenz Assignon,VfB Stuttgart,Bundesliga,Right-Back,15000000,63700,7,2025,87,Transfermarkt; estimation salaire
+BL1:10:9487:pascal-stenzel,Pascal Stenzel,VfB Stuttgart,Bundesliga,Right-Back,2500000,24500,7,2025,80,Transfermarkt; estimation
+BL1:10:7748:julian-chabot,Julian Chabot,VfB Stuttgart,Bundesliga,Centre-Back,22000000,79400,7,2024,87,Transfermarkt; estimation salaire
+BL1:10:6549:maximilian-mittelstadt,Maximilian Mittelstädt,VfB Stuttgart,Bundesliga,Left-Back,25000000,85600,7,2023,87,Transfermarkt; estimation salaire
+BL1:10:6523:josha-vagnoman,Josha Vagnoman,VfB Stuttgart,Bundesliga,Right-Back,12000000,56200,7,2022,87,Transfermarkt; estimation salaire
+BL1:10:6483:dan-axel-zagadou,Dan-Axel Zagadou,VfB Stuttgart,Bundesliga,Centre-Back,5000000,34800,7,2025,80,Transfermarkt; estimation
+BL1:10:206:chris-fuhrich,Chris Führich,VfB Stuttgart,Bundesliga,Left Winger,25000000,85600,7,2021,87,Transfermarkt; estimation salaire
+BL1:10:190:nikolas-nartey,Nikolas Nartey,VfB Stuttgart,Bundesliga,Central Midfield,2500000,24500,7,2025,80,Transfermarkt; estimation
+BL1:10:221768:finn-jeltsch,Finn Jeltsch,VfB Stuttgart,Bundesliga,Centre-Back,25000000,85600,2,2025,87,Transfermarkt; estimation salaire
+BL1:10:185007:badredine-bouanani,Badredine Bouanani,VfB Stuttgart,Bundesliga,Right Winger,18000000,70700,7,2025,87,Transfermarkt; estimation salaire
+BL1:10:170857:ameen-al-dakhil,Ameen Al Dakhil,VfB Stuttgart,Bundesliga,Centre-Back,12000000,56200,8,2024,87,Transfermarkt; estimation salaire
+BL1:10:157263:ramon-hendriks,Ramon Hendriks,VfB Stuttgart,Bundesliga,Left-Back,25000000,85600,7,2024,87,Transfermarkt; estimation salaire
+BL1:10:156949:mohamed-sankoh,Mohamed Sankoh,VfB Stuttgart,Bundesliga,Centre-Forward,5000000,34800,7,2025,80,Transfermarkt; estimation
+BL1:11:6573:marius-muller,Marius Müller,VfL Wolfsburg,Bundesliga,Goalkeeper,2000000,17200,7,2025,80,Transfermarkt; estimation
+BL1:11:10700:pavao-pervan,Pavao Pervan,VfL Wolfsburg,Bundesliga,Goalkeeper,400000,3600,7,2025,80,Transfermarkt; estimation
+BL1:11:92854:kamil-grabara,Kamil Grabara,VfL Wolfsburg,Bundesliga,Goalkeeper,18000000,55400,7,2024,87,Transfermarkt; estimation salaire
+BL1:11:254719:jakub-zielinski,Jakub Zieliński,VfL Wolfsburg,Bundesliga,Goalkeeper,550000,6500,7,2025,58,estimation
+BL1:11:15522:denis-vavro,Denis Vavro,VfL Wolfsburg,Bundesliga,Defence,10000000,44100,7,2024,87,Transfermarkt; estimation salaire
+BL1:11:172995:cleiton-santos,Cleiton Santos,VfL Wolfsburg,Bundesliga,Defence,3000000,23300,7,2025,80,Transfermarkt; estimation
+BL1:11:191269:jonas-adjei-adjetey,Jonas Adjei Adjetey,VfL Wolfsburg,Bundesliga,Defence,8000000,39000,7,2025,80,Transfermarkt; estimation
+BL1:11:264451:till-neininger,Till Neininger,VfL Wolfsburg,Bundesliga,Defence,750000,8100,7,2025,58,estimation
+BL1:11:278463:jan-burger,Jan Bürger,VfL Wolfsburg,Bundesliga,Defence,750000,8100,7,2025,58,estimation
+BL1:11:15354:mattias-svanberg,Mattias Svanberg,VfL Wolfsburg,Bundesliga,Midfield,15000000,55400,7,2025,80,Transfermarkt; estimation
+BL1:11:124324:patrick-wimmer,Patrick Wimmer,VfL Wolfsburg,Bundesliga,Midfield,20000000,65400,7,2025,80,Transfermarkt; estimation
+BL1:11:182004:adam-daghim,Adam Daghim,VfL Wolfsburg,Bundesliga,Midfield,10000000,44100,7,2025,80,Transfermarkt; estimation
+BL1:11:212727:bence-dardai,Bence Dárdai,VfL Wolfsburg,Bundesliga,Midfield,12000000,48800,7,2025,80,Transfermarkt; estimation
+BL1:11:289143:pharell-hensel,Pharell Hensel,VfL Wolfsburg,Bundesliga,Midfield,750000,8100,7,2025,58,estimation
+BL1:11:177590:konstantinos-koulierakis,Konstantinos Koulierakis,VfL Wolfsburg,Bundesliga,Offence,30000000,82800,8,2024,87,Transfermarkt; estimation salaire
+BL1:11:180827:mohammed-amoura,Mohammed Amoura,VfL Wolfsburg,Bundesliga,Offence,40000000,98000,7,2024,87,Transfermarkt; estimation salaire
+BL1:11:247160:kento-shiogai,Kento Shiogai,VfL Wolfsburg,Bundesliga,Offence,750000,8100,7,2025,58,estimation
+BL1:11:289942:trevor-benedict,Trevor Benedict,VfL Wolfsburg,Bundesliga,Offence,750000,8100,7,2025,58,estimation
+BL1:11:291148:bruno-katz,Bruno Katz,VfL Wolfsburg,Bundesliga,Offence,750000,8100,7,2025,58,estimation
+BL1:11:153289:moritz-jenz,Moritz Jenz,VfL Wolfsburg,Bundesliga,Centre-Back,10000000,44100,7,2025,80,Transfermarkt; estimation
+BL1:11:140414:kevin-paredes,Kevin Paredes,VfL Wolfsburg,Bundesliga,Left Midfield,12000000,48800,7,2025,80,Transfermarkt; estimation
+BL1:11:121664:kilian-fischer,Kilian Fischer,VfL Wolfsburg,Bundesliga,Right-Back,15000000,55400,7,2025,80,Transfermarkt; estimation
+BL1:11:115078:vinicius-souza,Vinícius Souza,VfL Wolfsburg,Bundesliga,Defensive Midfield,18000000,61500,7,2025,87,Transfermarkt; estimation salaire
+BL1:11:81973:jesper-lindstr-m,Jesper Lindstrøm,VfL Wolfsburg,Bundesliga,Right Winger,18000000,61500,7,2025,87,Transfermarkt; estimation salaire
+BL1:11:23214:lovro-majer,Lovro Majer,VfL Wolfsburg,Bundesliga,Attacking Midfield,20000000,65400,7,2025,80,Transfermarkt; estimation
+BL1:11:16335:jonas-wind,Jonas Wind,VfL Wolfsburg,Bundesliga,Centre-Forward,18000000,61500,7,2025,80,Transfermarkt; estimation
+BL1:11:9426:yannick-gerhardt,Yannick Gerhardt,VfL Wolfsburg,Bundesliga,Central Midfield,4000000,26900,7,2025,80,Transfermarkt; estimation
+BL1:11:9423:maximilian-arnold,Maximilian Arnold,VfL Wolfsburg,Bundesliga,Central Midfield,7000000,36200,7,2025,80,Transfermarkt; estimation
+BL1:11:8975:joakim-m-hle,Joakim Mæhle,VfL Wolfsburg,Bundesliga,Right-Back,18000000,61500,7,2025,80,Transfermarkt; estimation
+BL1:11:3459:christian-eriksen,Christian Eriksen,VfL Wolfsburg,Bundesliga,Central Midfield,7000000,36200,7,2025,87,Transfermarkt; estimation salaire
+BL1:11:2188:rogerio,Rogério,VfL Wolfsburg,Bundesliga,Left-Back,7000000,36200,7,2025,80,Transfermarkt; estimation
+BL1:11:184970:dzenan-pejcinovic,Dzenan Pejcinovic,VfL Wolfsburg,Bundesliga,Centre-Forward,10000000,44100,7,2025,80,Transfermarkt; estimation
+BL1:11:184967:aaron-zehnter,Aaron Zehnter,VfL Wolfsburg,Bundesliga,Left Midfield,12000000,48800,7,2025,87,Transfermarkt; estimation salaire
+BL1:11:177037:jeanuel-belocian,Jeanuel Belocian,VfL Wolfsburg,Bundesliga,Centre-Back,14000000,53300,7,2025,87,Transfermarkt; estimation salaire
+BL1:11:176942:sael-kumbedi,Sael Kumbedi,VfL Wolfsburg,Bundesliga,Right-Back,10000000,44100,7,2025,80,Transfermarkt; estimation
+BL1:11:154109:jenson-seelt,Jenson Seelt,VfL Wolfsburg,Bundesliga,Centre-Back,8000000,39000,7,2025,80,Transfermarkt; estimation
+BL1:12:45596:markus-kolke,Markus Kolke,SV Werder Bremen,Bundesliga,Goalkeeper,300000,2800,7,2025,80,Transfermarkt; estimation
+BL1:12:153843:karl-jakob-hein,Karl Jakob Hein,SV Werder Bremen,Bundesliga,Goalkeeper,7000000,27700,7,2025,87,Transfermarkt; estimation salaire
+BL1:12:179984:mio-backhaus,Mio Backhaus,SV Werder Bremen,Bundesliga,Goalkeeper,12000000,37400,7,2023,87,Transfermarkt; estimation salaire
+BL1:12:256018:stefan-smarkalev,Stefan Smarkalev,SV Werder Bremen,Bundesliga,Goalkeeper,500000,3300,7,2025,58,estimation
+BL1:12:9447:marco-friedl,Marco Friedl,SV Werder Bremen,Bundesliga,Defence,10000000,37500,7,2025,80,Transfermarkt; estimation
+BL1:12:48670:yukinari-sugawara,Yukinari Sugawara,SV Werder Bremen,Bundesliga,Defence,12000000,41500,7,2025,87,Transfermarkt; estimation salaire
+BL1:12:255080:mats-heitmann,Mats Heitmann,SV Werder Bremen,Bundesliga,Defence,650000,6500,7,2025,58,estimation
+BL1:12:275165:mick-schmetgens,Mick Schmetgens,SV Werder Bremen,Bundesliga,Defence,650000,6500,7,2025,58,estimation
+BL1:12:276411:karim-coulibaly,Karim Coulibaly,SV Werder Bremen,Bundesliga,Defence,12000000,41500,7,2025,80,Transfermarkt; estimation
+BL1:12:16346:romano-schmid,Romano Schmid,SV Werder Bremen,Bundesliga,Midfield,20000000,55600,7,2025,80,Transfermarkt; estimation
+BL1:12:50137:cameron-puertas,Cameron Puertas,SV Werder Bremen,Bundesliga,Midfield,15000000,47100,7,2024,87,Transfermarkt; estimation salaire
+BL1:12:61630:marco-grull,Marco Grüll,SV Werder Bremen,Bundesliga,Midfield,10000000,37500,7,2025,80,Transfermarkt; estimation
+BL1:12:271982:wesley-adeh,Wesley Adeh,SV Werder Bremen,Bundesliga,Midfield,650000,6500,7,2025,58,estimation
+BL1:12:273584:patrice-covic,Patrice Čović,SV Werder Bremen,Bundesliga,Midfield,650000,6500,7,2025,58,estimation
+BL1:12:176637:keke-topp,Keke Topp,SV Werder Bremen,Bundesliga,Offence,7000000,30800,7,2025,80,Transfermarkt; estimation
+BL1:12:280220:salim-musah,Salim Musah,SV Werder Bremen,Bundesliga,Offence,650000,6500,7,2025,58,estimation
+BL1:12:93320:olivier-deman,Olivier Deman,SV Werder Bremen,Bundesliga,Left Midfield,6000000,28300,7,2025,80,Transfermarkt; estimation
+BL1:12:66095:amos-pieper,Amos Pieper,SV Werder Bremen,Bundesliga,Centre-Back,6000000,28300,7,2025,80,Transfermarkt; estimation
+BL1:12:23925:jens-stage,Jens Stage,SV Werder Bremen,Bundesliga,Central Midfield,15000000,47100,7,2025,80,Transfermarkt; estimation
+BL1:12:10559:felix-agu,Felix Agu,SV Werder Bremen,Bundesliga,Right-Back,12000000,41500,7,2025,80,Transfermarkt; estimation
+BL1:12:9765:senne-lynen,Senne Lynen,SV Werder Bremen,Bundesliga,Defensive Midfield,10000000,37500,7,2025,80,Transfermarkt; estimation
+BL1:12:7562:maximilian-wober,Maximilian Wöber,SV Werder Bremen,Bundesliga,Centre-Back,12000000,41500,7,2025,80,Transfermarkt; estimation
+BL1:12:6557:niklas-stark,Niklas Stark,SV Werder Bremen,Bundesliga,Centre-Back,5000000,25700,7,2025,80,Transfermarkt; estimation
+BL1:12:6555:mitchell-weiser,Mitchell Weiser,SV Werder Bremen,Bundesliga,Right-Back,8000000,33100,7,2025,80,Transfermarkt; estimation
+BL1:12:199:leonardo-bittencourt,Leonardo Bittencourt,SV Werder Bremen,Bundesliga,Central Midfield,2500000,18100,7,2025,80,Transfermarkt; estimation
+BL1:12:217678:samuel-mbangula,Samuel Mbangula,SV Werder Bremen,Bundesliga,Left Winger,18000000,52300,7,2025,87,Transfermarkt; estimation salaire
+BL1:12:212853:jovan-milosevic,Jovan Milošević,SV Werder Bremen,Bundesliga,Centre-Forward,10000000,37500,7,2025,80,Transfermarkt; estimation
+BL1:12:153870:julian-malatini,Julián Malatini,SV Werder Bremen,Bundesliga,Centre-Back,9000000,35400,7,2025,80,Transfermarkt; estimation
+BL1:12:130811:victor-boniface,Victor Boniface,SV Werder Bremen,Bundesliga,Centre-Forward,35000000,77000,7,2025,87,Transfermarkt; estimation salaire
+BL1:12:122949:justin-njinmah,Justin Njinmah,SV Werder Bremen,Bundesliga,Right Winger,8000000,33100,7,2025,80,Transfermarkt; estimation
+BL1:12:122231:isaac-schmidt,Isaac Schmidt,SV Werder Bremen,Bundesliga,Left-Back,7000000,30800,7,2025,80,Transfermarkt; estimation
+BL1:15:6616:robin-zentner,Robin Zentner,1. FSV Mainz 05,Bundesliga,Goalkeeper,5000000,21200,7,2014,87,Transfermarkt; estimation salaire
+BL1:15:6985:daniel-batz,Daniel Batz,1. FSV Mainz 05,Bundesliga,Goalkeeper,500000,3000,7,2025,80,Transfermarkt; estimation
+BL1:15:170064:lasse-rie,Lasse Rieß,1. FSV Mainz 05,Bundesliga,Goalkeeper,2000000,13400,7,2025,80,Transfermarkt; estimation
+BL1:15:280403:louis-babatz,Louis Babatz,1. FSV Mainz 05,Bundesliga,Goalkeeper,500000,3000,7,2025,58,estimation
+BL1:15:395:stefan-posch,Stefan Posch,1. FSV Mainz 05,Bundesliga,Defence,10000000,34400,7,2025,87,Transfermarkt; estimation salaire
+BL1:15:2114:silvan-widmer,Silvan Widmer,1. FSV Mainz 05,Bundesliga,Defence,4000000,21000,7,2025,80,Transfermarkt; estimation
+BL1:15:6576:philipp-mwene,Philipp Mwene,1. FSV Mainz 05,Bundesliga,Defence,5000000,23600,7,2025,80,Transfermarkt; estimation
+BL1:15:276971:kacper-potulski,Kacper Potulski,1. FSV Mainz 05,Bundesliga,Defence,650000,6000,7,2025,58,estimation
+BL1:15:320:nadiem-amiri,Nadiem Amiri,1. FSV Mainz 05,Bundesliga,Midfield,18000000,48000,1,2024,87,Transfermarkt; estimation salaire
+BL1:15:114809:kaishu-sano,Kaishu Sano,1. FSV Mainz 05,Bundesliga,Midfield,18000000,48000,7,2024,87,Transfermarkt; estimation salaire
+BL1:15:147832:sota-kawasaki,Sota Kawasaki,1. FSV Mainz 05,Bundesliga,Midfield,7000000,28300,7,2025,80,Transfermarkt; estimation
+BL1:15:150432:paul-nebel,Paul Nebel,1. FSV Mainz 05,Bundesliga,Midfield,20000000,51000,7,2021,87,Transfermarkt; estimation salaire
+BL1:15:177460:nikolas-veratschnig,Nikolas Veratschnig,1. FSV Mainz 05,Bundesliga,Midfield,8000000,30400,7,2025,80,Transfermarkt; estimation
+BL1:15:179889:jae-sung-lee,Jae-sung Lee,1. FSV Mainz 05,Bundesliga,Midfield,5000000,23600,7,2025,80,Transfermarkt; estimation
+BL1:15:250164:daniel-gleiber,Daniel Gleiber,1. FSV Mainz 05,Bundesliga,Midfield,650000,6000,7,2025,58,estimation
+BL1:15:286350:daniel-imafidon,Daniel Imafidon,1. FSV Mainz 05,Bundesliga,Midfield,650000,6000,7,2025,58,estimation
+BL1:15:286351:jeremiah-debrah,Jeremiah Debrah,1. FSV Mainz 05,Bundesliga,Midfield,650000,6000,7,2025,58,estimation
+BL1:15:150608:fabio-moreno-fell,Fabio Moreno Fell,1. FSV Mainz 05,Bundesliga,Offence,650000,6000,7,2025,58,estimation
+BL1:15:151458:armindo-sieb,Armindo Sieb,1. FSV Mainz 05,Bundesliga,Offence,7000000,28300,7,2025,80,Transfermarkt; estimation
+BL1:15:178640:silas-katompa-mvumpa,Silas Katompa Mvumpa,1. FSV Mainz 05,Bundesliga,Offence,10000000,34400,7,2025,87,Transfermarkt; estimation salaire
+BL1:15:203211:william-b-ving,William Bøving,1. FSV Mainz 05,Bundesliga,Offence,12000000,38100,7,2025,80,Transfermarkt; estimation
+BL1:15:45593:phillip-tietz,Phillip Tietz,1. FSV Mainz 05,Bundesliga,Centre-Forward,7000000,28300,7,2025,87,Transfermarkt; estimation salaire
+BL1:15:38394:andreas-hanche-olsen,Andreas Hanche-Olsen,1. FSV Mainz 05,Bundesliga,Centre-Back,7000000,28300,7,2025,80,Transfermarkt; estimation
+BL1:15:9994:maxim-leitsch,Maxim Leitsch,1. FSV Mainz 05,Bundesliga,Centre-Back,5000000,23600,7,2025,80,Transfermarkt; estimation
+BL1:15:8785:anthony-caci,Anthony Caci,1. FSV Mainz 05,Bundesliga,Left-Back,12000000,38100,7,2025,80,Transfermarkt; estimation
+BL1:15:7633:sheraldo-becker,Sheraldo Becker,1. FSV Mainz 05,Bundesliga,Left Winger,5000000,23600,7,2025,80,Transfermarkt; estimation
+BL1:15:6826:lennart-maloney,Lennart Maloney,1. FSV Mainz 05,Bundesliga,Defensive Midfield,6000000,26000,7,2025,80,Transfermarkt; estimation
+BL1:15:6707:danny-da-costa,Danny da Costa,1. FSV Mainz 05,Bundesliga,Right-Back,2500000,16600,7,2025,80,Transfermarkt; estimation
+BL1:15:6620:stefan-bell,Stefan Bell,1. FSV Mainz 05,Bundesliga,Centre-Back,1000000,7100,7,2025,80,Transfermarkt; estimation
+BL1:15:152:dominik-kohr,Dominik Kohr,1. FSV Mainz 05,Bundesliga,Defensive Midfield,3500000,19600,7,2025,80,Transfermarkt; estimation
+BL1:15:184973:nelson-weiper,Nelson Weiper,1. FSV Mainz 05,Bundesliga,Centre-Forward,18000000,48000,7,2025,80,Transfermarkt; estimation
+BL1:15:150647:benedict-hollerbach,Benedict Hollerbach,1. FSV Mainz 05,Bundesliga,Centre-Forward,12000000,38100,7,2025,80,Transfermarkt; estimation
+BL1:16:6617:finn-dahmen,Finn Dahmen,FC Augsburg,Bundesliga,Goalkeeper,10000000,28600,7,2023,87,Transfermarkt; estimation salaire
+BL1:16:83751:daniel-klein,Daniel Klein,FC Augsburg,Bundesliga,Goalkeeper,600000,4800,7,2025,80,Transfermarkt; estimation
+BL1:16:147197:nediljko-labrovic,Nediljko Labrović,FC Augsburg,Bundesliga,Goalkeeper,6000000,21600,7,2024,87,Transfermarkt; estimation salaire
+BL1:16:43195:dimitris-giannoulis,Dimitris Giannoulis,FC Augsburg,Bundesliga,Defence,7000000,26100,7,2024,87,Transfermarkt; estimation salaire
+BL1:16:169668:arthur-chaves,Arthur Chaves,FC Augsburg,Bundesliga,Defence,8000000,28100,7,2025,80,Transfermarkt; estimation
+BL1:16:227956:oliver-sorg,Oliver Sorg,FC Augsburg,Bundesliga,Defence,3000000,16800,7,2025,80,Transfermarkt; estimation
+BL1:16:249428:noahkai-banks,Noahkai Banks,FC Augsburg,Bundesliga,Defence,10000000,31800,7,2025,80,Transfermarkt; estimation
+BL1:16:272836:felix-meiser,Felix Meiser,FC Augsburg,Bundesliga,Defence,600000,5300,7,2025,58,estimation
+BL1:16:23222:kristijan-jakic,Kristijan Jakić,FC Augsburg,Bundesliga,Midfield,10000000,31800,7,2024,87,Transfermarkt; estimation salaire
+BL1:16:152692:fabian-rieder,Fabian Rieder,FC Augsburg,Bundesliga,Midfield,15000000,39900,7,2025,87,Transfermarkt; estimation salaire
+BL1:16:161414:ismael-gharbi,Ismaël Gharbi,FC Augsburg,Bundesliga,Midfield,12000000,35200,7,2025,87,Transfermarkt; estimation salaire
+BL1:16:290066:tim-schnitzer,Tim Schnitzer,FC Augsburg,Bundesliga,Midfield,600000,5300,7,2025,58,estimation
+BL1:16:6661:michael-gregoritsch,Michael Gregoritsch,FC Augsburg,Bundesliga,Offence,5000000,21800,7,2025,87,Transfermarkt; estimation salaire
+BL1:16:175963:anton-kade,Anton Kade,FC Augsburg,Bundesliga,Offence,7000000,26100,7,2025,80,Transfermarkt; estimation
+BL1:16:274217:uchenna-ogundu,Uchenna Ogundu,FC Augsburg,Bundesliga,Offence,2500000,15300,7,2025,80,Transfermarkt; estimation
+BL1:16:192654:mert-komur,Mert Kömür,FC Augsburg,Bundesliga,Attacking Midfield,12000000,35200,7,2025,80,Transfermarkt; estimation
+BL1:16:184971:thomas-kastanaras,Thomas Kastanaras,FC Augsburg,Bundesliga,Centre-Forward,3000000,16800,7,2025,80,Transfermarkt; estimation
+BL1:16:183682:mahmut-kucuksahin,Mahmut Kücüksahin,FC Augsburg,Bundesliga,Defensive Midfield,600000,5300,7,2025,58,estimation
+BL1:16:178772:rodrigo-ribeiro,Rodrigo Ribeiro,FC Augsburg,Bundesliga,Centre-Forward,7000000,26100,7,2025,80,Transfermarkt; estimation
+BL1:16:147912:chrislain-matsima,Chrislain Matsima,FC Augsburg,Bundesliga,Centre-Back,18000000,44300,7,2025,87,Transfermarkt; estimation salaire
+BL1:16:98953:han-noah-massengo,Han-Noah Massengo,FC Augsburg,Bundesliga,Defensive Midfield,7000000,26100,7,2025,80,Transfermarkt; estimation
+BL1:16:97120:yannik-keitel,Yannik Keitel,FC Augsburg,Bundesliga,Defensive Midfield,5000000,21800,7,2025,80,Transfermarkt; estimation
+BL1:16:65692:robin-fellhauer,Robin Fellhauer,FC Augsburg,Bundesliga,Defensive Midfield,7000000,26100,7,2025,80,Transfermarkt; estimation
+BL1:16:56858:keven-schlotterbeck,Keven Schlotterbeck,FC Augsburg,Bundesliga,Centre-Back,8000000,28100,7,2025,80,Transfermarkt; estimation
+BL1:16:30886:cedric-zesiger,Cédric Zesiger,FC Augsburg,Bundesliga,Centre-Back,10000000,40000,7,2025,96,Transfermarkt; Capology
+BL1:16:24221:mads-pedersen,Mads Pedersen,FC Augsburg,Bundesliga,Left-Back,5000000,21800,7,2025,80,Transfermarkt; estimation
+BL1:16:9432:elvis-rexhbecaj,Elvis Rexhbecaj,FC Augsburg,Bundesliga,Central Midfield,6000000,24000,7,2025,80,Transfermarkt; estimation
+BL1:16:6714:marius-wolf,Marius Wolf,FC Augsburg,Bundesliga,Right-Back,5000000,21800,7,2025,80,Transfermarkt; estimation
+BL1:16:6645:jeffrey-gouweleeuw,Jeffrey Gouweleeuw,FC Augsburg,Bundesliga,Centre-Back,1200000,7100,7,2025,80,Transfermarkt; estimation
+BL1:16:608:alexis-claude-maurice,Alexis Claude Maurice,FC Augsburg,Bundesliga,Attacking Midfield,10000000,31800,7,2025,80,Transfermarkt; estimation
+BL1:17:6614:florian-muller,Florian Müller,SC Freiburg,Bundesliga,Goalkeeper,3500000,18600,7,2025,80,Transfermarkt; estimation
+BL1:17:7741:jannik-huth,Jannik Huth,SC Freiburg,Bundesliga,Goalkeeper,600000,5500,7,2025,80,Transfermarkt; estimation
+BL1:17:123287:noah-atubolu,Noah Atubolu,SC Freiburg,Bundesliga,Goalkeeper,25000000,54900,7,2023,87,Transfermarkt; estimation salaire
+BL1:17:9477:philipp-lienhart,Philipp Lienhart,SC Freiburg,Bundesliga,Defence,20000000,53600,7,2025,80,Transfermarkt; estimation
+BL1:17:261446:karl-steinmann,Karl Steinmann,SC Freiburg,Bundesliga,Defence,150000,2400,7,2025,80,Transfermarkt; estimation
+BL1:17:145293:yuito-suzuki,Yuito Suzuki,SC Freiburg,Bundesliga,Midfield,18000000,50400,7,2025,87,Transfermarkt; estimation salaire
+BL1:17:212309:johan-manzambi,Johan Manzambi,SC Freiburg,Bundesliga,Midfield,50000000,91800,7,2024,87,Transfermarkt; estimation salaire
+BL1:17:280416:rouven-tarnutzer,Rouven Tarnutzer,SC Freiburg,Bundesliga,Midfield,700000,6500,7,2025,58,estimation
+BL1:17:142:maximilian-philipp,Maximilian Philipp,SC Freiburg,Bundesliga,Offence,2500000,17400,7,2025,80,Transfermarkt; estimation
+BL1:17:156629:igor-matanovic,Igor Matanovic,SC Freiburg,Bundesliga,Offence,15000000,45400,7,2025,87,Transfermarkt; estimation salaire
+BL1:17:229272:ifechukwu-ogbus,Ifechukwu Ogbus,SC Freiburg,Bundesliga,Offence,15000000,45400,7,2025,80,Transfermarkt; estimation
+BL1:17:265186:cyriaque-irie,Cyriaque Irié,SC Freiburg,Bundesliga,Offence,8000000,32000,7,2025,80,Transfermarkt; estimation
+BL1:17:175704:derry-scherhant,Derry Scherhant,SC Freiburg,Bundesliga,Left Winger,12000000,40100,7,2025,80,Transfermarkt; estimation
+BL1:17:171203:max-rosenfelder,Max Rosenfelder,SC Freiburg,Bundesliga,Centre-Back,18000000,50400,7,2025,80,Transfermarkt; estimation
+BL1:17:171186:jordy-makengo,Jordy Makengo,SC Freiburg,Bundesliga,Left-Back,6000000,27300,7,2025,80,Transfermarkt; estimation
+BL1:17:122651:philipp-treu,Philipp Treu,SC Freiburg,Bundesliga,Left-Back,7000000,29700,7,2025,80,Transfermarkt; estimation
+BL1:17:120962:patrick-osterhage,Patrick Osterhage,SC Freiburg,Bundesliga,Central Midfield,12000000,40100,7,2024,87,Transfermarkt; estimation salaire
+BL1:17:66114:daniel-kofi-kyereh,Daniel-Kofi Kyereh,SC Freiburg,Bundesliga,Attacking Midfield,3000000,19100,7,2025,80,Transfermarkt; estimation
+BL1:17:24097:anthony-jung,Anthony Jung,SC Freiburg,Bundesliga,Centre-Back,800000,6800,7,2025,80,Transfermarkt; estimation
+BL1:17:9501:lucas-holer,Lucas Höler,SC Freiburg,Bundesliga,Centre-Forward,4000000,22100,7,2025,80,Transfermarkt; estimation
+BL1:17:9485:nicolas-hofler,Nicolas Höfler,SC Freiburg,Bundesliga,Defensive Midfield,500000,3500,7,2025,80,Transfermarkt; estimation
+BL1:17:9473:lukas-kubler,Lukas Kübler,SC Freiburg,Bundesliga,Right-Back,1500000,8900,7,2025,80,Transfermarkt; estimation
+BL1:17:9472:christian-gunter,Christian Günter,SC Freiburg,Bundesliga,Left-Back,2000000,15700,7,2025,80,Transfermarkt; estimation
+BL1:17:9452:maximilian-eggestein,Maximilian Eggestein,SC Freiburg,Bundesliga,Central Midfield,8000000,32000,7,2025,80,Transfermarkt; estimation
+BL1:17:6686:vincenzo-grifo,Vincenzo Grifo,SC Freiburg,Bundesliga,Left Winger,10000000,36200,7,2025,80,Transfermarkt; estimation
+BL1:17:6484:jan-niklas-beste,Jan-Niklas Beste,SC Freiburg,Bundesliga,Left-Back,15000000,45400,7,2025,87,Transfermarkt; estimation salaire
+BL1:17:3176:matthias-ginter,Matthias Ginter,SC Freiburg,Bundesliga,Centre-Back,10000000,36200,7,2025,80,Transfermarkt; estimation
+BL1:18:6667:tobias-sippel,Tobias Sippel,Borussia Mönchengladbach,Bundesliga,Goalkeeper,250000,2800,7,2025,80,Transfermarkt; estimation
+BL1:18:6668:moritz-nicolas,Moritz Nicolas,Borussia Mönchengladbach,Bundesliga,Goalkeeper,8000000,31600,7,2022,87,Transfermarkt; estimation salaire
+BL1:18:97458:jan-jakob-olschowsky,Jan Jakob Olschowsky,Borussia Mönchengladbach,Bundesliga,Goalkeeper,1000000,7400,7,2025,80,Transfermarkt; estimation
+BL1:18:192494:tiago-pereira-cardoso,Tiago Pereira Cardoso,Borussia Mönchengladbach,Bundesliga,Goalkeeper,3000000,18900,7,2025,80,Transfermarkt; estimation
+BL1:18:3475:nico-elvedi,Nico Elvedi,Borussia Mönchengladbach,Bundesliga,Defence,12000000,44000,7,2025,80,Transfermarkt; estimation
+BL1:18:7464:kevin-diks,Kevin Diks,Borussia Mönchengladbach,Bundesliga,Defence,15000000,49900,7,2025,87,Transfermarkt; estimation salaire
+BL1:18:82442:joseph-scally,Joseph Scally,Borussia Mönchengladbach,Bundesliga,Defence,15000000,49900,7,2025,80,Transfermarkt; estimation
+BL1:18:181193:kota-takai,Kota Takai,Borussia Mönchengladbach,Bundesliga,Defence,10000000,39700,7,2025,87,Transfermarkt; estimation salaire
+BL1:18:136733:gio-reyna,Gio Reyna,Borussia Mönchengladbach,Bundesliga,Midfield,12000000,44000,7,2025,87,Transfermarkt; estimation salaire
+BL1:18:151888:jens-castrop,Jens Castrop,Borussia Mönchengladbach,Bundesliga,Midfield,10000000,39700,7,2025,87,Transfermarkt; estimation salaire
+BL1:18:188201:hugo-bolin,Hugo Bolin,Borussia Mönchengladbach,Bundesliga,Midfield,6000000,30000,7,2025,87,Transfermarkt; estimation salaire
+BL1:18:270638:niklas-swider,Niklas Swider,Borussia Mönchengladbach,Bundesliga,Midfield,700000,7100,7,2025,58,estimation
+BL1:18:270641:fritz-fleck,Fritz Fleck,Borussia Mönchengladbach,Bundesliga,Midfield,700000,7100,7,2025,58,estimation
+BL1:18:282450:wael-mohya,Wael Mohya,Borussia Mönchengladbach,Bundesliga,Midfield,700000,7100,7,2025,58,estimation
+BL1:18:48988:shuto-machino,Shuto Machino,Borussia Mönchengladbach,Bundesliga,Offence,8000000,35100,7,2025,80,Transfermarkt; estimation
+BL1:18:63218:haris-tabakovic,Haris Tabaković,Borussia Mönchengladbach,Bundesliga,Offence,5000000,27200,7,2025,80,Transfermarkt; estimation
+BL1:18:213869:jan-urbich,Jan Urbich,Borussia Mönchengladbach,Bundesliga,Offence,700000,7100,7,2025,58,estimation

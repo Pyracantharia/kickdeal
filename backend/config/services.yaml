@@ -1,0 +1,67 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    frontend_url: "%env(FRONTEND_URL)%"
+    mercure_internal_url: "%env(default::MERCURE_INTERNAL_URL)%"
+    mercure_public_url: "%env(default::MERCURE_PUBLIC_URL)%"
+    mercure_jwt_secret: "%env(default::MERCURE_JWT_SECRET)%"
+    mailer_from: '%env(MAILER_FROM)%'
+    google_oauth_client_id: '%env(GOOGLE_OAUTH_CLIENT_ID)%'
+    google_oauth_client_secret: '%env(GOOGLE_OAUTH_CLIENT_SECRET)%'
+    google_oauth_redirect_uri: '%env(default::GOOGLE_OAUTH_REDIRECT_URI)%'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: "../src/"
+        exclude:
+            - "../src/DependencyInjection/"
+            - "../src/Entity/"
+            - "../src/Kernel.php"
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - "%env(DATABASE_URL)%"
+
+    App\DataFixtures\Faker\Provider\PlayerProvider:
+        tags: [{ name: nelmio_alice.faker.provider }]
+
+    App\DataFixtures\EnrichmentDataProvider:
+        arguments:
+            $fixturesDir: "%kernel.project_dir%/fixtures"
+
+    # AJOUTE CE BLOC ICI :
+    App\DataFixtures\CompetitionFixtures:
+        tags: [{ name: doctrine.fixture.orm }]
+
+    App\Service\MercurePublisher:
+        arguments:
+            $mercureInternalUrl: "%mercure_internal_url%"
+            $mercureJwtSecret: "%mercure_jwt_secret%"
+
+    App\Service\MercureSubscriberTokenFactory:
+        arguments:
+            $mercureJwtSecret: "%mercure_jwt_secret%"
+
+    App\Controller\GoogleAuthController:
+        arguments:
+            $clientId: '%google_oauth_client_id%'
+            $clientSecret: '%google_oauth_client_secret%'
+            $frontendUrl: '%frontend_url%'
+            $redirectUri: '%google_oauth_redirect_uri%'
+
+when@test:
+    services:
+        Symfony\Component\Security\Csrf\CsrfTokenManagerInterface:
+            alias: App\Service\Security\NoopCsrfTokenManager

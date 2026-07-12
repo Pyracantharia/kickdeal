@@ -1,3 +1,6 @@
+/.env
+
+
 # Cache and logs (Symfony2)
 /app/cache/*
 /app/logs/*
@@ -41,6 +44,10 @@
 
 # Build data
 /build/
+node_modules/
+.expo/
+android/
+ios/
 
 # Composer PHAR
 /composer.phar
@@ -50,3 +57,15 @@
 
 # Embedded web-server pid file
 /.web-server-pid
+
+# INFRA
+
+.env
+**/.env
+**/.env.*
+!**/.env.example
+backend/docker/nginx/default.conf
+backups/
+backend/data/fixtures/player.json
+backend/supervisord.log
+backend/supervisord.pid

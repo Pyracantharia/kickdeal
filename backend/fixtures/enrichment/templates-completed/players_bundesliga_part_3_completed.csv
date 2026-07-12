@@ -1,0 +1,165 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+BL1:18:250453:alejo-sarco,Alejo Sarco,Borussia Mönchengladbach,Bundesliga,Offence,6000000,29300,1,2025,87,Transfermarkt; estimation salaire
+BL1:18:187273:lukas-ullrich,Lukas Ullrich,Borussia Mönchengladbach,Bundesliga,Left-Back,8000000,34400,7,2023,87,Transfermarkt; estimation salaire
+BL1:18:176307:fabio-chiarodia,Fabio Chiarodia,Borussia Mönchengladbach,Bundesliga,Centre-Back,5000000,26600,7,2023,87,Transfermarkt; estimation salaire
+BL1:18:150517:rocco-reitz,Rocco Reitz,Borussia Mönchengladbach,Bundesliga,Central Midfield,20000000,58000,7,2020,87,Transfermarkt; estimation salaire
+BL1:18:123277:yannik-engelhardt,Yannik Engelhardt,Borussia Mönchengladbach,Bundesliga,Defensive Midfield,7000000,31900,7,2025,87,Transfermarkt; estimation salaire
+BL1:18:98746:nathan-n-goumou,Nathan N'Goumou,Borussia Mönchengladbach,Bundesliga,Right Winger,3500000,22000,8,2022,87,Transfermarkt; estimation salaire
+BL1:18:72392:philipp-sander,Philipp Sander,Borussia Mönchengladbach,Bundesliga,Central Midfield,7000000,31900,7,2024,87,Transfermarkt; estimation salaire
+BL1:18:9999:kevin-stoger,Kevin Stöger,Borussia Mönchengladbach,Bundesliga,Attacking Midfield,5000000,76923,7,2024,95,Transfermarkt; Capology
+BL1:18:9522:florian-neuhaus,Florian Neuhaus,Borussia Mönchengladbach,Bundesliga,Central Midfield,4000000,70000,7,2017,95,Transfermarkt; Capology
+BL1:18:9499:tim-kleindienst,Tim Kleindienst,Borussia Mönchengladbach,Bundesliga,Centre-Forward,14000000,75000,7,2024,95,Transfermarkt; Capology
+BL1:18:6825:marvin-friedrich,Marvin Friedrich,Borussia Mönchengladbach,Bundesliga,Centre-Back,3500000,22000,1,2022,87,Transfermarkt; estimation salaire
+BL1:18:727:franck-honorat,Franck Honorat,Borussia Mönchengladbach,Bundesliga,Right Winger,7000000,90769,7,2023,95,Transfermarkt; Capology
+BL1:18:400:robin-hack,Robin Hack,Borussia Mönchengladbach,Bundesliga,Left Winger,7000000,31900,7,2023,87,Transfermarkt; estimation salaire
+BL1:19:9387:jens-grahl,Jens Grahl,Eintracht Frankfurt,Bundesliga,Goalkeeper,200000,3000,7,2021,64,Transfermarkt; estimation
+BL1:19:9438:michael-zetterer,Michael Zetterer,Eintracht Frankfurt,Bundesliga,Goalkeeper,7000000,34900,7,2025,87,Transfermarkt; estimation salaire
+BL1:19:189482:kaua,Kaua,Eintracht Frankfurt,Bundesliga,Goalkeeper,5000000,29000,7,2023,87,Transfermarkt; estimation salaire
+BL1:19:273124:amil-siljevic,Amil Siljevic,Eintracht Frankfurt,Bundesliga,Goalkeeper,400000,3800,7,2025,64,Transfermarkt; estimation
+BL1:19:145893:arthur-theate,Arthur Theate,Eintracht Frankfurt,Bundesliga,Defence,30000000,84600,7,2024,87,Transfermarkt; estimation salaire
+BL1:19:169297:aurele-amenda,Aurele Amenda,Eintracht Frankfurt,Bundesliga,Defence,12000000,49700,7,2024,87,Transfermarkt; estimation salaire
+BL1:19:184533:nathaniel-brown,Nathaniel Brown,Eintracht Frankfurt,Bundesliga,Defence,25000000,75900,7,2024,87,Transfermarkt; estimation salaire
+BL1:19:249811:keita-kosugi,Keita Kosugi,Eintracht Frankfurt,Bundesliga,Defence,4000000,27100,7,2025,87,Transfermarkt; estimation salaire
+BL1:19:261407:fousseny-doumbia,Fousseny Doumbia,Eintracht Frankfurt,Bundesliga,Defence,1000000,9400,7,2025,64,Transfermarkt; estimation
+BL1:19:3608:ellyes-skhiri,Ellyes Skhiri,Eintracht Frankfurt,Bundesliga,Midfield,16000000,95000,7,2023,95,Transfermarkt; Capology
+BL1:19:178658:fares-chaibi,Fares Chaïbi,Eintracht Frankfurt,Bundesliga,Midfield,18000000,62700,8,2023,87,Transfermarkt; estimation salaire
+BL1:19:275141:love-arrhov,Love Arrhov,Eintracht Frankfurt,Bundesliga,Midfield,1000000,9400,7,2025,64,Transfermarkt; estimation
+BL1:19:280371:marvin-dills,Marvin Dills,Eintracht Frankfurt,Bundesliga,Midfield,400000,4000,7,2025,64,Transfermarkt; estimation
+BL1:19:7531:ritsu-doan,Ritsu Doan,Eintracht Frankfurt,Bundesliga,Offence,25000000,75900,7,2025,87,Transfermarkt; estimation salaire
+BL1:19:192207:younes-ebnoutalib,Younes Ebnoutalib,Eintracht Frankfurt,Bundesliga,Offence,8000000,39500,7,2025,87,Transfermarkt; estimation salaire
+BL1:19:193605:can-uzun,Can Uzun,Eintracht Frankfurt,Bundesliga,Offence,35000000,92600,7,2024,87,Transfermarkt; estimation salaire
+BL1:19:261438:ayoube-amaimouni-echghouyab,Ayoube Amaimouni-Echghouyab,Eintracht Frankfurt,Bundesliga,Offence,1500000,11300,7,2025,64,Transfermarkt; estimation
+BL1:19:271956:alexander-staff,Alexander Staff,Eintracht Frankfurt,Bundesliga,Offence,1500000,11300,7,2025,64,Transfermarkt; estimation
+BL1:19:171714:nnamdi-collins,Nnamdi Collins,Eintracht Frankfurt,Bundesliga,Centre-Back,30000000,84600,7,2023,87,Transfermarkt; estimation salaire
+BL1:19:150860:ansgar-knauff,Ansgar Knauff,Eintracht Frankfurt,Bundesliga,Right Winger,20000000,66700,7,2023,87,Transfermarkt; estimation salaire
+BL1:19:130668:arnaud-kalimuendo,Arnaud Kalimuendo,Eintracht Frankfurt,Bundesliga,Centre-Forward,28000000,81200,7,2025,87,Transfermarkt; estimation salaire
+BL1:19:82404:jonathan-burkardt,Jonathan Burkardt,Eintracht Frankfurt,Bundesliga,Centre-Forward,30000000,84600,7,2025,87,Transfermarkt; estimation salaire
+BL1:19:9479:robin-koch,Robin Koch,Eintracht Frankfurt,Bundesliga,Centre-Back,18000000,100000,7,2023,95,Transfermarkt; Capology
+BL1:19:7554:rasmus-kristensen,Rasmus Kristensen,Eintracht Frankfurt,Bundesliga,Right-Back,16000000,58600,7,2024,87,Transfermarkt; estimation salaire
+BL1:19:6701:timmy-chandler,Timmy Chandler,Eintracht Frankfurt,Bundesliga,Right-Back,300000,3600,7,2014,64,Transfermarkt; estimation
+BL1:19:3664:michy-batshuayi,Michy Batshuayi,Eintracht Frankfurt,Bundesliga,Centre-Forward,2500000,110000,2,2025,95,Transfermarkt; Capology
+BL1:19:158:mahmoud-dahoud,Mahmoud Dahoud,Eintracht Frankfurt,Bundesliga,Central Midfield,6000000,33700,8,2024,87,Transfermarkt; estimation salaire
+BL1:19:140:mario-gotze,Mario Götze,Eintracht Frankfurt,Bundesliga,Attacking Midfield,3500000,115385,7,2022,95,Transfermarkt; Capology
+BL1:19:213880:elias-baum,Elias Baum,Eintracht Frankfurt,Bundesliga,Right-Back,7000000,36700,7,2024,87,Transfermarkt; estimation salaire
+BL1:19:205537:oscar-h-jlund,Oscar Højlund,Eintracht Frankfurt,Bundesliga,Central Midfield,12000000,49700,7,2024,87,Transfermarkt; estimation salaire
+BL1:19:185882:jean-bahoya,Jean Bahoya,Eintracht Frankfurt,Bundesliga,Left Winger,25000000,75900,1,2024,87,Transfermarkt; estimation salaire
+BL1:19:180563:hugo-larsson,Hugo Larsson,Eintracht Frankfurt,Bundesliga,Central Midfield,50000000,114600,7,2023,87,Transfermarkt; estimation salaire
+BL1:20:65105:nikola-vasilj,Nikola Vasilj,FC St. Pauli 1910,Bundesliga,Goalkeeper,3000000,10000,7,2021,87,Transfermarkt; estimation salaire
+BL1:20:114954:ben-alexander-voll,Ben Alexander Voll,FC St. Pauli 1910,Bundesliga,Goalkeeper,500000,1900,7,2024,64,Transfermarkt; estimation
+BL1:20:145071:emil-gazdov,Emil Gazdov,FC St. Pauli 1910,Bundesliga,Goalkeeper,2000000,8200,7,2025,87,Transfermarkt; estimation salaire
+BL1:20:217277:simon-spari,Simon Spari,FC St. Pauli 1910,Bundesliga,Goalkeeper,700000,3500,7,2025,64,Transfermarkt; estimation
+BL1:20:31926:eric-smith,Eric Smith,FC St. Pauli 1910,Bundesliga,Defence,4500000,13100,1,2021,87,Transfermarkt; estimation salaire
+BL1:20:179671:fin-stevens,Fin Stevens,FC St. Pauli 1910,Bundesliga,Defence,3000000,10600,7,2025,87,Transfermarkt; estimation salaire
+BL1:20:209917:louis-oppie,Louis Oppie,FC St. Pauli 1910,Bundesliga,Defence,4000000,12300,7,2025,87,Transfermarkt; estimation salaire
+BL1:20:212779:jannik-robatsch,Jannik Robatsch,FC St. Pauli 1910,Bundesliga,Defence,1500000,5100,7,2025,64,Transfermarkt; estimation
+BL1:20:274365:tomoya-ando,Tomoya Ando,FC St. Pauli 1910,Bundesliga,Defence,1500000,5100,7,2025,64,Transfermarkt; estimation
+BL1:20:4635:connor-metcalfe,Connor Metcalfe,FC St. Pauli 1910,Bundesliga,Midfield,4500000,13100,7,2022,87,Transfermarkt; estimation salaire
+BL1:20:128962:ricky-jade-jones,Ricky Jade-Jones,FC St. Pauli 1910,Bundesliga,Midfield,3000000,10600,7,2025,87,Transfermarkt; estimation salaire
+BL1:20:130135:joel-fujita,Joel Fujita,FC St. Pauli 1910,Bundesliga,Midfield,6000000,15200,7,2025,87,Transfermarkt; estimation salaire
+BL1:20:132639:arkadiusz-pyrka,Arkadiusz Pyrka,FC St. Pauli 1910,Bundesliga,Midfield,3000000,10600,7,2025,87,Transfermarkt; estimation salaire
+BL1:20:272164:nick-schmidt,Nick Schmidt,FC St. Pauli 1910,Bundesliga,Midfield,1000000,4200,7,2025,64,Transfermarkt; estimation
+BL1:20:24232:mathias-rasmussen,Mathias Rasmussen,FC St. Pauli 1910,Bundesliga,Offence,2500000,9600,7,2023,87,Transfermarkt; estimation salaire
+BL1:20:48558:taichi-hara,Taichi Hara,FC St. Pauli 1910,Bundesliga,Offence,2500000,9600,7,2025,87,Transfermarkt; estimation salaire
+BL1:20:102498:manolis-saliakas,Manolis Saliakas,FC St. Pauli 1910,Bundesliga,Right-Back,4000000,12300,7,2022,87,Transfermarkt; estimation salaire
+BL1:20:101202:david-nemeth,David Nemeth,FC St. Pauli 1910,Bundesliga,Centre-Back,4000000,12300,7,2022,87,Transfermarkt; estimation salaire
+BL1:20:77783:james-sands,James Sands,FC St. Pauli 1910,Bundesliga,Defensive Midfield,4500000,13100,1,2025,87,Transfermarkt; estimation salaire
+BL1:20:67895:martijn-kaars,Martijn Kaars,FC St. Pauli 1910,Bundesliga,Centre-Forward,3500000,11400,7,2025,87,Transfermarkt; estimation salaire
+BL1:20:64402:adam-dzwiga-a,Adam Dźwigała,FC St. Pauli 1910,Bundesliga,Centre-Back,1200000,4600,7,2018,64,Transfermarkt; estimation
+BL1:20:15243:danel-sinani,Danel Sinani,FC St. Pauli 1910,Bundesliga,Right Winger,3000000,10600,7,2023,87,Transfermarkt; estimation salaire
+BL1:20:7649:karol-mets,Karol Mets,FC St. Pauli 1910,Bundesliga,Centre-Back,1800000,8200,1,2023,64,Transfermarkt; estimation
+BL1:20:6849:hauke-finn-wahl,Hauke Finn Wahl,FC St. Pauli 1910,Bundesliga,Centre-Back,2500000,9600,7,2023,87,Transfermarkt; estimation salaire
+BL1:20:3421:jackson-irvine,Jackson Irvine,FC St. Pauli 1910,Bundesliga,Central Midfield,2000000,8600,7,2021,87,Transfermarkt; estimation salaire
+BL1:20:722:mathias-pereira-lage,Mathias Pereira Lage,FC St. Pauli 1910,Bundesliga,Left Winger,2500000,9600,7,2024,87,Transfermarkt; estimation salaire
+BL1:20:382:lars-ritzka,Lars Ritzka,FC St. Pauli 1910,Bundesliga,Left-Back,2500000,9600,7,2021,87,Transfermarkt; estimation salaire
+BL1:20:268952:abdoulie-ceesay,Abdoulie Ceesay,FC St. Pauli 1910,Bundesliga,Centre-Forward,3000000,10600,7,2025,87,Transfermarkt; estimation salaire
+BL1:20:265468:marwin-schmitz,Marwin Schmitz,FC St. Pauli 1910,Bundesliga,Defensive Midfield,500000,2000,7,2025,64,Transfermarkt; estimation
+BL1:20:227002:romeo-aigbekaen,Romeo Aigbekaen,FC St. Pauli 1910,Bundesliga,Left Winger,500000,2000,7,2025,64,Transfermarkt; estimation
+BL1:20:136168:andreas-hountondji,Andreas Hountondji,FC St. Pauli 1910,Bundesliga,Centre-Forward,3000000,10600,7,2025,87,Transfermarkt; estimation salaire
+BL1:28:3450:frederik-r-nnow,Frederik Rønnow,1. FC Union Berlin,Bundesliga,Goalkeeper,2000000,11300,7,2021,87,Transfermarkt; estimation salaire
+BL1:28:50717:carl-klaus,Carl Klaus,1. FC Union Berlin,Bundesliga,Goalkeeper,600000,4500,7,2024,64,Transfermarkt; estimation
+BL1:28:144395:matheo-raab,Matheo Raab,1. FC Union Berlin,Bundesliga,Goalkeeper,3000000,13900,7,2025,87,Transfermarkt; estimation salaire
+BL1:28:295064:tom-wisbereit,Tom Wisbereit,1. FC Union Berlin,Bundesliga,Goalkeeper,400000,2400,7,2025,64,Transfermarkt; estimation
+BL1:28:64934:derrick-kohn,Derrick Köhn,1. FC Union Berlin,Bundesliga,Defence,4000000,17000,7,2025,87,Transfermarkt; estimation salaire
+BL1:28:152811:leopold-querfeld,Leopold Querfeld,1. FC Union Berlin,Bundesliga,Defence,9000000,26400,7,2024,87,Transfermarkt; estimation salaire
+BL1:28:279839:andrik-markgraf,Andrik Markgraf,1. FC Union Berlin,Bundesliga,Defence,1000000,5900,7,2025,64,Transfermarkt; estimation
+BL1:28:6657:rani-khedira,Rani Khedira,1. FC Union Berlin,Bundesliga,Midfield,3000000,14600,7,2021,87,Transfermarkt; estimation salaire
+BL1:28:7029:tim-skarke,Tim Skarke,1. FC Union Berlin,Bundesliga,Midfield,5000000,19100,7,2025,87,Transfermarkt; estimation salaire
+BL1:28:212115:david-preu,David Preu,1. FC Union Berlin,Bundesliga,Midfield,1500000,7100,7,2025,64,Transfermarkt; estimation
+BL1:28:250950:dmytro-bohdanov,Dmytro Bohdanov,1. FC Union Berlin,Bundesliga,Offence,1000000,5900,7,2025,64,Transfermarkt; estimation
+BL1:28:294498:linus-guther,Linus Güther,1. FC Union Berlin,Bundesliga,Offence,1000000,5900,7,2025,64,Transfermarkt; estimation
+BL1:28:212285:livan-burcu,Livan Burcu,1. FC Union Berlin,Bundesliga,Left Winger,6000000,21100,7,2024,87,Transfermarkt; estimation salaire
+BL1:28:211740:ilyas-ansah,Ilyas Ansah,1. FC Union Berlin,Bundesliga,Left Winger,5000000,19100,7,2025,87,Transfermarkt; estimation salaire
+BL1:28:203039:stanley-n-soki,Stanley N'Soki,1. FC Union Berlin,Bundesliga,Centre-Back,3500000,15800,7,2026,87,Transfermarkt; estimation salaire
+BL1:28:188299:aljoscha-kemlein,Aljoscha Kemlein,1. FC Union Berlin,Bundesliga,Defensive Midfield,12000000,31100,7,2022,87,Transfermarkt; estimation salaire
+BL1:28:182886:andrej-ilic,Andrej Ilic,1. FC Union Berlin,Bundesliga,Centre-Forward,7000000,23000,1,2024,87,Transfermarkt; estimation salaire
+BL1:28:171757:tom-rothe,Tom Rothe,1. FC Union Berlin,Bundesliga,Left-Back,12000000,31100,7,2024,87,Transfermarkt; estimation salaire
+BL1:28:72432:jeong-wooyeong,Jeong Wooyeong,1. FC Union Berlin,Bundesliga,Attacking Midfield,7000000,23000,7,2024,87,Transfermarkt; estimation salaire
+BL1:28:72117:andras-schafer,András Schafer,1. FC Union Berlin,Bundesliga,Central Midfield,4500000,18100,1,2022,87,Transfermarkt; estimation salaire
+BL1:28:67886:danilho-doekhi,Danilho Doekhi,1. FC Union Berlin,Bundesliga,Centre-Back,18000000,39200,7,2022,87,Transfermarkt; estimation salaire
+BL1:28:62623:alex-kral,Alex Král,1. FC Union Berlin,Bundesliga,Central Midfield,6000000,21100,7,2024,87,Transfermarkt; estimation salaire
+BL1:28:37796:diogo-leite,Diogo Leite,1. FC Union Berlin,Bundesliga,Centre-Back,15000000,35300,7,2023,87,Transfermarkt; estimation salaire
+BL1:28:23202:josip-juranovic,Josip Juranović,1. FC Union Berlin,Bundesliga,Right-Back,2000000,11900,1,2023,87,Transfermarkt; estimation salaire
+BL1:28:10195:robert-skov,Robert Skov,1. FC Union Berlin,Bundesliga,Left Midfield,4000000,17000,9,2024,87,Transfermarkt; estimation salaire
+BL1:28:9489:janik-haberer,Janik Haberer,1. FC Union Berlin,Bundesliga,Central Midfield,3000000,14600,7,2022,87,Transfermarkt; estimation salaire
+BL1:28:8027:oliver-burke,Oliver Burke,1. FC Union Berlin,Bundesliga,Right Winger,2500000,13300,7,2025,87,Transfermarkt; estimation salaire
+BL1:28:6828:christopher-trimmel,Christopher Trimmel,1. FC Union Berlin,Bundesliga,Right-Back,400000,2500,7,2014,64,Transfermarkt; estimation
+BL1:44:117476:diant-ramaj,Diant Ramaj,1. FC Heidenheim 1846,Bundesliga,Goalkeeper,7000000,13600,7,2025,87,Transfermarkt; estimation salaire
+BL1:44:143050:paul-tschernuth,Paul Tschernuth,1. FC Heidenheim 1846,Bundesliga,Goalkeeper,500000,1800,7,2025,64,Transfermarkt; estimation
+BL1:44:179959:frank-feller,Frank Feller,1. FC Heidenheim 1846,Bundesliga,Goalkeeper,500000,1800,7,2022,64,Transfermarkt; estimation
+BL1:44:261382:hennes-behrens,Hennes Behrens,1. FC Heidenheim 1846,Bundesliga,Defence,300000,1800,7,2025,64,Transfermarkt; estimation
+BL1:44:278006:adam-kolle,Adam Kölle,1. FC Heidenheim 1846,Bundesliga,Defence,500000,1800,7,2025,64,Transfermarkt; estimation
+BL1:44:279690:nick-rothweiler,Nick Rothweiler,1. FC Heidenheim 1846,Bundesliga,Midfield,400000,1800,7,2025,64,Transfermarkt; estimation
+BL1:44:281944:yannik-wagner,Yannik Wagner,1. FC Heidenheim 1846,Bundesliga,Offence,500000,1800,7,2025,64,Transfermarkt; estimation
+BL1:44:286929:tobias-weigel,Tobias Weigel,1. FC Heidenheim 1846,Bundesliga,Offence,500000,1800,7,2025,64,Transfermarkt; estimation
+BL1:44:176899:arijon-ibrahimovic,Arijon Ibrahimovic,1. FC Heidenheim 1846,Bundesliga,Attacking Midfield,10000000,17500,7,2025,87,Transfermarkt; estimation salaire
+BL1:44:157339:luca-kerber,Luca Kerber,1. FC Heidenheim 1846,Bundesliga,Central Midfield,5000000,12000,7,2025,87,Transfermarkt; estimation salaire
+BL1:44:150733:eren-dinkci,Eren Dinkci,1. FC Heidenheim 1846,Bundesliga,Right Winger,5000000,12000,7,2025,87,Transfermarkt; estimation salaire
+BL1:44:150698:julian-niehues,Julian Niehues,1. FC Heidenheim 1846,Bundesliga,Defensive Midfield,3000000,9100,7,2024,87,Transfermarkt; estimation salaire
+BL1:44:114649:tim-siersleben,Tim Siersleben,1. FC Heidenheim 1846,Bundesliga,Centre-Back,2500000,8300,7,2023,87,Transfermarkt; estimation salaire
+BL1:44:111071:leonidas-stergiou,Leonidas Stergiou,1. FC Heidenheim 1846,Bundesliga,Right-Back,6000000,13200,7,2025,87,Transfermarkt; estimation salaire
+BL1:44:96898:sirlord-conteh,Sirlord Conteh,1. FC Heidenheim 1846,Bundesliga,Right Winger,2000000,7500,7,2025,87,Transfermarkt; estimation salaire
+BL1:44:84525:budu-zivzivadze,Budu Zivzivadze,1. FC Heidenheim 1846,Bundesliga,Centre-Forward,2000000,7500,1,2025,87,Transfermarkt; estimation salaire
+BL1:44:77867:mikkel-kaufmann,Mikkel Kaufmann,1. FC Heidenheim 1846,Bundesliga,Centre-Forward,2500000,8300,7,2025,87,Transfermarkt; estimation salaire
+BL1:44:75675:adrian-beck,Adrian Beck,1. FC Heidenheim 1846,Bundesliga,Attacking Midfield,2500000,8300,7,2022,87,Transfermarkt; estimation salaire
+BL1:44:75545:marvin-pieringer,Marvin Pieringer,1. FC Heidenheim 1846,Bundesliga,Centre-Forward,3000000,9100,7,2023,87,Transfermarkt; estimation salaire
+BL1:44:67489:jan-schoppner,Jan Schöppner,1. FC Heidenheim 1846,Bundesliga,Central Midfield,3500000,9900,7,2020,87,Transfermarkt; estimation salaire
+BL1:44:67476:christian-conteh,Christian Conteh,1. FC Heidenheim 1846,Bundesliga,Right Winger,1800000,7100,7,2024,64,Transfermarkt; estimation
+BL1:44:67347:haktab-traore,Haktab Traoré,1. FC Heidenheim 1846,Bundesliga,Right-Back,1200000,4000,7,2025,64,Transfermarkt; estimation
+BL1:44:66088:patrick-mainka,Patrick Mainka,1. FC Heidenheim 1846,Bundesliga,Centre-Back,2500000,8300,7,2018,87,Transfermarkt; estimation salaire
+BL1:44:10825:mathias-honsak,Mathias Honsak,1. FC Heidenheim 1846,Bundesliga,Left Winger,1800000,7100,7,2024,64,Transfermarkt; estimation
+BL1:44:10369:stefan-schimmer,Stefan Schimmer,1. FC Heidenheim 1846,Bundesliga,Centre-Forward,700000,3200,7,2020,64,Transfermarkt; estimation
+BL1:44:10053:leart-paqarada,Leart Paqarada,1. FC Heidenheim 1846,Bundesliga,Left-Back,800000,3300,7,2025,64,Transfermarkt; estimation
+BL1:44:10028:benedikt-gimber,Benedikt Gimber,1. FC Heidenheim 1846,Bundesliga,Centre-Back,1500000,4400,7,2023,64,Transfermarkt; estimation
+BL1:44:7022:marnon-thomas-busch,Marnon-Thomas Busch,1. FC Heidenheim 1846,Bundesliga,Right-Back,1000000,3700,7,2016,64,Transfermarkt; estimation
+BL1:44:6879:jonas-fohrenbach,Jonas Föhrenbach,1. FC Heidenheim 1846,Bundesliga,Left-Back,1500000,4400,7,2019,64,Transfermarkt; estimation
+BL1:44:362:niklas-dorsch,Niklas Dorsch,1. FC Heidenheim 1846,Bundesliga,Defensive Midfield,5000000,12000,7,2025,87,Transfermarkt; estimation salaire
+BL1:721:9533:peter-gulacsi,Péter Gulácsi,RB Leipzig,Bundesliga,Goalkeeper,1500000,110000,7,2015,95,Transfermarkt; Capology
+BL1:721:45569:leopold-zingerle,Leopold Zingerle,RB Leipzig,Bundesliga,Goalkeeper,400000,4800,7,2023,64,Transfermarkt; estimation
+BL1:721:75739:maarten-vandevoordt,Maarten Vandevoordt,RB Leipzig,Bundesliga,Goalkeeper,18000000,75100,7,2024,87,Transfermarkt; estimation salaire
+BL1:721:9905:david-raum,David Raum,RB Leipzig,Bundesliga,Defence,28000000,95000,7,2022,95,Transfermarkt; Capology
+BL1:721:16344:xaver-schlager,Xaver Schlager,RB Leipzig,Bundesliga,Midfield,18000000,80000,7,2022,95,Transfermarkt; Capology
+BL1:721:56829:christoph-baumgartner,Christoph Baumgartner,RB Leipzig,Bundesliga,Midfield,20000000,84000,7,2023,87,Transfermarkt; estimation salaire
+BL1:721:113038:nicolas-seiwald,Nicolas  Seiwald,RB Leipzig,Bundesliga,Midfield,25000000,95800,7,2023,87,Transfermarkt; estimation salaire
+BL1:721:169295:antonio-nusa,Antonio Nusa,RB Leipzig,Bundesliga,Midfield,32000000,110800,8,2024,87,Transfermarkt; estimation salaire
+BL1:721:175951:ezechiel-banzuzi,Ezechiel Banzuzi,RB Leipzig,Bundesliga,Midfield,30000000,106600,7,2025,87,Transfermarkt; estimation salaire
+BL1:721:212636:assan-ouedraogo,Assan Ouédraogo,RB Leipzig,Bundesliga,Midfield,35000000,116800,7,2024,87,Transfermarkt; estimation salaire
+BL1:721:227045:andrija-maksimovic,Andrija Maksimović,RB Leipzig,Bundesliga,Midfield,18000000,79000,7,2025,87,Transfermarkt; estimation salaire
+BL1:721:264272:viggo-gebel,Viggo Gebel,RB Leipzig,Bundesliga,Midfield,5000000,38500,7,2024,87,Transfermarkt; estimation salaire
+BL1:721:289807:benno-kaltefleiter,Benno Kaltefleiter,RB Leipzig,Bundesliga,Midfield,500000,5500,7,2025,64,Transfermarkt; estimation
+BL1:721:178783:romulo-cruz,Romulo Cruz,RB Leipzig,Bundesliga,Offence,30000000,106600,7,2025,87,Transfermarkt; estimation salaire
+BL1:721:206744:conrad-harder,Conrad Harder,RB Leipzig,Bundesliga,Offence,25000000,95800,7,2025,87,Transfermarkt; estimation salaire
+BL1:721:248995:ayodele-thomas,Ayodele Thomas,RB Leipzig,Bundesliga,Offence,1500000,14200,7,2025,64,Transfermarkt; estimation
+BL1:721:277484:yan-diomande,Yan Diomandé,RB Leipzig,Bundesliga,Offence,12000000,62600,7,2025,87,Transfermarkt; estimation salaire
+BL1:721:289697:samba-konate,Samba Konaté,RB Leipzig,Bundesliga,Offence,1000000,11800,7,2025,64,Transfermarkt; estimation
+BL1:721:290739:suleman-sani,Suleman Sani,RB Leipzig,Bundesliga,Offence,5000000,38500,7,2026,87,Transfermarkt; estimation salaire
+BL1:721:217929:kosta-nedeljkovic,Kosta Nedeljković,RB Leipzig,Bundesliga,Right-Back,12000000,62600,7,2025,87,Transfermarkt; estimation salaire
+BL1:721:214538:max-finkgrafe,Max Finkgräfe,RB Leipzig,Bundesliga,Left-Back,8000000,49800,7,2025,87,Transfermarkt; estimation salaire
+BL1:721:211796:tidiam-gomis,Tidiam Gomis,RB Leipzig,Bundesliga,Left Winger,8000000,49800,1,2025,87,Transfermarkt; estimation salaire
+BL1:721:191102:brajan-gruda,Brajan Gruda,RB Leipzig,Bundesliga,Right Winger,25000000,95800,7,2025,87,Transfermarkt; estimation salaire
+BL1:721:171405:castello-lukeba,Castello Lukeba,RB Leipzig,Bundesliga,Centre-Back,40000000,126400,8,2023,87,Transfermarkt; estimation salaire
+BL1:721:170415:el-chadaille-bitshiabu,El Chadaille Bitshiabu,RB Leipzig,Bundesliga,Centre-Back,18000000,79000,7,2023,87,Transfermarkt; estimation salaire
+BL1:721:154110:johan-bakayoko,Johan Bakayoko,RB Leipzig,Bundesliga,Right Winger,35000000,116800,7,2025,87,Transfermarkt; estimation salaire
+BL1:721:9537:willi-orban,Willi Orban,RB Leipzig,Bundesliga,Centre-Back,6000000,90000,7,2015,95,Transfermarkt; Capology
+BL1:721:9536:lukas-klostermann,Lukas Klostermann,RB Leipzig,Bundesliga,Centre-Back,10000000,85000,8,2014,95,Transfermarkt; Capology
+BL1:721:6634:ridle-baku,Ridle Baku,RB Leipzig,Bundesliga,Right-Back,18000000,75000,1,2025,95,Transfermarkt; Capology
+BL1:721:156:benjamin-henrichs,Benjamin Henrichs,RB Leipzig,Bundesliga,Right-Back,18000000,90000,7,2020,95,Transfermarkt; Capology

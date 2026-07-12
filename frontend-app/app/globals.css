@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-brand-purple : #9B5DE5;
+  --color-brand-cyan: #00F5D4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.auth-bg {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(10, 15, 30, 0.24) 0%, rgba(10, 15, 30, 0.24) 0%),
+    url('/images/app-bg.webp') center / cover no-repeat fixed;
+}
+
+/* ── Gradient utilities ──────────────────────────────── */
+.gradient-card {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 212, 0.15) 0%,
+    rgba(111, 136, 224, 0.15) 50%,
+    rgba(155, 93, 229, 0.15) 100%
+  );
+}
+
+.gradient-button {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 212, 0.25) 0%,
+    rgba(111, 136, 224, 0.25) 50%,
+    rgba(155, 93, 229, 0.25) 100%
+  );
+}
+
+.navbar-bg {
+  background: linear-gradient(
+    180deg,
+    rgba(8, 12, 25, 0.85) 0%,
+    rgba(8, 12, 25, 0.0) 100%
+  );
+}
+
+@layer components {
+  .input {
+    @apply mt-2 w-full rounded-lg border border-white/15 bg-[#0A1B2B] p-3 text-white outline-none focus:border-brand-cyan/40;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-lg bg-brand-purple px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold transition hover:bg-white/10;
+  }
+
+  .market-row {
+    @apply flex flex-col gap-4 rounded-xl border border-white/10 bg-[#071722]/85 p-5 md:flex-row md:items-center md:justify-between;
+  }
+
+  .negotiation-row {
+    @apply flex flex-col gap-4 rounded-xl border border-white/10 bg-[#071722]/85 p-5 lg:flex-row lg:items-center lg:justify-between;
+  }
+
+  .tab-button {
+    @apply flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-[#071722]/85 p-4 font-semibold text-gray-300 transition hover:border-brand-cyan/25;
+  }
+
+  .tab-active {
+    @apply border-brand-cyan/35 bg-brand-cyan/10 text-brand-cyan;
+  }
+
+  .feed-row {
+    @apply flex flex-col gap-4 rounded-xl border border-white/10 bg-[#071722]/85 p-5 lg:flex-row lg:items-center lg:justify-between;
+  }
+
+  .subscription-row {
+    @apply flex flex-col gap-4 rounded-xl border border-white/10 bg-[#071722]/85 p-5 lg:flex-row lg:items-center lg:justify-between;
+  }
+}

@@ -1,0 +1,70 @@
+FROM php:8.4-fpm-alpine
+
+# Install Nginx et Supervisor
+RUN apk add --no-cache \
+        nginx \
+        supervisor \
+        icu-dev \
+        libzip-dev \
+        postgresql-dev \
+    && apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+    && docker-php-ext-install \
+        intl \
+        pdo \
+        pdo_pgsql \
+        zip \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del .build-deps
+
+# Config Nginx sera assurer pas le patch k3s
+
+COPY docker/zz-logging.conf /usr/local/etc/php-fpm.d/zz-logging.conf
+
+# Config Supervisor (pour lancer PHP-FPM et Nginx ensemble)
+RUN printf '%s\n' \
+'[supervisord]' \
+'nodaemon=true' \
+'logfile=/dev/null' \
+'logfile_maxbytes=0' \
+'' \
+'[program:nginx]' \
+'command=nginx -g "daemon off;"' \
+'autostart=true' \
+'autorestart=true' \
+'stdout_logfile=/dev/fd/1' \
+'stdout_logfile_maxbytes=0' \
+'stderr_logfile=/dev/fd/2' \
+'stderr_logfile_maxbytes=0' \
+'' \
+'[program:php-fpm]' \
+'command=php-fpm -F' \
+'autostart=true' \
+'autorestart=true' \
+'stdout_logfile=/dev/fd/1' \
+'stdout_logfile_maxbytes=0' \
+'stderr_logfile=/dev/fd/2' \
+'stderr_logfile_maxbytes=0' \
+> /etc/supervisord.conf
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+COPY . .
+
+ENV APP_ENV=prod
+
+RUN composer install --no-dev --optimize-autoloader
+
+# Répertoires utilisables par Symfony/PHP-FPM
+
+RUN mkdir -p /var/www/html/var \
+    /var/www/html/public/uploads/club-verifications \
+    && chown -R www-data:www-data /var/www/html/var \
+    /var/www/html/public/uploads \
+    && chmod -R 775 /var/www/html/var \
+    /var/www/html/public/uploads
+
+EXPOSE 80
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

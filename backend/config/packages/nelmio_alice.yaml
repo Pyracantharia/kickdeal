@@ -1,0 +1,12 @@
+when@dev: &dev
+    nelmio_alice:
+        functions_blacklist:
+            # - 'current'  # À besoin pour les boucles Alice {0..N}
+            - 'shuffle'
+            - 'date'
+            - 'time'
+            - 'file'
+            - 'md5'
+            - 'sha1'
+
+when@test: *dev

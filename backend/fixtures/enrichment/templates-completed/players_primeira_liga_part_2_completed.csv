@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+PPL:1049:281956:tomas-brito,Tomás Brito,CD Tondela,Primeira Liga,Defence,700000,1600,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:82672:benjamin-mbunga-kimpioka,Benjamin Mbunga-Kimpioka,CD Tondela,Primeira Liga,Midfield,1200000,2000,7,2025,87,Transfermarkt; estimation salaire
+PPL:1049:133788:sphephelo-sithole,Sphephelo Sithole,CD Tondela,Primeira Liga,Midfield,2500000,4200,7,2025,87,Transfermarkt; estimation salaire
+PPL:1049:167273:helder-tavares,Helder Tavares,CD Tondela,Primeira Liga,Midfield,500000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:204143:hugo-felix,Hugo Félix,CD Tondela,Primeira Liga,Midfield,3000000,4600,7,2025,87,Transfermarkt; estimation salaire
+PPL:1049:243612:cicero,Cícero,CD Tondela,Primeira Liga,Midfield,500000,1200,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:262938:juan-rodriguez,Juan Rodríguez,CD Tondela,Primeira Liga,Midfield,1000000,1800,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:102355:arjen-van-der-heide,Arjen van der Heide,CD Tondela,Primeira Liga,Offence,1200000,2000,7,2025,87,Transfermarkt; estimation salaire
+PPL:1049:179588:sie-ouattara,Sie Ouattara,CD Tondela,Primeira Liga,Offence,800000,1700,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:242516:pedro-maranhao,Pedro Maranhão,CD Tondela,Primeira Liga,Offence,600000,1500,7,2025,68,Transfermarkt; estimation salaire
+PPL:1049:255930:makan-aiko,Makan Aïko,CD Tondela,Primeira Liga,Left Winger,1500000,2300,7,2025,87,Transfermarkt; estimation salaire
+PPL:1049:251133:xabi-huarte,Xabi Huarte,CD Tondela,Primeira Liga,Attacking Midfield,1800000,3500,7,2025,87,Transfermarkt; estimation salaire
+PPL:1049:188926:joe-hodge,Joe Hodge,CD Tondela,Primeira Liga,Defensive Midfield,3000000,4600,7,2025,87,Transfermarkt; estimation salaire
+PPL:1049:148272:remy-vita,Rémy Vita,CD Tondela,Primeira Liga,Left-Back,1800000,3500,7,2025,87,Transfermarkt; estimation salaire
+PPL:1049:8758:rony-lopes,Rony Lopes,CD Tondela,Primeira Liga,Right Winger,2500000,22000,7,2025,95,Transfermarkt; Capology
+PPL:1049:812:jordan-siebatcheu,Jordan Siebatcheu,CD Tondela,Primeira Liga,Centre-Forward,3000000,28000,7,2025,95,Transfermarkt; Capology
+PPL:1903:111481:anatolii-trubin,Anatolii Trubin,Sport Lisboa e Benfica,Primeira Liga,Goalkeeper,25000000,74038,8,2023,95,Transfermarkt; Capology
+PPL:1903:153846:samuel-soares,Samuel Soares,Sport Lisboa e Benfica,Primeira Liga,Goalkeeper,3000000,18900,7,2021,87,Transfermarkt; estimation salaire
+PPL:1903:273525:diogo-ferreira,Diogo Ferreira,Sport Lisboa e Benfica,Primeira Liga,Goalkeeper,1000000,7500,7,2025,68,Transfermarkt; estimation salaire
+PPL:1903:282866:arnas-voitinovicius,Arnas Voitinovičius,Sport Lisboa e Benfica,Primeira Liga,Goalkeeper,500000,3500,7,2025,68,Transfermarkt; estimation salaire
+PPL:1903:3205:nicolas-otamendi,Nicolás Otamendi,Sport Lisboa e Benfica,Primeira Liga,Defence,1500000,65000,9,2020,95,Transfermarkt; Capology
+PPL:1903:81816:amar-dedic,Amar Dedić,Sport Lisboa e Benfica,Primeira Liga,Defence,15000000,50200,7,2025,87,Transfermarkt; estimation salaire
+PPL:1903:177842:tomas-araujo,Tomas Araujo,Sport Lisboa e Benfica,Primeira Liga,Defence,30000000,50000,7,2022,95,Transfermarkt; Capology
+PPL:1903:209178:sidny-lopes-cabral,Sidny Lopes Cabral,Sport Lisboa e Benfica,Primeira Liga,Defence,6000000,29400,7,2025,87,Transfermarkt; estimation salaire
+PPL:1903:262709:joao-fonseca,João Fonseca,Sport Lisboa e Benfica,Primeira Liga,Defence,2000000,16000,7,2025,87,Transfermarkt; estimation salaire
+PPL:1903:262714:joshua-wynder,Joshua Wynder,Sport Lisboa e Benfica,Primeira Liga,Defence,5000000,26500,7,2025,87,Transfermarkt; estimation salaire
+PPL:1903:262856:goncalo-oliveira,Gonçalo Oliveira,Sport Lisboa e Benfica,Primeira Liga,Defence,1000000,7900,7,2025,68,Transfermarkt; estimation salaire
+PPL:1903:273524:kevin-pinto,Kevin Pinto,Sport Lisboa e Benfica,Primeira Liga,Defence,700000,6700,7,2025,68,Transfermarkt; estimation salaire
+PPL:1903:282871:daniel-banjaqui,Daniel Banjaqui,Sport Lisboa e Benfica,Primeira Liga,Defence,1000000,7900,7,2025,68,Transfermarkt; estimation salaire
+PPL:1903:289781:jose-neto,José Neto,Sport Lisboa e Benfica,Primeira Liga,Defence,700000,6700,7,2025,68,Transfermarkt; estimation salaire
+PPL:1903:8128:dodi-lukebakio,Dodi Lukebakio,Sport Lisboa e Benfica,Primeira Liga,Midfield,20000000,70000,7,2025,95,Transfermarkt; Capology
+PPL:1903:38088:fredrik-aursnes,Fredrik Aursnes,Sport Lisboa e Benfica,Primeira Liga,Midfield,18000000,65000,8,2022,95,Transfermarkt; Capology
+PPL:1903:151558:heorhii-sudakov,Heorhii Sudakov,Sport Lisboa e Benfica,Primeira Liga,Midfield,25000000,70000,7,2025,95,Transfermarkt; Capology
+PPL:1903:170657:richard-rios,Richard Rios,Sport Lisboa e Benfica,Primeira Liga,Midfield,30000000,65000,7,2025,95,Transfermarkt; Capology
+PPL:1903:183643:franjo-ivanovic,Franjo Ivanovic,Sport Lisboa e Benfica,Primeira Liga,Midfield,18000000,56000,7,2025,87,Transfermarkt; estimation salaire
+PPL:1903:246194:diogo-prioste,Diogo Prioste,Sport Lisboa e Benfica,Primeira Liga,Midfield,1500000,9700,7,2025,87,Transfermarkt; estimation salaire
+PPL:1903:262645:joao-veloso,João Veloso,Sport Lisboa e Benfica,Primeira Liga,Midfield,3000000,19900,7,2025,87,Transfermarkt; estimation salaire
+PPL:1903:275555:tiago-freitas,Tiago Freitas,Sport Lisboa e Benfica,Primeira Liga,Midfield,1000000,7900,7,2025,68,Transfermarkt; estimation salaire
+PPL:1903:282868:miguel-figueiredo,Miguel Figueiredo,Sport Lisboa e Benfica,Primeira Liga,Midfield,700000,6700,7,2025,68,Transfermarkt; estimation salaire
+PPL:1903:16748:rafa-silva,Rafa Silva,Sport Lisboa e Benfica,Primeira Liga,Offence,15000000,75000,7,2025,95,Transfermarkt; Capology
+PPL:1903:67299:vangelis-pavlidis,Vangelis Pavlidis,Sport Lisboa e Benfica,Primeira Liga,Offence,35000000,70000,7,2024,95,Transfermarkt; Capology
+PPL:1903:157796:andreas-schjelderup,Andreas Schjelderup,Sport Lisboa e Benfica,Primeira Liga,Offence,18000000,56000,1,2023,87,Transfermarkt; estimation salaire
+PPL:1903:251296:joao-rego,João Rêgo,Sport Lisboa e Benfica,Primeira Liga,Offence,5000000,26500,7,2024,87,Transfermarkt; estimation salaire
+PPL:1903:263708:rodrigo-rego,Rodrigo Rêgo,Sport Lisboa e Benfica,Primeira Liga,Offence,1500000,9700,7,2025,87,Transfermarkt; estimation salaire
+PPL:1903:282872:goncalo-moreira,Gonçalo Moreira,Sport Lisboa e Benfica,Primeira Liga,Offence,1000000,7900,7,2025,68,Transfermarkt; estimation salaire
+PPL:1903:291341:anisio-cabral,Anísio Cabral,Sport Lisboa e Benfica,Primeira Liga,Offence,2500000,18000,7,2025,87,Transfermarkt; estimation salaire
+PPL:1903:182123:gianluca-prestianni,Gianluca Prestianni,Sport Lisboa e Benfica,Primeira Liga,Right Winger,15000000,35000,1,2024,95,Transfermarkt; Capology
+PPL:1903:177322:henrique-araujo,Henrique Araujo,Sport Lisboa e Benfica,Primeira Liga,Centre-Forward,5000000,26500,7,2021,87,Transfermarkt; estimation salaire
+PPL:1903:175753:samuel-dahl,Samuel Dahl,Sport Lisboa e Benfica,Primeira Liga,Left-Back,12000000,44000,7,2025,87,Transfermarkt; estimation salaire
+PPL:1903:158894:enzo-barrenechea,Enzo Barrenechea,Sport Lisboa e Benfica,Primeira Liga,Defensive Midfield,12000000,44000,7,2025,87,Transfermarkt; estimation salaire
+PPL:1903:82403:leandro-barreiro-martins,Leandro Barreiro Martins,Sport Lisboa e Benfica,Primeira Liga,Central Midfield,15000000,50000,7,2024,95,Transfermarkt; Capology
+PPL:1903:70583:alexander-bah,Alexander Bah,Sport Lisboa e Benfica,Primeira Liga,Right-Back,15000000,50000,7,2022,95,Transfermarkt; Capology
+PPL:1903:9553:bruma,Bruma,Sport Lisboa e Benfica,Primeira Liga,Left Winger,8000000,60000,1,2025,95,Transfermarkt; Capology
+PPL:1903:194008:manu-silva,Manu Silva,Sport Lisboa e Benfica,Primeira Liga,Defensive Midfield,12000000,44000,7,2025,87,Transfermarkt; estimation salaire
+PPL:1903:185610:antonio-silva,Antonio Silva,Sport Lisboa e Benfica,Primeira Liga,Centre-Back,35000000,60000,7,2022,95,Transfermarkt; Capology
+PPL:5529:1232:lucas-franca,Lucas França,CD Nacional,Primeira Liga,Goalkeeper,800000,1800,7,2025,58,Transfermarkt; estimation
+PPL:5529:178927:kaique,Kaique,CD Nacional,Primeira Liga,Goalkeeper,500000,1200,7,2025,58,Transfermarkt; estimation
+PPL:5529:229282:cesar-augusto,Cesar Augusto,CD Nacional,Primeira Liga,Goalkeeper,700000,1700,7,2025,58,Transfermarkt; estimation
+PPL:5529:249175:kevyn,Kevyn,CD Nacional,Primeira Liga,Goalkeeper,1500000,2400,7,2025,76,Transfermarkt; estimation
+PPL:5529:1437:leo-santos,Léo Santos,CD Nacional,Primeira Liga,Defence,1000000,2100,7,2025,58,Transfermarkt; estimation
+PPL:5529:37727:ivanildo-fernandes,Ivanildo Fernandes,CD Nacional,Primeira Liga,Defence,1000000,2100,7,2025,58,Transfermarkt; estimation
+PPL:5529:169570:ze-vitor,Zé Vitor,CD Nacional,Primeira Liga,Defence,1200000,2300,7,2025,76,Transfermarkt; estimation
+PPL:5529:181512:ulisses,Ulisses,CD Nacional,Primeira Liga,Defence,800000,1900,7,2025,58,Transfermarkt; estimation
+PPL:5529:183093:alan-nunez,Alan Nunez,CD Nacional,Primeira Liga,Defence,1200000,2300,7,2025,76,Transfermarkt; estimation
+PPL:5529:231219:francisco-goncalves,Francisco Gonçalves,CD Nacional,Primeira Liga,Defence,500000,1200,7,2025,58,Transfermarkt; estimation
+PPL:5529:243604:jose-gomes,José Gomes,CD Nacional,Primeira Liga,Defence,700000,1800,7,2025,58,Transfermarkt; estimation
+PPL:5529:37447:joao-aurelio,João Aurélio,CD Nacional,Primeira Liga,Midfield,200000,1200,7,2025,58,Transfermarkt; estimation
+PPL:5529:45304:andre-sousa,André Sousa,CD Nacional,Primeira Liga,Midfield,500000,1200,7,2025,58,Transfermarkt; estimation
+PPL:5529:147456:miguel-baeza,Miguel Baeza,CD Nacional,Primeira Liga,Midfield,2500000,4800,7,2025,76,Transfermarkt; estimation
+PPL:5529:169258:paulinho-boia,Paulinho Bóia,CD Nacional,Primeira Liga,Midfield,1200000,2300,7,2025,76,Transfermarkt; estimation
+PPL:5529:179837:matheus-dias,Matheus Dias,CD Nacional,Primeira Liga,Midfield,1500000,2600,7,2025,76,Transfermarkt; estimation
+PPL:5529:181585:daniel-jr,Daniel Jr.,CD Nacional,Primeira Liga,Midfield,1800000,4000,7,2025,76,Transfermarkt; estimation
+PPL:5529:242472:martim-watts,Martim Watts,CD Nacional,Primeira Liga,Midfield,500000,1200,7,2025,58,Transfermarkt; estimation
+PPL:5529:243620:jota-garces,Jota Garcês,CD Nacional,Primeira Liga,Midfield,1200000,2300,7,2025,76,Transfermarkt; estimation
+PPL:5529:270035:chiheb-labidi,Chiheb Labidi,CD Nacional,Primeira Liga,Midfield,1000000,2100,7,2025,58,Transfermarkt; estimation
+PPL:5529:280035:deivison,Deivison,CD Nacional,Primeira Liga,Midfield,700000,1800,7,2025,58,Transfermarkt; estimation
+PPL:5529:1362:liziero,Liziero,CD Nacional,Primeira Liga,Offence,1800000,4000,7,2025,76,Transfermarkt; estimation
+PPL:5529:11541:lucas-joao,Lucas João,CD Nacional,Primeira Liga,Offence,1500000,2600,7,2025,76,Transfermarkt; estimation
+PPL:5529:37194:witi,Witi,CD Nacional,Primeira Liga,Offence,1500000,2600,7,2025,76,Transfermarkt; estimation
+PPL:5529:169080:gabriel-veron,Gabriel Veron,CD Nacional,Primeira Liga,Offence,5000000,7100,7,2025,76,Transfermarkt; estimation
+PPL:5529:188085:chuchu,Chuchu,CD Nacional,Primeira Liga,Offence,700000,1800,7,2025,58,Transfermarkt; estimation
+PPL:5529:218644:pablo-ruan,Pablo Ruan,CD Nacional,Primeira Liga,Offence,1000000,2100,7,2025,58,Transfermarkt; estimation
+PPL:5529:188089:joel-silva,Joel Silva,CD Nacional,Primeira Liga,Central Midfield,700000,1800,7,2025,58,Transfermarkt; estimation
+PPL:5529:43565:filipe-soares,Filipe Soares,CD Nacional,Primeira Liga,Attacking Midfield,2500000,4800,7,2025,76,Transfermarkt; estimation
+PPL:5529:809:lenny-vallier,Lenny Vallier,CD Nacional,Primeira Liga,Left-Back,1200000,2300,7,2025,76,Transfermarkt; estimation
+PPL:5530:1528:gabriel-batista,Gabriel Batista,CD Santa Clara,Primeira Liga,Goalkeeper,2500000,6000,7,2025,76,Transfermarkt; estimation
+PPL:5530:151951:cristian,Cristian,CD Santa Clara,Primeira Liga,Goalkeeper,500000,1200,7,2025,58,Transfermarkt; estimation
+PPL:5530:181527:neneca,Neneca,CD Santa Clara,Primeira Liga,Goalkeeper,300000,1200,7,2025,58,Transfermarkt; estimation
+PPL:5530:245889:joao-afonso,João Afonso,CD Santa Clara,Primeira Liga,Goalkeeper,1000000,2600,7,2025,58,Transfermarkt; estimation
+PPL:5530:11524:frederico-venancio,Frederico Venâncio,CD Santa Clara,Primeira Liga,Defence,700000,2300,7,2025,58,Transfermarkt; estimation
+PPL:5530:32569:pedro-pacheco,Pedro Pacheco,CD Santa Clara,Primeira Liga,Defence,500000,1300,7,2025,58,Transfermarkt; estimation
+PPL:5530:165583:paulo-victor,Paulo Victor,CD Santa Clara,Primeira Liga,Defence,2500000,6300,7,2025,76,Transfermarkt; estimation
+PPL:5530:169655:guilherme-romao,Guilherme Romão,CD Santa Clara,Primeira Liga,Defence,2000000,5600,7,2025,76,Transfermarkt; estimation
+PPL:5530:178743:diogo-calila,Diogo Calila,CD Santa Clara,Primeira Liga,Defence,1000000,2800,7,2025,58,Transfermarkt; estimation
+PPL:5530:181619:matheus-nunes,Matheus Nunes,CD Santa Clara,Primeira Liga,Defence,1500000,3400,7,2025,76,Transfermarkt; estimation
+PPL:5530:243594:sidney-lima,Sidney Lima,CD Santa Clara,Primeira Liga,Defence,3000000,7000,7,2025,76,Transfermarkt; estimation
+PPL:5530:264159:evertow,Evertow,CD Santa Clara,Primeira Liga,Defence,700000,2300,7,2025,58,Transfermarkt; estimation
+PPL:5530:278473:italo-cabelinho,Italo Cabelinho,CD Santa Clara,Primeira Liga,Defence,700000,2300,7,2025,58,Transfermarkt; estimation
+PPL:5530:278476:henrique-silva,Henrique Silva,CD Santa Clara,Primeira Liga,Defence,500000,1300,7,2025,58,Transfermarkt; estimation
+PPL:5530:282356:rodrigo-mendes,Rodrigo Mendes,CD Santa Clara,Primeira Liga,Defence,700000,2300,7,2025,58,Transfermarkt; estimation
+PPL:5530:290427:luiz-otavio,Luiz Otavio,CD Santa Clara,Primeira Liga,Defence,1000000,2800,7,2025,58,Transfermarkt; estimation
+PPL:5530:290871:jose-franco,José Franco,CD Santa Clara,Primeira Liga,Defence,500000,1300,7,2025,58,Transfermarkt; estimation
+PPL:5530:37393:serginho,Serginho,CD Santa Clara,Primeira Liga,Midfield,1500000,3400,7,2025,76,Transfermarkt; estimation
+PPL:5530:80878:pedro-ferreira,Pedro Ferreira,CD Santa Clara,Primeira Liga,Midfield,1800000,5300,7,2025,76,Transfermarkt; estimation
+PPL:5530:115128:darlan-mendes,Darlan Mendes,CD Santa Clara,Primeira Liga,Midfield,1500000,3400,7,2025,76,Transfermarkt; estimation
+PPL:5530:176614:isaac,Isaac,CD Santa Clara,Primeira Liga,Midfield,2500000,6300,7,2025,76,Transfermarkt; estimation
+PPL:5530:179772:andrey,Andrey,CD Santa Clara,Primeira Liga,Midfield,1500000,3400,7,2025,76,Transfermarkt; estimation
+PPL:5530:185110:klismahn,Klismahn,CD Santa Clara,Primeira Liga,Midfield,1200000,3000,7,2025,76,Transfermarkt; estimation
+PPL:5530:193668:vitinho,Vitinho,CD Santa Clara,Primeira Liga,Midfield,2500000,6300,7,2025,76,Transfermarkt; estimation
+PPL:5530:278474:jose-tavares,José Tavares,CD Santa Clara,Primeira Liga,Midfield,700000,2300,7,2025,58,Transfermarkt; estimation
+PPL:5530:289588:melvin-costa,Melvin Costa,CD Santa Clara,Primeira Liga,Midfield,1200000,3000,7,2025,76,Transfermarkt; estimation
+PPL:5530:289589:tiago-queiroz,Tiago Queiroz,CD Santa Clara,Primeira Liga,Midfield,800000,2500,7,2025,58,Transfermarkt; estimation
+PPL:5530:118015:vinicius,Vinícius,CD Santa Clara,Primeira Liga,Offence,1500000,3400,7,2025,76,Transfermarkt; estimation
+PPL:5530:124982:lucas-soares,Lucas Soares,CD Santa Clara,Primeira Liga,Offence,1500000,3400,7,2025,76,Transfermarkt; estimation
+PPL:5530:129463:welinton,Welinton,CD Santa Clara,Primeira Liga,Offence,2000000,5600,7,2025,76,Transfermarkt; estimation
+PPL:5530:168766:gabriel-silva,Gabriel Silva,CD Santa Clara,Primeira Liga,Offence,3500000,7600,7,2025,76,Transfermarkt; estimation
+PPL:5530:168871:elias-manoel,Elias Manoel,CD Santa Clara,Primeira Liga,Offence,4000000,8200,7,2025,76,Transfermarkt; estimation
+PPL:5530:181456:brenner,Brenner,CD Santa Clara,Primeira Liga,Offence,5000000,9300,7,2025,76,Transfermarkt; estimation
+PPL:5530:227024:luis-fernando,Luis Fernando,CD Santa Clara,Primeira Liga,Offence,2000000,5600,7,2025,76,Transfermarkt; estimation
+PPL:5530:261163:joao-costa,João Costa,CD Santa Clara,Primeira Liga,Offence,1200000,3000,7,2025,76,Transfermarkt; estimation
+PPL:5530:274919:vital-maia,Vital Maia,CD Santa Clara,Primeira Liga,Offence,800000,2500,7,2025,58,Transfermarkt; estimation
+PPL:5530:276960:adriel,Adriel,CD Santa Clara,Primeira Liga,Offence,1000000,2800,7,2025,58,Transfermarkt; estimation
+PPL:5530:287899:tiago-duarte,Tiago Duarte,CD Santa Clara,Primeira Liga,Offence,500000,1300,7,2025,58,Transfermarkt; estimation
+PPL:5530:15919:goncalo-paciencia,Gonçalo Paciência,CD Santa Clara,Primeira Liga,Centre-Forward,2000000,5600,7,2025,76,Transfermarkt; estimation
+PPL:5531:37556:ivan-zlobin,Ivan Zlobin,FC Famalicão,Primeira Liga,Goalkeeper,800000,2700,7,2025,58,Transfermarkt; estimation
+PPL:5531:176011:lazar-carevic,Lazar Carevic,FC Famalicão,Primeira Liga,Goalkeeper,3000000,7600,7,2025,76,Transfermarkt; estimation
+PPL:5531:264463:gabriel-cabral,Gabriel Cabral,FC Famalicão,Primeira Liga,Goalkeeper,500000,1400,7,2025,58,Transfermarkt; estimation
+PPL:5531:1785:gil-dias,Gil Dias,FC Famalicão,Primeira Liga,Defence,2500000,7200,7,2025,76,Transfermarkt; estimation
+PPL:5531:11587:rafa-soares,Rafa Soares,FC Famalicão,Primeira Liga,Defence,2000000,6400,7,2025,76,Transfermarkt; estimation
+PPL:5531:112965:leonardo-realpe,Leonardo Realpe,FC Famalicão,Primeira Liga,Defence,5000000,10600,7,2025,76,Transfermarkt; estimation
+PPL:5531:126147:rodrigo-pinheiro,Rodrigo Pinheiro,FC Famalicão,Primeira Liga,Defence,1800000,6100,7,2025,76,Transfermarkt; estimation
+PPL:5531:169260:gustavo-garcia,Gustavo Garcia,FC Famalicão,Primeira Liga,Defence,2500000,7200,7,2025,76,Transfermarkt; estimation
+PPL:5531:213107:pedro,Pedro,FC Famalicão,Primeira Liga,Defence,700000,2700,7,2025,58,Transfermarkt; estimation
+PPL:5531:217397:vojin-serafimovic,Vojin Serafimović,FC Famalicão,Primeira Liga,Defence,1500000,3900,7,2025,76,Transfermarkt; estimation
+PPL:5531:221571:ibrahima-ba,Ibrahima Ba,FC Famalicão,Primeira Liga,Defence,1200000,3500,7,2025,76,Transfermarkt; estimation
+PPL:5531:276284:renan,Renan,FC Famalicão,Primeira Liga,Defence,1500000,3900,7,2025,76,Transfermarkt; estimation
+PPL:5531:286283:matheus-mattara,Matheus Mattara,FC Famalicão,Primeira Liga,Defence,700000,2700,7,2025,58,Transfermarkt; estimation
+PPL:5531:7533:tommie-van-de-looi,Tommie van de Looi,FC Famalicão,Primeira Liga,Midfield,4000000,9300,7,2025,76,Transfermarkt; estimation
+PPL:5531:182916:otar-mamageishvili,Otar Mamageishvili,FC Famalicão,Primeira Liga,Midfield,3500000,8700,7,2025,76,Transfermarkt; estimation
+PPL:5531:207131:marcos-pena,Marcos Peña,FC Famalicão,Primeira Liga,Midfield,1500000,3900,7,2025,76,Transfermarkt; estimation
+PPL:5531:213102:rodrigo-ribeiro,Rodrigo Ribeiro,FC Famalicão,Primeira Liga,Midfield,8000000,13900,7,2025,76,Transfermarkt; estimation
+PPL:5531:215432:mathias-de-amorin,Mathias De Amorin,FC Famalicão,Primeira Liga,Midfield,2500000,7200,7,2025,76,Transfermarkt; estimation
+PPL:5531:272442:gonzalo-pastor,Gonzalo Pastor,FC Famalicão,Primeira Liga,Midfield,1200000,3500,7,2025,76,Transfermarkt; estimation
+PPL:5531:287935:lamine-beye,Lamine Beye,FC Famalicão,Primeira Liga,Midfield,1500000,3900,7,2025,76,Transfermarkt; estimation
+PPL:5531:45511:rochinha,Rochinha,FC Famalicão,Primeira Liga,Offence,1800000,6100,7,2025,76,Transfermarkt; estimation
+PPL:5531:206657:romeo-beney,Romeo Beney,FC Famalicão,Primeira Liga,Offence,4000000,9300,7,2025,76,Transfermarkt; estimation
+PPL:5531:262588:pedro-santos,Pedro Santos,FC Famalicão,Primeira Liga,Offence,3500000,8700,7,2025,76,Transfermarkt; estimation
+PPL:5531:280680:umar-abubakar,Umar Abubakar,FC Famalicão,Primeira Liga,Offence,1500000,3900,7,2025,76,Transfermarkt; estimation
+PPL:5531:292393:rudi-almeida,Rudi Almeida,FC Famalicão,Primeira Liga,Offence,700000,2700,7,2025,58,Transfermarkt; estimation
+PPL:5531:191017:antoine-joujou,Antoine Joujou,FC Famalicão,Primeira Liga,Left Winger,5000000,10600,7,2025,76,Transfermarkt; estimation
+PPL:5531:187280:gustavo-sa,Gustavo Sa,FC Famalicão,Primeira Liga,Attacking Midfield,12000000,17600,7,2025,76,Transfermarkt; estimation
+PPL:5531:169412:marcos-vinicios,Marcos Vinicios,FC Famalicão,Primeira Liga,Left Winger,3000000,8000,7,2025,76,Transfermarkt; estimation
+PPL:5531:154741:oscar-aranda,Óscar Aranda,FC Famalicão,Primeira Liga,Left Winger,6000000,11700,7,2025,76,Transfermarkt; estimation
+PPL:5531:147884:simon-elisor,Simon Elisor,FC Famalicão,Primeira Liga,Centre-Forward,5000000,10600,7,2025,76,Transfermarkt; estimation
+PPL:5531:97367:justin-de-haas,Justin de Haas,FC Famalicão,Primeira Liga,Centre-Back,5000000,10600,7,2025,76,Transfermarkt; estimation
+PPL:5533:128746:lucao,Lucão,Gil Vicente FC,Primeira Liga,Goalkeeper,1500000,3100,7,2025,76,Transfermarkt; estimation
+PPL:5533:171325:daniel-figueira,Daniel Figueira,Gil Vicente FC,Primeira Liga,Goalkeeper,1200000,2700,7,2025,76,Transfermarkt; estimation
+PPL:5533:184454:andre-picornell,Andre Picornell,Gil Vicente FC,Primeira Liga,Goalkeeper,500000,1200,7,2025,58,Transfermarkt; estimation
+PPL:5533:37432:ghislain-konan,Ghislain Konan,Gil Vicente FC,Primeira Liga,Defence,2000000,5300,7,2025,76,Transfermarkt; estimation
+PPL:5533:160445:marvin-elimbi,Marvin Elimbi,Gil Vicente FC,Primeira Liga,Defence,2500000,6000,7,2025,76,Transfermarkt; estimation
+PPL:5533:204139:jonathan-mutombo-mawesi,Jonathan Mutombo Mawesi,Gil Vicente FC,Primeira Liga,Defence,1200000,2900,7,2025,76,Transfermarkt; estimation
+PPL:5533:98160:sergio-bermejo,Sergio Bermejo,Gil Vicente FC,Primeira Liga,Midfield,3500000,7200,7,2025,76,Transfermarkt; estimation
+PPL:5533:157367:luis-esteves,Luís Esteves,Gil Vicente FC,Primeira Liga,Midfield,1200000,2900,7,2025,76,Transfermarkt; estimation
+PPL:5533:205576:martin-fernandez-benitez,Martín Fernández Benítez,Gil Vicente FC,Primeira Liga,Midfield,3000000,6600,7,2025,76,Transfermarkt; estimation
+PPL:5533:218939:bassco-soyer,Bassco Soyer,Gil Vicente FC,Primeira Liga,Midfield,500000,1200,7,2025,58,Transfermarkt; estimation
+PPL:5533:260041:agustin-moreira,Agustin Moreira,Gil Vicente FC,Primeira Liga,Midfield,1500000,3200,7,2025,76,Transfermarkt; estimation
+PPL:5533:262713:gil-martins,Gil Martins,Gil Vicente FC,Primeira Liga,Midfield,700000,2200,7,2025,58,Transfermarkt; estimation
+PPL:5533:263792:gui-beleza,Gui Beleza,Gil Vicente FC,Primeira Liga,Midfield,500000,1200,7,2025,58,Transfermarkt; estimation
+PPL:5533:267932:mohamed-bamba,Mohamed Bamba,Gil Vicente FC,Primeira Liga,Midfield,3000000,6600,7,2025,76,Transfermarkt; estimation
+PPL:5533:275268:diogo-costa,Diogo Costa,Gil Vicente FC,Primeira Liga,Midfield,1000000,2600,7,2025,58,Transfermarkt; estimation
+PPL:5533:278446:rodrigo-rodrigues,Rodrigo Rodrigues,Gil Vicente FC,Primeira Liga,Midfield,1800000,5100,7,2025,76,Transfermarkt; estimation
+PPL:5533:284048:goncalo-maia,Gonçalo Maia,Gil Vicente FC,Primeira Liga,Midfield,700000,2200,7,2025,58,Transfermarkt; estimation
+PPL:5533:32309:hector-hernandez,Héctor Hernández,Gil Vicente FC,Primeira Liga,Offence,2500000,6000,7,2025,76,Transfermarkt; estimation
+PPL:5533:143820:carlos-eduardo,Carlos Eduardo,Gil Vicente FC,Primeira Liga,Offence,1800000,5100,7,2025,76,Transfermarkt; estimation
+PPL:5533:144710:joelson-fernandes,Joelson Fernandes,Gil Vicente FC,Primeira Liga,Offence,2500000,6000,7,2025,76,Transfermarkt; estimation
+PPL:5533:252836:gustavo-varela,Gustavo Varela,Gil Vicente FC,Primeira Liga,Offence,3000000,6600,7,2025,76,Transfermarkt; estimation
+PPL:5533:180125:santi-garcia,Santi García,Gil Vicente FC,Primeira Liga,Attacking Midfield,2500000,6000,7,2025,76,Transfermarkt; estimation
+PPL:5533:177301:tidjany-toure,Tidjany Touré,Gil Vicente FC,Primeira Liga,Left Winger,3000000,6600,7,2025,76,Transfermarkt; estimation
+PPL:5533:153579:facundo-caseres,Facundo Cáseres,Gil Vicente FC,Primeira Liga,Central Midfield,1800000,5100,7,2025,76,Transfermarkt; estimation
+PPL:5533:146361:weverson,Weverson,Gil Vicente FC,Primeira Liga,Left-Back,1500000,3200,7,2025,76,Transfermarkt; estimation
+PPL:5533:141483:jose-carlos,José Carlos,Gil Vicente FC,Primeira Liga,Right-Back,700000,2200,7,2025,58,Transfermarkt; estimation
+PPL:5533:37160:murilo,Murilo,Gil Vicente FC,Primeira Liga,Right Winger,1000000,2600,7,2025,58,Transfermarkt; estimation
+PPL:5533:9125:jonathan-buatu,Jonathan Buatu,Gil Vicente FC,Primeira Liga,Centre-Back,1500000,3200,7,2025,76,Transfermarkt; estimation
+PPL:5533:245428:arthur-tchaptchet,Arthur Tchaptchet,Gil Vicente FC,Primeira Liga,Centre-Back,2000000,5300,7,2025,76,Transfermarkt; estimation
+PPL:5533:213131:heverton-santos,Heverton Santos,Gil Vicente FC,Primeira Liga,Right-Back,1200000,2900,7,2025,76,Transfermarkt; estimation
+PPL:5533:211848:antonio-espigares,Antonio Espigares,Gil Vicente FC,Primeira Liga,Centre-Back,1500000,3200,7,2025,76,Transfermarkt; estimation
+PPL:5533:188094:ze-carlos,Zé Carlos,Gil Vicente FC,Primeira Liga,Right-Back,1200000,2900,7,2025,76,Transfermarkt; estimation
+PPL:5543:45324:charles-silva,Charles Silva,Vitória SC,Primeira Liga,Goalkeeper,1000000,3400,7,2025,58,Transfermarkt; estimation
+PPL:5543:203374:lucas-furtado,Lucas Furtado,Vitória SC,Primeira Liga,Goalkeeper,1200000,3800,7,2025,76,Transfermarkt; estimation
+PPL:5543:204127:gui,Gui,Vitória SC,Primeira Liga,Goalkeeper,500000,1600,7,2025,58,Transfermarkt; estimation
+PPL:5543:246248:juan-castillo,Juan Castillo,Vitória SC,Primeira Liga,Goalkeeper,2500000,7900,7,2025,76,Transfermarkt; estimation
+PPL:5543:28976:orest-lebedenko,Orest Lebedenko,Vitória SC,Primeira Liga,Defence,2500000,8300,7,2025,76,Transfermarkt; estimation
+PPL:5543:177044:joao-mendes,Joao Mendes,Vitória SC,Primeira Liga,Defence,3500000,9900,7,2025,76,Transfermarkt; estimation
+PPL:5543:180163:oscar-rivas,Óscar Rivas,Vitória SC,Primeira Liga,Defence,3000000,9100,7,2025,76,Transfermarkt; estimation
+PPL:5543:243705:ricardo-rocha,Ricardo Rocha,Vitória SC,Primeira Liga,Defence,1000000,3600,7,2025,58,Transfermarkt; estimation
+PPL:5543:262361:diogo-lobao,Diogo Lobão,Vitória SC,Primeira Liga,Defence,700000,3100,7,2025,58,Transfermarkt; estimation
+PPL:5543:274548:thiago-balieiro,Thiago Balieiro,Vitória SC,Primeira Liga,Defence,1200000,4000,7,2025,76,Transfermarkt; estimation
+PPL:5543:290177:andre-oliveira,André Oliveira,Vitória SC,Primeira Liga,Defence,1800000,6900,7,2025,76,Transfermarkt; estimation
+PPL:5543:293863:francisco-dias,Francisco Dias,Vitória SC,Primeira Liga,Defence,700000,3100,7,2025,58,Transfermarkt; estimation
+PPL:5543:45514:samu,Samu,Vitória SC,Primeira Liga,Midfield,6000000,13500,7,2025,76,Transfermarkt; estimation

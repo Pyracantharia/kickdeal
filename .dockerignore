@@ -1,0 +1,20 @@
+# Dependances et artefacts locaux
+**/node_modules
+**/.next
+**/.output
+**/dist
+**/android
+**/ios
+backend/vendor
+vendor
+
+# Environnement local
+.env
+**/.env
+**/.env.local
+
+# Fichiers systeme et logs
+.DS_Store
+*.log
+tsconfig.tsbuildinfo
+**/tsconfig.tsbuildinfo

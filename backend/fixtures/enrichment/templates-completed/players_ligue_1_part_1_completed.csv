@@ -1,0 +1,201 @@
+player_key,full_name,current_team,league,position,market_value_eur,weekly_salary_eur,joined_at_month,joined_at_year,confidence_score,source_note
+FL1:511:44055:kjetil-haug,Kjetil Haug,Toulouse FC,Ligue 1,Goalkeeper,500000,1600,7,2025,45,estimation; salaire calibré Capology
+FL1:511:98754:alex-dominguez,Álex Domínguez,Toulouse FC,Ligue 1,Goalkeeper,500000,1600,7,2025,45,estimation; salaire calibré Capology
+FL1:511:178669:guillaume-restes,Guillaume Restes,Toulouse FC,Ligue 1,Goalkeeper,18000000,19231,7,2021,92,Transfermarkt; Capology
+FL1:511:283248:naime-said-mchindra,Naime Said Mchindra,Toulouse FC,Ligue 1,Goalkeeper,500000,1600,7,2025,45,estimation; salaire calibré Capology
+FL1:511:77803:mark-mckenzie,Mark McKenzie,Toulouse FC,Ligue 1,Defence,7000000,18800,8,2024,84,Transfermarkt; salaire estimation Capology
+FL1:511:264401:dayann-methalie,Dayann Methalie,Toulouse FC,Ligue 1,Defence,18000000,33800,7,2024,72,Transfermarkt; salaire estimation Capology
+FL1:511:283243:gaetan-bakhouche-piernas,Gaëtan Bakhouche Piernas,Toulouse FC,Ligue 1,Defence,300000,1200,7,2025,45,estimation; salaire calibré Capology
+FL1:511:283250:frederic-efuele-ngoyala,Frédéric Efuele Ngoyala,Toulouse FC,Ligue 1,Defence,300000,1200,7,2025,45,estimation; salaire calibré Capology
+FL1:511:283252:seny-koumbassa,Seny Koumbassa,Toulouse FC,Ligue 1,Defence,5000000,15300,7,2024,72,Transfermarkt; salaire estimation Capology
+FL1:511:121896:francis-abu,Francis Abu,Toulouse FC,Ligue 1,Midfield,2000000,8700,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:511:192686:pape-diop,Pape Diop,Toulouse FC,Ligue 1,Midfield,2000000,8700,7,2025,45,estimation; salaire calibré Capology
+FL1:511:216718:mario-sauer,Mário Sauer,Toulouse FC,Ligue 1,Midfield,1500000,7200,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:511:278193:ilyas-azizi,Ilyas Azizi,Toulouse FC,Ligue 1,Midfield,300000,1200,7,2025,45,estimation; salaire calibré Capology
+FL1:511:283443:alexis-vossah,Alexis Vossah,Toulouse FC,Ligue 1,Midfield,15000000,30200,7,2024,72,Transfermarkt; salaire estimation Capology
+FL1:511:283444:thibaud-dorian-garondo,Thibaud-Dorian Garondo,Toulouse FC,Ligue 1,Midfield,300000,1200,7,2025,45,estimation; salaire calibré Capology
+FL1:511:293737:adam-el-ouali,Adam El Ouali,Toulouse FC,Ligue 1,Midfield,300000,1200,7,2025,45,estimation; salaire calibré Capology
+FL1:511:176628:emersonn,Emersonn,Toulouse FC,Ligue 1,Offence,8000000,20400,1,2025,84,Transfermarkt; salaire estimation Capology
+FL1:511:182406:jacen-russell-rowe,Jacen Russell-Rowe,Toulouse FC,Ligue 1,Offence,3000000,11100,1,2025,84,Transfermarkt; salaire estimation Capology
+FL1:511:191371:santiago-hidalgo,Santiago Hidalgo,Toulouse FC,Ligue 1,Offence,6000000,17100,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:511:283251:enzo-faty,Enzo Faty,Toulouse FC,Ligue 1,Offence,300000,1200,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:511:285243:julian-vignolo,Julián Vignolo,Toulouse FC,Ligue 1,Offence,1500000,7200,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:511:192688:aron-donnum,Aron Dönnum,Toulouse FC,Ligue 1,Right Midfield,5000000,15300,9,2023,84,Transfermarkt; salaire estimation Capology
+FL1:511:180519:warren-kamanzi,Warren Kamanzi,Toulouse FC,Ligue 1,Right-Back,1200000,6300,1,2023,84,Transfermarkt; salaire estimation Capology
+FL1:511:176747:frank-magri,Frank Magri,Toulouse FC,Ligue 1,Centre-Forward,2500000,9900,7,2023,58,estimation; salaire calibré Capology
+FL1:511:150797:charlie-cresswell,Charlie Cresswell,Toulouse FC,Ligue 1,null,25000000,51800,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:511:81229:cristian-casseres-jr,Cristian Cásseres Jr.,Toulouse FC,Ligue 1,Central Midfield,9000000,22000,7,2023,84,Transfermarkt; salaire estimation Capology
+FL1:511:80175:yann-gboho,Yann Gboho,Toulouse FC,Ligue 1,Left Winger,18000000,15769,1,2024,92,Transfermarkt; Capology
+FL1:511:24190:rasmus-nicolaisen,Rasmus Nicolaisen,Toulouse FC,Ligue 1,Centre-Back,5000000,15300,7,2021,84,Transfermarkt; salaire estimation Capology
+FL1:511:3362:djibril-sidibe,Djibril Sidibé,Toulouse FC,Ligue 1,Right-Back,1000000,41923,8,2024,92,Transfermarkt; Capology
+FL1:511:250994:rafik-messali,Rafik Messali,Toulouse FC,Ligue 1,Right Midfield,1500000,7200,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:511:246113:nicolas-wasbauer,Nicolas Wasbauer,Toulouse FC,Ligue 1,Centre-Back,300000,1200,7,2025,45,estimation; salaire calibré Capology
+FL1:511:212934:noah-lahmadi,Noah Lahmadi,Toulouse FC,Ligue 1,Central Midfield,300000,1200,7,2025,45,estimation; salaire calibré Capology
+FL1:512:731:gregoire-coudert,Grégoire Coudert,Stade Brestois 29,Ligue 1,Goalkeeper,600000,6800,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:512:63855:rados-aw-majecki,Radosław Majecki,Stade Brestois 29,Ligue 1,Goalkeeper,8000000,33800,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:512:263957:noah-jauny,Noah Jauny,Stade Brestois 29,Ligue 1,Goalkeeper,400000,2400,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:512:160896:daouda-guindo,Daouda Guindo,Stade Brestois 29,Ligue 1,Defence,2000000,14300,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:512:273433:raphael-le-guen,Raphaël Le Guen,Stade Brestois 29,Ligue 1,Defence,300000,2000,7,2025,45,estimation; salaire calibré Capology
+FL1:512:276983:hamidou-makalou,Hamidou Makalou,Stade Brestois 29,Ligue 1,Midfield,1000000,9300,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:512:292310:axel-lassus,Axel Lassus,Stade Brestois 29,Ligue 1,Midfield,300000,2000,7,2025,45,estimation; salaire calibré Capology
+FL1:512:264282:ibrahim-kante,Ibrahim Kanté,Stade Brestois 29,Ligue 1,Offence,300000,2000,7,2025,45,estimation; salaire calibré Capology
+FL1:512:267881:serigne-diop,Serigne Diop,Stade Brestois 29,Ligue 1,Offence,300000,2000,7,2025,45,estimation; salaire calibré Capology
+FL1:512:227982:luc-zogbe,Luc Zogbe,Stade Brestois 29,Ligue 1,Right-Back,1500000,12000,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:512:218249:pathe-mboup,Pathé Mboup,Stade Brestois 29,Ligue 1,Left Winger,2000000,14300,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:512:204240:remy-labeau-lascary,Rémy Labeau Lascary,Stade Brestois 29,Ligue 1,Centre-Forward,4000000,22000,7,2024,72,Transfermarkt; salaire estimation Capology
+FL1:512:187530:michel-diaz,Michel Diaz,Stade Brestois 29,Ligue 1,Centre-Back,300000,2000,7,2025,45,estimation; salaire calibré Capology
+FL1:512:175942:kamory-doumbia,Kamory Doumbia,Stade Brestois 29,Ligue 1,Attacking Midfield,10000000,38800,7,2024,72,Transfermarkt; salaire estimation Capology
+FL1:512:171659:bradley-locko,Bradley Locko,Stade Brestois 29,Ligue 1,Left-Back,12000000,43400,7,2023,84,Transfermarkt; salaire estimation Capology
+FL1:512:170075:soumaila-coulibaly,Soumaïla Coulibaly,Stade Brestois 29,Ligue 1,Centre-Back,10000000,38800,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:512:125677:joris-chotard,Joris Chotard,Stade Brestois 29,Ligue 1,Defensive Midfield,15000000,49900,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:512:116407:eric-junior-dina-ebimbe,Eric Junior Dina Ebimbe,Stade Brestois 29,Ligue 1,Right Midfield,8000000,33800,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:512:76145:hugo-magnetti,Hugo Magnetti,Stade Brestois 29,Ligue 1,Central Midfield,7000000,31100,7,2017,84,Transfermarkt; salaire estimation Capology
+FL1:512:43707:mama-balde,Mama Baldé,Stade Brestois 29,Ligue 1,Centre-Forward,4000000,22000,8,2024,84,Transfermarkt; salaire estimation Capology
+FL1:512:8778:kenny-lala,Kenny Lala,Stade Brestois 29,Ligue 1,Right-Back,2500000,16400,1,2023,84,Transfermarkt; salaire estimation Capology
+FL1:512:8465:lucas-tousart,Lucas Tousart,Stade Brestois 29,Ligue 1,Defensive Midfield,7000000,31100,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:512:856:romain-del-castillo,Romain Del Castillo,Stade Brestois 29,Ligue 1,Right Winger,10000000,38800,8,2021,84,Transfermarkt; salaire estimation Capology
+FL1:512:723:ludovic-ajorque,Ludovic Ajorque,Stade Brestois 29,Ligue 1,Centre-Forward,7000000,31100,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:512:441:brendan-chardonnet,Brendan Chardonnet,Stade Brestois 29,Ligue 1,Centre-Back,3500000,20200,7,2013,84,Transfermarkt; salaire estimation Capology
+FL1:516:6:geronimo-rulli,Géronimo Rulli,Olympique de Marseille,Ligue 1,Goalkeeper,6000000,37700,8,2024,84,Transfermarkt; salaire estimation Capology
+FL1:516:67880:jeffrey-de-lange,Jeffrey De Lange,Olympique de Marseille,Ligue 1,Goalkeeper,2500000,21900,8,2024,84,Transfermarkt; salaire estimation Capology
+FL1:516:130271:theo-vermot,Théo Vermot,Olympique de Marseille,Ligue 1,Goalkeeper,500000,3600,7,2025,45,estimation; salaire calibré Capology
+FL1:516:178114:jelle-van-neck,Jelle Van Neck,Olympique de Marseille,Ligue 1,Goalkeeper,300000,2600,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:516:46125:facundo-medina,Facundo Medina,Olympique de Marseille,Ligue 1,Defence,18000000,74500,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:516:81191:nayef-aguerd,Nayef Aguerd,Olympique de Marseille,Ligue 1,Defence,15000000,66600,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:516:82020:leonardo-balerdi,Leonardo Balerdi,Olympique de Marseille,Ligue 1,Defence,18000000,74500,7,2021,84,Transfermarkt; salaire estimation Capology
+FL1:516:288911:pladi-n-zinga-pambani,Pladi N'Zinga-Pambani,Olympique de Marseille,Ligue 1,Defence,300000,2600,7,2025,45,estimation; salaire calibré Capology
+FL1:516:289111:rayan-ouro-bang-na,Rayan Ouro Bang Na,Olympique de Marseille,Ligue 1,Defence,300000,2600,7,2025,45,estimation; salaire calibré Capology
+FL1:516:290991:anis-doubal,Anis Doubal,Olympique de Marseille,Ligue 1,Defence,300000,2600,7,2025,45,estimation; salaire calibré Capology
+FL1:516:294658:hilan-hamzaoui-slimani,Hilan Hamzaoui Slimani,Olympique de Marseille,Ligue 1,Defence,300000,2600,7,2025,45,estimation; salaire calibré Capology
+FL1:516:295070:kelyann-bezahaf,Kelyann Bezahaf,Olympique de Marseille,Ligue 1,Defence,300000,2600,7,2025,45,estimation; salaire calibré Capology
+FL1:516:97536:quinten-timber,Quinten Timber,Olympique de Marseille,Ligue 1,Midfield,25000000,114200,1,2026,84,Transfermarkt; salaire estimation Capology
+FL1:516:183544:tochukwu-nadi,Tochukwu Nadi,Olympique de Marseille,Ligue 1,Midfield,4500000,31600,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:516:294659:nouhoum-kamissoko,Nouhoum Kamissoko,Olympique de Marseille,Ligue 1,Midfield,2000000,19100,7,2025,45,estimation; salaire calibré Capology
+FL1:516:8476:amine-gouiri,Amine Gouiri,Olympique de Marseille,Ligue 1,Offence,28000000,122500,1,2025,84,Transfermarkt; salaire estimation Capology
+FL1:516:8492:tim-weah,Tim Weah,Olympique de Marseille,Ligue 1,Offence,20000000,99500,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:516:288624:tadjidine-m-madi,Tadjidine M'Madi,Olympique de Marseille,Ligue 1,Offence,300000,2600,7,2025,45,estimation; salaire calibré Capology
+FL1:516:289110:emmanuel-lago,Emmanuel Lago,Olympique de Marseille,Ligue 1,Offence,2500000,21900,7,2025,45,estimation; salaire calibré Capology
+FL1:516:289112:mathis-clement,Mathis Clement,Olympique de Marseille,Ligue 1,Offence,300000,2600,7,2025,45,estimation; salaire calibré Capology
+FL1:516:294660:ugo-lamare-el-kadmiri,Ugo Lamare El Kadmiri,Olympique de Marseille,Ligue 1,Offence,300000,2600,7,2025,45,estimation; salaire calibré Capology
+FL1:516:119703:igor-paixao,Igor Paixão,Olympique de Marseille,Ligue 1,Left Winger,35000000,140700,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:516:101075:mason-greenwood,Mason Greenwood,Olympique de Marseille,Ligue 1,Right Winger,55000000,186200,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:516:80754:himad-abdelli,Himad Abdelli,Olympique de Marseille,Ligue 1,Attacking Midfield,5000000,33700,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:516:33149:geoffrey-kondogbia,Geoffrey Kondogbia,Olympique de Marseille,Ligue 1,Defensive Midfield,3000000,24500,7,2023,84,Transfermarkt; salaire estimation Capology
+FL1:516:8093:pierre-emile-h-jbjerg,Pierre Emile Højbjerg,Olympique de Marseille,Ligue 1,Defensive Midfield,15000000,66600,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:516:7809:emerson,Emerson,Olympique de Marseille,Ligue 1,Left-Back,9000000,48500,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:516:7801:pierre-emerick-aubameyang,Pierre-Emerick Aubameyang,Olympique de Marseille,Ligue 1,Centre-Forward,2500000,21900,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:516:3364:benjamin-pavard,Benjamin Pavard,Olympique de Marseille,Ligue 1,Centre-Back,25000000,139808,9,2025,92,Transfermarkt; Capology
+FL1:516:2499:hamed-traore,Hamed Traoré,Olympique de Marseille,Ligue 1,Attacking Midfield,15000000,66600,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:516:188476:ethan-nwaneri,Ethan Nwaneri,Olympique de Marseille,Ligue 1,Attacking Midfield,35000000,140700,1,2026,84,Transfermarkt; salaire estimation Capology
+FL1:516:184146:arthur-vermeeren,Arthur Vermeeren,Olympique de Marseille,Ligue 1,Central Midfield,20000000,99500,1,2026,84,Transfermarkt; salaire estimation Capology
+FL1:516:179721:cj-egan-riley,CJ Egan-Riley,Olympique de Marseille,Ligue 1,Centre-Back,9000000,48500,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:516:170409:bilal-nadir,Bilal Nadir,Olympique de Marseille,Ligue 1,Central Midfield,4000000,29300,7,2021,84,Transfermarkt; salaire estimation Capology
+FL1:519:437:donovan-leon,Donovan Léon,AJ Auxerre,Ligue 1,Goalkeeper,800000,7100,7,2020,84,Transfermarkt; salaire estimation Capology
+FL1:519:157131:theo-de-percin,Théo De Percin,AJ Auxerre,Ligue 1,Goalkeeper,400000,2100,7,2019,84,Transfermarkt; salaire estimation Capology
+FL1:519:204236:tom-negrel,Tom Negrel,AJ Auxerre,Ligue 1,Goalkeeper,500000,2400,7,2025,45,estimation; salaire calibré Capology
+FL1:519:255520:louis-mezerette,Louis Mezerette,AJ Auxerre,Ligue 1,Goalkeeper,150000,1100,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:519:16340:gideon-mensah,Gideon Mensah,AJ Auxerre,Ligue 1,Defence,3000000,31538,8,2022,92,Transfermarkt; Capology
+FL1:519:124243:bryan-okoh,Bryan Okoh,AJ Auxerre,Ligue 1,Defence,4000000,19100,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:519:153924:marvin-senaya,Marvin Senaya,AJ Auxerre,Ligue 1,Defence,3000000,16000,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:519:185194:clement-akpa,Clement Akpa,AJ Auxerre,Ligue 1,Defence,9000000,31600,7,2021,84,Transfermarkt; salaire estimation Capology
+FL1:519:277960:telli-siwe,Telli Siwe,AJ Auxerre,Ligue 1,Defence,1000000,8100,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:519:281100:elikya-legros,Elikya Legros,AJ Auxerre,Ligue 1,Defence,150000,1100,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:519:286281:alvin-petit-dol,Alvin Petit Dol,AJ Auxerre,Ligue 1,Defence,150000,1100,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:519:286282:sacha-burek,Sacha Burek,AJ Auxerre,Ligue 1,Defence,300000,1700,7,2025,45,estimation; salaire calibré Capology
+FL1:519:289523:evan-diamalunda,Evan Diamalunda,AJ Auxerre,Ligue 1,Defence,300000,1700,7,2025,45,estimation; salaire calibré Capology
+FL1:519:8470:elisha-owusu,Elisha Owusu,AJ Auxerre,Ligue 1,Midfield,4000000,19100,1,2023,84,Transfermarkt; salaire estimation Capology
+FL1:519:281104:tidiane-devernois,Tidiane Devernois,AJ Auxerre,Ligue 1,Midfield,300000,1700,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:519:288623:yvan-zaddy,Yvan Zaddy,AJ Auxerre,Ligue 1,Midfield,300000,1700,7,2025,45,estimation; salaire calibré Capology
+FL1:519:290119:lamfia-dioubate,Lamfia Dioubaté,AJ Auxerre,Ligue 1,Midfield,300000,1700,7,2025,45,estimation; salaire calibré Capology
+FL1:519:4289:daniel-namaso,Daniel Namaso,AJ Auxerre,Ligue 1,Offence,6000000,24600,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:519:152737:josue-casimir,Josué Casimir,AJ Auxerre,Ligue 1,Offence,3000000,16000,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:519:286557:ryan-rodin,Ryan Rodin,AJ Auxerre,Ligue 1,Offence,300000,1700,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:519:289847:mamoudou-cissokho,Mamoudou Cissokho,AJ Auxerre,Ligue 1,Offence,300000,1700,7,2025,45,estimation; salaire calibré Capology
+FL1:519:170396:lasso-coulibaly,Lasso Coulibaly,AJ Auxerre,Ligue 1,Right Winger,800000,7100,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:519:154108:fredrik-oppegard,Fredrik Oppegard,AJ Auxerre,Ligue 1,Left-Back,1500000,10400,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:519:151552:sekou-mara,Sekou Mara,AJ Auxerre,Ligue 1,Centre-Forward,5000000,22000,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:519:141637:sinaly-diomande,Sinaly Diomandé,AJ Auxerre,Ligue 1,Centre-Back,6000000,24600,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:519:131752:naouirou-ahamada,Naouirou Ahamada,AJ Auxerre,Ligue 1,Central Midfield,3000000,16000,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:519:8762:romain-faivre,Romain Faivre,AJ Auxerre,Ligue 1,Right Midfield,4000000,19100,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:519:3631:assane-diousse,Assane Dioussé,AJ Auxerre,Ligue 1,Defensive Midfield,500000,2400,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:519:2402:francisco-sierralta,Francisco Sierralta,AJ Auxerre,Ligue 1,Centre-Back,1200000,9100,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:519:552:lassine-sinayoko,Lassine Sinayoko,AJ Auxerre,Ligue 1,Left Winger,10000000,33800,7,2017,84,Transfermarkt; salaire estimation Capology
+FL1:519:189237:nathan-buayi-kiala,Nathan Buayi-Kiala,AJ Auxerre,Ligue 1,Defensive Midfield,1000000,8100,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:519:177412:lamine-sy,Lamine Sy,AJ Auxerre,Ligue 1,Right-Back,2500000,14300,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:519:175724:kevin-danois,Kevin Danois,AJ Auxerre,Ligue 1,Central Midfield,20000000,64900,7,2022,84,Transfermarkt; salaire estimation Capology
+FL1:519:171286:oussama-el-azzouzi,Oussama El Azzouzi,AJ Auxerre,Ligue 1,Defensive Midfield,3000000,16000,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:521:8661:marc-aurele-caillard,Marc-Aurèle Caillard,Lille OSC,Ligue 1,Goalkeeper,500000,2400,7,2025,45,estimation; salaire calibré Capology
+FL1:521:9222:arnaud-bodart,Arnaud Bodart,Lille OSC,Ligue 1,Goalkeeper,1500000,10400,1,2025,84,Transfermarkt; salaire estimation Capology
+FL1:521:29890:berke-ozer,Berke Özer,Lille OSC,Ligue 1,Goalkeeper,10000000,33700,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:521:263520:samy-merzouk,Samy Merzouk,Lille OSC,Ligue 1,Goalkeeper,150000,1100,7,2025,45,estimation; salaire calibré Capology
+FL1:521:286970:thomas-sajous,Thomas Sajous,Lille OSC,Ligue 1,Goalkeeper,150000,1100,7,2025,45,estimation; salaire calibré Capology
+FL1:521:289914:zadig-lanssade,Zadig Lanssade,Lille OSC,Ligue 1,Goalkeeper,150000,1100,7,2025,45,estimation; salaire calibré Capology
+FL1:521:19:aissa-mandi,Aïssa Mandi,Lille OSC,Ligue 1,Defence,1000000,8100,8,2024,84,Transfermarkt; salaire estimation Capology
+FL1:521:3650:thomas-meunier,Thomas Meunier,Lille OSC,Ligue 1,Defence,2500000,14300,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:521:7918:chancel-mbemba,Chancel Mbemba,Lille OSC,Ligue 1,Defence,2000000,12400,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:521:192677:nathan-ngoy,Nathan Ngoy,Lille OSC,Ligue 1,Defence,25000000,74300,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:521:272041:morgan-costarelli,Morgan Costarelli,Lille OSC,Ligue 1,Defence,300000,1700,7,2025,45,estimation; salaire calibré Capology
+FL1:521:283794:maxima-goffi,Maxima Goffi,Lille OSC,Ligue 1,Defence,300000,1700,7,2025,45,estimation; salaire calibré Capology
+FL1:521:6503:nabil-bentaleb,Nabil Bentaleb,Lille OSC,Ligue 1,Midfield,4500000,20500,8,2023,84,Transfermarkt; salaire estimation Capology
+FL1:521:170451:marius-broholm,Marius Broholm,Lille OSC,Ligue 1,Midfield,5000000,21900,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:521:192666:ngal-ayel-mukau,Ngal'ayel Mukau,Lille OSC,Ligue 1,Midfield,15000000,43300,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:521:213221:hakon-haraldsson,Hákon Haraldsson,Lille OSC,Ligue 1,Midfield,25000000,74300,7,2023,84,Transfermarkt; salaire estimation Capology
+FL1:521:221819:ayyoub-bouaddi,Ayyoub Bouaddi,Lille OSC,Ligue 1,Midfield,50000000,114200,7,2023,84,Transfermarkt; salaire estimation Capology
+FL1:521:270794:younes-lachaab,Younes Lachaab,Lille OSC,Ligue 1,Midfield,300000,1700,7,2025,45,estimation; salaire calibré Capology
+FL1:521:290399:saad-boussadia,Saad Boussadia,Lille OSC,Ligue 1,Midfield,300000,1700,7,2025,45,estimation; salaire calibré Capology
+FL1:521:213511:matias-fernandez-pardo,Matias Fernandez-Pardo,Lille OSC,Ligue 1,Offence,35000000,91600,8,2024,84,Transfermarkt; salaire estimation Capology
+FL1:521:260879:hamza-igamane,Hamza Igamane,Lille OSC,Ligue 1,Offence,18000000,48500,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:521:275537:soriba-diaoune,Soriba Diaoune,Lille OSC,Ligue 1,Offence,4000000,19100,7,2024,72,Transfermarkt; salaire estimation Capology
+FL1:521:290432:angel-yondjo,Angel Yondjo,Lille OSC,Ligue 1,Offence,300000,1700,7,2025,45,estimation; salaire calibré Capology
+FL1:521:188087:tiago-santos,Tiago Santos,Lille OSC,Ligue 1,Right-Back,10000000,33700,7,2023,84,Transfermarkt; salaire estimation Capology
+FL1:521:186692:rafael-fernandes,Rafael Fernandes,Lille OSC,Ligue 1,Centre-Back,4000000,19100,1,2024,84,Transfermarkt; salaire estimation Capology
+FL1:521:185196:alexsandro-ribeiro,Alexsandro Ribeiro,Lille OSC,Ligue 1,Centre-Back,15000000,43300,7,2022,84,Transfermarkt; salaire estimation Capology
+FL1:521:127657:felix-correia,Félix Correia,Lille OSC,Ligue 1,Left Winger,10000000,33700,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:521:99722:osame-sahraoui,Osame Sahraoui,Lille OSC,Ligue 1,Left Winger,9000000,31600,8,2024,84,Transfermarkt; salaire estimation Capology
+FL1:521:9861:calvin-verdonk,Calvin Verdonk,Lille OSC,Ligue 1,Left-Back,2500000,14300,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:521:8811:benjamin-andre,Benjamin André,Lille OSC,Ligue 1,Defensive Midfield,3000000,87500,7,2019,92,Transfermarkt; Capology
+FL1:521:8435:romain-perraud,Romain Perraud,Lille OSC,Ligue 1,Left-Back,7000000,27000,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:521:3371:olivier-giroud,Olivier Giroud,Lille OSC,Ligue 1,Centre-Forward,900000,7600,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:521:914:gaetan-perrin,Gaëtan Perrin,Lille OSC,Ligue 1,Right Winger,5000000,21900,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:521:227765:lilian-baret,Lilian Baret,Lille OSC,Ligue 1,Defensive Midfield,300000,1700,7,2025,45,estimation; salaire calibré Capology
+FL1:521:218468:ethan-mbappe,Ethan Mbappé,Lille OSC,Ligue 1,Central Midfield,8000000,29300,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:521:216223:ousmane-toure,Ousmane Touré,Lille OSC,Ligue 1,Centre-Back,500000,2400,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:521:212975:noah-edjouma,Noah Edjouma,Lille OSC,Ligue 1,Right Winger,5000000,21900,7,2024,72,Transfermarkt; salaire estimation Capology
+FL1:522:8608:yehvann-diouf,Yehvann Diouf,OGC Nice,Ligue 1,Goalkeeper,7000000,50900,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:522:8686:maxime-dupe,Maxime Dupé,OGC Nice,Ligue 1,Goalkeeper,500000,4500,7,2025,58,estimation; salaire calibré Capology
+FL1:522:273765:bartosz-zelazowski,Bartosz Żelazowski,OGC Nice,Ligue 1,Goalkeeper,500000,4500,7,2025,45,estimation; salaire calibré Capology
+FL1:522:283103:theo-bruyere,Théo Bruyère,OGC Nice,Ligue 1,Goalkeeper,150000,2100,7,2025,45,estimation; salaire calibré Capology
+FL1:522:291041:matys-youst,Matys Youst,OGC Nice,Ligue 1,Goalkeeper,150000,2100,7,2025,45,estimation; salaire calibré Capology
+FL1:522:99394:ali-el-abdi,Ali El Abdi,OGC Nice,Ligue 1,Defence,2000000,23400,7,2024,84,Transfermarkt; salaire estimation Capology
+FL1:522:168667:antoine-mendy,Antoine Mendy,OGC Nice,Ligue 1,Defence,10000000,63400,7,2023,84,Transfermarkt; salaire estimation Capology
+FL1:522:192153:moise-bombito,Moise Bombito,OGC Nice,Ligue 1,Defence,7000000,50900,8,2024,84,Transfermarkt; salaire estimation Capology
+FL1:522:202896:kojo-peprah-oppong,Kojo Peprah Oppong,OGC Nice,Ligue 1,Defence,10000000,63400,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:522:245563:mohamed-abdelmonem,Mohamed Abdelmonem,OGC Nice,Ligue 1,Defence,2500000,26900,8,2024,84,Transfermarkt; salaire estimation Capology
+FL1:522:274450:mousslim-youssouf,Mousslim Youssouf,OGC Nice,Ligue 1,Defence,300000,3200,7,2025,45,estimation; salaire calibré Capology
+FL1:522:288893:brad-mantsounga,Brad Mantsounga,OGC Nice,Ligue 1,Defence,300000,3200,7,2025,45,estimation; salaire calibré Capology
+FL1:522:290656:kayyum-alabi,Kayyum Alabi,OGC Nice,Ligue 1,Defence,300000,3200,7,2025,45,estimation; salaire calibré Capology
+FL1:522:291818:yanis-sofikitis,Yanis Sofikitis,OGC Nice,Ligue 1,Defence,300000,3200,7,2025,45,estimation; salaire calibré Capology
+FL1:522:16990:charles-vanhoutte,Charles Vanhoutte,OGC Nice,Ligue 1,Midfield,8000000,55200,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:522:98601:isak-jansson,Isak Jansson,OGC Nice,Ligue 1,Midfield,4000000,35900,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:522:123508:hicham-boudaoui,Hicham Boudaoui,OGC Nice,Ligue 1,Midfield,12000000,71000,9,2019,84,Transfermarkt; salaire estimation Capology
+FL1:522:246041:abdulay-bah,Abdulay Bah,OGC Nice,Ligue 1,Midfield,300000,3200,7,2025,45,estimation; salaire calibré Capology
+FL1:522:273126:everton-pereira,Everton Pereira,OGC Nice,Ligue 1,Midfield,2000000,23400,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:522:273127:laurenzo-monteiro,Laurenzo Monteiro,OGC Nice,Ligue 1,Midfield,300000,3200,7,2025,45,estimation; salaire calibré Capology
+FL1:522:273766:djibril-coulibaly,Djibril Coulibaly,OGC Nice,Ligue 1,Midfield,1000000,15200,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:522:290118:millan-brignone,Millan Brignone,OGC Nice,Ligue 1,Midfield,300000,3200,7,2025,45,estimation; salaire calibré Capology
+FL1:522:156808:sepe-elye-wahi,Sepe Elye Wahi,OGC Nice,Ligue 1,Offence,2500000,26900,7,2025,45,estimation; salaire calibré Capology
+FL1:522:180180:kevin-carlos,Kevin Carlos,OGC Nice,Ligue 1,Offence,4000000,35900,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:522:213270:mohamed-cho,Mohamed Cho,OGC Nice,Ligue 1,Offence,15000000,81600,1,2024,84,Transfermarkt; salaire estimation Capology
+FL1:522:249675:zoumana-diallo,Zoumana Diallo,OGC Nice,Ligue 1,Offence,2500000,26900,7,2025,45,estimation; salaire calibré Capology
+FL1:522:279671:gabin-bernardeau,Gabin Bernardeau,OGC Nice,Ligue 1,Offence,1200000,17000,7,2025,72,Transfermarkt; salaire estimation Capology
+FL1:522:288892:enguerrand-bouard,Enguerrand Bouard,OGC Nice,Ligue 1,Offence,300000,3200,7,2025,45,estimation; salaire calibré Capology
+FL1:522:291042:jah-mason-telusson,Jah-Mason Telusson,OGC Nice,Ligue 1,Offence,300000,3200,7,2025,45,estimation; salaire calibré Capology
+FL1:522:291819:kefren-ali,Kéfren Ali,OGC Nice,Ligue 1,Offence,300000,3200,7,2025,45,estimation; salaire calibré Capology
+FL1:522:172057:youssouf-ndayishimiye,Youssouf Ndayishimiye,OGC Nice,Ligue 1,Centre-Back,7000000,50900,1,2023,84,Transfermarkt; salaire estimation Capology
+FL1:522:136721:melvin-bard,Melvin Bard,OGC Nice,Ligue 1,Left-Back,10000000,63400,7,2021,84,Transfermarkt; salaire estimation Capology
+FL1:522:133573:tiago-gouveia,Tiago Gouveia,OGC Nice,Ligue 1,Right Winger,6000000,46200,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:522:123206:salis-abdul-samed,Salis Abdul Samed,OGC Nice,Ligue 1,Defensive Midfield,4000000,35900,7,2025,84,Transfermarkt; salaire estimation Capology
+FL1:522:76723:sofiane-diop,Sofiane Diop,OGC Nice,Ligue 1,Left Winger,15000000,81600,8,2022,84,Transfermarkt; salaire estimation Capology
+FL1:522:8469:tanguy-ndombele,Tanguy Ndombèlé,OGC Nice,Ligue 1,Central Midfield,5000000,104808,7,2024,92,Transfermarkt; Capology
+FL1:522:8425:dante,Dante,OGC Nice,Ligue 1,Centre-Back,500000,4500,8,2016,84,Transfermarkt; salaire estimation Capology
+FL1:522:8355:morgan-sanson,Morgan Sanson,OGC Nice,Ligue 1,Central Midfield,3500000,33100,7,2023,84,Transfermarkt; salaire estimation Capology

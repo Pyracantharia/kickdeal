@@ -1,0 +1,131 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\Agent;
+use App\Entity\Player;
+use App\Entity\Team;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+
+/**
+ * @extends ServiceEntityRepository<Player>
+ */
+class PlayerRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Player::class);
+    }
+
+    /**
+     * @return Player[]
+     */
+    public function findAllWithRelations(): array
+    {
+        return $this->createQueryBuilder('player')
+            ->leftJoin('player.team', 'team')
+            ->leftJoin('player.agent', 'agent')
+            ->addSelect('team', 'agent')
+            ->orderBy('player.lastName', 'ASC')
+            ->addOrderBy('player.firstName', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Player[]
+     */
+    public function findRosterForTeam(Team $team): array
+    {
+        return $this->createQueryBuilder('player')
+            ->leftJoin('player.team', 'team')
+            ->leftJoin('player.agent', 'agent')
+            ->addSelect('team', 'agent')
+            ->andWhere('player.team = :team')
+            ->setParameter('team', $team)
+            ->orderBy('player.position', 'ASC')
+            ->addOrderBy('player.lastName', 'ASC')
+            ->addOrderBy('player.firstName', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function findDistinctPositions(): array
+    {
+        $rows = $this->createQueryBuilder('player')
+            ->select('DISTINCT player.position AS position')
+            ->andWhere('player.position IS NOT NULL')
+            ->andWhere('player.position != :empty')
+            ->setParameter('empty', '')
+            ->orderBy('player.position', 'ASC')
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_values(array_filter(array_map(
+            static fn (array $row): ?string => isset($row['position']) ? (string) $row['position'] : null,
+            $rows,
+        )));
+    }
+
+    /**
+     * @return Player[]
+     */
+    public function findRepresentedByAgent(Agent $agent, ?int $limit = null): array
+    {
+        $queryBuilder = $this->createQueryBuilder('player')
+            ->leftJoin('player.team', 'team')
+            ->addSelect('team')
+            ->andWhere('player.agent = :agent')
+            ->setParameter('agent', $agent)
+            ->orderBy('player.updatedAt', 'DESC')
+            ->addOrderBy('player.lastName', 'ASC');
+
+        if (null !== $limit) {
+            $queryBuilder->setMaxResults($limit);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    /**
+     * @return Player[]
+     */
+    public function searchAvailableForAgent(string $query = '', int $limit = 30, ?Agent $requestingAgent = null): array
+    {
+        $queryBuilder = $this->createQueryBuilder('player')
+            ->leftJoin('player.team', 'team')
+            ->leftJoin('player.agent', 'agent')
+            ->addSelect('team', 'agent')
+            ->orderBy('player.lastName', 'ASC')
+            ->addOrderBy('player.firstName', 'ASC')
+            ->setMaxResults($limit);
+
+        if ($requestingAgent instanceof Agent) {
+            $queryBuilder
+                ->andWhere('player.agent IS NULL OR player.agent != :requestingAgent')
+                ->setParameter('requestingAgent', $requestingAgent);
+        } else {
+            $queryBuilder->andWhere('player.agent IS NULL');
+        }
+
+        if ('' !== trim($query)) {
+            $normalizedQuery = '%'.mb_strtolower(trim($query)).'%';
+            $queryBuilder
+                ->andWhere(
+                    $queryBuilder->expr()->orX(
+                        'LOWER(player.firstName) LIKE :query',
+                        'LOWER(player.lastName) LIKE :query',
+                        'LOWER(CONCAT(player.firstName, \' \', player.lastName)) LIKE :query',
+                        'LOWER(team.name) LIKE :query'
+                    )
+                )
+                ->setParameter('query', $normalizedQuery);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+}
