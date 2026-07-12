@@ -11,6 +11,7 @@ parameters:
     mailer_from: '%env(MAILER_FROM)%'
     google_oauth_client_id: '%env(GOOGLE_OAUTH_CLIENT_ID)%'
     google_oauth_client_secret: '%env(GOOGLE_OAUTH_CLIENT_SECRET)%'
+    google_oauth_redirect_uri: '%env(default::GOOGLE_OAUTH_REDIRECT_URI)%'
 
 services:
     # default configuration for services in *this* file
@@ -58,6 +59,7 @@ services:
             $clientId: '%google_oauth_client_id%'
             $clientSecret: '%google_oauth_client_secret%'
             $frontendUrl: '%frontend_url%'
+            $redirectUri: '%google_oauth_redirect_uri%'
 
 when@test:
     services:
