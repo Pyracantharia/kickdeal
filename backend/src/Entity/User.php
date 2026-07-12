@@ -101,6 +101,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 30, nullable: true, enumType: SubscriptionPlanEnum::class)]
     private ?SubscriptionPlanEnum $subscriptionPlan = null;
 
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    private ?string $googleId = null;
+
     #[ORM\Column(type: 'json', nullable: true)]
     private ?array $subscriptionLimitsOverrides = null;
 
@@ -461,6 +464,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getGoogleId(): ?string { return $this->googleId; }
+    public function setGoogleId(?string $googleId): static { $this->googleId = $googleId; return $this; }
+    #[Groups('user:read')]
+    public function isGoogleConnected(): bool { return null !== $this->googleId; }
 
     public function getSubscriptionLimitsOverrides(): ?array
     {

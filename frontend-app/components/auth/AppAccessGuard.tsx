@@ -37,6 +37,7 @@ function AppAccessGuard({ children }: { children: ReactNode }) {
   const mustChangeExpiredPassword =
     !isLoading &&
     Boolean(user?.passwordExpired) &&
+    !user?.googleConnected &&
     pathname !== '/account'
 
   const isBanned = !isLoading && Boolean(user?.banned)
