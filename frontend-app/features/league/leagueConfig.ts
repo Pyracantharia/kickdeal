@@ -14,7 +14,7 @@ type LeagueDisplayConfig = {
 export const LEAGUE_CONFIG: Record<string, LeagueDisplayConfig> = {
   'Ligue 1': {
     displayName: 'Ligue 1',
-    logoUrl: '/images/leagues/logo-ligue1.svg',
+    logoUrl: '/images/leagues/logo-ligue1.png',
     countryId: 'France',
     countryName: 'France',
     countryFlag: 'FR',
