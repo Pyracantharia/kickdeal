@@ -47,7 +47,7 @@ Le correcteur aura le .env à mettre à la racine du projet avec les vraies vale
 Docker va récupérer les valeurs du .env et va les dispatcher dans les différents container.
 
 ```bash
-# le correcteur doit à remplacer le .env racine par le .env du livrable
+# le correcteur doit remplacer le .env racine par le .env du livrable
 cp frontend-app/.env.example frontend-app/.env.local
 ```
 
@@ -96,9 +96,13 @@ Pour stopper les services, utiliser `make stop`.
 
 ## Services externes
 
-### Stripe
+### Stripe - OPTIONEL 
 
 Créer les tarifs récurrents nécessaires, puis reporter les identifiants `price_...` et les clés de test dans `.env`. Pour recevoir les webhooks en local :
+
+Prerequis : installer le client stripe et aussi avoir un compte stripe
+
+Doc stripe : https://docs.stripe.com/stripe-cli/install
 
 ```bash
 stripe listen --forward-to http://localhost:8000/api/webhooks/stripe
@@ -184,3 +188,9 @@ NEXT_PUBLIC_API_URL=https://api.kickdeal.space/api
 NEXT_PUBLIC_LANDING_URL=https://kickdeal.space
 ```
 
+
+## Application KickDeal Feed (mobile-feed) xcode ios
+
+Prerequis : Mac os
+
+Se réferrer au readme dans mobile-feed/README.md afin de build kickdeal feed sur un iphone grace a xcode 
