@@ -7,6 +7,7 @@ use App\Entity\Contract\ContractNegociation;
 use App\Entity\Contract\ContractOffer;
 use App\Entity\Player;
 use App\Entity\Team;
+use App\Entity\Transfer\TransferOffer;
 use App\Entity\User;
 use App\Enum\ContractNegotiationTypeEnum;
 use App\Enum\OfferStatusEnum;
@@ -716,7 +717,7 @@ final class ContractNegotiationController extends AbstractController
         ];
     }
 
-    private function findAcceptedTransferOffer(ContractNegociation $negociation): ?\App\Entity\Transfer\TransferOffer
+    private function findAcceptedTransferOffer(ContractNegociation $negociation): ?TransferOffer
     {
         foreach ($negociation->getTransferNegociation()?->getTransferOffers() ?? [] as $offer) {
             if (OfferStatusEnum::ACCEPTED === $offer->getStatus()) {

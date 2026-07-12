@@ -179,23 +179,6 @@ final class ListingController extends AbstractController
         return null;
     }
 
-    private function serializeListing(Listing $listing): array
-    {
-        $player = $listing->getPlayer();
-
-        return [
-            'id' => $listing->getId()?->toRfc4122(),
-            'playerId' => $player?->getId()?->toRfc4122(),
-            'addedDate' => $listing->getCreatedAt()?->format('Y-m-d') ?? '',
-            'transferType' => $listing->getTransferType()?->value,
-            'status' => $listing->getStatus()?->value,
-            'askingPrice' => null !== $listing->getAskingPrice()
-                ? $this->formatMoney($listing->getAskingPrice())
-                : null,
-            'player' => $player ? $this->serializePlayer($player) : null,
-        ];
-    }
-
     private function serializeTarget(TransferTarget $target, ListingRepository $listingRepository): array
     {
         $player = $target->getPlayer();

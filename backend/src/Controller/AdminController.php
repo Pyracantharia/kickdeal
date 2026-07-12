@@ -8,6 +8,7 @@ use App\Entity\Agent;
 use App\Entity\MessageReport;
 use App\Entity\Player;
 use App\Entity\PlayerAgentRequest;
+use App\Entity\Team;
 use App\Entity\TeamMembership;
 use App\Entity\User;
 use App\Enum\ClubRequestStatusEnum;
@@ -623,7 +624,7 @@ final class AdminController extends AbstractController
             sourceType: 'club_request',
             sourceId: $clubRequest->getId()?->toRfc4122(),
         );
-        if ($clubRequest->getRequester() instanceof User && $clubRequest->getTeam() instanceof \App\Entity\Team) {
+        if ($clubRequest->getRequester() instanceof User && $clubRequest->getTeam() instanceof Team) {
             $transactionalMailer->sendClubRequestDecision($clubRequest->getRequester(), $clubRequest->getTeam(), true);
         }
 
@@ -900,7 +901,7 @@ final class AdminController extends AbstractController
             sourceType: 'club_request',
             sourceId: $clubRequest->getId()?->toRfc4122(),
         );
-        if ($clubRequest->getRequester() instanceof User && $clubRequest->getTeam() instanceof \App\Entity\Team) {
+        if ($clubRequest->getRequester() instanceof User && $clubRequest->getTeam() instanceof Team) {
             $transactionalMailer->sendClubRequestDecision($clubRequest->getRequester(), $clubRequest->getTeam(), false);
         }
 
@@ -1067,11 +1068,11 @@ final class AdminController extends AbstractController
             'decidedAt' => $report->getDecidedAt()?->format(DATE_ATOM),
             'banUntil' => $report->getBanUntil()?->format(DATE_ATOM),
             'message' => $report->getMessage() ? [
-                'id' => $report->getMessage()?->getId()?->toRfc4122(),
-                'createdAt' => $report->getMessage()?->getCreatedAt()?->format(DATE_ATOM),
+                'id' => $report->getMessage()->getId()?->toRfc4122(),
+                'createdAt' => $report->getMessage()->getCreatedAt()?->format(DATE_ATOM),
             ] : null,
             'conversation' => $report->getConversation() ? [
-                'id' => $report->getConversation()?->getId()?->toRfc4122(),
+                'id' => $report->getConversation()->getId()?->toRfc4122(),
             ] : null,
             'reporter' => $report->getReporter() instanceof User ? $this->serializeModerationUser($report->getReporter()) : null,
             'reportedUser' => $report->getReportedUser() instanceof User ? $this->serializeModerationUser($report->getReportedUser()) : null,
@@ -1176,11 +1177,11 @@ final class AdminController extends AbstractController
                 'contractStatus' => $player?->getContractStatus()?->value,
                 'marketStatus' => $player?->getMarketStatus()?->value,
                 'team' => $player?->getTeam() ? [
-                    'id' => $player->getTeam()?->getId()?->toRfc4122(),
-                    'name' => $player->getTeam()?->getName(),
-                    'country' => $player->getTeam()?->getCountry(),
-                    'league' => $player->getTeam()?->getLeague(),
-                    'logoUrl' => $player->getTeam()?->getLogoUrl(),
+                    'id' => $player->getTeam()->getId()?->toRfc4122(),
+                    'name' => $player->getTeam()->getName(),
+                    'country' => $player->getTeam()->getCountry(),
+                    'league' => $player->getTeam()->getLeague(),
+                    'logoUrl' => $player->getTeam()->getLogoUrl(),
                 ] : null,
             ],
             'requestingAgent' => $requestingAgent ? [
@@ -1189,10 +1190,10 @@ final class AdminController extends AbstractController
                 'email' => $requestingAgent->getUser()?->getEmail(),
                 'country' => $requestingAgent->getCountry(),
                 'user' => $requestingAgent->getUser() ? [
-                    'id' => $requestingAgent->getUser()?->getId()?->toRfc4122(),
-                    'firstName' => $requestingAgent->getUser()?->getFirstName(),
-                    'lastName' => $requestingAgent->getUser()?->getLastName(),
-                    'phone' => $requestingAgent->getUser()?->getPhone(),
+                    'id' => $requestingAgent->getUser()->getId()?->toRfc4122(),
+                    'firstName' => $requestingAgent->getUser()->getFirstName(),
+                    'lastName' => $requestingAgent->getUser()->getLastName(),
+                    'phone' => $requestingAgent->getUser()->getPhone(),
                 ] : null,
             ] : null,
             'currentAgent' => $currentAgent ? [
@@ -1201,10 +1202,10 @@ final class AdminController extends AbstractController
                 'email' => $currentAgent->getUser()?->getEmail(),
                 'country' => $currentAgent->getCountry(),
                 'user' => $currentAgent->getUser() ? [
-                    'id' => $currentAgent->getUser()?->getId()?->toRfc4122(),
-                    'firstName' => $currentAgent->getUser()?->getFirstName(),
-                    'lastName' => $currentAgent->getUser()?->getLastName(),
-                    'phone' => $currentAgent->getUser()?->getPhone(),
+                    'id' => $currentAgent->getUser()->getId()?->toRfc4122(),
+                    'firstName' => $currentAgent->getUser()->getFirstName(),
+                    'lastName' => $currentAgent->getUser()->getLastName(),
+                    'phone' => $currentAgent->getUser()->getPhone(),
                 ] : null,
             ] : null,
         ];

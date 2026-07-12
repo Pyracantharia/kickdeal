@@ -216,7 +216,7 @@ class NotificationService
             'metadata' => $notification->getMetadata(),
             'createdAt' => $notification->getCreatedAt()?->format(DATE_ATOM),
             'actor' => $notification->getActor() instanceof User ? [
-                'id' => $notification->getActor()?->getId()?->toRfc4122(),
+                'id' => $notification->getActor()->getId()?->toRfc4122(),
                 'name' => $this->userDisplayName($notification->getActor()),
             ] : null,
         ];
