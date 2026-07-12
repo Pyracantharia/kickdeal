@@ -29,6 +29,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -80,6 +81,7 @@ final class AuthController extends AbstractController
         TransferClubInvitationRepository $transferClubInvitationRepository,
         ClubRequestRepository $clubRequestRepository,
         ContractNegotiationWorkflow $contractNegotiationWorkflow,
+        TokenStorageInterface $tokens,
     ): JsonResponse {
         if ($csrfError = $this->validateCsrfToken($request, $csrfTokenManager)) {
             return $csrfError;
@@ -93,10 +95,29 @@ final class AuthController extends AbstractController
             ], 400);
         }
 
+        $isGoogleSignup = true === ($payload['googleSignup'] ?? false);
+        $googleProfile = null;
+
+        if ($isGoogleSignup) {
+            $storedGoogleProfile = $request->getSession()->get('google_register_profile');
+
+            if (!is_array($storedGoogleProfile) || !is_string($storedGoogleProfile['sub'] ?? null) || !is_string($storedGoogleProfile['email'] ?? null)) {
+                return $this->json([
+                    'errorMessage' => 'Session Google expirée. Veuillez relancer l’inscription avec Google.',
+                ], 422);
+            }
+
+            $googleProfile = $storedGoogleProfile;
+            $payload['email'] = strtolower($googleProfile['email']);
+            $payload['firstName'] = $this->requiredString($payload['firstName'] ?? null) ?? (string) ($googleProfile['firstName'] ?? '');
+            $payload['lastName'] = $this->requiredString($payload['lastName'] ?? null) ?? (string) ($googleProfile['lastName'] ?? '');
+            $payload['password'] = bin2hex(random_bytes(32));
+        }
+
         $password = $payload['password'] ?? null;
         $passwordConfirmation = $payload['confirmation'] ?? null;
 
-        if (!is_string($passwordConfirmation) || '' === $passwordConfirmation) {
+        if (!$isGoogleSignup && (!is_string($passwordConfirmation) || '' === $passwordConfirmation)) {
             return $this->json([
                 'errors' => [
                     'confirmation' => 'La confirmation du mot de passe est requise.',
@@ -104,7 +125,7 @@ final class AuthController extends AbstractController
             ], 422);
         }
 
-        if (!is_string($password) || $password !== $passwordConfirmation) {
+        if (!$isGoogleSignup && (!is_string($password) || $password !== $passwordConfirmation)) {
             return $this->json([
                 'errors' => [
                     'confirmation' => 'Les mots de passe ne correspondent pas.',
@@ -127,6 +148,18 @@ final class AuthController extends AbstractController
         );
 
         $isAgentAccount = in_array(User::ROLE_AGENT, $newUser->getRoles(), true);
+
+        if ($isGoogleSignup && is_array($googleProfile)) {
+            $expectedAgentAccount = 'agent' === ($googleProfile['accountType'] ?? null);
+
+            if ($isAgentAccount !== $expectedAgentAccount) {
+                return $this->json([
+                    'errorMessage' => 'Le type de compte ne correspond pas à l’inscription Google démarrée.',
+                ], 422);
+            }
+
+            $newUser->setGoogleId((string) $googleProfile['sub']);
+        }
 
         if (isset($payload['subscriptionPlan'])) {
             $subscriptionPlan = is_string($payload['subscriptionPlan']) ? SubscriptionPlanEnum::tryFrom($payload['subscriptionPlan']) : null;
@@ -165,7 +198,7 @@ final class AuthController extends AbstractController
             return $this->json(['errors' => $errorsArr], 422);
         }
 
-        if (!$passwordPolicy->isValid($newUser->getPassword())) {
+        if (!$isGoogleSignup && !$passwordPolicy->isValid($newUser->getPassword())) {
             return $this->json([
                 'errors' => [
                     'password' => PasswordPolicy::MESSAGE,
@@ -227,6 +260,10 @@ final class AuthController extends AbstractController
             }
 
             $entityManager->flush();
+            if ($isGoogleSignup) {
+                $request->getSession()->remove('google_register_profile');
+                $tokens->setToken(new UsernamePasswordToken($newUser, 'main', $newUser->getRoles()));
+            }
         } catch (UniqueConstraintViolationException $exception) {
             return $this->json([
                 'errors' => [
@@ -242,6 +279,17 @@ final class AuthController extends AbstractController
     }
 
     private function optionalString(mixed $value): ?string
+    {
+        if (!is_string($value)) {
+            return null;
+        }
+
+        $trimmedValue = trim($value);
+
+        return '' === $trimmedValue ? null : $trimmedValue;
+    }
+
+    private function requiredString(mixed $value): ?string
     {
         if (!is_string($value)) {
             return null;

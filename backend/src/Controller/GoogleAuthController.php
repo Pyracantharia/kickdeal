@@ -42,11 +42,36 @@ final class GoogleAuthController extends AbstractController
             $profile=$http->request('GET','https://openidconnect.googleapis.com/v1/userinfo',['auth_bearer'=>$token['access_token']??''])->toArray();
         } catch (\Throwable) { return $this->failure('provider_error'); }
         if (($profile['email_verified']??false)!==true||!is_string($profile['email']??null)||!is_string($profile['sub']??null)) return $this->failure('unverified_email');
-        $user=$users->findOneBy(['googleId'=>$profile['sub']])??$users->findOneBy(['email'=>strtolower($profile['email'])]);
+        $email = strtolower($profile['email']);
+        $user=$users->findOneBy(['googleId'=>$profile['sub']])??$users->findOneBy(['email'=>$email]);
         if (!$user instanceof User && 'register'!==($flow['mode']??null)) return $this->failure('account_not_found');
+        if (!$user instanceof User && 'register'===($flow['mode']??null)) {
+            $names=preg_split('/\s+/',trim((string)($profile['name']??'')),2);
+            $firstName=(string)($profile['given_name']??$names[0]??'');
+            $lastName=(string)($profile['family_name']??$names[1]??'');
+            $accountType='agent'===($flow['accountType']??null)?'agent':'club';
+            $request->getSession()->set('google_register_profile', [
+                'sub' => $profile['sub'],
+                'email' => $email,
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'accountType' => $accountType,
+            ]);
+
+            $path = 'agent' === $accountType ? '/auth/register/manager' : '/auth/register/club';
+            $query = http_build_query([
+                'google_signup' => '1',
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'email' => $email,
+            ]);
+
+            return new RedirectResponse($this->frontendUrl.$path.'?'.$query);
+        }
+        if ($user instanceof User && 'register'===($flow['mode']??null)) return $this->failure('account_exists');
         if (!$user instanceof User) {
             $agent='agent'===($flow['accountType']??null);$names=preg_split('/\s+/',trim((string)($profile['name']??'')),2);
-            $user=(new User())->setFirstName((string)($profile['given_name']??$names[0]??'Utilisateur'))->setLastName((string)($profile['family_name']??$names[1]??'Google'))->setEmail(strtolower($profile['email']))->setRoles([$agent?User::ROLE_AGENT:User::ROLE_CLUB])->setSubscriptionPlan($agent?SubscriptionPlanEnum::AGENT_FREE:SubscriptionPlanEnum::CLUB_FREE)->setPassword(password_hash(bin2hex(random_bytes(32)), PASSWORD_DEFAULT));$user->markPasswordChanged();
+            $user=(new User())->setFirstName((string)($profile['given_name']??$names[0]??'Utilisateur'))->setLastName((string)($profile['family_name']??$names[1]??'Google'))->setEmail($email)->setRoles([$agent?User::ROLE_AGENT:User::ROLE_CLUB])->setSubscriptionPlan($agent?SubscriptionPlanEnum::AGENT_FREE:SubscriptionPlanEnum::CLUB_FREE)->setPassword(password_hash(bin2hex(random_bytes(32)), PASSWORD_DEFAULT));$user->markPasswordChanged();
             $em->persist($user);if($agent){$agentProfile=(new Agent())->setUser($user)->setAgencyName(trim($user->getFirstName().' '.$user->getLastName()));$user->setAgentProfile($agentProfile);$em->persist($agentProfile);}
         }
         $user->setGoogleId($profile['sub']);$em->flush();$tokens->setToken(new UsernamePasswordToken($user,'main',$user->getRoles()));

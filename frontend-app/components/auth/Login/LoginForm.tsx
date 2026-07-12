@@ -29,6 +29,21 @@ function LoginForm() {
   const [errors, setErrors] = React.useState<LoginFormErrors>({})
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const googleError = params.get('google_error')
+
+    if (!googleError) {
+      return
+    }
+
+    setErrors({ root: getGoogleAuthErrorMessage(googleError) })
+    params.delete('google_error')
+
+    const nextQuery = params.toString()
+    window.history.replaceState(null, '', `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ''}`)
+  }, [])
+
   function updateField(field: keyof LoginFormData, value: string) {
     setFormData((current) => ({
       ...current,
@@ -233,6 +248,25 @@ function getLoginErrorMessage(message: string): string {
   }
 
   return message
+}
+
+function getGoogleAuthErrorMessage(error: string): string {
+  switch (error) {
+    case 'account_exists':
+      return "Un compte KickDeal existe deja avec cette adresse Google. Connectez-vous plutot avec Google."
+    case 'account_not_found':
+      return "Aucun compte KickDeal n'est associe a cette adresse Google. Creez d'abord un compte ou utilisez un autre compte Google."
+    case 'invalid_state':
+      return 'La session Google a expire. Veuillez reessayer.'
+    case 'not_configured':
+      return 'La connexion avec Google est indisponible pour le moment.'
+    case 'provider_error':
+      return 'Google ne repond pas pour le moment. Veuillez reessayer.'
+    case 'unverified_email':
+      return "L'adresse email de ce compte Google n'est pas verifiee."
+    default:
+      return 'Connexion Google impossible. Veuillez reessayer.'
+  }
 }
 
 export default LoginForm
