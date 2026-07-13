@@ -12,11 +12,31 @@ function isLocalApiHost(hostname: string): boolean {
   return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
 }
 
+function normalizeApiPath(pathname: string): string {
+  const normalizedPath = pathname.replace(/\/$/, "");
+
+  if (!normalizedPath || normalizedPath === "") {
+    return "/api";
+  }
+
+  if (normalizedPath.endsWith("/api")) {
+    return normalizedPath;
+  }
+
+  return `${normalizedPath}/api`;
+}
+
 export function getApiUrl(): string {
   const configuredApiUrl = process.env.NEXT_PUBLIC_API_URL || DEFAULT_API_URL;
 
   if (typeof window === "undefined") {
-    return configuredApiUrl.replace(/\/$/, "");
+    try {
+      const url = new URL(configuredApiUrl);
+      url.pathname = normalizeApiPath(url.pathname);
+      return url.toString().replace(/\/$/, "");
+    } catch {
+      return configuredApiUrl.replace(/\/$/, "");
+    }
   }
 
   try {
@@ -25,6 +45,8 @@ export function getApiUrl(): string {
     if (window.location.protocol === "https:" && url.protocol === "http:" && !isLocalApiHost(url.hostname)) {
       url.protocol = "https:";
     }
+
+    url.pathname = normalizeApiPath(url.pathname);
 
     return url.toString().replace(/\/$/, "");
   } catch {
