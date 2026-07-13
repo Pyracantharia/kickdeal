@@ -6,13 +6,39 @@ interface HttpClientResponse<T>{
 
 type JsonPayload = Record<string, unknown> | null;
 
+const DEFAULT_API_URL = "http://localhost:8000/api";
+
+function isLocalApiHost(hostname: string): boolean {
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
+}
+
+export function getApiUrl(): string {
+  const configuredApiUrl = process.env.NEXT_PUBLIC_API_URL || DEFAULT_API_URL;
+
+  if (typeof window === "undefined") {
+    return configuredApiUrl.replace(/\/$/, "");
+  }
+
+  try {
+    const url = new URL(configuredApiUrl, window.location.origin);
+
+    if (window.location.protocol === "https:" && url.protocol === "http:" && !isLocalApiHost(url.hostname)) {
+      url.protocol = "https:";
+    }
+
+    return url.toString().replace(/\/$/, "");
+  } catch {
+    return configuredApiUrl.replace(/\/$/, "");
+  }
+}
+
 class HttpClient {
   private apiUrl: string;
   private csrfToken: string | null;
   private csrfTokenPromise: Promise<string> | null;
 
   constructor() {
-    this.apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+    this.apiUrl = getApiUrl();
     this.csrfToken = null;
     this.csrfTokenPromise = null;
   }

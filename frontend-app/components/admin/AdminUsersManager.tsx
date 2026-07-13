@@ -171,7 +171,7 @@ function AdminUsersManager() {
     }
   }
 
-  async function startSupport(){if(!supportUser)return;setIsSaving(true);setErrorMessage(null);try{const response=await authManager.startSupportSession(supportUser.email);if(!response.ok||!response.data.active){setErrorMessage(readError(response.data,'Impossible d’ouvrir le mode support.'));return}window.location.assign('/dashboard')}catch{setErrorMessage('Impossible d’ouvrir le mode support.')}finally{setIsSaving(false)}}
+  async function startSupport(){if(!supportUser)return;setIsSaving(true);setErrorMessage(null);try{const response=await authManager.startSupportSession(supportUser.email);if(!response.ok||!response.data.active){setErrorMessage(readError(response.data,'Impossible d’ouvrir le mode support.'));setIsSaving(false);return}window.location.assign('/dashboard')}catch{setErrorMessage('Impossible d’ouvrir le mode support.');setIsSaving(false)}}
 
   async function handleUnban(userId: string) {
     setIsSaving(true);
