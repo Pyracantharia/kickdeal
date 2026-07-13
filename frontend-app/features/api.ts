@@ -33,12 +33,10 @@ export function getApiUrl(): string {
 }
 
 class HttpClient {
-  private apiUrl: string;
   private csrfToken: string | null;
   private csrfTokenPromise: Promise<string> | null;
 
   constructor() {
-    this.apiUrl = getApiUrl();
     this.csrfToken = null;
     this.csrfTokenPromise = null;
   }
@@ -53,7 +51,7 @@ class HttpClient {
     }
 
     this.csrfTokenPromise = (async () => {
-      const response = await fetch(`${this.apiUrl}/auth/csrf-token`, {
+      const response = await fetch(`${getApiUrl()}/auth/csrf-token`, {
         headers: {
           "Accept": "application/json",
         },
@@ -123,7 +121,7 @@ class HttpClient {
     buildInit: (headers: Record<string, string>) => RequestInit,
   ): Promise<HttpClientResponse<T>> {
     const headers = await this.getMutatingHeaders();
-    let response = await fetch(`${this.apiUrl}${endpoint}`, {
+    let response = await fetch(`${getApiUrl()}${endpoint}`, {
       ...buildInit(headers),
       credentials: "include",
     });
@@ -133,7 +131,7 @@ class HttpClient {
       this.clearCsrfToken();
 
       const retryHeaders = await this.getMutatingHeaders();
-      response = await fetch(`${this.apiUrl}${endpoint}`, {
+      response = await fetch(`${getApiUrl()}${endpoint}`, {
         ...buildInit(retryHeaders),
         credentials: "include",
       });
@@ -173,7 +171,7 @@ class HttpClient {
   }
 
   async get<T>(endpoint: string): Promise<HttpClientResponse<T>> {
-    const response = await fetch(`${this.apiUrl}${endpoint}`, {
+    const response = await fetch(`${getApiUrl()}${endpoint}`, {
       headers: {
         "Accept": "application/json",
       },
