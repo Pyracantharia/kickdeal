@@ -7,6 +7,7 @@ import {
   type PlayerAgentRequest,
 } from '@/features/admin/admin'
 import { type DirectConversation, getOtherParticipant, messagesManager } from '@/features/messages/messages'
+import { isSupportSwitching, SUPPORT_SWITCH_EVENT } from '@/features/support/supportSwitch'
 
 export type AdminNotificationKind = 'club_requests' | 'player_agent_requests' | 'message_reports' | 'support_messages'
 export type AdminNotificationFilter = 'all' | 'unread' | AdminNotificationKind
@@ -127,7 +128,7 @@ export function useAdminNotificationsSummary(enabled = true) {
   const [refreshTick, setRefreshTick] = useState(0)
 
   const refresh = useCallback(async () => {
-    if (!enabled) {
+    if (!enabled || isSupportSwitching()) {
       setItems([])
       return
     }
@@ -144,18 +145,24 @@ export function useAdminNotificationsSummary(enabled = true) {
 
     const handleChange = () => setReadIds(getReadAdminNotificationIds())
     const handleRefreshRequest = () => setRefreshTick((current) => current + 1)
+    const handleSupportSwitch = () => {
+      setItems([])
+      setRefreshTick((current) => current + 1)
+    }
     const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
+      if (document.visibilityState === 'visible' && !isSupportSwitching()) {
         void refresh().catch(() => undefined)
       }
     }
     const intervalId = window.setInterval(() => {
+      if (isSupportSwitching()) return
       void refresh().catch(() => undefined)
     }, 10_000)
 
     window.addEventListener('storage', handleChange)
     window.addEventListener(ADMIN_NOTIFICATION_CHANGED_EVENT, handleChange)
     window.addEventListener(ADMIN_NOTIFICATION_CHANGED_EVENT, handleRefreshRequest)
+    window.addEventListener(SUPPORT_SWITCH_EVENT, handleSupportSwitch)
     document.addEventListener('visibilitychange', handleVisibilityChange)
     window.addEventListener('focus', handleVisibilityChange)
 
@@ -164,6 +171,7 @@ export function useAdminNotificationsSummary(enabled = true) {
       window.removeEventListener('storage', handleChange)
       window.removeEventListener(ADMIN_NOTIFICATION_CHANGED_EVENT, handleChange)
       window.removeEventListener(ADMIN_NOTIFICATION_CHANGED_EVENT, handleRefreshRequest)
+      window.removeEventListener(SUPPORT_SWITCH_EVENT, handleSupportSwitch)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       window.removeEventListener('focus', handleVisibilityChange)
     }

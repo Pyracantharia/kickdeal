@@ -13,6 +13,7 @@ import {
   type AdminUserRole,
 } from '@/features/admin/admin';
 import { authManager } from '@/features/auth/auth';
+import { clearSupportSwitch, startSupportSwitch } from '@/features/support/supportSwitch';
 
 const roleOptions: Array<{ value: AdminUserRole; label: string; className: string }> = [
   { value: 'ROLE_ADMIN', label: 'Admin', className: 'border-brand-purple/40 bg-brand-purple/10 text-brand-purple' },
@@ -171,7 +172,7 @@ function AdminUsersManager() {
     }
   }
 
-  async function startSupport(){if(!supportUser)return;setIsSaving(true);setErrorMessage(null);try{const response=await authManager.startSupportSession(supportUser.email);if(!response.ok||!response.data.active){setErrorMessage(readError(response.data,'Impossible d’ouvrir le mode support.'));setIsSaving(false);return}window.location.assign('/dashboard')}catch{setErrorMessage('Impossible d’ouvrir le mode support.');setIsSaving(false)}}
+  async function startSupport(){if(!supportUser)return;setIsSaving(true);setErrorMessage(null);startSupportSwitch();try{const response=await authManager.startSupportSession(supportUser.email);if(!response.ok||!response.data.active){clearSupportSwitch();setErrorMessage(readError(response.data,'Impossible d’ouvrir le mode support.'));setIsSaving(false);return}window.location.replace('/dashboard')}catch{clearSupportSwitch();setErrorMessage('Impossible d’ouvrir le mode support.');setIsSaving(false)}}
 
   async function handleUnban(userId: string) {
     setIsSaving(true);

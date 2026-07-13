@@ -3,6 +3,7 @@
 import { useAuth } from '@/context/AuthProvider'
 import Navbar, { type NavbarVariant } from '@/components/navbar/Navbar'
 import { authManager,type SupportSession } from '@/features/auth/auth'
+import { clearSupportSwitch } from '@/features/support/supportSwitch'
 import { useEffect,useState } from 'react'
 
 // Determines the navbar variant based on user roles.
@@ -17,8 +18,8 @@ function getVariantFromRoles(roles: string[]): NavbarVariant {
 function AppHeader() {
   const { user,updateUser } = useAuth();const [support,setSupport]=useState<SupportSession|null>(null);const [leaving,setLeaving]=useState(false)
 
-  useEffect(()=>{void authManager.supportSession().then(r=>{if(r.ok)setSupport(r.data)})},[])
-  async function leave(){setLeaving(true);const r=await authManager.stopSupportSession();if(r.ok){const me=await authManager.me();if(me.ok)updateUser(me.data);window.location.assign('/admin/users')}else setLeaving(false)}
+  useEffect(()=>{void authManager.supportSession().then(r=>{if(r.ok){setSupport(r.data);clearSupportSwitch()}})},[])
+  async function leave(){setLeaving(true);const r=await authManager.stopSupportSession();if(r.ok){clearSupportSwitch();const me=await authManager.me();if(me.ok)updateUser(me.data);window.location.assign('/admin/users')}else setLeaving(false)}
 
   if (!user) return null
 
