@@ -9,7 +9,7 @@ framework:
 
         # 24 h
         gc_maxlifetime: 86400
-    trusted_proxies: '%env(TRUSTED_PROXIES)%'
+    trusted_proxies: '%env(default::TRUSTED_PROXIES)%'
     trusted_headers:
         - x-forwarded-for
         - x-forwarded-host
