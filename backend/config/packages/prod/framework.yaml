@@ -1,3 +1,6 @@
+parameters:
+    env(TRUSTED_PROXIES): '127.0.0.1,10.42.0.0/16'
+
 framework:
     session:
         handler_id: '%env(REDIS_SESSION_URL)%'
