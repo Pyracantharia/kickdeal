@@ -10,15 +10,21 @@ use App\Enum\PlayerContractStatusEnum;
 use App\Enum\PlayerMarketStatusEnum;
 use App\Enum\PlayerAvailabilityStatusEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Normalizer;
 
-class CompetitionFixtures extends Fixture
+class CompetitionFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function __construct(
         private readonly EnrichmentDataProvider $enrichmentDataProvider,
     ) {
+    }
+
+    public function getOrder(): int
+    {
+        return 10;
     }
 
     public function load(ObjectManager $manager): void

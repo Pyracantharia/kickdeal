@@ -4,14 +4,20 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher
     ) {
+    }
+
+    public function getOrder(): int
+    {
+        return 20;
     }
 
     public function load(ObjectManager $manager): void
