@@ -84,6 +84,26 @@ final class AuthControllerTest extends FunctionalTestCase
         self::assertSame(401, $this->client->getResponse()->getStatusCode());
     }
 
+    public function testSupportSessionUsesRelativeRedirects(): void
+    {
+        $admin = $this->createAdmin();
+        $user = $this->createUser(email: 'assisted@example.test');
+
+        $this->request('GET', '/api/auth/support-session?_switch_user='.rawurlencode((string) $user->getEmail()), $admin);
+
+        self::assertSame(302, $this->client->getResponse()->getStatusCode());
+        self::assertSame('/api/auth/support-session', $this->client->getResponse()->headers->get('location'));
+
+        $this->client->followRedirect();
+        $this->assertJsonResponseStatus(200);
+        self::assertTrue($this->responseJson()['active']);
+
+        $this->request('GET', '/api/auth/support-session?_switch_user=_exit');
+
+        self::assertSame(302, $this->client->getResponse()->getStatusCode());
+        self::assertSame('/api/auth/support-session', $this->client->getResponse()->headers->get('location'));
+    }
+
     public function testLogoutSucceeds(): void
     {
         $user = $this->createUser();
